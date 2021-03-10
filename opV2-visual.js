@@ -7,8 +7,8 @@ class Particle {
     this.x = x;
     this.y = y;
     this.r = 2;
-    this.xSpeed = random(-1,1);
-    this.ySpeed = random(-0.7,0.8);
+    this.xSpeed = random(-2,2);
+    this.ySpeed = random(-1.5,1.5);
   }
   createParticle() {
     noStroke();
