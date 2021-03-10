@@ -74,3 +74,22 @@ document.querySelectorAll('.stem').forEach(item => {
     sampler.triggerRelease(keyToPitch[p]);
   });
 })
+
+// Stems demo
+function makeChannel(url, pan = 0) {
+  const channel = new Tone.Channel({
+    pan
+  }).toDestination();
+  const player = new Tone.Player({
+    url: `sounds/PyonPyonStems/${url}.mp3`,
+    loop: true
+  }).sync().start(0);
+  player.connect(channel);
+}
+
+makeChannel('PyonPyonDrums');
+makeChannel('PyonPyonKeys');
+makeChannel('PyonPyonMelody');
+
+document.querySelector("#controlMain").addEventListener("start", () => Tone.Transport.start());
+document.querySelector("#controlMain").addEventListener("stop", () => Tone.Transport.stop());
