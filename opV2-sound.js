@@ -1,3 +1,4 @@
+var keyPlayed = false;
 var sampler = new Tone.Sampler({
 		"B3": "sounds/PyonPyonStems/B3.mp3",
 		"C#4": "sounds/PyonPyonStems/Cm4.mp3",
@@ -26,39 +27,13 @@ var keyToPitch = {
     window.addEventListener('keyup', this.onkeyup);
     function onkeydown(e){
       sampler.triggerAttack(keyToPitch[e.key]);
+      if (!keyPlayed) {
+        keyPlayed = true;
+      }
     }
     function onkeyup(e){
       sampler.triggerRelease(keyToPitch[e.key]);
     }
-
-////////// Controller
-var controlMain = document.getElementById("controlMain");
-var stems = [document.getElementById("stem0"),
-document.getElementById("stem1"),
-document.getElementById("stem2")];
-
-// Play/Pause Button
-function controlHandler() {
-  if(controlMain.classList.contains("paused")) {
-    controlMain.classList.remove("paused");
-    controlMain.classList.add("playing");
-  } else {
-    controlMain.classList.remove("playing");
-    controlMain.classList.add("paused");
-  }
-};
-
-// Stem buttons
-document.querySelectorAll('.stem').forEach(item => {
-  item.addEventListener('click', event => {
-  if(item.classList.contains("unmuted")) {
-    item.classList.remove("unmuted");
-    item.classList.add("muted");
-  } else {
-    item.classList.remove("muted");
-    item.classList.add("unmuted");
-  }
-})});
 
 ////////// Mobile Drumpads
   document.querySelectorAll('.pad').forEach(item => {
@@ -76,7 +51,7 @@ document.querySelectorAll('.stem').forEach(item => {
 })
 
 // Stems demo
-function makeChannel(url, pan = 0) {
+function makeChannel(name, url, pan=0) {
   const channel = new Tone.Channel({
     pan
   }).toDestination();
@@ -85,11 +60,59 @@ function makeChannel(url, pan = 0) {
     loop: true
   }).sync().start(0);
   player.connect(channel);
+
+  const thisMuteButton = document.getElementById(name);
+  thisMuteButton.addEventListener('click', function(){
+    const checkMuted = thisMuteButton.classList.contains("muted") ? true : false;
+    if (checkMuted) {
+      channel.mute = false;
+    } else {
+      channel.mute = true;
+    }
+  })
 }
 
-makeChannel('PyonPyonDrums');
-makeChannel('PyonPyonKeys');
-makeChannel('PyonPyonMelody');
+makeChannel('stem0', 'PyonPyonDrums');
+makeChannel('stem1', 'PyonPyonKeys');
+makeChannel('stem2', 'PyonPyonMelody');
 
-document.querySelector("#controlMain").addEventListener("start", () => Tone.Transport.start());
-document.querySelector("#controlMain").addEventListener("stop", () => Tone.Transport.stop());
+// document.querySelector(".paused").addEventListener("click", () => Tone.Transport.start());
+// document.querySelector(".playing").addEventListener("click", () => Tone.Transport.stop());
+
+////////// Controller
+var controlMain = document.getElementById("controlMain");
+var stems = document.querySelectorAll('.stem');
+
+// Play/Pause Button
+function controlHandler() {
+  if(controlMain.classList.contains("paused")) {
+    if (!keyPlayed) {Tone.start();}
+    controlMain.classList.remove("paused");
+    controlMain.classList.add("playing");
+    Tone.Transport.start();
+    stems.forEach(item => {
+      item.classList.remove("muted");
+      item.classList.add("unmuted");
+    });
+  } else {
+    controlMain.classList.remove("playing");
+    controlMain.classList.add("paused");
+    stems.forEach(item => {
+      item.classList.remove("unmuted");
+      item.classList.add("muted");
+    });
+    Tone.Transport.stop();
+  }
+};
+
+// Stem buttons
+stems.forEach(item => {
+  item.addEventListener('click', event => {
+  if(item.classList.contains("unmuted")) {
+    item.classList.remove("unmuted");
+    item.classList.add("muted");
+  } else {
+    item.classList.remove("muted");
+    item.classList.add("unmuted");
+  }
+})});

@@ -78,10 +78,10 @@
 }
 
 .paused {
-  background: url(images/Play_btn.svg);
+  background: url(images/Play_btn.svg) no-repeat;
 }
 .playing {
-  background: url(images/Pause_btn.svg);
+  background: url(images/Pause_btn.svg) no-repeat;
 }
 
 #controlMain, #controlStems .stem {

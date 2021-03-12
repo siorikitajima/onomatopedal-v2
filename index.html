@@ -4,20 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OnomatoPedal - Ver.2 Sampler</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.70/Tone.js"></script>
-  <script src="https://tonejs.github.io/examples/js/tone-ui.js"></script>
-  <script src="https://tonejs.github.io/examples/js/components.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
   <link rel="stylesheet" href="opV2.css">
 </head>
 <body>
   <div id="controller">
-    <tone-play-toggle id="controlMain" class="paused" onclick="controlHandler()"></tone-play-toggle>
+    <div id="controlMain" class="paused" onclick="controlHandler()"></div>
     <div id="controlStems">
-      <tone-mute class="stem unmuted" id="stem0">1</tone-mute>
-      <tone-mute class="stem unmuted" id="stem1">2</tone-mute>
-      <tone-mute class="stem unmuted" id="stem2">3</tone-mute>
+      <div class="stem muted" id="stem0">1</div>
+      <div class="stem muted" id="stem1">2</div>
+      <div class="stem muted" id="stem2">3</div>
     </div>
   </div>
 
