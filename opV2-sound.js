@@ -51,6 +51,9 @@ var keyToPitch = {
 })
 
 // Stems demo
+var controlMain = document.getElementById("controlMain");
+var stems = document.querySelectorAll('.stem');
+
 function makeChannel(name, url, pan=0) {
   const channel = new Tone.Channel({
     pan
@@ -69,7 +72,15 @@ function makeChannel(name, url, pan=0) {
     } else {
       channel.mute = true;
     }
-  })
+  });
+
+  controlMain.addEventListener('click', function() {
+    const checkPaused = thisMuteButton.classList.contains("paused") ? true : false;
+    if(!checkPaused){
+      // setTimeout(channel.mute = false, 2000);
+      channel.mute = false;
+    }
+  });
 }
 
 makeChannel('stem0', 'PyonPyonDrums');
@@ -80,9 +91,6 @@ makeChannel('stem2', 'PyonPyonMelody');
 // document.querySelector(".playing").addEventListener("click", () => Tone.Transport.stop());
 
 ////////// Controller
-var controlMain = document.getElementById("controlMain");
-var stems = document.querySelectorAll('.stem');
-
 // Play/Pause Button
 function controlHandler() {
   if(controlMain.classList.contains("paused")) {
