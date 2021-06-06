@@ -1,0 +1,23 @@
+<html lang="en">
+    <%- include('./partials/head.ejs')  %> 
+<body>
+    <%- include('./partials/nav.ejs')  %> 
+
+    <div class="content blogs">
+        <h2>All keys</h2>
+
+        <% if (keys.length > 0) { %>
+            <% keys.forEach(thekey => { %>
+            <a class="akey" href="/keyEditor-<%= thekey.key %>">
+                <h3 class="key"><%= thekey.key %></h3>
+                <p class="pitch"><%= thekey.pitch %></p>
+            </a>
+            <% }) %>
+        <% } else { %>
+            <p>No key to display</p>
+        <% } %>
+
+    </div>
+    <%- include('./partials/footer.ejs')  %> 
+</body>
+</html>

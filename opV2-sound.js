@@ -7,6 +7,7 @@ var sampler = new Tone.Sampler({
 	'release' : 1,
 	'onload' : function(){
 		console.log('ready');
+    Tone.context.updateInterval = 0;
     Tone.context.lookAhead = 0;
 	}
 }).toDestination();
