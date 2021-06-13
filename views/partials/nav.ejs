@@ -1,0 +1,17 @@
+<nav>
+    <div class="site-title">
+        <a href="/"><h1>OnomatoPedal Studio</h1></a>
+        <h2><%= name %></h2>
+    </div>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/info">Track</a></li>
+        <li><a href="/keys">Keys</a></li>
+        <li>
+            <form action="/logout?_method=DELETE" method="POST">
+                <button type="submit">LOG OUT</button>
+            </form>
+        </li>
+    </ul>
+</nav>

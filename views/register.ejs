@@ -1,0 +1,26 @@
+<html lang="en">
+    <%- include('./partials/head.ejs')  %> 
+<body>
+
+    <div class="content forms">
+        <h2>Add New Pedal</h2>
+
+        <form action="/register" method="POST">
+            <label for="name">User Name (e.g. test-pedal-name)</label>
+            <input type="text" id="name" name="name" required>
+            <label for="password">Password</label>
+            <input type="text" id="password" name="password" required>
+            <label for="pedalName">Pedal Full Name</label>
+            <input type="text" id="pedalName" name="pedalName" required>
+            <label for="onomato">Onomatopoeia</label>
+            <input type="text" id="onomato" name="onomato" required>
+            <label for="onoMeaning">Onomato Meaning</label>
+            <input type="text" id="onoMeaning" name="onoMeaning" required>
+            <label for="artist">Artist(s) (separate by commas)</label>
+            <input type="text" id="artist" name="artist" required>
+            <button>Save</button>
+        </form>
+    </div>
+    <%- include('./partials/footer.ejs')  %> 
+</body>
+</html>

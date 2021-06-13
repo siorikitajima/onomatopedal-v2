@@ -1,0 +1,463 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Raleway&family=Staatliches&display=swap');
+
+    body{
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+      font-family: 'Raleway', sans-serif;
+      max-width: 1200px;
+      background-color: #111111;
+    }
+    p, h1, h2, h3, a, ul{
+      margin: 0;
+      padding: 0;
+      text-decoration: none;
+      color: #dddddd;
+    }
+
+    p, ul {
+      line-height: 1.4em;
+      margin-top: 5px;
+    }
+
+    .forms input {
+      font-family: 'Raleway', sans-serif;
+      font-size: 1.1em;
+    }
+
+    ul {
+      margin-left: 20px;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Staatliches', cursive;
+      letter-spacing: 0.05em;
+    }
+    h2{
+      font-size: 2em;
+      margin-bottom: 40px;
+    }
+    h3{
+      text-transform: capitalize;
+      margin-bottom: 8px;
+    }
+    .content{
+      margin: 50px;
+    }
+
+    /* nav & footer styles */
+    nav{
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 60px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #777;
+      text-transform: uppercase;
+    }
+
+    @media only screen and (max-width: 700px) {
+      nav {
+        display: block;
+      }
+    }
+
+    nav ul{
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    nav li{
+      list-style-type: none;
+      margin: 10px 20px 10px 0;
+    }
+
+    nav li:last-of-type{
+      margin: 10px 0;
+    }
+
+    nav h1{
+      color: #777;
+      line-height: 1em;
+      font-size: 3em;
+    }
+    nav h2, .home h2 {
+      margin-bottom: 0;
+    }
+    .about h2 {
+      margin: 40px 0 10px 0;
+    }
+    .p404 h2 {
+      font-size: 5em;
+    }
+    nav p, nav a{
+      color: #777;
+      font-weight: 300;
+    }
+    .p404 p {
+      margin-bottom: 30px;
+    }
+    nav form {
+      margin: 0;
+    }
+    nav button {
+      width: 80px;
+      height: 30px;
+      background-color: #111;
+      border: #F56476 1px solid;
+      border-radius: 5px;
+      color: #F56476;
+      margin-bottom: -5px;
+    }
+    nav button:hover {
+      background-color: #F56476;
+      color: #111;
+      transition-duration: 300ms;
+    }
+    footer{
+      color: #777;
+      text-align: center;
+      margin: 50px auto 0 auto;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .p404 {
+      text-align: center;
+      width: 320px;
+      max-width: 90%;
+      margin: 10% auto;
+    }
+
+    .p404 div.flex {
+      display: flex;
+    }
+    .p404 div.flex img {
+      width: 50%;
+    }
+
+    /* Form styles */
+    .errmsg {
+      color: #F56476;
+      text-align: center;
+    }
+    .forms form{
+      width: 400px;
+      max-width: 90%;
+      margin: 0 auto;
+    }
+    .forms input,
+    .forms select,
+    .forms textarea{
+      height: 50px;
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 8px;
+      background-color: #ddd;
+      border-radius: 5px;
+      border: #777 1px solid;
+    }
+    .forms label{
+      display: block;
+      color: #ddd;
+      margin-top: 24px;
+    }
+    .forms textarea{
+      height: 120px;
+    }
+    .forms button, .home button, .forms div.halfBtns, .p404 button{
+      margin: 30px 0 20px 0;
+      height: 50px;
+      width: 100%;
+      background: #F56476;
+      color: white;
+      padding: 6px;
+      border: 0;
+      font-size: 1.2em;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .forms button:hover, .home button:hover, .p404 button:hover {
+      transition-duration: 300ms;
+      opacity: 0.6;
+    }
+    .forms div.halfBtns {
+      margin: 10px 0;
+      height: 22px;
+      padding: 15px;
+      width: 40%;
+      text-align: center;
+    }
+    .forms .flex {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .forms h2 {
+      text-align: center;
+    }
+
+    /* Home styles */
+
+    .home {
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+      max-width: 800px;
+      margin: 50px auto;
+    }
+
+    /* .home .opInfo, .home .opImg {
+      width: 30%;
+    } */
+
+    .opImg img {
+      max-width: 400px;
+      margin: 50px 0;
+    }
+    
+    .home button, .p404 button {
+      margin: 30px 0 0 0;
+    }
+
+    /* Keyboard styles */
+
+    .keys {
+      text-align: center;
+    }
+
+    .keyboard {
+      width: 600px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(20, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+      gap: 5px;
+    }
+
+    .keyboard div.key {
+      background-color: #777;
+      border-radius: 5px;
+      text-align: center;
+      display: inline-table;
+      cursor: pointer;
+      padding: 3px;
+    }
+
+    .keyboard div.key.active {
+      background-color: #F56476;
+    }
+
+    .keyboard div.key h3 {
+      font-size: 1.5em;
+      margin: 0;
+      color: #111;
+    }
+
+    .keyPanels {
+      width: calc(100% - 160px);
+      padding: 30px;
+      background: #777;
+      height: auto;
+      position: fixed;
+      transition-duration: 300ms;
+      bottom: 0;
+      left: 0;
+      border-radius: 5px;
+      z-index: 1000;
+    }
+
+    #transparentScreen {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      position: fixed;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      background-color: rgba(245, 100, 118, 0);
+      z-index: 0;
+    }
+
+    .keyPanels .closebtn {
+      width: 40px;
+      height: 40px;
+      background: url(../images/close.svg);
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+    }
+
+    .keyPanels h2 {
+      margin: 0;
+      font-size: 1.5em;
+      color: #111;
+    }
+    .keyPanels h2 span {
+      font-size: 2em;
+    }
+
+    .keyPanels form .offset {
+      transform: translateX(-15px);
+    }
+    
+    .keyPanels form .flex {
+      display: flex;
+      justify-content: center;
+      column-width: calc(50% - 25px);
+      gap: 50px;
+    }
+
+    .keyPanels form select, .keyPanels form input, .keyPanels form button.filebtn {
+      height: 60px;
+      color: #ddd;
+      border: #ddd 1px solid;
+      border-radius: 5px;
+      font-size: 1.2em;
+      font-family: 'Raleway', sans-serif;
+    }
+
+    .keyPanels form button {
+      width: 300px;
+    }
+
+    .keyPanels form select {
+      width: 140px;
+      background: #777;
+    }
+
+    .keyPanels form input#soundfile {
+      margin: 20px auto 10px auto;
+      width: 360px;
+      background-color: #777;
+    }
+
+    .keyPanels form .formItem {
+      text-align: center;
+    }
+
+    .hidden {
+      display: none;
+      bottom: 120%;
+    }
+
+    .hidden2 {
+      visibility: hidden;
+    }
+    .show2 {
+      visibility: visible;
+    }
+
+    .keyboard div#Q {
+      grid-column: 1 / 3;
+      grid-row: 1;
+    }
+    .keyboard div#W {
+      grid-column: 3 / 5;
+      grid-row: 1;
+    }
+    .keyboard div#E {
+      grid-column: 5 / 7;
+      grid-row: 1;
+    }
+    .keyboard div#R {
+      grid-column: 7 / 9;
+      grid-row: 1;
+    }
+    .keyboard div#T {
+      grid-column: 9 / 11;
+      grid-row: 1;
+    }
+    .keyboard div#Y {
+      grid-column: 11 / 13;
+      grid-row: 1;
+    }
+    .keyboard div#U {
+      grid-column: 13 / 15;
+      grid-row: 1;
+    }
+    .keyboard div#I {
+      grid-column: 15 / 17;
+      grid-row: 1;
+    }
+    .keyboard div#O {
+      grid-column: 17 / 19;
+      grid-row: 1;
+    }
+    .keyboard div#P {
+      grid-column: 19 / 21;
+      grid-row: 1;
+    }
+    .keyboard div#A {
+      grid-column: 2 / 4;
+      grid-row: 2;
+    }
+    .keyboard div#S {
+      grid-column: 4 / 6;
+      grid-row: 2;
+    }
+    .keyboard div#D {
+      grid-column: 6 / 8;
+      grid-row: 2;
+    }
+    .keyboard div#F {
+      grid-column: 8 / 10;
+      grid-row: 2;
+    }
+    .keyboard div#G {
+      grid-column: 10 / 12;
+      grid-row: 2;
+    }
+    .keyboard div#H {
+      grid-column: 12 / 14;
+      grid-row: 2;
+    }
+    .keyboard div#J {
+      grid-column: 14 / 16;
+      grid-row: 2;
+    }
+    .keyboard div#K {
+      grid-column: 16 / 18;
+      grid-row: 2;
+    }
+    .keyboard div#L {
+      grid-column: 18 / 20;
+      grid-row: 2;
+    }
+    .keyboard div#Z {
+      grid-column: 3 / 5;
+      grid-row: 3;
+    }
+    .keyboard div#X {
+      grid-column: 5 / 7;
+      grid-row: 3;
+    }
+    .keyboard div#C {
+      grid-column: 7 / 9;
+      grid-row: 3;
+    }
+    .keyboard div#V {
+      grid-column: 9 / 11;
+      grid-row: 3;
+    }
+    .keyboard div#B {
+      grid-column: 11 / 13;
+      grid-row: 3;
+    }
+    .keyboard div#N {
+      grid-column: 13 / 15;
+      grid-row: 3;
+    }
+    .keyboard div#M {
+      grid-column: 15 / 17;
+      grid-row: 3;
+    }
+    .keyboard div#SPACE {
+      grid-column: 6 / 16;
+      grid-row: 4;
+    }
