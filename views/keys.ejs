@@ -224,7 +224,7 @@
         var samplers = [];
         for(i=0; i<fileName.length;i++) {
             samplers[i] = new Tone.Sampler({
-            [pitchString[i]]: './sound/testPedal/' + fileName[i] + '.mp3'
+            [pitchString[i]]: './sound/' + username + '/' + fileName[i] + '.mp3'
             }, {
                 'release' : 1,
                 'onload' : function(){

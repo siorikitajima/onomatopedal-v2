@@ -2,6 +2,7 @@ const multer = require('multer');
 const PedalInfo = require('../models/pedalInfo');
 const Key = require('../models/key');
 const User = require('../models/user');
+const Sample = require('../models/sample');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
 const hashNumber = require('../secKey2');
@@ -39,7 +40,6 @@ const register_post = (req, res) => {
             sample: ''
         });
         key.save();
-        console.log('key is done');
         }
 
     //// Create Peadl Info in DB
@@ -53,17 +53,28 @@ const register_post = (req, res) => {
         website: ''
     });
     pedalInfo.save();
-    console.log(pedalInfo);
 
+    //// Create 1st Sample in DB
+    const firstSample = new Sample({
+        pedal: req.body.name,
+        name: 'sample',
+        pitch: 'c4'
+    });
+    firstSample.save();
+    
     //// Create directly to store Key sound files
     try {
-        const thedir = `public/sound/keys/${req.body.name}/`;
+        const thedir = `public/sound/${req.body.name}/`;
+        const sampleFile = 'public/sound/sample.mp3';
         if (fs.existsSync(thedir)) {
           console.log("Directory exists.")
         } else {
           fs.mkdirSync(thedir);
           console.log("Directory was created.")
         }
+        fs.copyFile(sampleFile, thedir + 'sample.mp3', (err) => {
+            if(err) {console.log(err)}
+        });
       } catch(e) {
         console.log("An error occurred.")
       }
