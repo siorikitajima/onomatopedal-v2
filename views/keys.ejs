@@ -8,7 +8,7 @@
         <div class="keyboard">
         <% if (keys.length > 0) { %>
             <% keys.forEach((thekey, index) => { %>
-            <div class="key <%- thekey.enabled ? 'active' : null %>" id="<%= thekey.key %>" data-pitch=<%= thekey.pitch %> data-enabled=<%= thekey.enabled %> data-index='<%= index %>' >
+            <div class="key <%- thekey.enabled ? 'active' : null %> col-<%= thekey.sample %>" id="<%= thekey.key %>" data-pitch=<%= thekey.pitch %> data-enabled=<%= thekey.enabled %> data-index='<%= index %>' >
                     <h3><%= thekey.key %></h3>
                     <p><%= thekey.pitch.toUpperCase().replace('M', '#') %></p>
             </div>
@@ -72,11 +72,6 @@
                         <option value="b3">B3</option>
                     </select>
                     </div>
-                    <!-- <div class="formItem">
-                        <label for="new-sound">New Sound</label>
-                        <input type="checkbox" id="newsound" name="newsound"
-                         onclick="showFileBtn()" />
-                    </div> -->
                     <input id="hiddenKeyName" type="hidden" name="key">
                 </div>
                 <div class="right flex" id="sampleDiv">
@@ -261,7 +256,6 @@
 
             //// Do nothing with other keys
             if (keyToPitch[e.key] == null) {
-                // console.log('do nothing');
             } else {
 
             var index;
@@ -360,14 +354,21 @@
         }
         }
 
-        // function onkeyup(e){
-        // samplers.triggerRelease(keyToPitch[e.key]);
-        // }
-
         $(document).keydown(function(e) {
             onkeydown(e);
         });
 
+        var colorList = [
+            '#F56476', '#FCA311', '#2D936C', '#67396A', '#258EA6', 
+            '#F98444', '#299189', '#959B3F', '#466488', '#AE4F70',
+            '#C83F54', '#B68142', '#3D6D39', '#73325D', '#1D6686',
+            '#DB5825', '#1F6F69', '#7D892B', '#37406C', '#9B3763'
+        ];
+        for (var c = 0; c < thesamples.length; c++) {
+            var theClass = '.active.col-' + thesamples[c].name;
+            $(theClass).css('background-color', colorList[c] );
+            console.log(theClass);
+        }
     });
 
     </script>
