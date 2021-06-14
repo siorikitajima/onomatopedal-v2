@@ -13,13 +13,13 @@ const session = require('express-session');
 const methodOverride = require('method-override');
 const authController = require('./controllers/authController');
 const infoController = require('./controllers/infoController');
-const initializePassport = require('./passport-config');
+const initializePassport = require('./controllers/passport-config');
 const User = require('./models/user');
 const multer = require('multer');
 
 //////////// Connect to DB with Passport ////////////
 
-mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
     .then(() => app.listen(3000))
     .catch((err) => console.log(err));
 

@@ -313,7 +313,7 @@
       gap: 50px;
     }
 
-    .keyPanels form select, .keyPanels form input, .keyPanels form button.filebtn {
+    .keyPanels form select, .keyPanels form input, .keyPanels form div.filebtn {
       height: 60px;
       color: #ddd;
       border: #ddd 1px solid;
@@ -325,17 +325,31 @@
     .keyPanels form button {
       width: 300px;
     }
+    .keyPanels form div.filebtn, .keyPanels form div.filebtn input {
+      width: 60px;
+      margin: 10px auto;
+      cursor: pointer;
+    }
+
+    .keyPanels form div.filebtn {
+      background-image: url(../images/addNew.svg);
+    }
+
+    .keyPanels form div.filebtn:hover {
+      background-color: #F56476;
+      transition-duration: 300ms;
+    }
 
     .keyPanels form select {
       width: 140px;
       background: #777;
     }
 
-    .keyPanels form input#soundfile {
+    /* .keyPanels form input#soundfile {
       margin: 20px auto 10px auto;
       width: 360px;
       background-color: #777;
-    }
+    } */
 
     .keyPanels form .formItem {
       text-align: center;

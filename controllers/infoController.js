@@ -36,7 +36,7 @@ const register_post = (req, res) => {
             enabled: true,
             pitch: noteList[k],
             newSound: false,
-            fileName: ''
+            sample: ''
         });
         key.save();
         console.log('key is done');

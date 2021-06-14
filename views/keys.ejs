@@ -8,7 +8,7 @@
         <div class="keyboard">
         <% if (keys.length > 0) { %>
             <% keys.forEach((thekey, index) => { %>
-            <div class="key <%- thekey.enabled ? 'active' : null %>" id="<%= thekey.key %>" data-pitch=<%= thekey.pitch %> data-enabled=<%= thekey.enabled %> data-newsound=<%= thekey.newSound %> data-index='<%= index %>' >
+            <div class="key <%- thekey.enabled ? 'active' : null %>" id="<%= thekey.key %>" data-pitch=<%= thekey.pitch %> data-enabled=<%= thekey.enabled %> data-index='<%= index %>' >
                     <h3><%= thekey.key %></h3>
                     <p><%= thekey.pitch.toUpperCase().replace('M', '#') %></p>
             </div>
@@ -27,7 +27,7 @@
                 <div class="left flex">
                     <div class="formItem">
                     <label for="enabled">Enabled</label>
-                    <input type="checkbox" id="enabled" name="enabled" />
+                    <input type="checkbox" id="enabled" name="enabled" onclick="showFileBtn()" />
                     </div>
                     <div class="formItem">
                     <label for="pitch">Note</label>
@@ -72,15 +72,28 @@
                         <option value="b3">B3</option>
                     </select>
                     </div>
-                    <div class="formItem">
+                    <!-- <div class="formItem">
                         <label for="new-sound">New Sound</label>
                         <input type="checkbox" id="newsound" name="newsound"
                          onclick="showFileBtn()" />
-                    </div>
+                    </div> -->
                     <input id="hiddenKeyName" type="hidden" name="key">
                 </div>
-                <div class="right" id="soundBtn">
-                    <input type="file" width="400" class="filebtn" name="soundfile" id="soundfile" style="padding: 15px;">
+                <div class="right flex" id="sampleDiv">
+                    <div class="formItem">
+                        <label for="sample">Sample</label>
+                        <select name="sample" id="sample">
+                            <% for (let s = 0; s < samples.length; s++) {%>
+                                <option value="<%= samples[s].name %>"><%= samples[s].name %></option>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="formItem" id="soundBtn">
+                        <label for="soundfile">Add New</label>
+                        <div class="filebtn">
+                            <input type="file" width="60" name="soundfile" id="soundfile" style="padding: 15px; opacity: 0;">
+                        </div>
+                    </div>
                 </div>
             <!-- </div> -->
                 <button>Save</button>
@@ -96,6 +109,7 @@
     <script src="js/ejs.js"></script>
     <script>
         var thekeys = <%- JSON.stringify(keys) %> ;
+        var thesamples = <%- JSON.stringify(samples) %> ;
         var username = <%- JSON.stringify(name) %> ;
 
         // Open and close key panel
@@ -112,46 +126,61 @@
                 }
 
         // Rendering key panel content
+        var thekey;
         $(document).on('click', '.key', function() {
             document.querySelector('#keyForm').reset();
 
             var index = $(this).attr('data-index');
-            var thekey = thekeys[index];
+            thekey = thekeys[index];
+            console.log(index);
 
             $('#keyName').html(thekey.key);
             $('#noteName').html(thekey.pitch.toUpperCase().replace('M', '#'));
             if (thekey.enabled == true) { 
                 $('input#enabled').prop('checked', true); 
-            } else { $('input#enabled').prop('checked', false); }
-            if (thekey.newSound == true) { 
-                $('input#newsound').prop('checked', true); 
-                $('#soundfile').removeClass('hidden2');
+                $('#sampleDiv').removeClass('hidden2');
             } else { 
-                $('input#newsound').prop('checked', false); 
-                $('#soundfile').addClass('hidden2');
+                $('input#enabled').prop('checked', false); 
+                $('#sampleDiv').addClass('hidden2');
             }
+
             var pitch = document.querySelector('#pitch');
-            var opt;
+            var sampleName = document.querySelector('#sample');
+            var opt, opt2;
             for ( var i = 0, len = pitch.options.length; i < len; i++ ) {
             opt = pitch.options[i];
             if ( opt.value === thekey.pitch ) {
                 opt.setAttribute('selected', 'selected'); 
                 break;
             }}
+            for ( var i = 0, len = sampleName.options.length; i < len; i++ ) {
+            opt2 = sampleName.options[i];
+            if ( opt2.value === thekey.sample ) {
+                opt2.setAttribute('selected', 'selected'); 
+                break;
+            }}
+
             $('#hiddenKeyName').attr('value', thekey.key);
 
             keyPanel();
+        });
+
+        $('#soundfile').change(() => {
+            var newName = $('#soundfile')[0].files[0].name;
+            var onlyName = newName.slice(0, -4);
+            $("#sample").append(`<option value="${onlyName}" selected>${onlyName}</option>`);
+            console.log(onlyName);
         })
 
         // Update file button is visible when 'New Sound' is on
         function showFileBtn() {
-        let fileBtn = document.querySelector('.filebtn');
-        if ( fileBtn.classList.contains('hidden2') ) {
-            fileBtn.classList.remove('hidden2');
-            fileBtn.classList.add('show2');
+        let sampleDiv = $('#sampleDiv');
+        if ( sampleDiv.hasClass('hidden2') ) {
+            sampleDiv.removeClass('hidden2');
+            sampleDiv.addClass('show2');
         } else {
-            fileBtn.classList.remove('show2');
-            fileBtn.classList.add('hidden2');
+            sampleDiv.removeClass('show2');
+            sampleDiv.addClass('hidden2');
         }
     }
 
@@ -160,17 +189,15 @@
     $(document).ready(function() {
         var keyPlayed = false;
         console.log(thekeys);
+        console.log(thesamples);
 
         var fileName = [], pitchString = [];
-        for (var i = 0; i < thekeys.length; i++) {
-            if(thekeys[i].newSound) {
-                var name = thekeys[i].key;
-                var note = thekeys[i].pitch.toUpperCase().replace('M', '#');
+        for (var i = 0; i < thesamples.length; i++) {
+                var name = thesamples[i].name;
+                var note = thesamples[i].pitch.toUpperCase().replace('M', '#');
                 fileName.push(name);
                 pitchString.push(note);
-            }
         }
-
         console.log('fileName: ');
         console.log(fileName);
         console.log('pitchString: ');
@@ -182,7 +209,6 @@
             var note = thekeys[i].pitch.toUpperCase().replace('M', '#'); 
            if(thekeys[i].enabled) {
                if(thekey == 'space') {
-                // var spacekey = '(space)';
                 keyToPitch[' '] = note;
                } else {
                 keyToPitch[thekey] = note;
@@ -212,139 +238,131 @@
             var x = e.keyCode || e.which;
             e.preventDefault();
 
+            //// Find index# of sample for the key
+            function theIndex(k) {
+                var i, n, s;
+                for (var ke = 0; ke < thekeys.length; ke++) {
+                    if (thekeys[ke].key == k) {
+                        i = ke;
+                        break;
+                    }
+                }
+                n = thekeys[i].sample;
+                for (var sa = 0; sa < thesamples.length; sa++) {
+                    if (thesamples[sa].name == n) {
+                        s = sa;
+                        break;
+                    } else {
+                        s = 0;
+                    }
+                }
+                return s;
+            }
+
+            //// Do nothing with other keys
             if (keyToPitch[e.key] == null) {
-                console.log('do nothing');
+                // console.log('do nothing');
             } else {
+
             var index;
             switch (x) {
 
                 // Q - P
                 case 81:
-                // samplers[0].triggerAttackRelease(keyToPitch[e.key]);
-                index = '0,0';
+                index = theIndex('Q');
                 break;
                 case 87:
-                // samplers[0].triggerAttackRelease(keyToPitch[e.key]);
-                index = '0,1';
+                index = theIndex('W');
                 break;
                 case 69:
-                // samplers[0].triggerAttackRelease(keyToPitch[e.key]);
-                index = '0,2';
+                index = theIndex('E');
                 break;
                 case 82:
-                // samplers[0].triggerAttackRelease(keyToPitch[e.key]);
-                index = '0,3';
+                index = theIndex('R');
                 break;
                 case 84:
-                // samplers[0].triggerAttackRelease(keyToPitch[e.key]);
-                index = '0,4';
+                index = theIndex('T');
                 break;
                 case 89:
-                // samplers[0].triggerAttackRelease(keyToPitch[e.key]);
-                index = '0,5';
+                index = theIndex('Y');
                 break;
                 case 85:
-                // samplers[0].triggerAttackRelease(keyToPitch[e.key]);
-                index = '0,6';
+                index = theIndex('U');
                 break;
                 case 73:
-                // samplers[0].triggerAttackRelease(keyToPitch[e.key]);
-                index = '0,7';
+                index = theIndex('I');
                 break;
                 case 79:
-                // samplers[0].triggerAttackRelease(keyToPitch[e.key]);
-                index = '0,8';
+                index = theIndex('O');
                 break;
                 case 80:
-                // samplers[0].triggerAttackRelease(keyToPitch[e.key]);
-                index = '0,9';
+                index = theIndex('P');
                 break;
 
                 // A - L
                 case 65:
-                // samplers[1].triggerAttackRelease(keyToPitch[e.key]);
-                index = '1,0';
+                index = theIndex('A');
                 break;
                 case 83:
-                // samplers[1].triggerAttackRelease(keyToPitch[e.key]);
-                index = '1,1';
+                index = theIndex('S');
                 break;
                 case 68:
-                // samplers[1].triggerAttackRelease(keyToPitch[e.key]);
-                index = '1,2';
+                index = theIndex('D');
                 break;
                 case 70:
-                // samplers[1].triggerAttackRelease(keyToPitch[e.key]);
-                index = '1,3';
+                index = theIndex('F');
                 break;
                 case 71:
-                // samplers[1].triggerAttackRelease(keyToPitch[e.key]);
-                index = '1,4';
+                index = theIndex('G');
                 break;
                 case 72:
-                // samplers[1].triggerAttackRelease(keyToPitch[e.key]);
-                index = '1,5';
+                index = theIndex('H');
                 break;
                 case 74:
-                // samplers[1].triggerAttackRelease(keyToPitch[e.key]);
-                index = '1,6';
+                index = theIndex('J');
                 break;
                 case 75:
-                // samplers[1].triggerAttackRelease(keyToPitch[e.key]);
-                index = '1,7';
+                index = theIndex('K');
                 break;
                 case 76:
-                // samplers[1].triggerAttackRelease(keyToPitch[e.key]);
-                index = '1,8';
+                index = theIndex('L');
                 break;
 
                 // Z - M
                 case 90:
-                // samplers[2].triggerAttackRelease(keyToPitch[e.key]);
-                index = '2,0';
+                index = theIndex('Z');
                 break;
                 case 88:
-                // samplers[2].triggerAttackRelease(keyToPitch[e.key]);
-                index = '2,1';
+                index = theIndex('X');
                 break;
                 case 67:
-                // samplers[2].triggerAttackRelease(keyToPitch[e.key]);
-                index = '2,2';
+                index = theIndex('C');
                 break;
                 case 86:
-                // samplers[2].triggerAttackRelease(keyToPitch[e.key]);
-                index = '2,3';
+                index = theIndex('V');
                 break;
                 case 66:
-                // samplers[2].triggerAttackRelease(keyToPitch[e.key]);
-                index = '2,4';
+                index = theIndex('B');
                 break;
                 case 78:
-                // samplers[2].triggerAttackRelease(keyToPitch[e.key]);
-                index = '2,5';
+                index = theIndex('N');
                 break;
                 case 77:
-                // samplers[2].triggerAttackRelease(keyToPitch[e.key]);
-                index = '2,6';
+                index = theIndex('M');
                 break;
-                // case 188:
-                //   index = '2,7';
-                //   break;
 
                 // SPACE
                 case 32:
-                // samplers[2].triggerAttackRelease(keyToPitch[e.key]);
-                index = '3,0';
+                index = theIndex('SPACE');
                 break;
             }
-            samplers[index[0]].triggerAttackRelease(keyToPitch[e.key]);
+            samplers[index].triggerAttackRelease(keyToPitch[e.key]);
         }
- 
         }
 
-        function onkeyup(e){
-        samplers.triggerRelease(keyToPitch[e.key]);
-        }
+        // function onkeyup(e){
+        // samplers.triggerRelease(keyToPitch[e.key]);
+        // }
 
         $(document).keydown(function(e) {
             onkeydown(e);

@@ -11,7 +11,7 @@ let storage = multer.diskStorage({
         cb(null, `public/sound/${req.user.name}/`)
     },
     filename: function (req, file, cb) {
-        cb(null, `${req.body.key}.mp3`);
+        cb(null, file.originalname);
     }
 });
 let upload = multer({storage});
@@ -19,7 +19,7 @@ let upload = multer({storage});
 //////////// Key routes ////////////
 
 router.get('/keys', authController.checkAuthenticated, keyController.key_index);
-router.post('/keys', upload.single('soundfile'), keyController.key_update);
+router.post('/keys', authController.checkAuthenticated, upload.single('soundfile'), keyController.key_update);
 router.get('/keyEditor-:thekey', keyController.key_render);
 
 module.exports = router;

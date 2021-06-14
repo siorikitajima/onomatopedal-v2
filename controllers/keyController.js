@@ -1,40 +1,56 @@
 const Key = require('../models/key');
+const Sample = require('../models/sample');
 
 const key_index = (req, res) => {
-    Key.find({pedal: req.user.name})
-        .then((result) => {
-            res.render('keys', { title: 'Keys', keys: result, name: req.user.name })
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+    Key.find({pedal: req.user.name}, (err, keyCollection) => {
+        if(err) {console.log(err);}
+        else {
+            Sample.find({pedal: req.user.name}, (err, sampleCollection) => {
+                if(err) {console.log(err);}
+                else {
+                    res.render('keys', { title: 'Keys', keys: keyCollection, name: req.user.name, samples: sampleCollection })
+                }
+            })
+        }
+    })
     };
 
 const key_update = (req, res) => {
-    let enabled, newSound;
+    let enabled, sample;
 
     if (req.body.enabled == 'on'){ enabled = true;
     } else { enabled = false }
-    if (req.body.newsound == 'on'){ newSound = true;
-    } else { newSound = false }
+    if (req.body.sample){ sample = req.body.sample;
+    } else { sample = null }
 
-    const filter = { key: req.body.key };
-    const key = new Key({
+    const keyFilter = { pedal:req.user.name, key: req.body.key };
+    const sampleFilter = { pedal:req.user.name, name: req.body.sample };
+
+    const newKey = new Key({
         pedal: req.user.name,
         key: req.body.key,
         enabled: enabled,
         pitch: req.body.pitch,
-        newSound: newSound,
-        fileName: ''
+        sample: sample
     })
 
-    console.log(key);
-    Key.findOneAndDelete(filter)
-        .catch((err) => {
-            console.log(err);
-        });
+    const newSample = new Sample({
+        pedal: req.user.name,
+        name: req.body.sample,
+        pitch: req.body.pitch
+    })
 
-    key.save()
+    Key.findOneAndDelete(keyFilter)
+        .catch((err) => { console.log(err);});
+
+    Sample.findOneAndUpdate(
+        sampleFilter, 
+        {$setOnInsert: newSample},
+        { upsert: true, new: true, runValidators: true }
+        )
+        .catch((err) => { console.log(err);});
+
+    newKey.save()
         .then((result) => {
             res.redirect('/keys');
         })

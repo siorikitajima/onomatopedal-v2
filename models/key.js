@@ -18,11 +18,7 @@ const keySchema = new Schema({
         type: String,
         required: true
     },
-    newSound: {
-        type: Boolean,
-        required: true
-    },
-    fileName: {
+    sample: {
         type: String
     }
 }, { timestamps: false });
