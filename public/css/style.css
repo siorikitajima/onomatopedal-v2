@@ -492,7 +492,7 @@
 
     form.popup {
       width: 400px;
-      height: 220px;
+      height: fit-content;
       position: fixed;
       top: 50%;
       left: 50%;
