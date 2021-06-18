@@ -51,10 +51,11 @@ app.use(methodOverride('_method'));
 
 let storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null, `public/sound/${req.user.name}`)
+        cb(null, `public/sound/${req.user.name}/`)
     },
     filename: function (req, file, cb) {
-        cb(null, `track.mp3`)
+        console.log(file);
+        cb(null, `${file.fieldname}.mp3`)
     }
 });
 let upload = multer({storage});
@@ -83,7 +84,14 @@ app.get('/about', authController.checkAuthenticated, (req, res) => {
 });
 
 app.get('/info', authController.checkAuthenticated, infoController.info_get);
-app.post('/info', upload.single('trackFile'), infoController.info_post)
+app.post('/info', infoController.info_post)
+
+app.post('/stem1', upload.single(`stem1`), (req, res) => {
+    res.redirect('/info');})
+app.post('/stem2', upload.single(`stem2`), (req, res) => {
+    res.redirect('/info');})
+app.post('/stem3', upload.single(`stem3`), (req, res) => {
+    res.redirect('/info');})
 
 app.get('/saved', authController.checkAuthenticated, (req, res) => {
     res.render('saved', { title: 'Saved', name: req.user.name});

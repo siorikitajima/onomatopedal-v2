@@ -152,7 +152,7 @@
     .forms select,
     .forms textarea{
       height: 50px;
-      display: block;
+      /* display: block; */
       width: 100%;
       margin: 10px 0;
       padding: 8px;
@@ -168,7 +168,7 @@
     .forms textarea{
       height: 120px;
     }
-    .forms button, .home button, .forms div.halfBtns, .p404 button{
+    .forms button, .home button, .forms div.halfBtns, .p404 button {
       margin: 30px 0 20px 0;
       height: 50px;
       width: 100%;
@@ -190,6 +190,9 @@
       padding: 15px;
       width: 40%;
       text-align: center;
+      background: unset;
+      border: #F56476 1px solid;
+      color: #F56476;
     }
     .forms .flex {
       display: flex;
@@ -199,6 +202,19 @@
     .forms h2 {
       text-align: center;
     }
+
+    .forms input.stemInput, .audioBtns {
+      width: calc(100% - 80px);
+    }
+
+    /* .forms input#stem1, .forms input#stem2, .forms input#stem3 {
+      display: none;
+    } */
+
+    .audioBtns {
+      gap: 10px;
+    }
+    
 
     /* Home styles */
 
@@ -239,7 +255,7 @@
     }
 
     .keyboard div.key {
-      background-color: #777;
+      background-color: #444;
       border-radius: 5px;
       text-align: center;
       display: inline-table;
@@ -247,8 +263,21 @@
       padding: 3px;
     }
 
+    .keyboard div.key p {
+      color:#777
+    }
+
+    .keyboard div.key:hover {
+      opacity: 0.5;
+      transition-duration: 300ms;
+    }
+
     .keyboard div.key.active {
       background-color: #F56476;
+    }
+
+    .keyboard div.key.active p {
+      color: #ddd;
     }
 
     .keyboard div.key h3 {
@@ -356,8 +385,8 @@
     }
 
     .hidden {
-      display: none;
-      bottom: 120%;
+      display: none !important;
+      /* bottom: 120%; */
     }
 
     .hidden2 {
@@ -366,6 +395,97 @@
     .show2 {
       visibility: visible;
     }
+
+    /*  Stem player */
+
+    #playAllBtn, #BtnContainer {
+      margin: 10px auto 0 auto;
+      padding: 15px;
+      text-align: center;
+      height: 22px;
+      width: calc(400px - 30px);
+      cursor: pointer;
+      border-radius: 5px;
+      background-color: #F56476;
+    }
+
+    #BtnContainer {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 0;
+      width: 400px;
+      gap: 10px;
+      top: 0;
+      left: 0;
+      background-color: unset;
+    }
+
+    #BtnContainer.paused {
+      transform: translate(-100vw, -62px);
+      transition-duration: 200ms;
+    }
+
+    #BtnContainer.playing {
+      transform: translate(0, -62px);
+      transition-duration: 200ms;
+    }
+
+    #playAllBtn.paused {
+      transform: translateX(0);
+      transition-duration: 200ms;
+    }
+
+    #playAllBtn.playing {
+      transform: translateX(100vw);
+      transition-duration: 200ms;
+    }
+
+    #playAllBtn::after {
+      content: " Play All Stems";
+      position: absolute;
+      width: fit-content;
+      height: calc(100% - 70px);
+      color: #fff;
+      font-size: 1.2em;
+      left: calc( 50% + 10px);
+      transform: translateX(-50%);
+    }
+
+    #playAllBtn::before {
+      content: url('../images/Play_btn.svg');
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      left: calc(50% - 100px);
+      top: 5px;
+    }
+
+    #BtnContainer div {
+      width: inherit;
+      height: calc(100% + 30px);
+      margin: -15px 0 -15px 0;
+      text-align: center;
+      background-color: #F56476;
+      border-radius: 5px;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    #BtnContainer div#playBtn {
+      background-image: url('../images/Pause_btn.svg');
+      background-repeat: no-repeat;
+      background-position-x: center;
+    }
+
+    #BtnContainer div#stem1Btn, #BtnContainer div#stem2Btn, #BtnContainer div#stem3Btn {
+      text-align: center;
+      font-size: 2.2em;
+    }
+
+    #BtnContainer div#stem1Btn.muted, #BtnContainer div#stem2Btn.muted, #BtnContainer div#stem3Btn.muted, #BtnContainer div#stem1Btn.disabled, #BtnContainer div#stem1Btn.disabled, #BtnContainer div#stem1Btn.disabled {
+      opacity: 0.5;
+    }
+
 
     .keyboard div#Q {
       grid-column: 1 / 3;

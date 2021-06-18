@@ -32,44 +32,44 @@
                     <div class="formItem">
                     <label for="pitch">Note</label>
                     <select id="pitch" name="pitch">
-                        <option value="c5">C5</option>
-                        <option value="cm5">C#5</option>
-                        <option value="d5">D5</option>
-                        <option value="dm5">D#5</option>
-                        <option value="e5">E5</option>
-                        <option value="f5">F5</option>
-                        <option value="fm5">F#5</option>
-                        <option value="g5">G5</option>
-                        <option value="gm5">G#5</option>
-                        <option value="a5">A5</option>
-                        <option value="am5">A#5</option>
                         <option value="b5">B5</option>
-                        
-                        <option value="c4">C4</option>
-                        <option value="cm4">C#4</option>
-                        <option value="d4">D4</option>
-                        <option value="dm4">D#4</option>
-                        <option value="e4">E4</option>
-                        <option value="f4">F4</option>
-                        <option value="fm4">F#4</option>
-                        <option value="g4">G4</option>
-                        <option value="gm4">G#4</option>
-                        <option value="a4">A4</option>
-                        <option value="am4">A#4</option>
-                        <option value="b4">B4</option>
+                        <option value="am5">A#5</option>
+                        <option value="a5">A5</option>
+                        <option value="gm5">G#5</option>
+                        <option value="g5">G5</option>
+                        <option value="fm5">F#5</option>
+                        <option value="f5">F5</option>
+                        <option value="e5">E5</option>
+                        <option value="dm5">D#5</option>
+                        <option value="d5">D5</option>
+                        <option value="cm5">C#5</option>
+                        <option value="c5">C5</option>
 
-                        <option value="c3">C3</option>
-                        <option value="cm3">C#3</option>
-                        <option value="d3">D3</option>
-                        <option value="dm3">D#3</option>
-                        <option value="e3">E3</option>
-                        <option value="f3">F3</option>
-                        <option value="fm3">F#3</option>
-                        <option value="g3">G3</option>
-                        <option value="gm3">G#3</option>
-                        <option value="a3">A3</option>
-                        <option value="am3">A#3</option>
+                        <option value="b4">B4</option>
+                        <option value="am4">A#4</option>
+                        <option value="a4">A4</option>
+                        <option value="gm4">G#4</option>
+                        <option value="g4">G4</option>
+                        <option value="fm4">F#4</option>
+                        <option value="f4">F4</option>
+                        <option value="e4">E4</option>
+                        <option value="dm4">D#4</option>
+                        <option value="d4">D4</option>
+                        <option value="cm4">C#4</option>
+                        <option value="c4">C4</option>
+
                         <option value="b3">B3</option>
+                        <option value="am3">A#3</option>
+                        <option value="a3">A3</option>
+                        <option value="gm3">G#3</option>
+                        <option value="g3">G3</option>
+                        <option value="fm3">F#3</option>
+                        <option value="f3">F3</option>
+                        <option value="e3">E3</option>
+                        <option value="dm3">D#3</option>
+                        <option value="d3">D3</option>
+                        <option value="cm3">C#3</option>
+                        <option value="c3">C3</option>
                     </select>
                     </div>
                     <input id="hiddenKeyName" type="hidden" name="key">
@@ -367,7 +367,6 @@
         for (var c = 0; c < thesamples.length; c++) {
             var theClass = '.active.col-' + thesamples[c].name;
             $(theClass).css('background-color', colorList[c] );
-            console.log(theClass);
         }
     });
 
