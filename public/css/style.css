@@ -299,7 +299,7 @@
       z-index: 1000;
     }
 
-    #transparentScreen {
+    #transparentScreen, #transparentScreenTrack1, #transparentScreenTrack2, #transparentScreenTrack3 {
       margin: 0;
       padding: 0;
       width: 100vw;
@@ -310,6 +310,10 @@
       left: 0;
       background-color: rgba(245, 100, 118, 0);
       z-index: 0;
+    }
+
+    #transparentScreenTrack1, #transparentScreenTrack2, #transparentScreenTrack3 {
+      z-index: 8000;
     }
 
     .keyPanels .closebtn {
@@ -482,10 +486,36 @@
       font-size: 2.2em;
     }
 
-    #BtnContainer div#stem1Btn.muted, #BtnContainer div#stem2Btn.muted, #BtnContainer div#stem3Btn.muted, #BtnContainer div#stem1Btn.disabled, #BtnContainer div#stem1Btn.disabled, #BtnContainer div#stem1Btn.disabled {
+    #BtnContainer div#stem1Btn.muted, #BtnContainer div#stem2Btn.muted, #BtnContainer div#stem3Btn.muted, #BtnContainer div#stem1Btn.disabled, #BtnContainer div#stem2Btn.disabled, #BtnContainer div#stem3Btn.disabled {
       opacity: 0.5;
     }
 
+    form.popup {
+      width: 400px;
+      height: 220px;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 40px;
+      background: #F56476;
+      z-index: 9000;
+      border-radius: 5px;
+      text-align: center;
+    }
+    form.popup p, form.popup h2 {
+      color: #111;
+      margin-bottom: 20px;
+    }
+    form.popup input {
+      background: #111;
+      color: #F56476;
+      border: none;
+    }
+    form.popup input:hover {
+      opacity: 0.5;
+      transition-duration: 300ms;
+    }
 
     .keyboard div#Q {
       grid-column: 1 / 3;

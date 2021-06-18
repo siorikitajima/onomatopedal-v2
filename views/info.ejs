@@ -6,22 +6,29 @@
     <div class="content forms">
         <h2>Upload Stems</h2>
         <% for (var st = 1; st < 4; st++) {%>
-            <form class="stemCont flex" id="form<%= st %>" action="stem<%= st %>" method="POST" enctype="multipart/form-data">
+            <form class="stemCont flex" id="form<%= st %>" action="/stem<%= st %>" method="POST" enctype="multipart/form-data">
                 <label for="stem<%= st %>">Stem #<%= st %> </label>
                 <% if ( stemFiles[st-1] == true ) { %>
                     <div class="flex audioBtns" id="buttons<%= st %>">
                         <div class="halfBtns" id="play-stem<%= st %>">Play</div>
-                        <div class="halfBtns" onclick="reuploadTrack(<%= st %>)">Delete</div>
+                        <div class="halfBtns" onclick="deleteStem(<%= st %>)">Delete</div>
                     </div>
                     <input class= "stemInput hidden" type="file" name="stem<%= st %>" id="stem<%= st %>" style="padding: 10px;" onchange="submitTrack(<%= st %>)">
                 <% } else { %>
                     <div class="flex audioBtns hidden" id="buttons<%= st %>">
                         <div class="halfBtns" id="play-stem<%= st %>">Play</div>
-                        <div class="halfBtns" onclick="reuploadTrack(<%= st %>)">Delete</div>
+                        <div class="halfBtns" onclick="deleteStem(<%= st %>)">Delete</div>
                     </div>
                     <input class= "stemInput" type="file" name="stem<%= st %>" id="stem<%= st %>" style="padding: 10px;" onchange="submitTrack(<%= st %>)">
                 <% } %>
             </form>
+            <div class="hidden" id="transparentScreenTrack<%= st %>" onclick="closePanel(<%= st %>)">
+            <form class="popup hidden" id="puStem<%= st %>" action="/stem<%= st %>?_method=DELETE" method="POST">
+                <h2>Deleting Stem file #<%= st %></h2>
+                <p>Are you sure you want to delete Stem<%= st %> file from the server? You can not undo this action.</p>
+                <input type="submit" value="Delete">
+            </form>
+            </div>
         <% }%>
             
             <div id="playAllBtn" class="paused" onclick="controlHandler()"></div>
@@ -34,9 +41,7 @@
                         <div class="stem muted disabled" id="stem<%= stems[stbtn] %>Btn"><%= stems[stbtn] %></div>
                     <% } %>
                 <% } %>
-                <!-- <div class="stem muted" id="stem1Btn">1</div>
-                <div class="stem muted" id="stem2Btn">2</div>
-                <div class="stem muted" id="stem3Btn">3</div> -->
+
             </div>
 
         <h2>Track and Artist Info</h2>
@@ -58,6 +63,8 @@
         </form>
     </div>
     <%- include('./partials/footer.ejs')  %> 
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
     <script>
@@ -65,12 +72,20 @@
         var name = <%- JSON.stringify(name) %> ;
         var stemFiles = <%- JSON.stringify(stemFiles) %> ;
 
-        function reuploadTrack(n) {
-            var buttons = '#buttons' + n;
-            var input = '#stem' + n;
-            $(buttons).addClass('hidden');
-            $(input).removeClass('hidden');
+        function deleteStem(n) {
+            var popup = '#puStem' + n;
+            var outside = '#transparentScreenTrack' + n;
+            $(popup).removeClass('hidden');
+            $(outside).removeClass('hidden');
         }
+
+        function closePanel(n) {
+            var popup = '#puStem' + n;
+            var outside = '#transparentScreenTrack' + n;
+            $(popup).addClass('hidden');
+            $(outside).addClass('hidden');
+        }
+
         function submitTrack(n) {
             var theform = '#form' + n;
             $(theform).submit();
@@ -146,6 +161,13 @@
                         Tone.start();
                         toneStarted = true;
                     }
+                var allPlaybtn = ['#play-stem1', '#play-stem2', '#play-stem3'];
+                for(var c = 0; c < allPlaybtn.length; c++) {
+                        if($(allPlaybtn[c]).hasClass('stemOnPlay')) {
+                            $(allPlaybtn[c]).trigger('click');
+                        }
+                }
+
                 if($(controlMain).hasClass("paused")) {
                     $(controlMain).removeClass("paused");
                     $(controlMain).addClass("playing");
@@ -163,7 +185,6 @@
 
             // Stem buttons
             $(stems).on('click', event => {
-                // event.preventDefault;
                 if($(event.target).hasClass("unmuted")) {
                     $(event.target).removeClass("unmuted");
                     $(event.target).addClass("muted");

@@ -128,9 +128,37 @@ const info_post = async (req, res) => {
     }
 };
 
+const info_delete_1 = (req, res) => {
+    const filename = `public/sound/${req.user.name}/stem1.mp3`;
+    fs.unlink(filename, function(err) {
+        if (err) {  throw err } else {
+            res.redirect('/info');
+        }
+      });
+    };
+const info_delete_2 = (req, res) => {
+    const filename = `public/sound/${req.user.name}/stem2.mp3`;
+    fs.unlink(filename, function(err) {
+        if (err) {  throw err } else {
+            res.redirect('/info');
+        }
+        });
+    };
+const info_delete_3 = (req, res) => {
+    const filename = `public/sound/${req.user.name}/stem3.mp3`;
+    fs.unlink(filename, function(err) {
+        if (err) {  throw err } else {
+            res.redirect('/info');
+        }
+        });
+    };
+
 module.exports = {
     register_get,
     register_post,
     info_get,
-    info_post
+    info_post,
+    info_delete_1,
+    info_delete_2,
+    info_delete_3
 }

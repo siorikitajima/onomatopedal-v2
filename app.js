@@ -87,11 +87,14 @@ app.get('/info', authController.checkAuthenticated, infoController.info_get);
 app.post('/info', infoController.info_post)
 
 app.post('/stem1', upload.single(`stem1`), (req, res) => {
-    res.redirect('/info');})
+    res.redirect('/info');});
 app.post('/stem2', upload.single(`stem2`), (req, res) => {
-    res.redirect('/info');})
+    res.redirect('/info');});
 app.post('/stem3', upload.single(`stem3`), (req, res) => {
-    res.redirect('/info');})
+    res.redirect('/info');});
+app.delete('/stem1', infoController.info_delete_1);
+app.delete('/stem2', infoController.info_delete_2);
+app.delete('/stem3', infoController.info_delete_3);
 
 app.get('/saved', authController.checkAuthenticated, (req, res) => {
     res.render('saved', { title: 'Saved', name: req.user.name});
