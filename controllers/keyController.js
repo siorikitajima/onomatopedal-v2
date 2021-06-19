@@ -1,14 +1,31 @@
 const Key = require('../models/key');
 const Sample = require('../models/sample');
+const fs = require('fs');
 
 const key_index = (req, res) => {
+    const path1 = 'public/sound/' + req.user.name + '/stem1.mp3';
+    const path2 = 'public/sound/' + req.user.name + '/stem2.mp3';
+    const path3 = 'public/sound/' + req.user.name + '/stem3.mp3';
+
+    const stems = [1, 2, 3];
+    const stem1 = fs.existsSync(path1); 
+    const stem2 = fs.existsSync(path2); 
+    const stem3 = fs.existsSync(path3); 
+    const stemFiles = [stem1, stem2, stem3];
+
     Key.find({pedal: req.user.name}, (err, keyCollection) => {
         if(err) {console.log(err);}
         else {
             Sample.find({pedal: req.user.name}, (err, sampleCollection) => {
                 if(err) {console.log(err);}
                 else {
-                    res.render('keys', { title: 'Keys', keys: keyCollection, name: req.user.name, samples: sampleCollection })
+                    res.render('keys', { 
+                        title: 'Keys', 
+                        keys: keyCollection, 
+                        name: req.user.name, 
+                        samples: sampleCollection,
+                        stemFiles: stemFiles, 
+                        stems: stems })
                 }
             })
         }
@@ -57,22 +74,63 @@ const key_update = (req, res) => {
         .catch((err) => {
             console.log(err);
         });
-    }
+    };
 
-const key_render = (req, res) => {
-    const thekey = req.params.thekey;
+const samples_get = (req, res) => {
+    const path1 = 'public/sound/' + req.user.name + '/stem1.mp3';
+    const path2 = 'public/sound/' + req.user.name + '/stem2.mp3';
+    const path3 = 'public/sound/' + req.user.name + '/stem3.mp3';
+    const stems = [1, 2, 3];
+    const stem1 = fs.existsSync(path1); 
+    const stem2 = fs.existsSync(path2); 
+    const stem3 = fs.existsSync(path3); 
+    const stemFiles = [stem1, stem2, stem3];
     
-    Key.findOne({ key: thekey })
-        .then((result) => {
-            res.render('keyEditor', { title: 'Key Editor', thekey: thekey, keydata: result, name: req.user.name });
+    Key.find({pedal: req.user.name}, (err, keyCollection) => {
+        if(err) {console.log(err);}
+        else {
+            Sample.find({pedal: req.user.name}, (err, sampleCollection) => {
+                if(err) {console.log(err);}
+                else {
+                    res.render('samples', { 
+                        title: 'samples', 
+                        keys: keyCollection, 
+                        name: req.user.name, 
+                        samples: sampleCollection,
+                        stemFiles: stemFiles, 
+                        stems: stems })
+                }
+            })
+        }
+    })
+    };
+
+    const samples_post = (req, res) => {
+
+        const sampleFilter = { pedal:req.user.name, name: req.body.oldname };
+    
+        const newSample = new Sample({
+            pedal: req.user.name,
+            name: req.body.name,
+            pitch: req.body.pitch
         })
-        .catch((err) => {
-            console.log(err);
-        })
+    
+        Sample.findOneAndDelete(sampleFilter)
+            .then(() => {
+                newSample.save();
+            })
+            .then((result) => {
+                res.redirect('/samples');
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+
     }
 
 module.exports = {
         key_index,
         key_update,
-        key_render
+        samples_get,
+        samples_post
     }

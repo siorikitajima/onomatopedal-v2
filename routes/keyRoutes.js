@@ -20,6 +20,7 @@ let upload = multer({storage});
 
 router.get('/keys', authController.checkAuthenticated, keyController.key_index);
 router.post('/keys', authController.checkAuthenticated, upload.single('soundfile'), keyController.key_update);
-router.get('/keyEditor-:thekey', keyController.key_render);
+router.get('/samples', authController.checkAuthenticated, keyController.samples_get);
+router.post('/samples', authController.checkAuthenticated, keyController.samples_post)
 
 module.exports = router;

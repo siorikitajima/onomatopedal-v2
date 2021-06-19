@@ -1,0 +1,166 @@
+<html lang="en">
+    <%- include('./partials/head.ejs')  %> 
+<body>
+    <%- include('./partials/nav.ejs')  %> 
+
+    <div class="content forms">
+        <h2>Upload Stems</h2>
+        <% for (var st = 1; st < 4; st++) {%>
+            <form class="stemCont flex" id="form<%= st %>" action="/stem<%= st %>" method="POST" enctype="multipart/form-data">
+                <label for="stem<%= st %>">Stem #<%= st %> </label>
+                <% if ( stemFiles[st-1] == true ) { %>
+                    <div class="flex audioBtns" id="buttons<%= st %>">
+                        <div class="halfBtns" id="play-stem<%= st %>">Play</div>
+                        <div class="halfBtns" onclick="deleteStem(<%= st %>)">Delete</div>
+                    </div>
+                    <input class= "stemInput hidden" type="file" name="stem<%= st %>" id="stem<%= st %>" style="padding: 10px;" onchange="submitTrack(<%= st %>)">
+                <% } else { %>
+                    <div class="flex audioBtns hidden" id="buttons<%= st %>">
+                        <div class="halfBtns" id="play-stem<%= st %>">Play</div>
+                        <div class="halfBtns" onclick="deleteStem(<%= st %>)">Delete</div>
+                    </div>
+                    <input class= "stemInput" type="file" name="stem<%= st %>" id="stem<%= st %>" style="padding: 10px;" onchange="submitTrack(<%= st %>)">
+                <% } %>
+            </form>
+            <div class="hidden" id="transparentScreenTrack<%= st %>" onclick="closePanel(<%= st %>)">
+            <form class="popup hidden" id="puStem<%= st %>" action="/stem<%= st %>?_method=DELETE" method="POST">
+                <h2>Deleting Stem file #<%= st %></h2>
+                <p>Are you sure you want to delete Stem<%= st %> file?<br/>You can not undo this action.</p>
+                <input type="submit" value="Delete">
+            </form>
+            </div>
+        <% }%>
+
+    </div>
+    <%- include('./partials/player.ejs')  %> 
+    <%- include('./partials/footer.ejs')  %> 
+
+    <script>
+        var name = <%- JSON.stringify(name) %> ;
+        var stemFiles = <%- JSON.stringify(stemFiles) %> ;
+
+        function deleteStem(n) {
+            var popup = '#puStem' + n;
+            var outside = '#transparentScreenTrack' + n;
+            $(popup).removeClass('hidden');
+            $(outside).removeClass('hidden');
+        }
+
+        function closePanel(n) {
+            var popup = '#puStem' + n;
+            var outside = '#transparentScreenTrack' + n;
+            $(popup).addClass('hidden');
+            $(outside).addClass('hidden');
+        }
+
+        function submitTrack(n) {
+            var theform = '#form' + n;
+            $(theform).submit();
+        }
+
+        // const controlMain = $('#playAllBtn, #BtnContainer');
+        // const stems = $('.stem');
+        // let toneStarted = false;
+
+        // function makeChannel( url, pan = 0 ) {
+        //     const channel = new Tone.Channel({ pan }).toDestination();
+        //     const player = new Tone.Player({
+        //         url: 'sound/' + name + `/${url}.mp3`,
+        //         loop: true
+        //     }).sync().start(0);
+        //     player.connect(channel);
+
+        //     const btn = url + 'Btn';
+        //     const thisMuteButton = document.getElementById(btn);
+        //     $(thisMuteButton).on('click', (event) => {
+        //         event.preventDefault();
+        //         const checkMuted = $(event.target).hasClass("muted") ? true : false;
+        //         if (checkMuted) {
+        //             console.log('it is muted');
+        //             channel.mute = false;
+        //         } else {
+        //             console.log('it is not muted');
+        //             channel.mute = true;
+        //         }
+        //     });
+
+        //     $('#playBtn').on('click', () => {
+        //         const checkPaused = thisMuteButton.classList.contains("paused") ? true : false;
+        //         if(!checkPaused){
+        //         channel.mute = false;
+        //         }
+        //     });
+
+        //     var eachPlaybtn = '#play-' + url;
+        //     var allPlaybtn = ['#play-stem1', '#play-stem2', '#play-stem3'];
+        //     $(eachPlaybtn).on('click', () => {
+        //         if(!toneStarted) {
+        //                 Tone.start();
+        //                 toneStarted = true;
+        //             }
+        //         if ($(eachPlaybtn).hasClass('stemOnPlay')) {
+        //             Tone.Transport.stop();
+        //             $(eachPlaybtn).html('Play').removeClass('stemOnPlay');
+        //             channel.solo = false;
+        //         } else if (!$(eachPlaybtn).hasClass('stemOnPlay')) {
+        //             for(var c = 0; c < allPlaybtn.length; c++) {
+        //                 if($(allPlaybtn[c]).hasClass('stemOnPlay')) {
+        //                     $(allPlaybtn[c]).trigger('click');
+        //                 }
+        //             }
+        //             channel.solo = true;
+        //             Tone.Transport.start();
+        //             $(eachPlaybtn).html('Stop').addClass('stemOnPlay');
+        //         }
+        //     });
+        // };
+
+        // for (var sf = 0; sf < stemFiles.length; sf++) {
+        //     var channelName = ['stem1', 'stem2', 'stem3']
+        //     if (stemFiles[sf] == true) {
+        //         makeChannel(channelName[sf]);
+        //     }
+        // }
+
+        //     // Play/Pause Button
+        //     function controlHandler() {
+        //         if(!toneStarted) {
+        //                 Tone.start();
+        //                 toneStarted = true;
+        //             }
+        //         var allPlaybtn = ['#play-stem1', '#play-stem2', '#play-stem3'];
+        //         for(var c = 0; c < allPlaybtn.length; c++) {
+        //                 if($(allPlaybtn[c]).hasClass('stemOnPlay')) {
+        //                     $(allPlaybtn[c]).trigger('click');
+        //                 }
+        //         }
+
+        //         if($(controlMain).hasClass("paused")) {
+        //             $(controlMain).removeClass("paused");
+        //             $(controlMain).addClass("playing");
+        //             Tone.Transport.start();
+        //             $(stems).removeClass("muted");
+        //             $(stems).addClass("unmuted");
+        //         } else {
+        //             $(controlMain).removeClass("playing");
+        //             $(controlMain).addClass("paused");
+        //             $(stems).removeClass("unmuted");
+        //             $(stems).addClass("muted");
+        //             Tone.Transport.stop();
+        //         }
+        //     };
+
+        //     // Stem buttons
+        //     $(stems).on('click', event => {
+        //         if($(event.target).hasClass("unmuted")) {
+        //             $(event.target).removeClass("unmuted");
+        //             $(event.target).addClass("muted");
+        //         } else {
+        //             $(event.target).removeClass("muted");
+        //             $(event.target).addClass("unmuted");
+        //         }
+        //     });
+        
+    </script>
+</body>
+</html>

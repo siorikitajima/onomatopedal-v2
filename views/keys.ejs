@@ -4,7 +4,7 @@
     <%- include('./partials/nav.ejs')  %> 
 
     <div class="content keys">
-        <h2>Keys and Samples</h2>
+        <h2>Keys to Samples</h2>
         <div class="keyboard">
         <% if (keys.length > 0) { %>
             <% keys.forEach((thekey, index) => { %>
@@ -17,6 +17,7 @@
             <p>No key to display</p>
         <% } %>
         </div>
+        
         <div class="hidden" id="transparentScreen" onclick="keyPanel()">
         </div>
         <div class="content forms keyPanels hidden" id="keyPanel">
@@ -96,10 +97,9 @@
         </div>
         
     </div>
+    <%- include('./partials/player.ejs')  %> 
     <%- include('./partials/footer.ejs') %> 
     
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
     <script src="js/ejs.js"></script>
     <script>
         var thekeys = <%- JSON.stringify(keys) %> ;
@@ -178,196 +178,196 @@
         }
     }
 
-    ////////// Keys to Play Sample
+    // ////////// Keys to Play Sample
 
-    $(document).ready(function() {
-        var keyPlayed = false;
-        console.log(thekeys);
-        console.log(thesamples);
+    // $(document).ready(function() {
+    //     var keyPlayed = false;
+    //     console.log(thekeys);
+    //     console.log(thesamples);
 
-        var fileName = [], pitchString = [];
-        for (var i = 0; i < thesamples.length; i++) {
-                var name = thesamples[i].name;
-                var note = thesamples[i].pitch.toUpperCase().replace('M', '#');
-                fileName.push(name);
-                pitchString.push(note);
-        }
-        console.log('fileName: ');
-        console.log(fileName);
-        console.log('pitchString: ');
-        console.log(pitchString);
+    //     var fileName = [], pitchString = [];
+    //     for (var i = 0; i < thesamples.length; i++) {
+    //             var name = thesamples[i].name;
+    //             var note = thesamples[i].pitch.toUpperCase().replace('M', '#');
+    //             fileName.push(name);
+    //             pitchString.push(note);
+    //     }
+    //     console.log('fileName: ');
+    //     console.log(fileName);
+    //     console.log('pitchString: ');
+    //     console.log(pitchString);
 
-        var keyToPitch = {};
-        for (var i = 0; i < thekeys.length; i++) {
-            var thekey = thekeys[i].key.toLowerCase();
-            var note = thekeys[i].pitch.toUpperCase().replace('M', '#'); 
-           if(thekeys[i].enabled) {
-               if(thekey == 'space') {
-                keyToPitch[' '] = note;
-               } else {
-                keyToPitch[thekey] = note;
-               }
-            } else {
-                keyToPitch[thekey] = null;
-            }
-        }
+    //     var keyToPitch = {};
+    //     for (var i = 0; i < thekeys.length; i++) {
+    //         var thekey = thekeys[i].key.toLowerCase();
+    //         var note = thekeys[i].pitch.toUpperCase().replace('M', '#'); 
+    //        if(thekeys[i].enabled) {
+    //            if(thekey == 'space') {
+    //             keyToPitch[' '] = note;
+    //            } else {
+    //             keyToPitch[thekey] = note;
+    //            }
+    //         } else {
+    //             keyToPitch[thekey] = null;
+    //         }
+    //     }
 
-        console.log('Key to Pitch: ');
-        console.log(keyToPitch);
+    //     console.log('Key to Pitch: ');
+    //     console.log(keyToPitch);
 
-        var samplers = [];
-        for(i=0; i<fileName.length;i++) {
-            samplers[i] = new Tone.Sampler({
-            [pitchString[i]]: './sound/' + username + '/' + fileName[i] + '.mp3'
-            }, {
-                'release' : 1,
-                'onload' : function(){
-                Tone.context.updateInterval = 0;
-                Tone.context.lookAhead = 0;
-                }
-            }).toDestination();
-        }
+    //     var samplers = [];
+    //     for(i=0; i<fileName.length;i++) {
+    //         samplers[i] = new Tone.Sampler({
+    //         [pitchString[i]]: './sound/' + username + '/' + fileName[i] + '.mp3'
+    //         }, {
+    //             'release' : 1,
+    //             'onload' : function(){
+    //             Tone.context.updateInterval = 0;
+    //             Tone.context.lookAhead = 0;
+    //             }
+    //         }).toDestination();
+    //     }
 
-        function onkeydown(e){
-            var x = e.keyCode || e.which;
-            e.preventDefault();
+    //     function onkeydown(e){
+    //         var x = e.keyCode || e.which;
+    //         e.preventDefault();
 
-            //// Find index# of sample for the key
-            function theIndex(k) {
-                var i, n, s;
-                for (var ke = 0; ke < thekeys.length; ke++) {
-                    if (thekeys[ke].key == k) {
-                        i = ke;
-                        break;
-                    }
-                }
-                n = thekeys[i].sample;
-                for (var sa = 0; sa < thesamples.length; sa++) {
-                    if (thesamples[sa].name == n) {
-                        s = sa;
-                        break;
-                    } else {
-                        s = 0;
-                    }
-                }
-                return s;
-            }
+    //         //// Find index# of sample for the key
+    //         function theIndex(k) {
+    //             var i, n, s;
+    //             for (var ke = 0; ke < thekeys.length; ke++) {
+    //                 if (thekeys[ke].key == k) {
+    //                     i = ke;
+    //                     break;
+    //                 }
+    //             }
+    //             n = thekeys[i].sample;
+    //             for (var sa = 0; sa < thesamples.length; sa++) {
+    //                 if (thesamples[sa].name == n) {
+    //                     s = sa;
+    //                     break;
+    //                 } else {
+    //                     s = 0;
+    //                 }
+    //             }
+    //             return s;
+    //         }
 
-            //// Do nothing with other keys
-            if (keyToPitch[e.key] == null) {
-            } else {
+    //         //// Do nothing with other keys
+    //         if (keyToPitch[e.key] == null) {
+    //         } else {
 
-            var index;
-            switch (x) {
+    //         var index;
+    //         switch (x) {
 
-                // Q - P
-                case 81:
-                index = theIndex('Q');
-                break;
-                case 87:
-                index = theIndex('W');
-                break;
-                case 69:
-                index = theIndex('E');
-                break;
-                case 82:
-                index = theIndex('R');
-                break;
-                case 84:
-                index = theIndex('T');
-                break;
-                case 89:
-                index = theIndex('Y');
-                break;
-                case 85:
-                index = theIndex('U');
-                break;
-                case 73:
-                index = theIndex('I');
-                break;
-                case 79:
-                index = theIndex('O');
-                break;
-                case 80:
-                index = theIndex('P');
-                break;
+    //             // Q - P
+    //             case 81:
+    //             index = theIndex('Q');
+    //             break;
+    //             case 87:
+    //             index = theIndex('W');
+    //             break;
+    //             case 69:
+    //             index = theIndex('E');
+    //             break;
+    //             case 82:
+    //             index = theIndex('R');
+    //             break;
+    //             case 84:
+    //             index = theIndex('T');
+    //             break;
+    //             case 89:
+    //             index = theIndex('Y');
+    //             break;
+    //             case 85:
+    //             index = theIndex('U');
+    //             break;
+    //             case 73:
+    //             index = theIndex('I');
+    //             break;
+    //             case 79:
+    //             index = theIndex('O');
+    //             break;
+    //             case 80:
+    //             index = theIndex('P');
+    //             break;
 
-                // A - L
-                case 65:
-                index = theIndex('A');
-                break;
-                case 83:
-                index = theIndex('S');
-                break;
-                case 68:
-                index = theIndex('D');
-                break;
-                case 70:
-                index = theIndex('F');
-                break;
-                case 71:
-                index = theIndex('G');
-                break;
-                case 72:
-                index = theIndex('H');
-                break;
-                case 74:
-                index = theIndex('J');
-                break;
-                case 75:
-                index = theIndex('K');
-                break;
-                case 76:
-                index = theIndex('L');
-                break;
+    //             // A - L
+    //             case 65:
+    //             index = theIndex('A');
+    //             break;
+    //             case 83:
+    //             index = theIndex('S');
+    //             break;
+    //             case 68:
+    //             index = theIndex('D');
+    //             break;
+    //             case 70:
+    //             index = theIndex('F');
+    //             break;
+    //             case 71:
+    //             index = theIndex('G');
+    //             break;
+    //             case 72:
+    //             index = theIndex('H');
+    //             break;
+    //             case 74:
+    //             index = theIndex('J');
+    //             break;
+    //             case 75:
+    //             index = theIndex('K');
+    //             break;
+    //             case 76:
+    //             index = theIndex('L');
+    //             break;
 
-                // Z - M
-                case 90:
-                index = theIndex('Z');
-                break;
-                case 88:
-                index = theIndex('X');
-                break;
-                case 67:
-                index = theIndex('C');
-                break;
-                case 86:
-                index = theIndex('V');
-                break;
-                case 66:
-                index = theIndex('B');
-                break;
-                case 78:
-                index = theIndex('N');
-                break;
-                case 77:
-                index = theIndex('M');
-                break;
+    //             // Z - M
+    //             case 90:
+    //             index = theIndex('Z');
+    //             break;
+    //             case 88:
+    //             index = theIndex('X');
+    //             break;
+    //             case 67:
+    //             index = theIndex('C');
+    //             break;
+    //             case 86:
+    //             index = theIndex('V');
+    //             break;
+    //             case 66:
+    //             index = theIndex('B');
+    //             break;
+    //             case 78:
+    //             index = theIndex('N');
+    //             break;
+    //             case 77:
+    //             index = theIndex('M');
+    //             break;
 
-                // SPACE
-                case 32:
-                index = theIndex('SPACE');
-                break;
-            }
-            samplers[index].triggerAttackRelease(keyToPitch[e.key]);
-        }
-        }
+    //             // SPACE
+    //             case 32:
+    //             index = theIndex('SPACE');
+    //             break;
+    //         }
+    //         samplers[index].triggerAttackRelease(keyToPitch[e.key]);
+    //     }
+    //     }
 
-        $(document).keydown(function(e) {
-            onkeydown(e);
-        });
+    //     $(document).keydown(function(e) {
+    //         onkeydown(e);
+    //     });
 
-        var colorList = [
-            '#F56476', '#FCA311', '#2D936C', '#67396A', '#258EA6', 
-            '#F98444', '#299189', '#959B3F', '#466488', '#AE4F70',
-            '#C83F54', '#B68142', '#3D6D39', '#73325D', '#1D6686',
-            '#DB5825', '#1F6F69', '#7D892B', '#37406C', '#9B3763'
-        ];
-        for (var c = 0; c < thesamples.length; c++) {
-            var theClass = '.active.col-' + thesamples[c].name;
-            $(theClass).css('background-color', colorList[c] );
-        }
-    });
+    //     var colorList = [
+    //         '#F56476', '#FCA311', '#2D936C', '#67396A', '#258EA6', 
+    //         '#F98444', '#299189', '#959B3F', '#466488', '#AE4F70',
+    //         '#C83F54', '#B68142', '#3D6D39', '#73325D', '#1D6686',
+    //         '#DB5825', '#1F6F69', '#7D892B', '#37406C', '#9B3763'
+    //     ];
+    //     for (var c = 0; c < thesamples.length; c++) {
+    //         var theClass = '.active.col-' + thesamples[c].name;
+    //         $(theClass).css('background-color', colorList[c] );
+    //     }
+    // });
 
     </script>
 </body>

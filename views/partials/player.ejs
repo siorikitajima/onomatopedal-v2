@@ -1,0 +1,333 @@
+<div class="player">
+    <div id="playAllBtn" class="paused" onclick="controlHandler()"></div>
+    <div id="BtnContainer" class="paused">
+        <div id="playBtn" onclick="controlHandler()"></div>
+        <% for (var stbtn = 0; stbtn<stemFiles.length; stbtn++) {%>
+            <% if(stemFiles[stbtn] == true) {%>
+                <div class="stem muted" id="stem<%= stems[stbtn] %>Btn"><%= stems[stbtn] %></div>
+            <% } else {%>
+                <div class="stem muted disabled" id="stem<%= stems[stbtn] %>Btn"><%= stems[stbtn] %></div>
+            <% } %>
+        <% } %>
+    </div>
+</div>
+
+<script>
+        var thekeys = <%- JSON.stringify(keys) %> ;
+        var thesamples = <%- JSON.stringify(samples) %> ;
+        var username = <%- JSON.stringify(name) %> ;
+
+        // var name = <%- JSON.stringify(name) %> ;
+        var stemFiles = <%- JSON.stringify(stemFiles) %> ;
+
+        const controlMain = $('#playAllBtn, #BtnContainer');
+        const stems = $('.stem');
+        let toneStarted = false;
+
+        function makeChannel( url, pan = 0 ) {
+            const channel = new Tone.Channel({ pan }).toDestination();
+            const player = new Tone.Player({
+                url: 'sound/' + username + `/${url}.mp3`,
+                loop: true
+            }).sync().start(0);
+            player.connect(channel);
+
+            const btn = url + 'Btn';
+            const thisMuteButton = document.getElementById(btn);
+            $(thisMuteButton).on('click', (event) => {
+                event.preventDefault();
+                const checkMuted = $(event.target).hasClass("muted") ? true : false;
+                if (checkMuted) {
+                    console.log('it is muted');
+                    channel.mute = false;
+                } else {
+                    console.log('it is not muted');
+                    channel.mute = true;
+                }
+            });
+
+            $('#playBtn').on('click', () => {
+                const checkPaused = thisMuteButton.classList.contains("paused") ? true : false;
+                if(!checkPaused){
+                channel.mute = false;
+                }
+            });
+
+            var eachPlaybtn = '#play-' + url;
+            var allPlaybtn = ['#play-stem1', '#play-stem2', '#play-stem3'];
+            $(eachPlaybtn).on('click', () => {
+                if(!toneStarted) {
+                        Tone.start();
+                        toneStarted = true;
+                    }
+                if ($(eachPlaybtn).hasClass('stemOnPlay')) {
+                    Tone.Transport.stop();
+                    $(eachPlaybtn).html('Play').removeClass('stemOnPlay');
+                    channel.solo = false;
+                } else if (!$(eachPlaybtn).hasClass('stemOnPlay')) {
+                    for(var c = 0; c < allPlaybtn.length; c++) {
+                        if($(allPlaybtn[c]).hasClass('stemOnPlay')) {
+                            $(allPlaybtn[c]).trigger('click');
+                        }
+                    }
+                    channel.solo = true;
+                    Tone.Transport.start();
+                    $(eachPlaybtn).html('Stop').addClass('stemOnPlay');
+                }
+            });
+        };
+
+        for (var sf = 0; sf < stemFiles.length; sf++) {
+            var channelName = ['stem1', 'stem2', 'stem3']
+            if (stemFiles[sf] == true) {
+                makeChannel(channelName[sf]);
+            }
+        }
+
+            // Play/Pause Button
+            function controlHandler() {
+                if(!toneStarted) {
+                        Tone.start();
+                        toneStarted = true;
+                    }
+                var allPlaybtn = ['#play-stem1', '#play-stem2', '#play-stem3'];
+                for(var c = 0; c < allPlaybtn.length; c++) {
+                        if($(allPlaybtn[c]).hasClass('stemOnPlay')) {
+                            $(allPlaybtn[c]).trigger('click');
+                        }
+                }
+
+                if($(controlMain).hasClass("paused")) {
+                    $(controlMain).removeClass("paused");
+                    $(controlMain).addClass("playing");
+                    Tone.Transport.start();
+                    $(stems).removeClass("muted");
+                    $(stems).addClass("unmuted");
+                } else {
+                    $(controlMain).removeClass("playing");
+                    $(controlMain).addClass("paused");
+                    $(stems).removeClass("unmuted");
+                    $(stems).addClass("muted");
+                    Tone.Transport.stop();
+                }
+            };
+
+            // Stem buttons
+            $(stems).on('click', event => {
+                if($(event.target).hasClass("unmuted")) {
+                    $(event.target).removeClass("unmuted");
+                    $(event.target).addClass("muted");
+                } else {
+                    $(event.target).removeClass("muted");
+                    $(event.target).addClass("unmuted");
+                }
+            });
+
+    ////////// Keys to Play Sample
+
+    $(document).ready(function() {
+        var keyPlayed = false;
+        console.log(thekeys);
+        console.log(thesamples);
+
+        var fileName = [], pitchString = [];
+        for (var i = 0; i < thesamples.length; i++) {
+                var name = thesamples[i].name;
+                var note = thesamples[i].pitch.toUpperCase().replace('M', '#');
+                fileName.push(name);
+                pitchString.push(note);
+        }
+        console.log('fileName: ');
+        console.log(fileName);
+        console.log('pitchString: ');
+        console.log(pitchString);
+
+        var keyToPitch = {};
+        for (var i = 0; i < thekeys.length; i++) {
+            var thekey = thekeys[i].key.toLowerCase();
+            var note = thekeys[i].pitch.toUpperCase().replace('M', '#'); 
+           if(thekeys[i].enabled) {
+               if(thekey == 'space') {
+                keyToPitch[' '] = note;
+               } else {
+                keyToPitch[thekey] = note;
+               }
+            } else {
+                keyToPitch[thekey] = null;
+            }
+        }
+
+        console.log('Key to Pitch: ');
+        console.log(keyToPitch);
+
+        var samplers = [];
+        for(i=0; i<fileName.length;i++) {
+            samplers[i] = new Tone.Sampler({
+            [pitchString[i]]: './sound/' + username + '/' + fileName[i] + '.mp3'
+            }, {
+                'release' : 1,
+                'onload' : function(){
+                Tone.context.updateInterval = 0;
+                Tone.context.lookAhead = 0;
+                }
+            }).toDestination();
+        }
+
+        function onkeydown(e){
+            var x = e.keyCode || e.which;
+            e.preventDefault();
+
+            //// Find index# of sample for the key
+            function theIndex(k) {
+                var i, n, s;
+                for (var ke = 0; ke < thekeys.length; ke++) {
+                    if (thekeys[ke].key == k) {
+                        i = ke;
+                        break;
+                    }
+                }
+                n = thekeys[i].sample;
+                for (var sa = 0; sa < thesamples.length; sa++) {
+                    if (thesamples[sa].name == n) {
+                        s = sa;
+                        break;
+                    } else {
+                        s = 0;
+                    }
+                }
+                return s;
+            }
+
+            //// Do nothing with other keys
+            if (keyToPitch[e.key] == null) {
+            } else {
+
+            var index;
+            switch (x) {
+
+                // Q - P
+                case 81:
+                index = theIndex('Q');
+                break;
+                case 87:
+                index = theIndex('W');
+                break;
+                case 69:
+                index = theIndex('E');
+                break;
+                case 82:
+                index = theIndex('R');
+                break;
+                case 84:
+                index = theIndex('T');
+                break;
+                case 89:
+                index = theIndex('Y');
+                break;
+                case 85:
+                index = theIndex('U');
+                break;
+                case 73:
+                index = theIndex('I');
+                break;
+                case 79:
+                index = theIndex('O');
+                break;
+                case 80:
+                index = theIndex('P');
+                break;
+
+                // A - L
+                case 65:
+                index = theIndex('A');
+                break;
+                case 83:
+                index = theIndex('S');
+                break;
+                case 68:
+                index = theIndex('D');
+                break;
+                case 70:
+                index = theIndex('F');
+                break;
+                case 71:
+                index = theIndex('G');
+                break;
+                case 72:
+                index = theIndex('H');
+                break;
+                case 74:
+                index = theIndex('J');
+                break;
+                case 75:
+                index = theIndex('K');
+                break;
+                case 76:
+                index = theIndex('L');
+                break;
+
+                // Z - M
+                case 90:
+                index = theIndex('Z');
+                break;
+                case 88:
+                index = theIndex('X');
+                break;
+                case 67:
+                index = theIndex('C');
+                break;
+                case 86:
+                index = theIndex('V');
+                break;
+                case 66:
+                index = theIndex('B');
+                break;
+                case 78:
+                index = theIndex('N');
+                break;
+                case 77:
+                index = theIndex('M');
+                break;
+
+                // SPACE
+                case 32:
+                index = theIndex('SPACE');
+                break;
+            }
+            samplers[index].triggerAttackRelease(keyToPitch[e.key]);
+            }
+        }
+
+        $(document).keydown(function(e) {
+            onkeydown(e);
+        });
+
+        var colorList = [
+            '#F56476', '#FCA311', '#2D936C', '#67396A', '#258EA6', 
+            '#F98444', '#299189', '#959B3F', '#466488', '#AE4F70',
+            '#C83F54', '#B68142', '#3D6D39', '#73325D', '#1D6686',
+            '#DB5825', '#1F6F69', '#7D892B', '#37406C', '#9B3763'
+        ];
+        for (var c = 0; c < thesamples.length; c++) {
+            var keyClass = '.active.col-' + thesamples[c].name;
+            var sampleClass = '.sample.col-' + c + ' > div';
+            $(keyClass).css('background-color', colorList[c] );
+            $(sampleClass).css('background-color', colorList[c] );
+
+            var playSampleBtn = '#play-sample-' + c ;
+            (function(c) {
+            var thepitch = thesamples[c].pitch.toUpperCase().replace('M', '#');
+            var sampleaudio = samplers[c];
+            $(playSampleBtn).on('click', () => {
+                if(!toneStarted) {
+                        Tone.start();
+                        toneStarted = true;
+                    }
+            console.log(c, thepitch);
+            sampleaudio.triggerAttackRelease(thepitch);
+            });
+        })(c);   
+        }
+        
+    });
+</script>

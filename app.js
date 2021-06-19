@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const PedalInfo = require('./models/pedalInfo');
 const { render } = require('ejs');
 const keyRoutes = require('./routes/keyRoutes');
+const stemsRoutes = require('./routes/stemsRoutes');
 const dbURL = require('./secKey');
 const passport = require('passport');
 const flash = require('express-flash');
@@ -15,7 +16,6 @@ const authController = require('./controllers/authController');
 const infoController = require('./controllers/infoController');
 const initializePassport = require('./controllers/passport-config');
 const User = require('./models/user');
-const multer = require('multer');
 
 //////////// Connect to DB with Passport ////////////
 
@@ -47,19 +47,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride('_method'));
 
-//////////// Multer ////////////
-
-let storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, `public/sound/${req.user.name}/`)
-    },
-    filename: function (req, file, cb) {
-        console.log(file);
-        cb(null, `${file.fieldname}.mp3`)
-    }
-});
-let upload = multer({storage});
-
 //////////// Main routes ////////////
 
 app.get('/', authController.checkAuthenticated, (req, res) => {
@@ -86,16 +73,6 @@ app.get('/about', authController.checkAuthenticated, (req, res) => {
 app.get('/info', authController.checkAuthenticated, infoController.info_get);
 app.post('/info', infoController.info_post)
 
-app.post('/stem1', upload.single(`stem1`), (req, res) => {
-    res.redirect('/info');});
-app.post('/stem2', upload.single(`stem2`), (req, res) => {
-    res.redirect('/info');});
-app.post('/stem3', upload.single(`stem3`), (req, res) => {
-    res.redirect('/info');});
-app.delete('/stem1', infoController.info_delete_1);
-app.delete('/stem2', infoController.info_delete_2);
-app.delete('/stem3', infoController.info_delete_3);
-
 app.get('/saved', authController.checkAuthenticated, (req, res) => {
     res.render('saved', { title: 'Saved', name: req.user.name});
 });
@@ -103,6 +80,7 @@ app.get('/saved', authController.checkAuthenticated, (req, res) => {
 app.delete('/logout', authController.log_out);
 
 app.use(keyRoutes);
+app.use(stemsRoutes);
 
 app.use((req, res) => {
     res.status(404).render('404', { title: '404'});

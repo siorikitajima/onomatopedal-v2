@@ -1,0 +1,137 @@
+<html lang="en">
+    <%- include('./partials/head.ejs')  %> 
+<body>
+    <%- include('./partials/nav.ejs')  %> 
+
+    <div class="content samples">
+        <h2>Edit Samples</h2>
+        <div class="sample label">
+          <p>Sample Name</p>
+          <p>OG Note</p>
+        </div>
+        <% if (samples.length > 0) { %>
+          <% samples.forEach((sample, index) => { %>
+          <div class="sample col-<%= index %>" id="sample<%= index %>" data-pitch=<%= sample.pitch %> data-index='<%= index %>' >
+                  <div><h3><%= sample.name %></h3></div>
+                  <div><p><%= sample.pitch.toUpperCase().replace('M', '#') %></p></div>
+                  <div class="buttons edit-sample" data-index='<%= index %>'>
+                    <img src="images/edit.svg" alt="edit" width="30">
+                  </div>
+                  <div class="buttons" id="play-sample-<%= index %>">
+                    <img src="images/Play_btn.svg" alt="edit" width="30">
+                  </div>
+          </div>
+          <% }) %>
+      <% } else { %>
+          <p>No sample to display</p>
+      <% } %>
+
+      <div class="hidden" id="transparentScreen" onclick="samplePanel()">
+      </div>
+      <div class="content forms samplePanels hidden" id="samplePanel">
+          <div class="closebtn" onclick="samplePanel()"></div>
+
+          <form id="keyForm" action="/samples" method="POST">
+              <div class="left flex">
+                  <div class="formItem">
+                  <label for="name">Sample Name</label>
+                  <input type="text" id="name" name="name"/>
+                  </div>
+                  <div class="formItem">
+                  <label for="pitch">OG Note</label>
+                  <select id="pitch" name="pitch">
+                      <option value="b5">B5</option>
+                      <option value="am5">A#5</option>
+                      <option value="a5">A5</option>
+                      <option value="gm5">G#5</option>
+                      <option value="g5">G5</option>
+                      <option value="fm5">F#5</option>
+                      <option value="f5">F5</option>
+                      <option value="e5">E5</option>
+                      <option value="dm5">D#5</option>
+                      <option value="d5">D5</option>
+                      <option value="cm5">C#5</option>
+                      <option value="c5">C5</option>
+
+                      <option value="b4">B4</option>
+                      <option value="am4">A#4</option>
+                      <option value="a4">A4</option>
+                      <option value="gm4">G#4</option>
+                      <option value="g4">G4</option>
+                      <option value="fm4">F#4</option>
+                      <option value="f4">F4</option>
+                      <option value="e4">E4</option>
+                      <option value="dm4">D#4</option>
+                      <option value="d4">D4</option>
+                      <option value="cm4">C#4</option>
+                      <option value="c4">C4</option>
+
+                      <option value="b3">B3</option>
+                      <option value="am3">A#3</option>
+                      <option value="a3">A3</option>
+                      <option value="gm3">G#3</option>
+                      <option value="g3">G3</option>
+                      <option value="fm3">F#3</option>
+                      <option value="f3">F3</option>
+                      <option value="e3">E3</option>
+                      <option value="dm3">D#3</option>
+                      <option value="d3">D3</option>
+                      <option value="cm3">C#3</option>
+                      <option value="c3">C3</option>
+                  </select>
+                  </div>
+                  <input id="hiddensampleName" type="hidden" name="oldname">
+              </div>
+              <button>Save</button>
+          </form>
+
+      </div>
+      
+  </div>
+    </div>
+    <%- include('./partials/player.ejs')  %> 
+    <%- include('./partials/footer.ejs')  %> 
+    
+    <script>
+        var thesamples = <%- JSON.stringify(samples) %> ;
+
+        // Open and close key panel
+        function samplePanel() {
+            let samplePanelWrap = document.querySelector('#samplePanel');
+            let allPanels = document.querySelector('#transparentScreen');
+                    if(!allPanels.classList.contains('hidden')) {
+                        samplePanelWrap.classList.add('hidden');
+                        allPanels.classList.add('hidden');
+                    } else {
+                        samplePanelWrap.classList.remove('hidden');
+                        allPanels.classList.remove('hidden');
+                    }
+                }
+
+            // Rendering key panel content
+            var thesample;
+            $(document).on('click', '.edit-sample', function() {
+            // document.querySelector('#keyForm').reset();
+
+            var index = $(this).attr('data-index');
+            thesample = thesamples[index];
+            console.log(index);
+
+            var namefield = $('input#name');
+            $(namefield).attr('value', thesample.name);
+
+            var pitch = document.querySelector('#pitch');
+            var opt;
+            for ( var i = 0, len = pitch.options.length; i < len; i++ ) {
+            opt = pitch.options[i];
+            if ( opt.value === thesample.pitch ) {
+                opt.setAttribute('selected', 'selected'); 
+                break;
+            }}
+            $('#hiddensampleName').attr('value', thesample.name);
+
+            samplePanel();
+        });
+    </script>
+</body>
+</html>
