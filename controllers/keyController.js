@@ -131,9 +131,9 @@ const samples_get = (req, res) => {
 
     const samples_post = (req, res) => {
 
-        const sampleFilter = { pedal:req.user.name, name: req.body.oldname };
+        const sampleFilter = { name:req.user.name, samplename: req.body.oldname };
         Sample.findOne(sampleFilter, (err, sample) => {
-            sample.samplename = req.body.samplename;
+            sample.samplename = req.body.name;
             sample.pitch = req.body.pitch;
             sample.save((err) => {
                 if(err) { console.error(err); }
