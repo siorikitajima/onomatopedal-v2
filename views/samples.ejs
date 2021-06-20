@@ -14,7 +14,7 @@
         <% if (samples.length > 0) { %>
           <% samples.forEach((sample, index) => { %>
           <div class="sample col-<%= index %>" id="sample<%= index %>" data-pitch=<%= sample.pitch %> data-index='<%= index %>' >
-                  <div><h3><%= sample.name %></h3></div>
+                  <div><h3><%= sample.samplename %></h3></div>
                   <div><p><%= sample.pitch.toUpperCase().replace('M', '#') %></p></div>
                   <div class="buttons edit-sample" data-index='<%= index %>'>
                     <img src="images/edit.svg" alt="edit" width="30">
@@ -119,7 +119,7 @@
             console.log(index);
 
             var namefield = $('input#name');
-            $(namefield).attr('value', thesample.name);
+            $(namefield).attr('value', thesample.samplename);
 
             var pitch = document.querySelector('#pitch');
             var opt;
@@ -129,7 +129,7 @@
                 opt.setAttribute('selected', 'selected'); 
                 break;
             }}
-            $('#hiddensampleName').attr('value', thesample.name);
+            $('#hiddensampleName').attr('value', thesample.samplename);
 
             samplePanel();
         });

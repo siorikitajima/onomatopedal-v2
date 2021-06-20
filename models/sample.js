@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const sampleSchema = new Schema({
-    pedal: {
+    name: {
         type: String,
         required: true
     },
-    name: {
+    samplename: {
         type: String,
         required: true
     },
@@ -14,7 +14,7 @@ const sampleSchema = new Schema({
         type: String,
         required: true
     }
-}, { timestamps: false });
+}, { timestamps: true });
 
 const Sample = mongoose.model('Sample', sampleSchema);
 module.exports = Sample;

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const keySchema = new Schema({
-    pedal: {
+    name: {
         type: String,
         required: true
     },
@@ -21,7 +21,7 @@ const keySchema = new Schema({
     sample: {
         type: String
     }
-}, { timestamps: false });
+}, { timestamps: true });
 
 const Key = mongoose.model('Key', keySchema);
 module.exports = Key;

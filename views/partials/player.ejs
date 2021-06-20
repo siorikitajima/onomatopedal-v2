@@ -132,7 +132,7 @@
 
         var fileName = [], pitchString = [];
         for (var i = 0; i < thesamples.length; i++) {
-                var name = thesamples[i].name;
+                var name = thesamples[i].samplename;
                 var note = thesamples[i].pitch.toUpperCase().replace('M', '#');
                 fileName.push(name);
                 pitchString.push(note);
@@ -188,7 +188,7 @@
                 }
                 n = thekeys[i].sample;
                 for (var sa = 0; sa < thesamples.length; sa++) {
-                    if (thesamples[sa].name == n) {
+                    if (thesamples[sa].samplename == n) {
                         s = sa;
                         break;
                     } else {
@@ -309,7 +309,7 @@
             '#DB5825', '#1F6F69', '#7D892B', '#37406C', '#9B3763'
         ];
         for (var c = 0; c < thesamples.length; c++) {
-            var keyClass = '.active.col-' + thesamples[c].name;
+            var keyClass = '.active.col-' + thesamples[c].samplename;
             var sampleClass = '.sample.col-' + c + ' > div';
             $(keyClass).css('background-color', colorList[c] );
             $(sampleClass).css('background-color', colorList[c] );

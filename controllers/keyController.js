@@ -13,10 +13,10 @@ const key_index = (req, res) => {
     const stem3 = fs.existsSync(path3); 
     const stemFiles = [stem1, stem2, stem3];
 
-    Key.find({pedal: req.user.name}, (err, keyCollection) => {
+    Key.find({name: req.user.name}, (err, keyCollection) => {
         if(err) {console.log(err);}
         else {
-            Sample.find({pedal: req.user.name}, (err, sampleCollection) => {
+            Sample.find({name: req.user.name}, (err, sampleCollection) => {
                 if(err) {console.log(err);}
                 else {
                     res.render('keys', { 
@@ -40,40 +40,64 @@ const key_update = (req, res) => {
     if (req.body.sample){ sample = req.body.sample;
     } else { sample = null }
 
-    const keyFilter = { pedal:req.user.name, key: req.body.key };
-    const sampleFilter = { pedal:req.user.name, name: req.body.sample };
+    const keyFilter = { name:req.user.name, key: req.body.key };
+    const sampleFilter = { name:req.user.name, samplename: req.body.sample };
 
-    const newKey = new Key({
-        pedal: req.user.name,
-        key: req.body.key,
-        enabled: enabled,
-        pitch: req.body.pitch,
-        sample: sample
-    })
+    Sample.count(sampleFilter, (err, count) => { 
+        if(count === 0){
+            const newSample = new Sample({
+                name: req.user.name,
+                samplename: req.body.sample,
+                pitch: req.body.pitch
+            });
+            newSample.save((err) => {
+                if(err) { console.error(err); }
+            })
+        }
+    }); 
 
-    const newSample = new Sample({
-        pedal: req.user.name,
-        name: req.body.sample,
-        pitch: req.body.pitch
-    })
-
-    Key.findOneAndDelete(keyFilter)
-        .catch((err) => { console.log(err);});
-
-    Sample.findOneAndUpdate(
-        sampleFilter, 
-        {$setOnInsert: newSample},
-        { upsert: true, new: true, runValidators: true }
-        )
-        .catch((err) => { console.log(err);});
-
-    newKey.save()
-        .then((result) => {
-            res.redirect('/keys');
+    Key.findOne(keyFilter, (err, key) => {
+        key.enabled = enabled;
+        key.pitch = req.body.pitch;
+        key.sample = req.body.sample;
+        key.save((err) => {
+            if(err) { console.error(err); }
         })
-        .catch((err) => {
-            console.log(err);
-        });
+    })
+    .then(() => {
+        res.redirect('/keys');
+    });
+    // const newKey = new Key({
+    //     name: req.user.name,
+    //     key: req.body.key,
+    //     enabled: enabled,
+    //     pitch: req.body.pitch,
+    //     sample: sample
+    // })
+
+    // const newSample = new Sample({
+    //     name: req.user.name,
+    //     samplename: req.body.sample,
+    //     pitch: req.body.pitch
+    // })
+
+    // Key.findOneAndDelete(keyFilter)
+    //     .catch((err) => { console.log(err);});
+
+    // Sample.findOneAndUpdate(
+    //     sampleFilter, 
+    //     {$setOnInsert: newSample},
+    //     { upsert: true, new: true, runValidators: true }
+    //     )
+    //     .catch((err) => { console.log(err);});
+
+    // newKey.save()
+    //     .then((result) => {
+    //         res.redirect('/keys');
+    //     })
+    //     .catch((err) => {
+    //         console.log(err);
+    //     });
     };
 
 const samples_get = (req, res) => {
@@ -86,10 +110,10 @@ const samples_get = (req, res) => {
     const stem3 = fs.existsSync(path3); 
     const stemFiles = [stem1, stem2, stem3];
     
-    Key.find({pedal: req.user.name}, (err, keyCollection) => {
+    Key.find({name: req.user.name}, (err, keyCollection) => {
         if(err) {console.log(err);}
         else {
-            Sample.find({pedal: req.user.name}, (err, sampleCollection) => {
+            Sample.find({name: req.user.name}, (err, sampleCollection) => {
                 if(err) {console.log(err);}
                 else {
                     res.render('samples', { 
@@ -108,23 +132,33 @@ const samples_get = (req, res) => {
     const samples_post = (req, res) => {
 
         const sampleFilter = { pedal:req.user.name, name: req.body.oldname };
-    
-        const newSample = new Sample({
-            pedal: req.user.name,
-            name: req.body.name,
-            pitch: req.body.pitch
+        Sample.findOne(sampleFilter, (err, sample) => {
+            sample.samplename = req.body.samplename;
+            sample.pitch = req.body.pitch;
+            sample.save((err) => {
+                if(err) { console.error(err); }
+            })
         })
+        .then(() => {
+            res.redirect('/samples');
+        });
+
+        // const newSample = new Sample({
+        //     name: req.user.name,
+        //     samplename: req.body.name,
+        //     pitch: req.body.pitch
+        // })
     
-        Sample.findOneAndDelete(sampleFilter)
-            .then(() => {
-                newSample.save();
-            })
-            .then((result) => {
-                res.redirect('/samples');
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        // Sample.findOneAndDelete(sampleFilter)
+        //     .then(() => {
+        //         newSample.save();
+        //     })
+        //     .then((result) => {
+        //         res.redirect('/samples');
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //     });
 
     }
 

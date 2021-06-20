@@ -1,4 +1,3 @@
-const multer = require('multer');
 const PedalInfo = require('../models/pedalInfo');
 const Key = require('../models/key');
 const User = require('../models/user');
@@ -6,6 +5,9 @@ const Sample = require('../models/sample');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
 const hashNumber = require('../secKey2');
+const util = require('util');
+const path = require('path');
+const copyFilePromise = util.promisify(fs.copyFile);
 
 const keyList = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'SPACE'];
 const noteList = ["c5", "cm5", "d5", "dm5", "e5", "f5", "fm5", "g5", "gm5", "a5", "am5", "b5", "c4", "cm4", "d4", "dm4", "e4", "f4", "fm4", "g4", "gm4", "cm3", "d3", "dm3", "e3", "f3", "c3"];
@@ -31,13 +33,17 @@ const register_post = (req, res) => {
 
     //// Create 27 Keys in DB
     for (let k = 0; k < keyList.length; k++) {
+        let sampleName;
+        if (k < 10) { sampleName = 'c4pluck'; }
+        else if (k < 19 ) { sampleName = 'c4piano'; }
+        else if (k < 26 ) { sampleName = 'c4tone'; }
+        else { sampleName = 'c4pluck'; }
         const key = new Key({
-            pedal: req.body.name,
+            name: req.body.name,
             key: keyList[k],
             enabled: true,
             pitch: noteList[k],
-            newSound: false,
-            sample: 'sample'
+            sample: sampleName
         });
         key.save();
         }
@@ -45,36 +51,52 @@ const register_post = (req, res) => {
     //// Create Peadl Info in DB
     const pedalInfo = new PedalInfo({
         name: req.body.name,
-        pedalFull: req.body.pedalName,
+        pedalFull: req.body.featuredpedal,
         onomato: req.body.onomato,
         onoMeaning: req.body.onoMeaning,
-        trackName: '',
+        trackName: 'Untitled',
         artist: req.body.artist,
         website: ''
     });
     pedalInfo.save();
 
     //// Create 1st Sample in DB
-    const firstSample = new Sample({
-        pedal: req.body.name,
-        name: 'sample',
-        pitch: 'c4'
-    });
-    firstSample.save();
+    const sname = [ 'c4pluck', 'c4piano', 'c4tone' ];
+    for (let s = 0; s < 3; s++) {
+        const firstSample = new Sample({
+            name: req.body.name,
+            samplename: sname[s],
+            pitch: 'c4'
+        });
+        firstSample.save();
+    }
     
     //// Create directly to store Key sound files
     try {
+        const ogdir = `public/sound/defaultAudio/`;
         const thedir = `public/sound/${req.body.name}/`;
-        const sampleFile = 'public/sound/sample.mp3';
+        // const sampleFile = 'public/sound/sample.mp3';
+        const sampleFiles = ['c4piano.mp3', 'c4pluck.mp3', 'c4tone.mp3', 'stem1.mp3', 'stem2.mp3', 'stem3.mp3'];
         if (fs.existsSync(thedir)) {
           console.log("Directory exists.")
         } else {
           fs.mkdirSync(thedir);
           console.log("Directory was created.")
         }
-        fs.copyFile(sampleFile, thedir + 'sample.mp3', (err) => {
-            if(err) {console.log(err)}
+        // fs.copyFile(sampleFile, thedir + 'sample.mp3', (err) => {
+        //     if(err) {console.log(err)}
+        // });
+        function copyFiles(srcDir, destDir, files) {
+            return Promise.all(files.map(f => {
+               return copyFilePromise(path.join(srcDir, f), path.join(destDir, f));
+            }));
+        }
+        // usage
+        copyFiles( ogdir, thedir, sampleFiles )
+        .then(() => {
+           console.log("files are copied");
         });
+
       } catch(e) {
         console.log("An error occurred.")
       }
@@ -94,29 +116,20 @@ const info_get = async (req, res) => {
 };
 
 const info_post = async (req, res) => {
-    try {
-        await PedalInfo.findOneAndDelete({name: req.body.name})
-        .catch((err) => {
-            console.log(err);
+    PedalInfo.findOne({name: req.body.name}, (err, user) => {
+        user.pedalFull = req.body.featuredpedal;
+        user.onomato = req.body.onomato;
+        user.onoMeaning = req.body.onoMeaning;
+        user.trackName = req.body.trackName;
+        user.artist = req.body.artist;
+        user.website = req.body.website;
+        user.save((err) => {
+            if(err) { console.error(err); }
         });
-
-        const pedalInfo = new PedalInfo({
-            name: req.body.name,
-            pedalFull: req.body.pedalFull,
-            onomato: req.body.onomato,
-            onoMeaning: req.body.onoMeaning,
-            trackName: req.body.trackName,
-            artist: req.body.artist,
-            website: req.body.website
-        });
-        pedalInfo.save()
-        .then((result) => {
-            res.redirect('/saved');
-        });
-    } 
-    catch {
-        res.redirect('/info');
-    }
+    })
+    .then(() => {
+        res.redirect('/saved');
+    });
 };
 
 const info_delete_1 = (req, res) => {

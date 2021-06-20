@@ -32,10 +32,10 @@ const stems_get = async (req, res) => {
   const stem3 = fs.existsSync(path3); 
   const stemFiles = [stem1, stem2, stem3];
 
-  Key.find({pedal: req.user.name}, (err, keyCollection) => {
+  Key.find({name: req.user.name}, (err, keyCollection) => {
       if(err) {console.log(err);}
       else {
-          Sample.find({pedal: req.user.name}, (err, sampleCollection) => {
+          Sample.find({name: req.user.name}, (err, sampleCollection) => {
               if(err) {console.log(err);}
               else {
                   res.render('stems', { 
@@ -86,10 +86,10 @@ const preview_get = (req, res) => {
     const stem3 = fs.existsSync(path3); 
     const stemFiles = [stem1, stem2, stem3];
     
-    Key.find({pedal: req.user.name}, (err, keyCollection) => {
+    Key.find({name: req.user.name}, (err, keyCollection) => {
         if(err) {console.log(err);}
         else {
-            Sample.find({pedal: req.user.name}, (err, sampleCollection) => {
+            Sample.find({name: req.user.name}, (err, sampleCollection) => {
                 if(err) {console.log(err);}
                 else {
                     res.render('preview', { 

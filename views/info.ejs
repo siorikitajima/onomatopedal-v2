@@ -8,13 +8,42 @@
             <h2>Meta Info</h2>
         </div>
         <form action="/info" method="POST">
-            <label for="pedal">Pedal</label>
-            <select name="pedal" id="pedal">
-                <option value="pedal1">Pedal Name One</option>
-                <option value="pedal2">Pedal Name Two</option>
-                <option value="pedal3">Pedal Name Three</option>
-                <option value="pedal4">Pedal Name Four</option>
-                <option value="pedal5">Pedal Name Five</option>
+            <label for="featuredpedal">Featured EQD Pedal</label>
+            <select name="featuredpedal" id="featuredpedal">
+                <option value="acapulcogold">Acapulco Gold</option>
+                <option value="afterneath">Afterneath</option>
+                <option value="afterneathmodule">Afterneath Module</option>
+                <option value="aqueduct">Aqueduct</option>
+                <option value="arpanoid">Arpanoid</option>
+                <option value="arrows">Arrows</option>
+                <option value="astraldestiny">Astral Destiny</option>
+                <option value="avalancherun">Avalanche Run</option>
+                <option value="bitcommander">Bit Commander</option>
+                <option value="datacorrupter">Data Corrupter</option>
+                <option value="dispatchmaster">Dispatch Master</option>
+                <option value="Erupter">Erupter</option>
+                <option value="ghostecho">Ghost Echo</option>
+                <option value="grandorbiter">Grand Orbiter</option>
+                <option value="hoof">Hoof</option>
+                <option value="hoofreaper">Hoof Reaper</option>
+                <option value="hummingbird">Hummingbird</option>
+                <option value="levitation">Levitation</option>
+                <option value="nightwire">Night Wire</option>
+                <option value="organizer">Organizer</option>
+                <option value="palisades">Palisades</option>
+                <option value="parkfuzz">Park Fuzz</option>
+                <option value="plumes">Plumes</option>
+                <option value="pyramids">Pyramids</option>
+                <option value="rainbowmachine">Rainbow Machine</option>
+                <option value="seamachine">Sea Machine</option>              
+                <option value="spacespiral">Space Spiral</option>
+                <option value="spatialdelivery">Spatial Delivery</option>
+                <option value="swissthings">Swiss Things</option>
+                <option value="tentacle">Tentacle</option>
+                <option value="thedepths">The Depths</option>
+                <option value="thewarden">The Warden</option>
+                <option value="tonejob">Tone Job</option>
+                <option value="westwood">Westwood</option>
             </select>
             <label for="trackName">Track Name</label>
             <input type="text" id="trackName" name="trackName" value="<%= pedal.trackName %>">
@@ -33,5 +62,17 @@
     </div>
     <%- include('./partials/footer.ejs')  %> 
 
+    <script>
+        var thepedal = <%- JSON.stringify(pedal) %> ;
+        var featuredpedal = document.querySelector('#featuredpedal');
+        var opt;
+        for ( var i = 0, len = featuredpedal.options.length; i < len; i++ ) {
+        opt = featuredpedal.options[i];
+        var pedalslug = thepedal.pedalFull.toLowerCase().replace(/\s+/g, '');
+        if ( opt.value === pedalslug ) {
+            opt.setAttribute('selected', 'selected'); 
+            break;
+        }}
+    </script>
 </body>
 </html>
