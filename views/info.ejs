@@ -4,9 +4,18 @@
     <%- include('./partials/nav.ejs')  %> 
 
     <div class="content forms">
-        <h2>Track and Artist Info</h2>
-
+        <div class="h2bg">
+            <h2>Meta Info</h2>
+        </div>
         <form action="/info" method="POST">
+            <label for="pedal">Pedal</label>
+            <select name="pedal" id="pedal">
+                <option value="pedal1">Pedal Name One</option>
+                <option value="pedal2">Pedal Name Two</option>
+                <option value="pedal3">Pedal Name Three</option>
+                <option value="pedal4">Pedal Name Four</option>
+                <option value="pedal5">Pedal Name Five</option>
+            </select>
             <label for="trackName">Track Name</label>
             <input type="text" id="trackName" name="trackName" value="<%= pedal.trackName %>">
             <label for="artist">Artist Name(s)</label>

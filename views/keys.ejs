@@ -4,7 +4,9 @@
     <%- include('./partials/nav.ejs')  %> 
 
     <div class="content keys">
-        <h2>Keys to Samples</h2>
+        <div class="h2bg">
+            <h2>Keys to Samples</h2>
+        </div>
         <div class="keyboard">
         <% if (keys.length > 0) { %>
             <% keys.forEach((thekey, index) => { %>
@@ -20,7 +22,7 @@
         
         <div class="hidden" id="transparentScreen" onclick="keyPanel()">
         </div>
-        <div class="content forms keyPanels hidden" id="keyPanel">
+        <div class="forms keyPanels hidden" id="keyPanel">
             <div class="closebtn" onclick="keyPanel()"></div>
 
             <h2>Key: <span id="keyName"></span> Note: <span id="noteName"><span></h2>
@@ -98,7 +100,6 @@
         
     </div>
     <%- include('./partials/player.ejs')  %> 
-    <%- include('./partials/footer.ejs') %> 
     
     <script src="js/ejs.js"></script>
     <script>

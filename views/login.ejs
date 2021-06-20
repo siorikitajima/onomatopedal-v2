@@ -2,8 +2,11 @@
     <%- include('./partials/head.ejs')  %> 
 <body>
 
-    <div class="content forms">
-        <h2>Log In</h2>
+    <div class="content forms nonav">
+        <h1 class="login-title">Onomatopedal<span>Studio</span></h1>
+        <div class="h2bg">
+            <h2>Log In</h2>
+        </div>
         <% if (messages.error) { %>
             <p class="errmsg"><%= messages.error %></p>
         <% } %>

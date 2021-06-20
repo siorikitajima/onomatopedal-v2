@@ -5,25 +5,31 @@
 
     <div class="content home">
         <div class="opInfo">
-            <p>PEDAL</p>
+            <p class="label">PEDAL</p>
             <h2><%= pedal.pedalFull %></h2>
-            <p>ARTIST</p>
+            <p class="label">ARTIST</p>
             <h2><%= pedal.artist %></h2>
-            <p>ONOMATOPOEIA</p>
+            <p class="label">ONOMATOPOEIA</p>
             <h2><%= pedal.onomato %></h2>
             <p><%= pedal.onoMeaning %></p>
             <a href="/preview">
                 <button>Play Preview</button>
             </a>
-            <a href="/keys">
-                <button>Edit Keys and Samples</button>
-            </a>
-            <a href="/info">
-                <button>Edit Track and Artist</button>
-            </a>
+            <div class="flex">
+                <a href="/stems">
+                    <button class="sm-btn">
+                        <p>Stems</p>
+                    </button>
+                </a>
+                <a href="/keys">
+                    <button class="sm-btn">
+                        <p>Keys</p>
+                    </button>
+                </a>
+            </div>
         </div>
         <div class="opImg">
-            <img src="images/pedals/testPedal.gif" alt="pedal">
+            <img src="images/pedals/db-default.jpg" alt="pedal">
         </div>
     </div>
     <%- include('./partials/footer.ejs') %> 

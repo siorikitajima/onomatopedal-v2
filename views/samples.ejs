@@ -4,7 +4,9 @@
     <%- include('./partials/nav.ejs')  %> 
 
     <div class="content samples">
-        <h2>Edit Samples</h2>
+        <div class="h2bg">
+            <h2>Edit Samples</h2>
+        </div>
         <div class="sample label">
           <p>Sample Name</p>
           <p>OG Note</p>
@@ -28,7 +30,7 @@
 
       <div class="hidden" id="transparentScreen" onclick="samplePanel()">
       </div>
-      <div class="content forms samplePanels hidden" id="samplePanel">
+      <div class="forms samplePanels hidden" id="samplePanel">
           <div class="closebtn" onclick="samplePanel()"></div>
 
           <form id="keyForm" action="/samples" method="POST">
@@ -90,7 +92,6 @@
   </div>
     </div>
     <%- include('./partials/player.ejs')  %> 
-    <%- include('./partials/footer.ejs')  %> 
     
     <script>
         var thesamples = <%- JSON.stringify(samples) %> ;

@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@600&display=swap');
 
-#draw-animation, canvas {
+canvas {
   background: #2C363F;
   width: 100%;
   height: calc(100% - 115px);
