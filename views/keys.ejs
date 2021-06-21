@@ -10,7 +10,7 @@
         <div class="keyboard">
         <% if (keys.length > 0) { %>
             <% keys.forEach((thekey, index) => { %>
-            <div class="key <%- thekey.enabled ? 'active' : null %> col-<%= thekey.sample %>" id="<%= thekey.key %>" data-pitch=<%= thekey.pitch %> data-enabled=<%= thekey.enabled %> data-index='<%= index %>' >
+            <div class="key <%- thekey.enabled ? 'active' : null %> col-<%= thekey.sample %>" id="<%= thekey.key %>" data-pitch=<%= thekey.pitch %> data-enabled=<%= thekey.enabled %> data-index='<%= index %>' data-sample='<%= thekey.sample %>' >
                     <h3><%= thekey.key %></h3>
                     <p><%= thekey.pitch.toUpperCase().replace('M', '#') %></p>
             </div>
@@ -23,9 +23,11 @@
         <div class="hidden" id="transparentScreen" onclick="keyPanel()">
         </div>
         <div class="forms keyPanels hidden" id="keyPanel">
+            <h3 class="panelTitle">Key: <span id="keyName"></span></h3>
+
             <div class="closebtn" onclick="keyPanel()"></div>
 
-            <h2>Key: <span id="keyName"></span> Note: <span id="noteName"><span></h2>
+            <!-- <h2>Key: <span id="keyName"></span> Note: <span id="noteName"><span></h2> -->
             <form id="keyForm" action="/keys" method="POST" enctype="multipart/form-data">
                 <div class="left flex">
                     <div class="formItem">
@@ -106,6 +108,7 @@
         var thekeys = <%- JSON.stringify(keys) %> ;
         var thesamples = <%- JSON.stringify(samples) %> ;
         var username = <%- JSON.stringify(name) %> ;
+        var disableKeys = false;
 
         // Open and close key panel
         function keyPanel() {

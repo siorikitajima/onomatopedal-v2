@@ -31,9 +31,10 @@
       <div class="hidden" id="transparentScreen" onclick="samplePanel()">
       </div>
       <div class="forms samplePanels hidden" id="samplePanel">
+        <h3 class="panelTitle">Edit Sample</h3>
           <div class="closebtn" onclick="samplePanel()"></div>
 
-          <form id="keyForm" action="/samples" method="POST">
+          <form id="sampleForm" action="/samples" method="POST">
               <div class="left flex">
                   <div class="formItem">
                   <label for="name">Sample Name</label>
@@ -82,37 +83,129 @@
                       <option value="c3">C3</option>
                   </select>
                   </div>
-                  <input id="hiddensampleName" type="hidden" name="oldname">
+                  <input class="hiddensampleName" type="hidden" name="oldname">
               </div>
+              <button type="submit">Save</button>
+          </form>
+          <div class="halfBtns" id="deleteBtn" onclick="askDelete()">Delete</div>
+            <form class="popup hidden" id="deletePanel" action="/sample?_method=DELETE" method="POST">
+                <h2>Deleting Sample <span class="sampleNameHere"></span></h2>
+                <p>Are you sure you want to delete a file?<br/>You can not undo this action.</p>
+                <input class="hiddensampleName" type="hidden" name="oldname">
+                <input type="submit" value="Delete">
+            </form>
+      </div>
+
+    <div class="halfBtns btnstyle2 marginBottom" onclick="sampleNewPanel()"><p>Add New</p></div>
+
+    <div class="hidden" id="transparentScreenNew" onclick="sampleNewPanel()">
+    </div>
+    <div class="forms samplePanels hidden" id="samplePanelNew">
+        <h3 class="panelTitle">New Sample</h3>
+        <div class="closebtn" onclick="sampleNewPanel()"></div>
+    <form id="sampleNewForm" action="/new-samples" method="POST" enctype="multipart/form-data">
+              <div class="left flex">
+                  <div class="formItem">
+                      <label for="newname">Sample Name</label>
+                      <input type="text" id="newname" name="newname" required/>
+                  </div>
+                  <div class="formItem">
+                      <label for="pitch">OG Note</label>
+                    <select id="pitch" name="pitch">
+                        <option value="b5">B5</option>
+                        <option value="am5">A#5</option>
+                        <option value="a5">A5</option>
+                        <option value="gm5">G#5</option>
+                        <option value="g5">G5</option>
+                        <option value="fm5">F#5</option>
+                        <option value="f5">F5</option>
+                        <option value="e5">E5</option>
+                        <option value="dm5">D#5</option>
+                        <option value="d5">D5</option>
+                        <option value="cm5">C#5</option>
+                        <option value="c5">C5</option>
+
+                        <option value="b4">B4</option>
+                        <option value="am4">A#4</option>
+                        <option value="a4">A4</option>
+                        <option value="gm4">G#4</option>
+                        <option value="g4">G4</option>
+                        <option value="fm4">F#4</option>
+                        <option value="f4">F4</option>
+                        <option value="e4">E4</option>
+                        <option value="dm4">D#4</option>
+                        <option value="d4">D4</option>
+                        <option value="cm4">C#4</option>
+                        <option value="c4">C4</option>
+
+                        <option value="b3">B3</option>
+                        <option value="am3">A#3</option>
+                        <option value="a3">A3</option>
+                        <option value="gm3">G#3</option>
+                        <option value="g3">G3</option>
+                        <option value="fm3">F#3</option>
+                        <option value="f3">F3</option>
+                        <option value="e3">E3</option>
+                        <option value="dm3">D#3</option>
+                        <option value="d3">D3</option>
+                        <option value="cm3">C#3</option>
+                        <option value="c3">C3</option>
+                    </select>
+                  </div>
+              </div>
+              <input type="file" name="newfile" id="newfile">
               <button>Save</button>
           </form>
-
-      </div>
-      
+    </div>
   </div>
     </div>
     <%- include('./partials/player.ejs')  %> 
     
     <script>
         var thesamples = <%- JSON.stringify(samples) %> ;
+        var disableKeys = false;
 
         // Open and close key panel
         function samplePanel() {
             let samplePanelWrap = document.querySelector('#samplePanel');
             let allPanels = document.querySelector('#transparentScreen');
+            let deletePanel = document.querySelector('#deletePanel');
                     if(!allPanels.classList.contains('hidden')) {
                         samplePanelWrap.classList.add('hidden');
                         allPanels.classList.add('hidden');
+                        disableKeys = false;
                     } else {
                         samplePanelWrap.classList.remove('hidden');
                         allPanels.classList.remove('hidden');
+                        disableKeys = true;
+                    }
+                    if(!deletePanel.classList.contains('hidden')) {
+                            deletePanel.classList.add('hidden');
                     }
                 }
+        function sampleNewPanel() {
+            let panelWrap = document.querySelector('#samplePanelNew');
+            let panelBG = document.querySelector('#transparentScreenNew');
+            if(!panelBG.classList.contains('hidden')) {
+                        panelWrap.classList.add('hidden');
+                        panelBG.classList.add('hidden');
+                        disableKeys = false;
+                    } else {
+                        panelWrap.classList.remove('hidden');
+                        panelBG.classList.remove('hidden');
+                        disableKeys = true;
+                    }
+        }
+
+        function askDelete() { 
+            let deletePanel = document.querySelector('#deletePanel');
+            deletePanel.classList.remove('hidden');
+         }
 
             // Rendering key panel content
             var thesample;
             $(document).on('click', '.edit-sample', function() {
-            // document.querySelector('#keyForm').reset();
+            document.querySelector('#sampleForm').reset();
 
             var index = $(this).attr('data-index');
             thesample = thesamples[index];
@@ -129,7 +222,11 @@
                 opt.setAttribute('selected', 'selected'); 
                 break;
             }}
-            $('#hiddensampleName').attr('value', thesample.samplename);
+            $('.hiddensampleName').attr('value', thesample.samplename);
+
+            //Rendering Delete panel content
+            var nameInH2 = $('.sampleNameHere');
+            $(nameInH2).html('"' + thesample.samplename + '"');
 
             samplePanel();
         });

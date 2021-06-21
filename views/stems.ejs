@@ -39,6 +39,7 @@
     <script>
         var name = <%- JSON.stringify(name) %> ;
         var stemFiles = <%- JSON.stringify(stemFiles) %> ;
+        var disableKeys = false;
 
         function deleteStem(n) {
             var popup = '#puStem' + n;

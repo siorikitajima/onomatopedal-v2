@@ -43,7 +43,7 @@ const key_update = (req, res) => {
     const keyFilter = { name:req.user.name, key: req.body.key };
     const sampleFilter = { name:req.user.name, samplename: req.body.sample };
 
-    Sample.count(sampleFilter, (err, count) => { 
+    Sample.countDocuments(sampleFilter, (err, count) => { 
         if(count === 0){
             const newSample = new Sample({
                 name: req.user.name,
@@ -67,37 +67,6 @@ const key_update = (req, res) => {
     .then(() => {
         res.redirect('/keys');
     });
-    // const newKey = new Key({
-    //     name: req.user.name,
-    //     key: req.body.key,
-    //     enabled: enabled,
-    //     pitch: req.body.pitch,
-    //     sample: sample
-    // })
-
-    // const newSample = new Sample({
-    //     name: req.user.name,
-    //     samplename: req.body.sample,
-    //     pitch: req.body.pitch
-    // })
-
-    // Key.findOneAndDelete(keyFilter)
-    //     .catch((err) => { console.log(err);});
-
-    // Sample.findOneAndUpdate(
-    //     sampleFilter, 
-    //     {$setOnInsert: newSample},
-    //     { upsert: true, new: true, runValidators: true }
-    //     )
-    //     .catch((err) => { console.log(err);});
-
-    // newKey.save()
-    //     .then((result) => {
-    //         res.redirect('/keys');
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     });
     };
 
 const samples_get = (req, res) => {
@@ -117,7 +86,7 @@ const samples_get = (req, res) => {
                 if(err) {console.log(err);}
                 else {
                     res.render('samples', { 
-                        title: 'samples', 
+                        title: 'Samples', 
                         keys: keyCollection, 
                         name: req.user.name, 
                         samples: sampleCollection,
@@ -130,6 +99,15 @@ const samples_get = (req, res) => {
     };
 
     const samples_post = (req, res) => {
+        const keyFilter = { name:req.user.name, sample: req.body.oldname };
+        const newKeySample = { sample: req.body.name };
+        Key.updateMany(keyFilter, newKeySample, (err) => {
+                if(err) { console.error(err); }
+        });
+
+        const filename = `public/sound/${req.user.name}/${req.body.oldname}.mp3`;
+        const newname = `public/sound/${req.user.name}/${req.body.name}.mp3`;
+        fs.rename ( filename, newname, (err) => { if (err) {  throw err } } );
 
         const sampleFilter = { name:req.user.name, samplename: req.body.oldname };
         Sample.findOne(sampleFilter, (err, sample) => {
@@ -142,29 +120,47 @@ const samples_get = (req, res) => {
         .then(() => {
             res.redirect('/samples');
         });
+    };
 
-        // const newSample = new Sample({
-        //     name: req.user.name,
-        //     samplename: req.body.name,
-        //     pitch: req.body.pitch
-        // })
-    
-        // Sample.findOneAndDelete(sampleFilter)
-        //     .then(() => {
-        //         newSample.save();
-        //     })
-        //     .then((result) => {
-        //         res.redirect('/samples');
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
+    const sample_delete = (req, res) => {
+        const filename = `public/sound/${req.user.name}/${req.body.oldname}.mp3`;
+        fs.unlink(filename, function(err) {
+            if (err) {  throw err } 
+          });
+        const sampleFilter = { name:req.user.name, samplename: req.body.oldname };
+        Sample.findOneAndDelete(sampleFilter, (err) => {
+            if(err) { throw err }
+        })
+        .then(() => {
+              res.redirect('/samples');
+          });
+        };
 
-    }
+        const sample_new = (req, res) => {
+            const sampleFilter = { name:req.user.name, samplename: req.body.newname };
+
+            Sample.countDocuments(sampleFilter, (err, count) => { 
+                if(count === 0){
+                    const newSample = new Sample({
+                        name: req.user.name,
+                        samplename: req.body.newname,
+                        pitch: req.body.pitch
+                    });
+                    newSample.save((err) => {
+                        if(err) { console.error(err); }
+                    })
+                }
+            })
+            .then(() => {
+                res.redirect('/samples');
+            }); 
+        };
 
 module.exports = {
         key_index,
         key_update,
         samples_get,
-        samples_post
+        samples_post,
+        sample_delete,
+        sample_new
     }

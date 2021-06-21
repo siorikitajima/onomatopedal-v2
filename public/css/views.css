@@ -25,6 +25,7 @@
       text-align: center;
       width: 400px;
       margin: 0 auto 120px auto;
+      overflow-y: scroll;
     }
 
     .samples div.sample {
@@ -70,6 +71,10 @@
       color: #777;
     }
 
+    /* .samples .marginBottom {
+      margin-bottom: 200px;
+    } */
+
     /* Dashboard/Home View */
 
     .home {
@@ -89,21 +94,23 @@
     .home .flex {
       display: flex;
       justify-content: space-between;
+      gap: 20px;
     }
-    .home .flex button.sm-btn {
+    button.sm-btn, .samples .halfBtns {
       width: 170px;
       margin: 20px auto;
       background-color: #111;
       border: #F56476 1px solid;
     }
-    .home .flex button.sm-btn p {
+
+    button.sm-btn p, .samples .halfBtns p {
       color: #F56476;
       position: relative;
       width: fit-content;
       padding-left: 35px;
       margin: 0 auto;
     }
-    .home .flex button.sm-btn p::before {
+    button.sm-btn p::before, .samples .halfBtns p::before {
       content: "";
       width: 30px;
       height: 30px;
@@ -112,15 +119,21 @@
       top: -3px;
       background: url(../images/edit_pink.svg);
     }
-    .home .flex button.sm-btn:hover {
+    .samples .halfBtns p::before {
+      background: url(../images/addNew_pink.svg);
+    }
+    button.sm-btn:hover, .samples .halfBtns:hover {
       opacity: 1;
       background-color: #F56476;
     }
-    .home .flex button.sm-btn:hover p {
+    button.sm-btn:hover p, .samples .halfBtns:hover p {
       color: #111;
     }
-    .home .flex button.sm-btn:hover p::before  {
+    button.sm-btn:hover p::before  {
       background: url(../images/edit_dark.svg);
+    }
+    .samples .halfBtns:hover p::before {
+      background: url(../images/addNew_dark.svg);
     }
 
     .home .label {
@@ -231,8 +244,8 @@
 
     .keyPanels, .samplePanels {
       width: 400px;
-      padding: 30px;
-      background: #777;
+      padding: 50px 30px 30px 30px;
+      background: #444;
       height: fit-content;
       position: fixed;
       transition-duration: 300ms;
@@ -242,12 +255,29 @@
       border-radius: 5px;
       z-index: 1000;
     }
+    .keyPanels form, .samplePanels form {
+      width: 300px;
+    }
 
     .keyPanels label, .samplePanels label{
+      color: #777;
+    }
+    .samplePanels #deleteBtn {
+      width: calc(300px - 32px);
+      margin: 0 auto 10px auto;
+    }
+    .samples .halfBtns {
+      margin: 10px auto 120px auto;
+    }
+    h3.panelTitle {
+      font-size: 1.8em;
+      position: absolute;
+      top: 20px;
+      left: 20px;
       color: #111;
     }
 
-    #transparentScreen, #transparentScreenTrack1, #transparentScreenTrack2, #transparentScreenTrack3 {
+    #transparentScreen, #transparentScreenNew, #transparentScreenTrack1, #transparentScreenTrack2, #transparentScreenTrack3 {
       margin: 0;
       padding: 0;
       width: 100vw;
