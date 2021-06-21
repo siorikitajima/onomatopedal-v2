@@ -110,8 +110,15 @@
       list-style-type: none;
       margin: 10px 20px 10px 0;
     }
+    nav li.current a {
+      color: #F56476;
+    }
     nav li a:hover {
       color: #F56476;
+      transition-duration: 200ms;
+    }
+    nav li.current a:hover {
+      opacity: 0.5;
       transition-duration: 200ms;
     }
     nav h1{

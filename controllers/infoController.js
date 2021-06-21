@@ -75,7 +75,6 @@ const register_post = (req, res) => {
     try {
         const ogdir = `public/sound/defaultAudio/`;
         const thedir = `public/sound/${req.body.name}/`;
-        // const sampleFile = 'public/sound/sample.mp3';
         const sampleFiles = ['c4piano.mp3', 'c4pluck.mp3', 'c4tone.mp3', 'stem1.mp3', 'stem2.mp3', 'stem3.mp3'];
         if (fs.existsSync(thedir)) {
           console.log("Directory exists.")
@@ -83,15 +82,11 @@ const register_post = (req, res) => {
           fs.mkdirSync(thedir);
           console.log("Directory was created.")
         }
-        // fs.copyFile(sampleFile, thedir + 'sample.mp3', (err) => {
-        //     if(err) {console.log(err)}
-        // });
         function copyFiles(srcDir, destDir, files) {
             return Promise.all(files.map(f => {
                return copyFilePromise(path.join(srcDir, f), path.join(destDir, f));
             }));
         }
-        // usage
         copyFiles( ogdir, thedir, sampleFiles )
         .then(() => {
            console.log("files are copied");
@@ -108,7 +103,7 @@ const info_get = async (req, res) => {
     try {
         PedalInfo.find({name: req.user.name})
         .then( (result) => {
-            res.render('info', { title: 'Track Info', pedal: result[0], name: req.user.name });
+            res.render('info', { title: 'Info', nav:'info', pedal: result[0], name: req.user.name });
         });
     } catch {
         res.redirect('/info');

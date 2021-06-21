@@ -6,7 +6,7 @@
     <div class="content home">
         <div class="opInfo">
             <p class="label">EQD PEDAL</p>
-            <h2><%= pedal.pedalFull %></h2>
+            <h2 id="pedalDisplay"></h2>
             <p class="label">ARTIST</p>
             <h2><%= pedal.artist %></h2>
             <p class="label">ONOMATOPOEIA</p>
@@ -33,5 +33,16 @@
         </div>
     </div>
     <%- include('./partials/footer.ejs') %> 
+    <script>
+        var thepedal = <%- JSON.stringify(pedal) %> ;
+        var pedalDisplay = [ 'Acapulco Gold', 'Afterneath', 'Afterneath Module', 'Aqueduct', 'Arpanoid', 'Arrows', 'Astral Destiny', 'Avalanche Run', 'Bit Commander', 'Data Corrupter', 'Dispatch Master', 'Erupter', 'Ghost Echo', 'Grand Orbiter', 'Hoof', 'Hoof Reaper', 'Hummingbird', 'Levitation', 'Night Wire', 'Organizer', 'Palisades', 'Park Fuzz', 'Plumes', 'Pyramids', 'Rainbow Machine', 'Sea Machine', 'Space Spiral', 'Spatial Delivery', 'Swiss Things', 'Tentacle', 'The Depths', 'The Warden', 'Tone Job', 'Westwood' ]
+        var pedalSlug = [ "acapulcogold", "afterneath", "afterneathmodule", "aqueduct", "arpanoid", "arrows", "astraldestiny", "avalancherun", "bitcommander", "datacorrupter", "dispatchmaster", "Erupter", "ghostecho", "grandorbiter", "hoof", "hoofreaper", "hummingbird", "levitation", "nightwire", "organizer", "palisades", "parkfuzz", "plumes", "pyramids", "rainbowmachine", "seamachine", "spacespiral", "spatialdelivery", "swissthings", "tentacle", "thedepths", "thewarden", "tonejob", "westwood"]
+        for (var p = 0; p < pedalSlug.length; p++) {
+            if (thepedal.pedalFull == pedalSlug[p]) {
+                $('#pedalDisplay').html(pedalDisplay[p]);
+                break;
+            }
+        }
+    </script>
 </body>
 </html>

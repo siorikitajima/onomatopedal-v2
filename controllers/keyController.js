@@ -21,6 +21,7 @@ const key_index = (req, res) => {
                 else {
                     res.render('keys', { 
                         title: 'Keys', 
+                        nav:'keys',
                         keys: keyCollection, 
                         name: req.user.name, 
                         samples: sampleCollection,
@@ -87,6 +88,7 @@ const samples_get = (req, res) => {
                 else {
                     res.render('samples', { 
                         title: 'Samples', 
+                        nav:'samples',
                         keys: keyCollection, 
                         name: req.user.name, 
                         samples: sampleCollection,

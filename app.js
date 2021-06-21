@@ -52,7 +52,7 @@ app.use(methodOverride('_method'));
 app.get('/', authController.checkAuthenticated, (req, res) => {
     PedalInfo.find({name: req.user.name})
     .then((result) => {
-        res.render('index', { title: 'Home', pedal: result[0], name: req.user.name })
+        res.render('index', { title: 'Home', nav:'home', pedal: result[0], name: req.user.name })
     })
 });
 
@@ -67,7 +67,7 @@ app.get('/register', authController.checkAuthenticated, infoController.register_
 app.post('/register', authController.checkAuthenticated, infoController.register_post);
 
 app.get('/about', authController.checkAuthenticated, (req, res) => {
-    res.render('about', { title: 'About', name: req.user.name });
+    res.render('about', { title: 'About', nav:'about', name: req.user.name });
 });
 
 app.get('/info', authController.checkAuthenticated, infoController.info_get);
