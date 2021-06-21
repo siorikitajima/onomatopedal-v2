@@ -3,6 +3,7 @@
         <a href="/"><h1>OnomatoPedal<span>Studio</span></h1></a>
     </div>
     <div class="nav">
+        <% if (nav == undefined) { var nav = null; } %>
         <ul>
             <li <% if (nav === 'home') { %>class="current" <% } %>><a href="/">Dashboard</a></li>
             <li <% if (nav === 'info') { %>class="current" <% } %>><a href="/info">Info</a></li>
