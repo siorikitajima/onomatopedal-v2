@@ -123,10 +123,17 @@ const samples_get = (req, res) => {
     };
 
     const sample_delete = (req, res) => {
+        const keyFilter = { name:req.user.name, sample: req.body.oldname };
+        const newKeyEnabled = { enabled: false };
+        Key.updateMany(keyFilter, newKeyEnabled, (err) => {
+                if(err) { console.error(err); }
+        });
+
         const filename = `public/sound/${req.user.name}/${req.body.oldname}.mp3`;
         fs.unlink(filename, function(err) {
             if (err) {  throw err } 
           });
+
         const sampleFilter = { name:req.user.name, samplename: req.body.oldname };
         Sample.findOneAndDelete(sampleFilter, (err) => {
             if(err) { throw err }
