@@ -1,48 +1,26 @@
 <html lang="en">
-    <%- include('./partials/head.ejs')  %> 
+    <%- include('./partials/frontHead.ejs')  %> 
 <body>
-    <%- include('./partials/nav.ejs')  %> 
+    <%- include('./partials/frontNav.ejs')  %> 
 
-    <div class="content home">
-        <div class="opInfo">
-            <p class="label">EQD PEDAL</p>
-            <h2 id="pedalDisplay"></h2>
-            <p class="label">ARTIST</p>
-            <h2><%= pedal.artist %></h2>
-            <p class="label">ONOMATOPOEIA</p>
-            <h2><%= pedal.onomato %></h2>
-            <p><%= pedal.onoMeaning %></p>
-            <a href="/preview">
-                <button>Play Preview</button>
-            </a>
-            <div class="flex">
-                <a href="/stems">
-                    <button class="sm-btn">
-                        <p>Stems</p>
-                    </button>
-                </a>
-                <a href="/keys">
-                    <button class="sm-btn">
-                        <p>Keys</p>
-                    </button>
-                </a>
+    <div class="featBanner">
+        <p>Featured OnomatoPedal</p>
+        <h1>Rainbow Machine + Pyon Pyon + Artist Name</h1>
+        <a href="/v2demo"><button class="lineBtn">Play</button></a>
+    </div>
+    <div class="grid-container">
+    <% for (var i = 0; i < pedalImages.length; i++) {%>
+        <a href="v1/pedal.html?pedalid=0">
+        <div class="pedal-grid">
+            <img src= <%= pedalImages[i] %> />
+            <div class="pedal-name">
+                <h2>Pyon Pyon</h2>
+                <h2>Rainbow Machine</h2>
+                <h2>Artist Name</h2>
             </div>
         </div>
-        <div class="opImg">
-            <img src="images/pedals/db-default.jpg" alt="pedal">
-        </div>
+        </a>
+    <% } %>
     </div>
-    <%- include('./partials/footer.ejs') %> 
-    <script>
-        var thepedal = <%- JSON.stringify(pedal) %> ;
-        var pedalDisplay = [ 'Acapulco Gold', 'Afterneath', 'Afterneath Module', 'Aqueduct', 'Arpanoid', 'Arrows', 'Astral Destiny', 'Avalanche Run', 'Bit Commander', 'Data Corrupter', 'Dispatch Master', 'Erupter', 'Ghost Echo', 'Grand Orbiter', 'Hoof', 'Hoof Reaper', 'Hummingbird', 'Levitation', 'Night Wire', 'Organizer', 'Palisades', 'Park Fuzz', 'Plumes', 'Pyramids', 'Rainbow Machine', 'Sea Machine', 'Space Spiral', 'Spatial Delivery', 'Swiss Things', 'Tentacle', 'The Depths', 'The Warden', 'Tone Job', 'Westwood' ]
-        var pedalSlug = [ "acapulcogold", "afterneath", "afterneathmodule", "aqueduct", "arpanoid", "arrows", "astraldestiny", "avalancherun", "bitcommander", "datacorrupter", "dispatchmaster", "Erupter", "ghostecho", "grandorbiter", "hoof", "hoofreaper", "hummingbird", "levitation", "nightwire", "organizer", "palisades", "parkfuzz", "plumes", "pyramids", "rainbowmachine", "seamachine", "spacespiral", "spatialdelivery", "swissthings", "tentacle", "thedepths", "thewarden", "tonejob", "westwood"]
-        for (var p = 0; p < pedalSlug.length; p++) {
-            if (thepedal.pedalFull == pedalSlug[p]) {
-                $('#pedalDisplay').html(pedalDisplay[p]);
-                break;
-            }
-        }
-    </script>
 </body>
 </html>

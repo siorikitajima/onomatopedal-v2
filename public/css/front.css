@@ -1,0 +1,177 @@
+nav {
+    z-index: 9000;
+}
+
+div.center-content {
+    text-align: center;
+    padding-top: 50px;
+}
+
+div.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 5px;
+    padding: 5px;
+}
+
+div.pedal-grid {
+    aspect-ratio: 1;
+    position: relative;
+    background: #222;
+}
+
+div.pedal-grid img {
+    width: 80%;
+    margin: 10%;
+}
+
+div.pedal-grid div.pedal-name {
+    width: 80%;
+    height: 80%;
+    padding: 10%;
+    display: none;
+    opacity: 0;
+    background-color: #F56476;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+div.pedal-grid:hover div.pedal-name {
+    display: block;
+    opacity: 1;
+    transition-duration: 200ms;
+}
+
+div.pedal-name h2 {
+    color: #111;
+    font-size: 1.4em;
+    margin: 10px 0;
+}
+
+div.featBanner {
+    width: calc(100% - 20px);
+    padding: 50px 10px;
+    height: 100px;
+    background: #F56476;
+
+}
+
+div.featBanner h1, div.featBanner p {
+    color: #111;
+    text-align: center;
+}
+
+button.lineBtn, button.lineBtnWh {
+    display: block;
+    margin: 10px auto 20px auto;
+    height: 40px;
+    width: 160px;
+    background: #F56476;
+    color: #111;
+    padding: 6px;
+    border: #111 2px solid;
+    font-size: 1.1em;
+    font-family: 'Raleway', sans-serif;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button.lineBtnWh {
+    margin: 10px 0 20px 0;
+    background: none;
+    border: #F56476 2px solid;
+    color: #F56476;
+}
+
+button.lineBtn:hover {
+    background: #111;
+    color: #F56476;
+    transition-duration: 200ms;
+}
+
+button.lineBtnWh:hover {
+    background: #F56476;
+    color: #111;
+    transition-duration: 200ms;
+}
+
+div.infoPanel {
+    width: 100%;
+    position: fixed;
+    top: 76px;
+    height: auto;
+    padding: 50px 0 0 0 ;
+    background-color: rgba(17, 17, 17, 0.8);
+    transition-duration: 200ms;
+}
+
+div.infoPanel div.flex {
+    width: 100%;
+    display: flex;
+    gap: 40px;
+}
+
+div.infoPanel div.playBtnPanel {
+    width: calc(100vw - 20px);
+    height: auto;
+    margin-top: 50px;
+    padding: 10px;
+    background-color: #F56476;
+    color: #111;
+    font-size: 2em;
+    font-family: 'Staatliches', sans-serif;
+    text-align: center;
+    cursor: pointer;
+}
+div.infoPanel div.playBtnPanel:hover {
+    opacity: 0.5;
+    transition-duration: 200ms;
+}
+
+div.infoPanel div.pedalImg img, div.infoPanel div {
+    width: 20vw;
+}
+img.keyboard {
+    margin-top: 10px;
+}
+
+div.infoPanel h2, div.infoPanel p {
+    margin: 0;
+}
+div.infoPanel p.label {
+    margin: 20px 0 0 0;
+    color: #777;
+}
+
+div.infoPanel div.merch-icon {
+    width: 100px;
+}
+
+div.infoPanel div.merch-icon div {
+    width: 100px;
+    height: 100px;
+    margin: 0 0 20px 0;
+    background-color: #ddd;
+    border-radius: 50%;
+}
+
+div.infoPanel div.merch-icon img {
+    width: 80px;
+    margin: 10px;
+}
+
+div.smPedalImg {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: fixed;
+    top: 100px;
+    left: 25px;
+    background-color: #F56476;
+}
+
+div.smPedalImg img {
+    width: 50px;
+}

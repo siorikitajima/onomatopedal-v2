@@ -49,16 +49,52 @@ app.use(methodOverride('_method'));
 
 //////////// Main routes ////////////
 
-app.get('/', authController.checkAuthenticated, (req, res) => {
+app.get('/', (req, res) => {
+    const pedalImages = [
+        "v1/images/pedalsOnom/Raimbow-Machine_Sticker-NoBG.gif", 
+        "v1/images/pedalsOnom/Acapulco-Gold_Sticker-NoBG.gif",
+        "v1/images/pedalsOnom/Avalanche-Run_Stiker-NoBG.gif", 
+        "v1/images/pedalsOnom/Arpanoid_Sticker-NoBG.gif", 
+        "v1/images/pedalsOnom/Data-Corrupter_Sticker-NoBG.gif", 
+        "v1/images/pedalsOnom/Disaster-Transport-Sr_Sticker-NoBG.gif", 
+        "v1/images/pedalsOnom/Dream-Crusher_Sticker-NoBG.gif", 
+        "v1/images/pedalsOnom/Hoof-Reaper_Sticker-NoBG.gif", 
+        "v1/images/pedalsOnom/Hummingbird_Sticker-NoBG.gif", 
+        "v1/images/pedalsOnom/Levitation_Sticker-NoBG.gif", 
+        "v1/images/pedalsOnom/Organizer_Sticker-NoBG.gif", 
+        "v1/images/pedalsOnom/Palisades_Sticker-NoBG.gif", 
+        "v1/images/pedalsOnom/Spacial-Delivery_Sticker-NoBG.gif", 
+        "v1/images/pedalsOnom/Afterneath_Stiker-NoBG.gif", 
+        "v1/images/pedalsOnom/Afterneath-Module_Sticker-NoBG.gif", 
+        "v1/images/pedalsOnom/Hoof-Fuzz_Sticker-NoBG.gif", 
+        "v1/images/pedalsOnom/The-Depths_Sticker-NoBG.gif", 
+        "v1/images/pedalsOnom/Zap-Machine_Sticker-NoBG.gif", 
+        "v1/images/pedalsOnom/Night-Wire_Sticker-NoBG.gif",
+        "v1/images/pedalsOnom/Erupter_Sticker-NoBG.gif",
+        "v1/images/pedalsOnom/Pyramids_Sticker-NoBG.gif",
+        "v1/images/pedalsOnom/Astral-Destiny_Stiker-NoBG_V2.gif"
+    ]
+        res.render('index', { title: 'Home', nav:'home', pedalImages: pedalImages })
+});
+
+app.get('/v2demo', (req, res) => {
+    res.render('v2demo', { title: 'V2 Demo', nav:'v2' })
+});
+
+app.get('/about', (req, res) => {
+    res.render('about', { title: 'About', nav:'about' })
+});
+
+app.get('/studio', authController.checkAuthenticated, (req, res) => {
     PedalInfo.find({name: req.user.name})
     .then((result) => {
-        res.render('index', { title: 'Home', nav:'home', pedal: result[0], name: req.user.name })
+        res.render('studio', { title: 'Studio', nav:'studio', pedal: result[0], name: req.user.name })
     })
 });
 
 app.get('/login', authController.checkNotAuthenticated, authController.login_get);
 app.post('/login', authController.checkNotAuthenticated, passport.authenticate('local', {
-    successRedirect: '/',
+    successRedirect: '/studio',
     failureRedirect: '/login',
     failureFlash: true
 }));
@@ -66,8 +102,8 @@ app.post('/login', authController.checkNotAuthenticated, passport.authenticate('
 app.get('/register', authController.checkAuthenticated, infoController.register_get);
 app.post('/register', authController.checkAuthenticated, infoController.register_post);
 
-app.get('/about', authController.checkAuthenticated, (req, res) => {
-    res.render('about', { title: 'About', nav:'about', name: req.user.name });
+app.get('/aboutst', authController.checkAuthenticated, (req, res) => {
+    res.render('aboutst', { title: 'About', nav:'aboutst', name: req.user.name });
 });
 
 app.get('/info', authController.checkAuthenticated, infoController.info_get);

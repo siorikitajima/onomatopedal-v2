@@ -1,0 +1,71 @@
+<html lang="en">
+    <%- include('./partials/frontHead.ejs')  %> 
+<body>
+    <%- include('./partials/frontNav.ejs')  %> 
+
+    <div class="infoPanel">
+        <div class="flex">
+            <div class="pedalImg">
+                <img src="v1/images/pedalsOnly/rainbowmachine@2x.png" alt="pedal">
+            </div>
+            <div class="infoOne">
+                <p class="label">ONOMATOPOEIA</p>
+                <h2>PYON PYON</h2>
+                <p>Describes someone who is happy and excited. In a buoyant mood.</p>
+                <p class="label">PEDAL</p>
+                <h2>Rainbow Machine</h2>
+                <p>Polyphonic Pitch Mesmerizer</p>
+            </div>
+            <div class="infoTwo">
+                <p class="label">MUSIC BY</p>
+                <h2>Artist Name Artist Name</h2>
+                <h3>"Track Title Here"</h3>
+                <p class="label">VISUAL ART</p>
+                <h2>Artist Name</h2>
+            </div>
+            <div class="infoThree">
+                <p class="label">Keys</p>
+                <img class="keyboard" src="v2/images/keysOnBoard.svg" alt="keyboard">
+            </div>
+            <div class="merch-icon">
+                <div class="one-icon">
+                    <img src="v2/images/T-shirt-temp.png" alt="t-shirt">
+                </div>
+                <div class="one-icon">
+                    <img src="v2/images/jogger-temp.png" alt="t-shirt">
+                </div>
+            </div>
+        </div>
+        <div class="playBtnPanel" onclick="controlHandler()">PLAY</div>
+        <!-- <button class="lineBtnWh">PLAY</button> -->
+    </div>
+    <!-- <div class="smPedalImg">
+        <img src="v1/images/pedalsOnly/rainbowmachine@2x.png" alt="pedal">
+    </div> -->
+
+
+    <div id="controller">
+      <div id="controlMain" class="paused" onclick="controlHandler()"></div>
+      <div id="controlStems">
+        <div class="stem muted" id="stem0">1</div>
+        <div class="stem muted" id="stem1">2</div>
+        <div class="stem muted" id="stem2">3</div>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
+    <script src="v2/opV2-sound.js"></script>
+    <script src="v2/opV2-visual.js"></script>
+    <!-- <script>
+        var panelOpen = true;
+        function panelControl() {
+            if(panelOpen) {
+                $('.infoPanel').css('top','-200%');
+                panelOpen = false;
+            } else {
+                $('.infoPanel').css('top','75px');
+                panelOpen = true;
+            }
+        }
+    </script> -->
+</body>
+</html>

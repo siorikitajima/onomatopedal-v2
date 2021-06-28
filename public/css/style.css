@@ -86,6 +86,9 @@
       border-bottom: 1px solid #777;
       text-transform: uppercase;
     }
+    nav.front {
+      margin: 0;
+    }
     nav .site-title {
       position: relative;
       width: 50%;
@@ -126,6 +129,9 @@
       line-height: 1em;
       font-size: 3em;
     }
+    nav .front h1{
+      font-size: 2em;
+    }
     nav h2 {
       margin-bottom: 0;
     }
@@ -137,8 +143,9 @@
       margin: 0;
     }
     nav ul button {
-      width: 80px;
+      width: auto;
       height: 30px;
+      padding: 0 10px;
       background-color: #111;
       border: #F56476 1px solid;
       border-radius: 5px;
