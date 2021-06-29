@@ -5,9 +5,17 @@ const Sample = require('../models/sample');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
 const hashNumber = require('../secKey2');
+const accessKeyIdS3 = require('../secKey3');
+const secretAccessKeyS3 = require('../secKey4');
 const util = require('util');
 const path = require('path');
 const copyFilePromise = util.promisify(fs.copyFile);
+const AWS = require('aws-sdk');
+
+const s3 = new AWS.S3({
+    accessKeyId: accessKeyIdS3,
+    secretAccessKey: secretAccessKeyS3
+});
 
 const keyList = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'SPACE'];
 const noteList = ["c5", "cm5", "d5", "dm5", "e5", "f5", "fm5", "g5", "gm5", "a5", "am5", "b5", "c4", "cm4", "d4", "dm4", "e4", "f4", "fm4", "g4", "gm4", "cm3", "d3", "dm3", "e3", "f3", "c3"];

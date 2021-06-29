@@ -20,7 +20,7 @@ const User = require('./models/user');
 //////////// Connect to DB with Passport ////////////
 
 mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
-    .then(() => app.listen(3000))
+    .then(() => app.listen(process.env.PORT || 8080))
     .catch((err) => console.log(err));
 
 User.find()
