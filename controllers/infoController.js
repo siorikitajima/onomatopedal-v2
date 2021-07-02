@@ -7,9 +7,6 @@ const fs = require('fs');
 const hashNumber = require('../secKey2');
 const accessKeyIdS3 = require('../secKey3');
 const secretAccessKeyS3 = require('../secKey4');
-const util = require('util');
-const path = require('path');
-const copyFilePromise = util.promisify(fs.copyFile);
 const AWS = require('aws-sdk');
 
 const s3 = new AWS.S3({
@@ -81,25 +78,23 @@ const register_post = (req, res) => {
     
     //// Create directly to store Key sound files
     try {
-        const ogdir = `public/sound/defaultAudio/`;
-        const thedir = `public/sound/${req.body.name}/`;
         const sampleFiles = ['c4piano.mp3', 'c4pluck.mp3', 'c4tone.mp3', 'stem1.mp3', 'stem2.mp3', 'stem3.mp3'];
-        if (fs.existsSync(thedir)) {
-          console.log("Directory exists.")
-        } else {
-          fs.mkdirSync(thedir);
-          console.log("Directory was created.")
-        }
-        function copyFiles(srcDir, destDir, files) {
-            return Promise.all(files.map(f => {
-               return copyFilePromise(path.join(srcDir, f), path.join(destDir, f));
-            }));
-        }
-        copyFiles( ogdir, thedir, sampleFiles )
-        .then(() => {
-           console.log("files are copied");
-        });
 
+        for(var i = 0; i < sampleFiles.length; i++) {
+            const ogFilePath = `public/sound/defaultAudio/` + sampleFiles[i];
+            const s3FileKey = req.body.name + '/' + sampleFiles[i];
+            const fileContent = fs.readFileSync(ogFilePath);
+            const params = {
+                Bucket: 'opv2-heroku',
+                ACL: "public-read",
+                Key: s3FileKey, 
+                Body: fileContent
+            };
+            s3.upload(params, function(err, data) {
+                if (err) {  throw err; }
+                console.log(`File uploaded successfully. ${data.Location}`);
+            });
+        }
       } catch(e) {
         console.log("An error occurred.")
       }
@@ -135,37 +130,9 @@ const info_post = async (req, res) => {
     });
 };
 
-const info_delete_1 = (req, res) => {
-    const filename = `public/sound/${req.user.name}/stem1.mp3`;
-    fs.unlink(filename, function(err) {
-        if (err) {  throw err } else {
-            res.redirect('/info');
-        }
-      });
-    };
-const info_delete_2 = (req, res) => {
-    const filename = `public/sound/${req.user.name}/stem2.mp3`;
-    fs.unlink(filename, function(err) {
-        if (err) {  throw err } else {
-            res.redirect('/info');
-        }
-        });
-    };
-const info_delete_3 = (req, res) => {
-    const filename = `public/sound/${req.user.name}/stem3.mp3`;
-    fs.unlink(filename, function(err) {
-        if (err) {  throw err } else {
-            res.redirect('/info');
-        }
-        });
-    };
-
 module.exports = {
     register_get,
     register_post,
     info_get,
-    info_post,
-    info_delete_1,
-    info_delete_2,
-    info_delete_3
+    info_post
 }

@@ -8,14 +8,38 @@ const { render } = require('ejs');
 const keyRoutes = require('./routes/keyRoutes');
 const stemsRoutes = require('./routes/stemsRoutes');
 const dbURL = require('./secKey');
+const secret = require('./secKey5');
 const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
+
 const methodOverride = require('method-override');
 const authController = require('./controllers/authController');
 const infoController = require('./controllers/infoController');
 const initializePassport = require('./controllers/passport-config');
 const User = require('./models/user');
+
+var store = new MongoDBStore({
+    uri: dbURL,
+    collection: 'mySessions'
+  });
+
+var sess = {
+    secret: process.env.SESSION_SECRET || secret,
+    resave: false,
+    saveUninitialized: false,
+    store: store,
+    cookie:{
+        secure: process.env.NODE_ENV == "production" ? true : false ,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+  }
+  
+  if (app.get('env') === 'production') {
+    app.set('trust proxy', 1) // trust first proxy
+    sess.cookie.secure = true // serve secure cookies
+  }
 
 //////////// Connect to DB with Passport ////////////
 
@@ -38,11 +62,7 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: false }));
 app.use(flash());
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false
-}));
+app.use(session(sess));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride('_method'));

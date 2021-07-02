@@ -3,22 +3,31 @@ const router = express.Router();
 const keyController = require('../controllers/keyController');
 const authController = require('../controllers/authController');
 const multer = require('multer');
+const multerS3 = require('multer-s3');
+const AWS = require('aws-sdk');
+const accessKeyIdS3 = require('../secKey3');
+const secretAccessKeyS3 = require('../secKey4');
+
+const s3 = new AWS.S3({
+    accessKeyId: accessKeyIdS3,
+    secretAccessKey: secretAccessKeyS3
+});
 
 //////////// Multer ////////////
 
-let storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, `public/sound/${req.user.name}/`)
-    },
-    filename: function (req, file, cb) {
-        if(req.body.newname) {
-            cb(null, req.body.newname + '.mp3');
-        } else {
-            cb(null, file.originalname);
-        }
-    }
-});
-let upload = multer({storage});
+let upload = multer({
+    storage: multerS3({
+      s3: s3,
+      bucket: 'opv2-heroku',
+      acl: "public-read",
+      metadata: function (req, file, cb) {
+        cb(null, {fieldName: file.fieldname});
+      },
+      key: function (req, file, cb) {
+            cb(null, `${req.user.name}/${req.body.newname || req.body.sample}.mp3`);
+      }
+    })
+  })
 
 //////////// Key routes ////////////
 

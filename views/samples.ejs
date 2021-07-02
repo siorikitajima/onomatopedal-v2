@@ -230,6 +230,12 @@
 
             samplePanel();
         });
+
+        $('#newfile').change(() => {
+            var newName = $('#newfile')[0].files[0].name;
+            var onlyName = newName.slice(0, -4);
+            $('#newname').attr('value', onlyName);
+        })
     </script>
 </body>
 </html>
