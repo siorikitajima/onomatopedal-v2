@@ -36,10 +36,6 @@ var sess = {
     }
   }
   
-  if (app.get('env') === 'production') {
-    app.set('trust proxy', 1) // trust first proxy
-    sess.cookie.secure = true // serve secure cookies
-  }
 
 //////////// Connect to DB with Passport ////////////
 
@@ -58,6 +54,7 @@ User.find()
 
 //////////// Middlewears ////////////
 
+app.set('trust proxy', 1);
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: false }));

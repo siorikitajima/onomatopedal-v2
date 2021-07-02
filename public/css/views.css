@@ -84,9 +84,26 @@
       max-width: 800px;
       margin: 50px auto;
     }
+    .home .opImg {
+      height: fit-content;
+      position: relative;
+      overflow: hidden;
+      padding: 30px;
+    }
+    .home .opImg p {
+      position: absolute;
+      color: #832c36;
+      font-size: 10em;
+      line-height: 0.8em;
+      z-index: -1;
+      font-family: 'Staatliches', sans-serif;
+      letter-spacing: 0.05em;
+      top: 0;
+      left: 0;
+    }
     .home .opImg img {
-      max-width: 400px;
-      margin: 10px 0;
+      max-width: 300px;
+      margin: 50px 0;
     }
     .home button, .p404 button {
       margin: 30px 0 0 0;
