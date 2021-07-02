@@ -84,11 +84,15 @@
       max-width: 800px;
       margin: 50px auto;
     }
+    .home .opInfo {
+      width: calc(50% - 20px);
+      padding: 0;
+    }
     .home .opImg {
+      width: calc(50% - 20px);
       height: fit-content;
       position: relative;
       overflow: hidden;
-      padding: 30px;
     }
     .home .opImg p {
       position: absolute;
@@ -100,9 +104,10 @@
       letter-spacing: 0.05em;
       top: 0;
       left: 0;
+      text-align: center;
     }
     .home .opImg img {
-      max-width: 300px;
+      max-width: 100%;
       margin: 50px 0;
     }
     .home button, .p404 button {
@@ -111,7 +116,7 @@
     .home .flex {
       display: flex;
       justify-content: space-between;
-      gap: 20px;
+      gap: 10px;
     }
     button.sm-btn, .samples .halfBtns {
       width: 170px;
