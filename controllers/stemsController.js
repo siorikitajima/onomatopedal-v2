@@ -1,5 +1,6 @@
 const Key = require('../models/key');
 const Sample = require('../models/sample');
+const PedalInfo = require('../models/pedalInfo');
 const AWS = require('aws-sdk');
 const accessKeyIdS3 = require('../secKey3');
 const secretAccessKeyS3 = require('../secKey4');
@@ -116,24 +117,29 @@ const preview_get = async　(req, res) => {
         err => { if (err.code === 'NotFound') { return false; }
                 throw err; });
     
-    Key.find({name: req.user.name}, (err, keyCollection) => {
+    PedalInfo.find({name: req.user.name}, (err, pedalInfo) => {
         if(err) {console.log(err);}
         else {
-            Sample.find({name: req.user.name}, (err, sampleCollection) => {
-                if(err) {console.log(err);}
-                else {
-                    res.render('preview', { 
-                        title: 'Preview',
-                        nav:'preview', 
-                        keys: keyCollection, 
-                        name: req.user.name, 
-                        samples: sampleCollection,
-                        stemFiles: [stem1, stem2, stem3], 
-                        stems: stems })
-                }
-            })
-        }
-    })
+        Key.find({name: req.user.name}, (err, keyCollection) => {
+            if(err) {console.log(err);}
+            else {
+                Sample.find({name: req.user.name}, (err, sampleCollection) => {
+                    if(err) {console.log(err);}
+                    else {
+                        res.render('preview', { 
+                            title: 'Preview',
+                            nav:'preview', 
+                            keys: keyCollection, 
+                            name: req.user.name, 
+                            samples: sampleCollection,
+                            pedal: pedalInfo,
+                            stemFiles: [stem1, stem2, stem3], 
+                            stems: stems })
+                    }
+                })
+            }
+        })
+    }})
     };
 
 module.exports = {

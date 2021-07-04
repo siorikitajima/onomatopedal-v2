@@ -9,30 +9,50 @@
             <h2 id="pedalDisplay"></h2>
             <p class="label">ARTIST</p>
             <h2><%= pedal.artist %></h2>
+            <p class="label">TRACK</p>
+            <h2><%= pedal.trackName %></h2>
             <p class="label">ONOMATOPOEIA</p>
             <h2><%= pedal.onomato %></h2>
             <p><%= pedal.onoMeaning %></p>
-            <a href="/preview">
-                <button>Play Preview</button>
-            </a>
+            
             <div class="flex">
+                <a href="/info">
+                    <button class="sm-btn">
+                        <p>Info</p>
+                    </button>
+                </a>
                 <a href="/stems">
                     <button class="sm-btn">
                         <p>Stems</p>
                     </button>
                 </a>
+            </div>
+            <div class="flex row2">
                 <a href="/keys">
                     <button class="sm-btn">
                         <p>Keys</p>
                     </button>
                 </a>
+                <a href="/samples">
+                    <button class="sm-btn">
+                        <p>Samples</p>
+                    </button>
+                </a>
             </div>
+
         </div>
-        <div class="opImg">
-            <img id="pedalImg" src="images/pedals/db-default.jpg" alt="pedal">
-            <p id="onoText"><%= pedal.onomato %></p>
+        <div>
+            <div class="opImg">
+                <div id="diamond"></div>
+                <p id="onoText"><%= pedal.onomato %></p>
+                <img id="pedalImg" src="images/pedals/db-default.jpg" alt="pedal">
+            </div>
+            <a href="/preview">
+                <button>Play Preview</button>
+            </a>
         </div>
     </div>
+
     <%- include('./partials/footer.ejs') %> 
     <script>
         var thepedal = <%- JSON.stringify(pedal) %> ;

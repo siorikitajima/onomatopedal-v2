@@ -24,7 +24,7 @@
     </div>
   </div> -->
 
-  <div id="drumpads">
+  <!-- <div id="drumpads">
     <div class="pad" id="1"></div>
     <div class="pad" id="3"></div>
     <div class="pad" id="5"></div>
@@ -78,28 +78,33 @@
     <div class="pad" id="n"></div>
     <div class="pad" id="m"></div>
     <div class="pad" id="."></div>
-  </div>
+  </div> -->
 
 <%- include('./partials/player.ejs')  %> 
 
   <script>
+var thepedal = <%- JSON.stringify(pedal) %> ;
+var onomato = thepedal[0].onomato.toUpperCase().replace(/\s+/g, '');
 var disableKeys = false;
-var r = 90, g = 80, b = 80;
-var colNum = 1;
+var globalR = 90, globalG = 80, globalB = 80;
+var colNum = 2;
 var rSw = true, gSw = true, bSw = true;
 
 class Particle {
-  constructor(x,y){
-    this.x = x;
-    this.y = y;
-    this.r = 2;
-    this.xSpeed = random(-2,2);
-    this.ySpeed = random(-1.5,1.5);
+  constructor(r, g, b){
+    this.x = random(0, width);
+    this.y = random(0, height);
+    this.r = r;
+    this.g = g;
+    this.b = b;
+    this.d = 2;
+    this.xSpeed = random(-2.5,2);
+    this.ySpeed = random(-2,2.5);
   }
   createParticle() {
     noStroke();
     noFill();
-    circle(this.x,this.y,this.r);
+    circle(this.x,this.y,this.d);
   }
   moveParticle() {
     if(this.x < 0 || this.x > width)
@@ -113,7 +118,8 @@ class Particle {
     particles.forEach(element =>{
       let dis = dist(this.x,this.y,element.x,element.y);
       if(dis<150) {
-        stroke('rgb(' + r + ',' + g + ',' + b + ')');
+        strokeWeight(1);
+        stroke('rgb(' + globalR + ',' + globalG + ',' + globalB + ')');
         line(this.x,this.y,element.x,element.y);
       }
     });
@@ -128,7 +134,7 @@ class WideBar {
     this.r = r;
     this.g = g;
     this.b = b;
-    this.speed = 40;
+    this.speed = 100;
   }
   createWideBar() {
     noStroke();
@@ -145,21 +151,105 @@ class WideBar {
   }
 }
 
+class OnoLetter {
+  constructor(r, g, b) {
+    this.x = random(0, width);
+    this.y = random(0, height);
+    this.r = r;
+    this.g = g;
+    this.b = b;
+    this.ol = onomato[floor(random(0, onomato.length -1))];
+    this.size = random(400, 800);
+  }
+  createOnoLetter() {
+    noStroke();
+    fill(this.r, this.g, this.b);
+    textSize(this.size);
+    textAlign(CENTER);
+    text(this.ol, this.x, this.y);
+  }
+  deleteOnoLetter(arrayName) {
+    arrayName.splice(0, 1);
+  }
+}
+
+class LineCircle {
+  constructor(r, g, b, fill) {
+    this.x = random(0, width);
+    this.y = random(0, height);
+    this.d = random(400, 600);
+    this.r = r;
+    this.g = g;
+    this.b = b;
+    this.fill = fill;
+    this.speed = 50;
+    this.stroke = random(4,10);
+  }
+  createCircle() {
+    stroke(this.r, this.g, this.b);
+    strokeWeight(this.stroke);
+    if(this.fill) {fill(this.r, this.g, this.b);}
+    else {noFill();}
+    ellipseMode(CENTER);
+    circle(this.x, this.y, this.d);
+  }
+  shrinkCircle(arrayName) {
+    this.d -= this.speed;
+    if(this.d < 0) arrayName.splice(0, 1);
+  }
+}
+
+// class Line {
+//   constructor(r, g, b, vertical) {
+//     this.x = random(0, width);
+//     this.y = random(0, height);
+//     this.r = r;
+//     this.g = g;
+//     this.b = b;
+//     this.vertical = vertical;
+//     this.speed = 100;
+//     // this.stroke = random(10,30);
+//     this.thick = random(100, 300);
+//   }
+//   createLine() {
+//     stroke(this.r, this.g, this.b);
+//     strokeWeight(this.stroke);
+//     noFill();
+//     // if (this.vertical) { line(this.x, 0, this.x, height); }
+//     // else { line(0, this.y, width, this.y); }
+//     if (this.vertical) { rect(this.x, 0, this.x + this.thick, height); }
+//     else { line(0, this.y, width, this.y + this.thick); }
+//   }
+//   moveLine(arrayName) {
+//     if (this.vertical) { 
+//       this.x += this.speed; 
+//       if(this.x > width) arrayName.splice(0, 1);
+//     }
+//     else { 
+//       this.y += this.speed;
+//       if(this.y > height) arrayName.splice(0, 1);
+//     }
+//   }
+// }
+
 let particles = [];
 let wideBars = [];
+let onoLetters = [];
+let lineCircles = [];
+// let lines = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background('rgb(10,10,10)');
   frameRate(24);
   for(let i = 0;i<width/20;i++){
-    particles.push(new Particle(random(0,width),random(0,height)));
+    particles.push(new Particle(random(0,width),random(0,height), globalR, globalG, globalB));
   }
 }
 
 function draw() {
-  background('rgba(15,15,15,0.01)');
-  // background('rgba(10,10,10,0.005)');
+  // background('rgba(15,15,15,0.01)');
+  background('rgba(10,10,10,0.007)');
   for(let i = 0;i<particles.length;i++) {
     particles[i].createParticle();
     particles[i].moveParticle();
@@ -169,57 +259,89 @@ function draw() {
     wideBars[i].createWideBar();
     wideBars[i].goDown(wideBars);
   }
-  if (r >= 200) {rSw = false;}
-  if (r <= 10) {rSw = true;}
-  if (g >= 200) {gSw = false;}
-  if (g <= 10) {gSw = true;}
-  if (b >= 200) {bSw = false;}
-  if (b <= 10) {bSw = true;}
+  for(let i = 0;i<onoLetters.length;i++) {
+    onoLetters[i].createOnoLetter();
+    onoLetters[i].deleteOnoLetter(onoLetters);
+  }
+  for(let i = 0;i<lineCircles.length;i++) {
+    lineCircles[i].createCircle();
+    lineCircles[i].shrinkCircle(lineCircles);
+  }
+  // for(let i = 0;i<lines.length;i++) {
+  //   lines[i].createLine();
+  //   lines[i].moveLine(lines);
+  // }
+  if (globalR >= 200) {rSw = false;}
+  if (globalR <= 10) {rSw = true;}
+  if (globalG >= 200) {gSw = false;}
+  if (globalG <= 10) {gSw = true;}
+  if (globalB >= 200) {bSw = false;}
+  if (globalB <= 10) {bSw = true;}
 
-    if (rSw){r = r + colNum;
-    } else {r = r - colNum;}
-    if (gSw){g = g + colNum;
-    } else {g = g - colNum;}
-    if (bSw){b = b + colNum;
-    } else {b = b - colNum;}
+    if (rSw){globalR = globalR + colNum;
+    } else {globalR = globalR - colNum;}
+    if (gSw){globalG = globalG + colNum;
+    } else {globalG = globalG - colNum;}
+    if (bSw){globalB = globalB + colNum;
+    } else {globalB = globalB - colNum;}
 }
 
 function keyPressed() {
-var randomX = random(0,width);
-var randomY = random(0,height);
-  if (key >= 'a' && key <= 'e') {
-    r = r + 10;
+  if (key == 'a' || key == 'b') {
+    globalR = globalR + 10;
     for(var i=0;i<10;i++) {
-      particles.push(new Particle(random(0,width),random(0,height)));
+      particles.push(new Particle(globalR, globalG, globalB));
     }
   }
-  if (key >= 'f' && key <= 'j') {
-    g = g + 10;
+  if (key == 'd' || key == 'l') {
+    globalG = globalG + 10;
     for(var i=0;i<10;i++) {
-      particles.push(new Particle(randomX + random(-100,100), randomY + random(-100,100)));
+      particles.push(new Particle(globalR, globalG, globalB));
     }
   }
-  if (key >= 'k' && key <= 'o') {
-    b = b + 10;
+  if (key == 'g' || key == 'i') {
+    globalB = globalB + 10;
     for(var i=0;i<10;i++) {
-      particles.push(new Particle(width/2 + random(-100,100), height/2 + random(-100,100)));
+      particles.push(new Particle(globalR, globalG, globalB));
     }  }
-  if (key >= 'p' && key <= 't') {
-    r = 90;
-    g = 80;
-    b = 80;    
+  if (key == 'j' || key == 'q') {
+    globalR = 20; globalG = 10; globalB = 10;   
     for(var i=0;i<10;i++) {
-      particles.push(new Particle(randomX + random(-100,100),randomY + random(-100,100)));
+      particles.push(new Particle(globalR, globalG, globalB));
     }  }
-  if (key >= 'u' && key <= 'z') {
-    r = 190;
-    g = 180;
-    b = 180;
+  if (key == 'm' || key == 'e') {
+    globalR = 190; globalG = 180; globalB = 180;
     for(var i=0;i<10;i++) {
-      particles.push(new Particle(random(0,width),random(0,height)));
+      particles.push(new Particle(globalR, globalG, globalB));
     }
   }
-  if (key >= '0' && key <= '3') {
+  if (key == 'p' || key == 'r' || key == 'z') {
+    var r = 10, g = 10, b = 10;
+    onoLetters.push(new OnoLetter(r, g, b));
+  }
+  if (key == 's' || key == 'u' || key == 't') {
+    var r = globalR, g = globalG, b = globalB;
+    onoLetters.push(new OnoLetter(r, g, b));
+  }
+  if (key == 'v' || key == 'w' || key == 'k') {
+    var r = 10, g = 10, b = 10;
+    lineCircles.push(new LineCircle(r, g, b, false));
+  }
+  if (key == 'x' || key == 'y' || key == 'n') {
+    var r = 10, g = 10, b = 10;
+    lineCircles.push(new LineCircle(r, g, b, true));
+  }
+  if (key == 'c' || key == 'h') {
+    var r = globalR, g = globalG, b = globalB;
+    lineCircles.push(new LineCircle(r, g, b, true));
+    // lines.push(new Line(r, g, b, false))
+  }
+  if (key == 'f' || key == 'o') {
+    var r = globalR, g = globalG, b = globalB;
+    lineCircles.push(new LineCircle(r, g, b, false));
+    // lines.push(new Line(r, g, b, true))
+  }
+  if (keyCode === 32) {
     wideBars.push(new WideBar(0,10,10,10));
   }
 
@@ -229,31 +351,6 @@ var randomY = random(0,height);
   }
 }
 
-function touchStarted() {
-  var colorRandom = floor(random(0,4.9));
-  if(colorRandom == 0) {
-    r = r + 10;
-  } else if(colorRandom == 1) {
-    g = g + 10;
-  } else if(colorRandom == 2) {
-    b = b + 10;
-  } else if(colorRandom == 3) {
-    r = 90;
-    g = 80;
-    b = 80;  
-  } else {
-    r = 190;
-    g = 180;
-    b = 180;
-  }
-  for(var i=0;i<5;i++) {
-    particles.push(new Particle(mouseX + random(-100,100), mouseY + random(-100,100)));
-  }
-  if(particles.length > 30) {
-    var extraParticles = particles.length + 1 - 30;
-    particles.splice(0, extraParticles);
-  }
-}
   </script>
 </body>
 </html>

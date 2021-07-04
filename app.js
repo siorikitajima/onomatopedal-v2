@@ -7,6 +7,7 @@ const PedalInfo = require('./models/pedalInfo');
 const { render } = require('ejs');
 const keyRoutes = require('./routes/keyRoutes');
 const stemsRoutes = require('./routes/stemsRoutes');
+const frontRoutes = require('./routes/frontRoutes');
 const dbURL = require('./secKey');
 const secret = require('./secKey5');
 const passport = require('passport');
@@ -94,9 +95,9 @@ app.get('/', (req, res) => {
         res.render('index', { title: 'Home', nav:'home', pedalImages: pedalImages })
 });
 
-app.get('/v2demo', (req, res) => {
-    res.render('v2demo', { title: 'V2 Demo', nav:'v2' })
-});
+// app.get('/v2demo', (req, res) => {
+//     res.render('v2demo', { title: 'V2 Demo', nav:'v2' })
+// });
 
 app.get('/about', (req, res) => {
     res.render('about', { title: 'About', nav:'about' })
@@ -134,6 +135,7 @@ app.delete('/logout', authController.log_out);
 
 app.use(keyRoutes);
 app.use(stemsRoutes);
+app.use(frontRoutes);
 
 app.use((req, res) => {
     res.status(404).render('404', { title: '404'});

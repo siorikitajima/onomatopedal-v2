@@ -89,26 +89,46 @@
       padding: 0;
     }
     .home .opImg {
-      width: calc(50% - 20px);
+      width: 100%;
       height: fit-content;
       position: relative;
       overflow: hidden;
+      z-index: -100;
+      background-color: #333;
     }
+    .home .opImg div {
+      height: 66.6%;
+      width: 66.6%;
+      position: absolute;
+      background-color: #222;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      z-index: -1;
+      mix-blend-mode: difference;
+      /* z-index: -1; */
+  }
     .home .opImg p {
       position: absolute;
       color: #832c36;
       font-size: 10em;
       line-height: 0.8em;
-      z-index: -1;
+      z-index: -10;
       font-family: 'Staatliches', sans-serif;
       letter-spacing: 0.05em;
       top: 0;
-      left: 0;
+      left: 50%;
+      transform: translateX(-50%);
       text-align: center;
+      /* z-index: 100; */
     }
     .home .opImg img {
+      /* position: absolute;
+      top: 0;
+      left: 0; */
       max-width: 100%;
-      margin: 50px 0;
+      margin: 8% 0;
+      /* z-index: 1000; */
     }
     .home button, .p404 button {
       margin: 30px 0 0 0;
@@ -118,11 +138,19 @@
       justify-content: space-between;
       gap: 10px;
     }
-    button.sm-btn, .samples .halfBtns {
-      width: 170px;
+    button.sm-btn, button.sm-btn a, .samples .halfBtns {
+      width: 180px;
+      /* width: auto; */
       margin: 20px auto;
       background-color: #111;
       border: #F56476 1px solid;
+    }
+    button.sm-btn {
+      margin: 30px auto 0 auto;
+      padding: 6px 12px 6px 0;
+    }
+    .row2 button.sm-btn {
+      margin: 10px auto 0 auto;
     }
 
     button.sm-btn p, .samples .halfBtns p {
@@ -160,6 +188,7 @@
 
     .home .label {
       color: #777;
+      margin-top: 10px;
     }
     .home h2 {
       margin-bottom: 0;
