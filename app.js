@@ -14,6 +14,7 @@ const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
+const fs = require('fs');
 
 const methodOverride = require('method-override');
 const authController = require('./controllers/authController');
@@ -95,18 +96,21 @@ app.get('/', (req, res) => {
         res.render('index', { title: 'Home', nav:'home', pedalImages: pedalImages })
 });
 
-// app.get('/v2demo', (req, res) => {
-//     res.render('v2demo', { title: 'V2 Demo', nav:'v2' })
-// });
-
 app.get('/about', (req, res) => {
     res.render('about', { title: 'About', nav:'about' })
 });
 
 app.get('/studio', authController.checkAuthenticated, (req, res) => {
+    let rawdata = fs.readFileSync('./json/eqdPedals.json');
+    let eqdPedals = JSON.parse(rawdata);
     PedalInfo.find({name: req.user.name})
     .then((result) => {
-        res.render('studio', { title: 'Studio', nav:'studio', pedal: result[0], name: req.user.name })
+        res.render('studio', { 
+            title: 'Studio', nav:'studio', 
+            pedal: result[0], 
+            eqdPedals: eqdPedals,
+            name: req.user.name
+        })
     })
 });
 

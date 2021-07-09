@@ -18,7 +18,7 @@ const login_get = (req, res) => {
 
 const log_out = (req, res) => {
     req.logOut();
-    res.redirect('/login');
+    res.redirect('/');
 };
 
 module.exports = {

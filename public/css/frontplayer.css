@@ -57,15 +57,16 @@
   }
 }
 
-#controller {
+div#controller {
   position: fixed;
-  bottom: 20px;
   left: 20px;
   height: 40px;
+  bottom: -120%;
   width: calc(100% - 40px);
   z-index: 9999;
   display: flex;
   justify-content: space-between;
+  transition-duration: 200ms;
 }
 
 @media only screen and (max-width: 800px) {
@@ -78,10 +79,10 @@
   opacity: 0.6;
 }
 
-.paused {
+#controlMain.paused {
   background: url(../v2/images/Play_btn.svg) no-repeat;
 }
-.playing {
+#controlMain.playing {
   background: url(../v2/images/Pause_btn.svg) no-repeat;
 }
 

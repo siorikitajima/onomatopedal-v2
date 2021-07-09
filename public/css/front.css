@@ -67,7 +67,7 @@ div.pedal-name h2 {
 div.featBanner {
     width: calc(100% - 20px);
     padding: 50px 10px;
-    height: 100px;
+    height: auto;
     background: #F56476;
 
 }
@@ -77,6 +77,9 @@ div.featBanner h1, div.featBanner p {
     text-align: center;
 }
 
+div.featBanner p {
+    margin: 5px auto;
+}
 button.lineBtn, button.lineBtnWh {
     display: block;
     margin: 10px auto 20px auto;
@@ -91,6 +94,10 @@ button.lineBtn, button.lineBtnWh {
     text-transform: uppercase;
     cursor: pointer;
     border-radius: 5px;
+}
+
+div.featBanner button.lineBtn {
+    margin: 10px auto 0 auto;
 }
 
 button.lineBtnWh {
@@ -123,9 +130,13 @@ div.infoPanel {
 }
 
 div.infoPanel div.flex {
-    width: 100%;
+    width: calc(100% - 100px);
+    max-width: 1240px;
+    padding: 0 50px;
     display: flex;
-    gap: 40px;
+    margin: 0 auto;
+    justify-content: space-between;
+    gap: 50px;
 }
 
 div.infoPanel div.playBtnPanel {
@@ -137,6 +148,7 @@ div.infoPanel div.playBtnPanel {
     color: #111;
     font-size: 2em;
     font-family: 'Staatliches', sans-serif;
+    letter-spacing: 0.1em;
     text-align: center;
     cursor: pointer;
 }
@@ -144,37 +156,132 @@ div.infoPanel div.playBtnPanel:hover {
     opacity: 0.5;
     transition-duration: 200ms;
 }
-
-div.infoPanel div.pedalImg img, div.infoPanel div {
-    width: 20vw;
+div.infoPanel div.infoOne {
+    height: 300px;
+    width: 300px !important;
+    background: #444;
+    margin-top: 25px;
+    position: relative;
+    overflow: hidden;
+    z-index: -100;
 }
-img.keyboard {
-    margin-top: 10px;
+
+div.infoPanel div.infoOne #diamond {
+    height: 66.6%;
+    width: 66.6%;
+    position: absolute;
+    background-color: #222;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    z-index: -1;
+    mix-blend-mode: difference;
 }
 
+div.infoPanel div.infoOne p {
+    position: absolute;
+    color: #832c36;
+    font-size: 12em;
+    line-height: 0.8em;
+    z-index: -10;
+    font-family: 'Staatliches', sans-serif;
+    letter-spacing: 0.05em;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+
+div.infoPanel div.infoOne img {
+    width: 300px;
+    margin: 8% 0;
+}
+
+div.infoPanel div.infoTwo {
+    width: 400px;
+}
+div.infoPanel div.infoThree {
+    width: 400px;
+}
 div.infoPanel h2, div.infoPanel p {
     margin: 0;
+}
+div.infoTwo h2.linkIcon, div.infoTwo h3.linkIcon {
+    position: relative;
+    width: fit-content;
+}
+div.infoTwo h2.linkIcon::after, div.infoTwo h3.linkIcon::after {
+    content: "";
+    width: 24px;
+    height: 24px;
+    background-image: url('../images/openLink.svg');
+    position: absolute;
+    top: 8px;
+    right: -34px;
+}
+div.infoTwo h2.linkIcon:hover, div.infoTwo h3.linkIcon:hover {
+    color: #F56476;
+    cursor: pointer;
+}
+div.infoTwo h3.linkIcon::after {
+    width: 16px;
+    height: 16px;
+    top: 5px;
+    right: -24px;
+}
+div.infoTwo h3.linkIcon:hover::after, div.infoTwo h2.linkIcon:hover::after {
+    background-image: url('../images/openLink-hover.svg');
 }
 div.infoPanel p.label {
     margin: 20px 0 0 0;
     color: #777;
 }
-
-div.infoPanel div.merch-icon {
-    width: 100px;
+div.infoPanel div.pedalImgDiv, div.infoPanel div.pedalImgDiv img#pedalImg {
+    width: 300px;
 }
 
-div.infoPanel div.merch-icon div {
-    width: 100px;
-    height: 100px;
-    margin: 0 0 20px 0;
-    background-color: #ddd;
-    border-radius: 50%;
+
+img.keyboard {
+    width: 400px;
+    margin-top: 10px;
 }
 
-div.infoPanel div.merch-icon img {
-    width: 80px;
-    margin: 10px;
+div.infoPanel div.merch-icons {
+    justify-content: left;
+}
+
+div.infoPanel div.merch-icons div.icon {
+    display: inline-block;
+    width: 85px;
+    height: 85px;
+    margin: 10px 10px 0 0;
+    /* border: #F56476 1px solid; */
+    background-color: #F56476;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+}
+
+div.infoPanel div.merch-icons div.icon h3 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+}
+div.infoPanel div.merch-icons div.icon:hover img {
+    opacity: 0;
+    transition-duration: 200ms;
+}
+div.infoPanel div.merch-icons div.icon:hover h3 {
+    opacity: 1;
+    transition-duration: 200ms;
+}
+
+div.infoPanel div.merch-icons img {
+    width: 85px;
+    margin: 0;
+    border-radius: 5px;
 }
 
 div.smPedalImg {

@@ -3,6 +3,7 @@ const Sample = require('../models/sample');
 const AWS = require('aws-sdk');
 const accessKeyIdS3 = require('../secKey3');
 const secretAccessKeyS3 = require('../secKey4');
+const fs = require('fs');
 
 const s3 = new AWS.S3({
     accessKeyId: accessKeyIdS3,
@@ -10,6 +11,8 @@ const s3 = new AWS.S3({
 });
 
 const key_index = async (req, res) => {
+    let rawdata = fs.readFileSync('./json/pitches.json');
+    let pitches = JSON.parse(rawdata);
 
     const stems = [1, 2, 3];
     const filename1 = `${req.user.name}/stem1.mp3`;
@@ -46,6 +49,7 @@ const key_index = async (req, res) => {
                         keys: keyCollection, 
                         name: req.user.name, 
                         samples: sampleCollection,
+                        pitches: pitches,
                         stemFiles: [stem1, stem2, stem3], 
                         stems: stems })
                 }
@@ -92,6 +96,9 @@ const key_update = (req, res) => {
     };
 
 const samples_get = async (req, res) => {
+    let rawdata = fs.readFileSync('./json/pitches.json');
+    let pitches = JSON.parse(rawdata);
+
     const stems = [1, 2, 3];
     const filename1 = `${req.user.name}/stem1.mp3`;
     const params1 = { Bucket: 'opv2-heroku', Key: filename1 };
@@ -128,6 +135,7 @@ const samples_get = async (req, res) => {
                         name: req.user.name, 
                         samples: sampleCollection,
                         stemFiles: [stem1, stem2, stem3], 
+                        pitches: pitches,
                         stems: stems })
                 }
             })
@@ -150,29 +158,27 @@ const samples_get = async (req, res) => {
             const deleteParams = { Bucket: 'opv2-heroku', Key: deletename };
             
             await s3.copyObject(copyParams, function(err, data) {
-                if (err) console.log(err, copyParams); // an error occurred
+                if (err) console.log(err, copyParams);
                 else     console.log(data);
-            });
-
-            const sampleFilter = { name:req.user.name, samplename: req.body.oldname };
-            Sample.findOne(sampleFilter, (err, sample) => {
-                sample.samplename = req.body.name;
-                sample.pitch = req.body.pitch;
-                sample.save((err) => {
-                    if(err) { console.error(err); }
-                })
-            })
-            .then(() => {
-                res.redirect('/samples');
             });
 
             s3.deleteObject(deleteParams, function(err, data) {
-                if (err) console.log(err, deleteParams); // an error occurred
+                if (err) console.log(err, deleteParams);
                 else     console.log(data);
             });
-        } else {
-            res.redirect('/samples');
         }
+
+        const sampleFilter = { name:req.user.name, samplename: req.body.oldname };
+        Sample.findOne(sampleFilter, (err, sample) => {
+            sample.samplename = req.body.name;
+            sample.pitch = req.body.pitch;
+            sample.save((err) => {
+                if(err) { console.error(err); }
+            })
+        })
+        .then(() => {
+            res.redirect('/samples');
+        });
     };
 
     const sample_delete = (req, res) => {

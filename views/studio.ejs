@@ -56,24 +56,17 @@
     <%- include('./partials/footer.ejs') %> 
     <script>
         var thepedal = <%- JSON.stringify(pedal) %> ;
-        var pedalDisplay = [ 'Acapulco Gold', 'Afterneath', 'Afterneath Module', 'Aqueduct', 'Arpanoid', 'Arrows', 'Astral Destiny', 'Avalanche Run', 'Bit Commander', 'Data Corrupter', 'Dispatch Master', 'Erupter', 'Ghost Echo', 'Grand Orbiter', 'Hoof', 'Hoof Reaper', 'Hummingbird', 'Levitation', 'Night Wire', 'Organizer', 'Palisades', 'Park Fuzz', 'Plumes', 'Pyramids', 'Rainbow Machine', 'Sea Machine', 'Space Spiral', 'Spatial Delivery', 'Swiss Things', 'Tentacle', 'The Depths', 'The Warden', 'Tone Job', 'Westwood' ]
-        var pedalSlug = [ "acapulcogold", "afterneath", "afterneathmodule", "aqueduct", "arpanoid", "arrows", "astraldestiny", "avalancherun", "bitcommander", "datacorrupter", "dispatchmaster", "erupter", "ghostecho", "grandorbiter", "hoof", "hoofreaper", "hummingbird", "levitation", "nightwire", "organizer", "palisades", "parkfuzz", "plumes", "pyramids", "rainbowmachine", "seamachine", "spacespiral", "spatialdelivery", "swissthings", "tentacle", "thedepths", "thewarden", "tonejob", "westwood"]
+        var eqdPedals = <%- JSON.stringify(eqdPedals) %> ;
 
-        for (var p = 0; p < pedalSlug.length; p++) {
-            if (thepedal.pedalFull == pedalSlug[p]) {
-                var imgPath = 'images/pedals/' + pedalSlug[p] + '.png';
-                $('#pedalDisplay').html(pedalDisplay[p]);
+                var imgPath = 'images/pedals/' + eqdPedals[thepedal.pedalFull].slug + '.png';
+                $('#pedalDisplay').html(eqdPedals[thepedal.pedalFull].fullName);
                 $('#pedalImg').attr('src', imgPath);
-                break;
-            }
-        }
 
         var onoStr = thepedal.onomato;
         var words = onoStr.split(' ').length;
         if (words === 1) {$('#onoText').css('font-size', '30em');}
         else if (words === 2) {$('#onoText').css('font-size', '15em');}
         else {$('#onoText').css('font-size', '10em');}
-        console.log(words);
     </script>
 </body>
 </html>

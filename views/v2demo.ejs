@@ -2,60 +2,10 @@
     <%- include('./partials/frontHead.ejs')  %> 
 <body>
     <%- include('./partials/frontNav.ejs')  %> 
+    <%- include('./partials/frontPlayer.ejs')  %> 
 
-    <div class="infoPanel">
-        <div class="flex">
-            <div class="pedalImg">
-                <img src="v1/images/pedalsOnly/rainbowmachine@2x.png" alt="pedal">
-            </div>
-            <div class="infoOne">
-                <p class="label">ONOMATOPOEIA</p>
-                <h2>PYON PYON</h2>
-                <p>Describes someone who is happy and excited. In a buoyant mood.</p>
-                <p class="label">PEDAL</p>
-                <h2>Rainbow Machine</h2>
-                <p>Polyphonic Pitch Mesmerizer</p>
-            </div>
-            <div class="infoTwo">
-                <p class="label">MUSIC BY</p>
-                <h2>Artist Name Artist Name</h2>
-                <h3>"Track Title Here"</h3>
-                <p class="label">VISUAL ART</p>
-                <h2>Artist Name</h2>
-            </div>
-            <div class="infoThree">
-                <p class="label">Keys</p>
-                <img class="keyboard" src="v2/images/keysOnBoard.svg" alt="keyboard">
-            </div>
-            <div class="merch-icon">
-                <div class="one-icon">
-                    <img src="v2/images/T-shirt-temp.png" alt="t-shirt">
-                </div>
-                <div class="one-icon">
-                    <img src="v2/images/jogger-temp.png" alt="t-shirt">
-                </div>
-            </div>
-        </div>
-        <div class="playBtnPanel" onclick="controlHandler()">PLAY</div>
-        <!-- <button class="lineBtnWh">PLAY</button> -->
-    </div>
-    <!-- <div class="smPedalImg">
-        <img src="v1/images/pedalsOnly/rainbowmachine@2x.png" alt="pedal">
-    </div> -->
-
-
-    <div id="controller">
-      <div id="controlMain" class="paused" onclick="controlHandler()"></div>
-      <div id="controlStems">
-        <div class="stem muted" id="stem0">1</div>
-        <div class="stem muted" id="stem1">2</div>
-        <div class="stem muted" id="stem2">3</div>
-      </div>
-    </div>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
-    <script src="v2/opV2-sound.js"></script>
-    <!-- <script src="v2/opV2-visual.js"></script> -->
+
     <script>
         var thepedal = <%- JSON.stringify(pedal) %> ;
         var onomato = thepedal[0].onomato.toUpperCase().replace(/\s+/g, '');
@@ -173,39 +123,6 @@
           }
         }
         
-        // class Line {
-        //   constructor(r, g, b, vertical) {
-        //     this.x = random(0, width);
-        //     this.y = random(0, height);
-        //     this.r = r;
-        //     this.g = g;
-        //     this.b = b;
-        //     this.vertical = vertical;
-        //     this.speed = 100;
-        //     // this.stroke = random(10,30);
-        //     this.thick = random(100, 300);
-        //   }
-        //   createLine() {
-        //     stroke(this.r, this.g, this.b);
-        //     strokeWeight(this.stroke);
-        //     noFill();
-        //     // if (this.vertical) { line(this.x, 0, this.x, height); }
-        //     // else { line(0, this.y, width, this.y); }
-        //     if (this.vertical) { rect(this.x, 0, this.x + this.thick, height); }
-        //     else { line(0, this.y, width, this.y + this.thick); }
-        //   }
-        //   moveLine(arrayName) {
-        //     if (this.vertical) { 
-        //       this.x += this.speed; 
-        //       if(this.x > width) arrayName.splice(0, 1);
-        //     }
-        //     else { 
-        //       this.y += this.speed;
-        //       if(this.y > height) arrayName.splice(0, 1);
-        //     }
-        //   }
-        // }
-        
         let particles = [];
         let wideBars = [];
         let onoLetters = [];
@@ -241,10 +158,7 @@
             lineCircles[i].createCircle();
             lineCircles[i].shrinkCircle(lineCircles);
           }
-          // for(let i = 0;i<lines.length;i++) {
-          //   lines[i].createLine();
-          //   lines[i].moveLine(lines);
-          // }
+
           if (globalR >= 200) {rSw = false;}
           if (globalR <= 10) {rSw = true;}
           if (globalG >= 200) {gSw = false;}
@@ -308,12 +222,10 @@
           if (key == 'c' || key == 'h') {
             var r = globalR, g = globalG, b = globalB;
             lineCircles.push(new LineCircle(r, g, b, true));
-            // lines.push(new Line(r, g, b, false))
           }
           if (key == 'f' || key == 'o') {
             var r = globalR, g = globalG, b = globalB;
             lineCircles.push(new LineCircle(r, g, b, false));
-            // lines.push(new Line(r, g, b, true))
           }
           if (keyCode === 32) {
             wideBars.push(new WideBar(0,10,10,10));
