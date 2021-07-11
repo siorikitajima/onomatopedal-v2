@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@600&display=swap');
 
-#draw-animation, main canvas {
+/* #draw-animation, main canvas {
   background: #2C363F;
   width: 100%;
   height: calc(100% - 75px);
@@ -25,17 +25,17 @@
   bottom: 0;
   position: fixed;
   z-index: 10;
-  /* display: block; */
+  display: block;
   display: grid;
-  grid-template-columns: 20vw 20vw 20vw 20vw 20vw;
+  grid-template-columns: 33vw 33vw 33vw;
   grid-template-rows: 10vh 10vh 10vh 10vh 10vh 10vh 10vh 10vh 10vh;
   visibility: hidden;
 }
 
 .pad {
-  /* display: inline-block;
-  position: absolute; */
-  width: 20vw;
+  display: inline-block;
+  position: absolute;
+  width: 33vw;
   height: 10vh;
   margin: 0;
   padding: 0;
@@ -55,7 +55,7 @@
   #drumpads {
     visibility: visible;
   }
-}
+} */
 
 div#controller {
   position: fixed;

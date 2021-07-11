@@ -5,6 +5,7 @@ const AWS = require('aws-sdk');
 const accessKeyIdS3 = require('../secKey3');
 const secretAccessKeyS3 = require('../secKey4');
 const fs = require('fs');
+const browser = require('browser-detect');
 
 const s3 = new AWS.S3({
     accessKeyId: accessKeyIdS3,
@@ -12,6 +13,7 @@ const s3 = new AWS.S3({
 });
 
 const v2demo_get = async　(req, res) => {
+    const isMobile = browser(req.headers['user-agent']).mobile;
     let rawdata = fs.readFileSync('./json/eqdPedals.json');
     let eqdPedals = JSON.parse(rawdata);
     const stems = [1, 2, 3];
@@ -46,7 +48,7 @@ const v2demo_get = async　(req, res) => {
                 Sample.find({name: 'astral'}, (err, sampleCollection) => {
                     if(err) {console.log(err);}
                     else {
-                        res.render('v2demo', { 
+                        res.render(isMobile ? 'mobileDemo' : 'v2demo', { 
                             title: 'V2 Demo',
                             nav:'v2', 
                             keys: keyCollection, 

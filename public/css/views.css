@@ -206,6 +206,12 @@
       color: #832c36;
     }
 
+    @media only screen and (max-width: 450px) {
+      .forms h1.login-title {
+        font-size: 2em;
+      }
+    }
+
     /* About View */
 
     .about {

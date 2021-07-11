@@ -86,9 +86,6 @@
       border-bottom: 1px solid #777;
       text-transform: uppercase;
     }
-    nav.front {
-      margin: 0;
-    }
     nav .site-title {
       position: relative;
       width: 50%;
@@ -96,7 +93,7 @@
     nav .site-title h1 {
       position: absolute;
       top: 50%;
-      left: 20px;
+      left: 10px;
       transform: translateY(-50%);
     }
     nav .site-title h1 span {
@@ -129,9 +126,6 @@
       line-height: 1em;
       font-size: 3em;
     }
-    nav .front h1{
-      font-size: 2em;
-    }
     nav h2 {
       margin-bottom: 0;
     }
@@ -143,7 +137,7 @@
       margin: 0;
     }
     nav ul button {
-      width: auto;
+      width: max-content;
       height: 30px;
       padding: 0 10px;
       background-color: #111;
@@ -347,3 +341,86 @@
       opacity: 0.5;
     }
 
+/** spinner **/
+.blackscreen {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  margin: 0; padding: 0;
+  background: rgba(17, 17, 17, 0.3);
+  z-index: 9000;
+}
+.loadingSpinner {
+  /* display: inline-block; */
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate( -50%, -50% );
+  width: 80px;
+  height: 80px;
+  z-index: 9500;
+}
+.loadingSpinner div {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  animation: loadingSpinner 1.2s linear infinite;
+}
+.loadingSpinner div:nth-child(1) {
+  top: 8px;
+  left: 8px;
+  animation-delay: 0s;
+}
+.loadingSpinner div:nth-child(2) {
+  background-color: #DA2C5E;
+  top: 8px;
+  left: 32px;
+  animation-delay: -0.4s;
+}
+.loadingSpinner div:nth-child(3) {
+  top: 8px;
+  left: 56px;
+  animation-delay: -0.8s;
+}
+.loadingSpinner div:nth-child(4) {
+  background-color: #DA2C5E;
+  top: 32px;
+  left: 8px;
+  animation-delay: -0.4s;
+}
+.loadingSpinner div:nth-child(5) {
+  top: 32px;
+  left: 32px;
+  animation-delay: -0.8s;
+}
+.loadingSpinner div:nth-child(6) {
+  background-color: #DA2C5E;
+  top: 32px;
+  left: 56px;
+  animation-delay: -1.2s;
+}
+.loadingSpinner div:nth-child(7) {
+  top: 56px;
+  left: 8px;
+  animation-delay: -0.8s;
+}
+.loadingSpinner div:nth-child(8) {
+  background-color: #DA2C5E;
+  top: 56px;
+  left: 32px;
+  animation-delay: -1.2s;
+}
+.loadingSpinner div:nth-child(9) {
+  top: 56px;
+  left: 56px;
+  animation-delay: -1.6s;
+}
+@keyframes loadingSpinner {
+  0%, 100% { opacity: 1;}
+  50% { opacity: 0.5;}
+}

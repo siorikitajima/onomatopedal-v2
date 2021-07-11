@@ -1,0 +1,331 @@
+<div class="infoPanel">
+        <div class="infoOne">
+            <div class="pedalImgDiv">
+                <div id="diamond"></div>
+                <p id="onoText"><%= pedal[0].onomato %></p>
+                <img  id="pedalImg" src="" alt="pedal">
+            </div>
+            <div class="opImg">
+            </div>
+        </div>
+        <div class="infoTwo">
+            <p class="label">ONOMATOPOEIA</p>
+            <h2><%= pedal[0].onomato %></h2>
+            <p><%= pedal[0].onoMeaning %></p>
+            <p class="label">FEATURED PEDAL</p>
+            <h2 id="pedalDisplay" class="linkIcon"></h2>
+            <p id="pedalDesc"></p>
+            <p class="label">MUSIC BY</p>
+            <h2 class="linkIcon"><%= pedal[0].artist %></h2>
+            <h3 class="linkIcon">"<%= pedal[0].trackName %>"</h3>
+            <p class="label">VISUAL ART BY</p>
+            <h2 class="linkIcon">Siori Kitajima</h2>
+            <h3 class="linkIcon">"Number Five - Blocky"</h3>
+        </div>
+        <div class="infoThree">
+            <p class="label">MUSIC, ART & MERCH</p>
+            <div class="merch-icons">
+                <div class="icon">
+                    <img src="images/merch/OP_Astral-Destiny_B.jpg" alt="Tshirt">
+                </div>
+                <div class="icon">
+                    <img src="images/merch/jogger-temp.jpg" alt="Jogger">
+                </div>
+                <div class="icon">
+                    <img src="images/merch/Astral-Destiny_Mug.jpg" alt="Mug">
+                </div>
+                <div class="icon">
+                    <img src="images/merch/leggings-temp.jpg" alt="Leggings">
+                </div>
+                <div class="icon">
+                    <img src="images/merch/album-temp.jpg" alt="Album">
+                </div>
+                <div class="icon">
+                    <img src="images/merch/number-five-blk_thumb.jpg" alt="NFT">
+                </div>
+            </div>
+        </div>
+        <a href="/">
+            <button class="line-btn">
+                Back to Home
+            </button>
+        </a>
+</div>
+<div class="playBtnPanel" onclick="controlHandler()">PLAY</div>
+
+<div id="controller">
+    <div id="controlMain" class="paused" onclick="controlHandler()"></div>
+    <div id="controlStems" class="paused">
+      <% for (var stbtn = 0; stbtn<stemFiles.length; stbtn++) {%>
+        <% if(stemFiles[stbtn] == true) {%>
+            <div class="stem muted" id="stem<%= stems[stbtn] %>"><%= stems[stbtn] %></div>
+        <% } else {%>
+            <div class="stem muted disabled" id="stem<%= stems[stbtn] %>"><%= stems[stbtn] %></div>
+        <% } %>
+    <% } %>
+    </div>
+  </div>
+
+  <div id="drumpads">
+    <div class="pad" id="q"></div>
+    <div class="pad" id="w"></div>
+    <div class="pad" id="e"></div>
+
+    <div class="pad" id="r"></div>
+    <div class="pad" id="t"></div>
+    <div class="pad" id="y"></div>
+
+    <div class="pad" id="u"></div>
+    <div class="pad" id="i"></div>
+    <div class="pad" id="o"></div>
+
+    <div class="pad" id="p"></div>
+    <div class="pad" id="a"></div>
+    <div class="pad" id="s"></div>
+
+    <div class="pad" id="d"></div>
+    <div class="pad" id="f"></div>
+    <div class="pad" id="g"></div>
+
+    <div class="pad" id="h"></div>
+    <div class="pad" id="j"></div>
+    <div class="pad" id="k"></div>
+
+    <div class="pad" id="l"></div>
+    <div class="pad" id="z"></div>
+    <div class="pad" id="x"></div>
+
+    <div class="pad" id="c"></div>
+    <div class="pad" id="v"></div>
+    <div class="pad" id="b"></div>
+
+    <div class="pad" id="n"></div>
+    <div class="pad" id="m"></div>
+    <div class="pad" id="space"></div>
+  </div>
+
+<script>
+        var thepedal = <%- JSON.stringify(pedal[0]) %> ;
+        var eqdPedals = <%- JSON.stringify(eqdPedals) %> ;
+
+        var imgPath = 'images/pedals/' + eqdPedals[thepedal.pedalFull].slug + '.png';
+        $('#pedalDisplay').html(eqdPedals[thepedal.pedalFull].fullName);
+        $('#pedalImg').attr('src', imgPath);
+        $('#pedalDesc').html(eqdPedals[thepedal.pedalFull].description);
+
+        var onoStr = thepedal.onomato;
+        var words = onoStr.split(' ').length;
+        if (words === 1) {$('#onoText').css('font-size', '24em');}
+        else if (words === 2) {$('#onoText').css('font-size', '12em');}
+        else {$('#onoText').css('font-size', '8em');}
+
+        var allMerchIcons = $('.icon');
+        allMerchIcons.each(function() {
+            var merchName = $(this).children('img').attr('alt');
+            $(this).append('<h3>' + merchName + '</h3>');
+        });
+
+        ///// Audio Player
+        var thekeys = <%- JSON.stringify(keys) %> ;
+        var thesamples = <%- JSON.stringify(samples) %> ;
+        var username = <%- JSON.stringify(name) %> ;
+
+        var stemFiles = <%- JSON.stringify(stemFiles) %> ;
+
+        const controlMain = $('#controlMain, #controlStems');
+        const stems = $('.stem');
+        let toneStarted = false;
+
+        function makeChannel( url, pan = 0 ) {
+            const channel = new Tone.Channel({ pan }).toDestination();
+            const player = new Tone.Player({
+                url: 'https://opv2-heroku.s3.us-west-1.amazonaws.com/' + username + `/${url}.mp3`,
+                loop: true
+            }).sync().start(0);
+            player.connect(channel);
+
+            const btn = url;
+            const thisMuteButton = document.getElementById(btn);
+            $(thisMuteButton).on('click', (event) => {
+                event.preventDefault();
+                const checkMuted = $(event.target).hasClass("muted") ? true : false;
+                if (checkMuted) {
+                    console.log('it is muted');
+                    channel.mute = false;
+                } else {
+                    console.log('it is not muted');
+                    channel.mute = true;
+                }
+            });
+
+            $('#playBtn').on('click', () => {
+                const checkPaused = thisMuteButton.classList.contains("paused") ? true : false;
+                if(!checkPaused){
+                channel.mute = false;
+                }
+            });
+
+            var eachPlaybtn = '#play-' + url;
+            var allPlaybtn = ['#play-stem1', '#play-stem2', '#play-stem3'];
+            $(eachPlaybtn).on('click', () => {
+                if(!toneStarted) {
+                        Tone.start();
+                        toneStarted = true;
+                    }
+                if ($(eachPlaybtn).hasClass('stemOnPlay')) {
+                    Tone.Transport.stop();
+                    $(eachPlaybtn).html('Play').removeClass('stemOnPlay');
+                    channel.solo = false;
+                } else if (!$(eachPlaybtn).hasClass('stemOnPlay')) {
+                    for(var c = 0; c < allPlaybtn.length; c++) {
+                        if($(allPlaybtn[c]).hasClass('stemOnPlay')) {
+                            $(allPlaybtn[c]).trigger('click');
+                        }
+                    }
+                    channel.solo = true;
+                    Tone.Transport.start();
+                    $(eachPlaybtn).html('Stop').addClass('stemOnPlay');
+                }
+            });
+        };
+
+        for (var sf = 0; sf < stemFiles.length; sf++) {
+            var channelName = ['stem1', 'stem2', 'stem3']
+            if (stemFiles[sf] == true) {
+                makeChannel(channelName[sf]);
+            }
+        }
+
+    // Play/Pause Button
+    function controlHandler() {
+        if(!toneStarted) {
+                Tone.start();
+                toneStarted = true;
+            }
+        var allPlaybtn = ['#play-stem1', '#play-stem2', '#play-stem3'];
+        for(var c = 0; c < allPlaybtn.length; c++) {
+                if($(allPlaybtn[c]).hasClass('stemOnPlay')) {
+                    $(allPlaybtn[c]).trigger('click');
+                }
+        }
+
+        if($(controlMain).hasClass("paused")) {
+            $(controlMain).removeClass("paused");
+            $(controlMain).addClass("playing");
+            $('#controller').css('bottom', '10px');
+            $('.infoPanel').css('top', '-120%');
+            $('#drumpads').css('visibility', 'visible');
+            $('.playBtnPanel').css('bottom', '-120%');
+            Tone.Transport.start();
+            $(stems).removeClass("muted");
+            $(stems).addClass("unmuted");
+        } else {
+            $(controlMain).removeClass("playing");
+            $(controlMain).addClass("paused");
+            $('#controller').css('bottom', '-120%');
+            $('.infoPanel').css('top', 0);
+            $('#drumpads').css('visibility', 'hidden');
+            $('.playBtnPanel').css('bottom', 0);
+            $(stems).removeClass("unmuted");
+            $(stems).addClass("muted");
+            Tone.Transport.stop();
+        }
+    };
+
+    // Stem buttons
+    $(stems).on('click', event => {
+        if($(event.target).hasClass("unmuted")) {
+            $(event.target).removeClass("unmuted");
+            $(event.target).addClass("muted");
+        } else {
+            $(event.target).removeClass("muted");
+            $(event.target).addClass("unmuted");
+        }
+    });
+
+    ////////// Keys to Play Sample
+
+    $(document).ready(function() {
+        var keyPlayed = false;
+
+        var fileName = [], pitchString = [];
+        for (var i = 0; i < thesamples.length; i++) {
+                var name = thesamples[i].samplename;
+                var note = thesamples[i].pitch.toUpperCase().replace('M', '#');
+                fileName.push(name);
+                pitchString.push(note);
+        }
+
+        var keyToPitch = {};
+        for (var i = 0; i < thekeys.length; i++) {
+            var thekey = thekeys[i].key.toLowerCase();
+            var note = thekeys[i].pitch.toUpperCase().replace('M', '#'); 
+           if(thekeys[i].enabled) {
+                keyToPitch[thekey] = note;
+            } else {
+                keyToPitch[thekey] = null;
+            }
+        }
+
+        var samplers = [];
+        for( i = 0; i < fileName.length; i++ ) {
+            samplers[i] = new Tone.Sampler({
+            [pitchString[i]]: 'https://opv2-heroku.s3.us-west-1.amazonaws.com/' + username + '/' + fileName[i] + '.mp3'
+            }, {
+                'release' : 1,
+                'onload' : function(){
+                Tone.context.updateInterval = 0;
+                Tone.context.lookAhead = 0;
+                }
+            }).toDestination();
+        }
+
+        // console.log('keyToPitch: ');
+        // console.log(keyToPitch);
+        // console.log('Samplers: ');
+        // console.log(samplers);
+
+        function touchPad(id){
+
+            //// Find index# of sample for the key
+            function theIndex(id) {
+                var i, n, s;
+                for (var ke = 0; ke < thekeys.length; ke++) {
+                    var uc = id.toUpperCase();
+                    if (thekeys[ke].key == uc) {
+                        i = ke;
+                        break;
+                    }
+                }
+                n = thekeys[i].sample;
+                for (var sa = 0; sa < thesamples.length; sa++) {
+                    if (thesamples[sa].samplename == n) {
+                        s = sa;
+                        break;
+                    } else {
+                        s = 0;
+                    }
+                }
+                console.log(s)
+                return s;
+            }
+            // Do nothing with other keys
+            if (keyToPitch[id] == null) {
+            } else {
+            var index = theIndex(id);
+            // console.log(index, keyToPitch[id]);
+            samplers[index].triggerAttackRelease(keyToPitch[id]);
+            }
+        }
+
+        $('div.pad').click(() => {
+            if(!toneStarted) {
+                Tone.start();
+                toneStarted = true;
+            }
+            var id = event.target.id;
+            // console.log(uc);
+            touchPad(id);
+        });
+    });
+</script>

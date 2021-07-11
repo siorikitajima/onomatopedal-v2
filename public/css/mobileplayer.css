@@ -1,0 +1,303 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@600&display=swap');
+
+button.line-btn {
+    width: 100%;
+    max-width: 500px;
+    display: block;
+    margin: 30px auto 20px auto;
+    height: 50px;
+    background: none;
+    color: #F56476;
+    padding: 6px;
+    border: #F56476 1px solid;
+    font-size: 1.1em;
+    font-family: 'Raleway', sans-serif;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+canvas {
+  background: #2C363F;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  z-index: -1;
+}
+
+#drumpads {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: calc(100vw/3) calc(100vw/3) calc(100vw/3);
+  grid-template-rows: 10vh 10vh 10vh 10vh 10vh 10vh 10vh 10vh 10vh;
+  visibility: hidden;
+}
+
+.pad {
+  width: 33vw;
+  height: 10vh;
+  margin: 0;
+  padding: 0;
+  /* background-color:#ddd; */
+  /* opacity: 0; */
+  border-bottom: rgba(221, 221, 221, 0.3) solid 1px;
+  border-right: rgba(221, 221, 221, 0.3) solid 1px;
+  mix-blend-mode: overlay;
+}
+.pad:nth-of-type(3n) {
+    border-right: none;
+}
+
+/* .pad:nth-of-type(7n+1) {opacity: 0.05;}
+.pad:nth-of-type(7n+2) {opacity: 0.2;}
+.pad:nth-of-type(7n+3) {opacity: 0.3;}
+.pad:nth-of-type(7n+4) {opacity: 0.1;}
+.pad:nth-of-type(7n+5) {opacity: 0.25;}
+.pad:nth-of-type(7n+6) {opacity: 0.15;} */
+
+/* @media only screen and (max-width: 800px) {
+  #drumpads {
+    visibility: visible;
+  }
+} */
+
+#controller {
+  position: fixed;
+  bottom: -120%;
+  left: 20px;
+  height: 40px;
+  width: calc(100% - 40px);
+  z-index: 9999;
+  display: flex;
+  justify-content: space-between;
+}
+
+#controlMain {
+  opacity: 0.6;
+}
+
+#controlMain.paused {
+  background: url(../v2/images/Play_btn.svg) no-repeat;
+}
+#controlMain.playing {
+  background: url(../v2/images/Pause_btn.svg) no-repeat;
+} 
+
+ #controlMain, #controlStems .stem {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+#controlMain:hover, #controlStems .stem:hover {
+  opacity: 1;
+  transition-duration: 300ms;
+}
+
+#controlStems {
+  width: auto;
+  height: 40px;
+  display: flex;
+}
+
+#controlStems .stem {
+  margin-left: 20px;
+  background: #FFF;
+  text-align: center;
+  line-height: 2.5em;
+  font-family: 'Dosis', sans-serif;
+}
+
+.unmuted {
+  background: #fc7e86;
+  opacity: 0.6;
+}
+
+.muted {
+  background: #ffffff;
+  opacity: 0.3;
+}
+
+
+div.infoPanel {
+    width: calc(100% - 20px);
+    position: fixed;
+    top: 0;
+    height: calc(100% - 70px);
+    padding: 10px ;
+    background-color: rgba(17, 17, 17, 0.8);
+    transition-duration: 200ms;
+    overflow-y: scroll;
+    z-index: 1000;
+}
+div.playBtnPanel {
+    width: calc(100vw - 20px);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 30px;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #F56476;
+    color: #111;
+    font-size: 1.5em;
+    font-family: 'Staatliches', sans-serif;
+    letter-spacing: 0.1em;
+    text-align: center;
+    cursor: pointer;
+    transition-duration: 100ms;
+    z-index: 3000;
+}
+
+div.infoPanel div.infoOne {
+    height: 300px;
+    width: 300px !important;
+    background: #444;
+    margin: 20px auto 0 auto;
+    position: relative;
+    overflow: hidden;
+    z-index: -100;
+}
+
+div.infoPanel div.infoOne #diamond {
+    height: 66.6%;
+    width: 66.6%;
+    position: absolute;
+    background-color: #222;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    z-index: -1;
+    mix-blend-mode: difference;
+}
+
+div.infoPanel div.infoOne p {
+    position: absolute;
+    color: #832c36;
+    font-size: 12em;
+    line-height: 0.8em;
+    z-index: -10;
+    font-family: 'Staatliches', sans-serif;
+    letter-spacing: 0.05em;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+
+div.infoPanel div.infoOne img {
+    width: 300px;
+    margin: 8% 0;
+}
+
+div.infoPanel div.infoTwo, div.infoPanel div.infoThree {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+div.infoPanel h2, div.infoPanel p {
+    margin: 0;
+}
+div.infoTwo h2.linkIcon, div.infoTwo h3.linkIcon {
+    position: relative;
+    width: fit-content;
+}
+div.infoTwo h2.linkIcon::after, div.infoTwo h3.linkIcon::after {
+    content: "";
+    width: 24px;
+    height: 24px;
+    background-image: url('../images/openLink.svg');
+    position: absolute;
+    top: 8px;
+    right: -34px;
+}
+div.infoTwo h2.linkIcon:hover, div.infoTwo h3.linkIcon:hover {
+    color: #F56476;
+    cursor: pointer;
+}
+div.infoTwo h3.linkIcon::after {
+    width: 16px;
+    height: 16px;
+    top: 5px;
+    right: -24px;
+}
+div.infoTwo h3.linkIcon:hover::after, div.infoTwo h2.linkIcon:hover::after {
+    background-image: url('../images/openLink-hover.svg');
+}
+div.infoPanel p.label {
+    margin: 20px 0 0 0;
+    color: #777;
+}
+div.infoPanel div.pedalImgDiv, div.infoPanel div.pedalImgDiv img#pedalImg {
+    width: 300px;
+}
+
+div.infoPanel div.merch-icons {
+    justify-content: left;
+}
+
+div.infoPanel div.merch-icons div.icon {
+    display: inline-block;
+    width: calc(25vw - 20px);
+    height: calc(25vw - 20px);
+    max-width: 85px;
+    max-height: 85px;
+    margin: 10px 10px 0 0;
+    /* border: #F56476 1px solid; */
+    background-color: #F56476;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+}
+
+div.infoPanel div.merch-icons div.icon h3 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+}
+div.infoPanel div.merch-icons div.icon:hover img {
+    opacity: 0;
+    transition-duration: 200ms;
+}
+div.infoPanel div.merch-icons div.icon:hover h3 {
+    opacity: 1;
+    transition-duration: 200ms;
+}
+
+div.infoPanel div.merch-icons img {
+    width: 85px;
+    margin: 0;
+    border-radius: 5px;
+}
+
+div.smPedalImg {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: fixed;
+    top: 100px;
+    left: 25px;
+    background-color: #F56476;
+}
+
+div.smPedalImg img {
+    width: 50px;
+}

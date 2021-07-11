@@ -8,12 +8,12 @@
             <p class="label">EQD PEDAL</p>
             <h2 id="pedalDisplay"></h2>
             <p class="label">ARTIST</p>
-            <h2><%= pedal.artist %></h2>
+            <h2><%= pedal[0].artist %></h2>
             <p class="label">TRACK</p>
-            <h2><%= pedal.trackName %></h2>
+            <h2><%= pedal[0].trackName %></h2>
             <p class="label">ONOMATOPOEIA</p>
-            <h2><%= pedal.onomato %></h2>
-            <p><%= pedal.onoMeaning %></p>
+            <h2><%= pedal[0].onomato %></h2>
+            <p><%= pedal[0].onoMeaning %></p>
             
             <div class="flex">
                 <a href="/info">
@@ -44,7 +44,7 @@
         <div>
             <div class="opImg">
                 <div id="diamond"></div>
-                <p id="onoText"><%= pedal.onomato %></p>
+                <p id="onoText"><%= pedal[0].onomato %></p>
                 <img id="pedalImg" src="images/pedals/db-default.jpg" alt="pedal">
             </div>
             <a href="/preview">
@@ -55,7 +55,7 @@
 
     <%- include('./partials/footer.ejs') %> 
     <script>
-        var thepedal = <%- JSON.stringify(pedal) %> ;
+        var thepedal = <%- JSON.stringify(pedal[0]) %> ;
         var eqdPedals = <%- JSON.stringify(eqdPedals) %> ;
 
                 var imgPath = 'images/pedals/' + eqdPedals[thepedal.pedalFull].slug + '.png';

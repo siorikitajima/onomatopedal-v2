@@ -13,4 +13,31 @@
             </li>
         </ul>
     </div>
+    <div class="menuBtn" onclick="menuPanelHandler()"></div>
+    <div class="mobnav">
+        <div class="closeBtn" onclick="menuPanelHandler()"></div>
+        <% if (nav == undefined) { var nav = null; } %>
+        <ul>
+            <li <% if (nav === 'home') { %>class="current" <% } %>><a href="/">Home</a></li>
+            <li <% if (nav === 'v1') { %>class="current" <% } %>><a href="https://onomatopedal.com/">OPV1</a></li>
+            <li <% if (nav === 'about') { %>class="current" <% } %>><a href="/about">About</a></li>
+            <li class="logoutBtn loginBtn">
+                <a href="/login"><button type="button">ARTIST LOG IN</button></a>
+            </li>
+        </ul>
+    </div>
 </nav>
+
+<script>
+    let menuOpen = false;
+    function menuPanelHandler() {
+        var rpanel = $('nav.front div.mobnav');
+        if(menuOpen) {
+            $(rpanel).css('right', '-120%');
+            menuOpen = false;
+        } else {
+            $(rpanel).css('right', 0);
+            menuOpen = true;
+        }
+    }
+</script>

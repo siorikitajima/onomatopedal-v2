@@ -3,7 +3,7 @@ if(process.env.NODE_ENV !== 'production') { require('dotenv').config(); }
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const PedalInfo = require('./models/pedalInfo');
+// const PedalInfo = require('./models/pedalInfo');
 const { render } = require('ejs');
 const keyRoutes = require('./routes/keyRoutes');
 const stemsRoutes = require('./routes/stemsRoutes');
@@ -14,13 +14,14 @@ const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
-const fs = require('fs');
+// const fs = require('fs');
 
 const methodOverride = require('method-override');
 const authController = require('./controllers/authController');
 const infoController = require('./controllers/infoController');
 const initializePassport = require('./controllers/passport-config');
 const User = require('./models/user');
+// const browser = require('browser-detect') 
 
 var store = new MongoDBStore({
     uri: dbURL,
@@ -98,20 +99,6 @@ app.get('/', (req, res) => {
 
 app.get('/about', (req, res) => {
     res.render('about', { title: 'About', nav:'about' })
-});
-
-app.get('/studio', authController.checkAuthenticated, (req, res) => {
-    let rawdata = fs.readFileSync('./json/eqdPedals.json');
-    let eqdPedals = JSON.parse(rawdata);
-    PedalInfo.find({name: req.user.name})
-    .then((result) => {
-        res.render('studio', { 
-            title: 'Studio', nav:'studio', 
-            pedal: result[0], 
-            eqdPedals: eqdPedals,
-            name: req.user.name
-        })
-    })
 });
 
 app.get('/login', authController.checkNotAuthenticated, authController.login_get);

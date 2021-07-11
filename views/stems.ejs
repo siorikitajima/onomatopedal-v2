@@ -32,6 +32,8 @@
             </form>
             </div>
         <% }%>
+        <div class="blackscreen"></div>
+        <div class="loadingSpinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 
     </div>
 
@@ -56,6 +58,7 @@
         }
 
         function submitTrack(n) {
+            $('.loadingSpinner, .blackscreen').css('display','inline-block');
             var theform = '#form' + n;
             $(theform).submit();
         }
