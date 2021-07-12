@@ -304,7 +304,7 @@
             }
         }
 
-        $('div.pad').click(() => {
+        $('div.pad').on('touchstart', () => {
             if(!toneStarted) {
                 Tone.start();
                 toneStarted = true;

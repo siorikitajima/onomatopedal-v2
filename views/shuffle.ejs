@@ -19,7 +19,7 @@
   <div id="pedalTable">
       <% for (let p = 1; p < allPedals.length; p++) {%>
         <% if (allPedals[p].id == 21) {} else {%>
-        <a href="./<%= allPedals[p].onomoid %>">
+        <a href="../v1/<%= allPedals[p].onomoid %>">
             <img src="../images/opv1-cover/<%= allPedals[p].onomoid %>.gif" class="pedalList" data-pedal-id="<%= allPedals[p].id %>">
         </a>
       <%}}%>
