@@ -191,7 +191,7 @@ button.lineBtnWh:hover {
 div.infoPanel {
     width: 100%;
     position: fixed;
-    top: 76px;
+    top: 51px;
     height: auto;
     padding: 50px 0 0 0 ;
     background-color: rgba(17, 17, 17, 0.8);

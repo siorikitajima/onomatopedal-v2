@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>OnomatoPedal | <%= title %></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="../css/v1style.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+<div class="wrap">
+  <!-- Header -->
+  <%- include('./partials/v1header.ejs')  %> 
+
+  <div id="topPageHeader">AudioVisual Playground</div>
+
+  <!-- Pedals -->
+  <div id="pedalTable">
+      <% for (let p = 1; p < allPedals.length; p++) {%>
+        <% if (allPedals[p].id == 21) {} else {%>
+        <a href="./<%= allPedals[p].onomoid %>">
+            <img src="../images/opv1-cover/<%= allPedals[p].onomoid %>.gif" class="pedalList" data-pedal-id="<%= allPedals[p].id %>">
+        </a>
+      <%}}%>
+    <div id="randomDivMobile"></div>  
+  </div>
+
+  <!-- Random button -->
+
+  <div id="randomDiv" class="randomAnimation">
+    <div id="randomWrap">
+      <img src="../images/v1/randombtn.svg" id="randombtn">
+    </div>
+  </div>
+
+  <div class="bodyContent">
+    <div class="bannerContainer oneBanner">
+      <a id="bannerTopLink" href="" target="_blank" onclick="handleMerchLinkClicks()"><div class="bannerWide" id="bannerTop">
+      </div></a>
+    </div>
+    <!-- <div class="bannerContainer twoBanners">
+      <a id="bannerLeftLink" href="version-two.html"><div class="bannerNarrow" id="bannerLeft"></div></a>
+      <a id="bannerRightLink" href="" target="_blank" onclick="handleEQDAboutClicks()"><div class="bannerNarrow" id="bannerRight"></div></a>
+    </div> -->
+
+  </div>
+</div>
+
+<%- include('./partials/v1footer.ejs')  %> 
+
+<script> //// Language
+    var languageEn = <%- JSON.stringify(language[0]) %> ;
+    var languageJp = <%- JSON.stringify(language[1]) %> ;
+
+    function langIconFocus() {
+        if (localStorage.getItem("language") == 'jp') {
+            $('.jp').addClass('languageActive');
+            $('.en').removeClass('languageActive');
+        } else {
+            $('.en').addClass('languageActive');
+            $('.jp').removeClass('languageActive');
+        }
+    };
+
+    function getLanguage() {
+        (localStorage.getItem('language') == null) ? setLanguage('en') : true ;
+        var languageData = (localStorage.getItem('language') == 'en') ? languageEn : languageJp ;
+        $('#aboutOP').html( languageData.aboutOP );
+        $('#howToPlay').html( languageData.howToPlay );
+        $('#freeSamplePack').html( languageData.freeSamplePack );
+        $('#credit').html( languageData.credits );
+        $('#modalMessage').html(languageData.modalMessage);
+        $('#bannerTop').html(languageData.bannerEqdMerch);
+        $('#bannerLeft').html(languageData.bannerVerTwo);
+        $('#bannerRight').html(languageData.bannerAboutEqd);
+        $('#bannerTopLink').attr("href", languageData.bannerTopUrl);
+        $('#bannerLeftLink').attr("href", languageData.bannerLeftUrl);
+        $('#bannerRightLink').attr("href", languageData.bannerRightUrl);
+        $('#verTwoText').html(languageData.versionTwoBody);
+        $('.footerLogoEQD').attr("href", languageData.footerEQDUrl);
+        $('#cookie-text').html(languageData.cookiText);
+        $('#accept').html(languageData.cookieAccept);
+        $('#decline').html(languageData.cookieDecline);
+
+        langIconFocus();
+    };
+
+    function setLanguage(lang) {
+        localStorage.setItem('language', lang);
+    }
+
+    // ===== Language Switch =====
+
+    $('.en').click(function(){
+        $('.en').addClass('languageActive');
+        $('.jp').removeClass('languageActive');
+        localStorage.setItem('language', 'en');
+        getLanguage();
+    });
+
+    $('.jp').click(function(){
+        $('.jp').addClass('languageActive');
+        $('.en').removeClass('languageActive');
+        localStorage.setItem('language', 'jp');
+        getLanguage();
+    });
+
+    // ===== Right side sliding panel =====
+
+    $(document).ready( function() {
+        getLanguage();
+        $('#sidepanelLogos').html("<a href='https://www.patternbased.com/' target='_blank' onclick='handlePBLogoClicks()'><img src='../images/v1/PatternBased_Logo_CL.png' class='sidepanelLogo'></a><a href='https://www.earthquakerdevices.com/' target='_blank' onclick='handleEQDLogoClicks()'><img src='../images/v1/EarthQuaker-Devices-Logo_dark.png' class='sidepanelLogo'></a><p>© 2020-2021 PatternBased and EarthQuaker Devices. All Rights Reserved.</p>");
+    });
+
+    $('.info').click(function () {
+        $('.rightSPWrapper, #rightSPHeader').css({
+        'right':'0', 
+        'transition-duration':'300ms'});
+    });
+    $('.close').click(function () { 
+        $('.rightSPWrapper, #rightSPHeader').css({
+        'right':'-480px', 
+        'transition-duration':'300ms'});
+    });
+
+    $(document).on('click', '#orlandoTrigger', function () {
+        $('img#orlandBunny').addClass('bunnyShowup');
+        if($('img#corabelleBunny').hasClass('bunnyShowup')) {
+            $('#pyonpyonBubble').css({
+            'display' : 'inline',
+            });
+            setTimeout( function() {
+            $('#pyonpyonBubble').css({
+                'opacity' : '1',
+                'transition-delay' : '1000ms',
+                'transition-duration' : '200ms'
+            })   }, 100);
+        }
+    });
+
+    $(document).on('click', '#corabelleTrigger', function () {
+            $('img#corabelleBunny').addClass('bunnyShowup');
+            if($('img#orlandBunny').hasClass('bunnyShowup')) {
+            $('#pyonpyonBubble').css({
+                'display' : 'inline'
+            });
+            setTimeout( function() {
+                $('#pyonpyonBubble').css({
+                'opacity' : '1',
+                'transition-delay' : '1000ms',
+                'transition-duration' : '200ms'
+                })   }, 100);
+            }
+    });
+    </script>
+<script type="text/javascript" src="../js/v1script.js"></script>
+</body>
+</html>

@@ -13,46 +13,24 @@
             <h2><%= pedal[0].onomato %></h2>
             <p><%= pedal[0].onoMeaning %></p>
             <p class="label">FEATURED PEDAL</p>
-            <!-- <h2 id="pedalDisplay" class="linkIcon"></h2> -->
             <h2 id="pedalDisplay"></h2>
             <p id="pedalDesc"></p>
             <p class="label">MUSIC BY</p>
-            <!-- <h2 class="linkIcon"><%= pedal[0].artist %></h2>
-            <h3 class="linkIcon">"<%= pedal[0].trackName %>"</h3> -->
             <h2><%= pedal[0].artist %></h2>
             <h3>"<%= pedal[0].trackName %>"</h3>
-            <!-- <p class="label">VISUAL ART BY</p>
-            <h2 class="linkIcon">Siori Kitajima</h2>
-            <h3 class="linkIcon">"Number Five - Blocky"</h3> -->
+
         </div>
         <a href="/">
             <button class="line-btn">
-                Back to OnomatoPedal
+                Back to Home
             </button>
         </a>
-        <!-- <div class="infoThree">
-            <p class="label">MUSIC, ART & MERCH</p>
-            <div class="merch-icons">
-                <div class="icon">
-                    <img src="images/merch/OP_Astral-Destiny_B.jpg" alt="Tshirt">
-                </div>
-                <div class="icon">
-                    <img src="images/merch/jogger-temp.jpg" alt="Jogger">
-                </div>
-                <div class="icon">
-                    <img src="images/merch/Astral-Destiny_Mug.jpg" alt="Mug">
-                </div>
-                <div class="icon">
-                    <img src="images/merch/leggings-temp.jpg" alt="Leggings">
-                </div>
-                <div class="icon">
-                    <img src="images/merch/album-temp.jpg" alt="Album">
-                </div>
-                <div class="icon">
-                    <img src="images/merch/number-five-blk_thumb.jpg" alt="NFT">
-                </div>
-            </div>
-        </div> -->
+        <form action="/logout?_method=DELETE" method="POST">
+            <button type="submit" class="line-btn">
+                LOG OUT
+            </button>
+        </form>
+
 </div>
 <div class="playBtnPanel" onclick="controlHandler()">PLAY</div>
 
@@ -111,10 +89,15 @@
         var thepedal = <%- JSON.stringify(pedal[0]) %> ;
         var eqdPedals = <%- JSON.stringify(eqdPedals) %> ;
 
-        var imgPath = 'images/pedals/' + eqdPedals[thepedal.pedalFull].slug + '.png';
-        $('#pedalDisplay').html(eqdPedals[thepedal.pedalFull].fullName);
-        $('#pedalImg').attr('src', imgPath);
-        $('#pedalDesc').html(eqdPedals[thepedal.pedalFull].description);
+        for (var p = 0; p < eqdPedals.length; p++) {
+            if (thepedal.pedalFull == eqdPedals[p].slug) {
+                var imgPath = 'images/pedals/' + eqdPedals[p].slug + '.png';
+                $('#pedalDisplay').html(eqdPedals[p].fullName);
+                $('#pedalImg').attr('src', imgPath);
+                $('#pedalDesc').html(eqdPedals[p].description);
+                break;
+            }
+        }
 
         var onoStr = thepedal.onomato;
         var words = onoStr.split(' ').length;

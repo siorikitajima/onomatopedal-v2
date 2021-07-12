@@ -4,7 +4,7 @@ button.line-btn {
     width: 100%;
     max-width: 500px;
     display: block;
-    margin: 30px auto 20px auto;
+    margin: 20px auto 30px auto;
     height: 50px;
     background: none;
     color: #F56476;
@@ -33,7 +33,7 @@ canvas {
 
 #drumpads {
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   margin: 0;
   padding: 0;
   top: 0;
@@ -44,13 +44,13 @@ canvas {
   z-index: 10;
   display: grid;
   grid-template-columns: calc(100vw/3) calc(100vw/3) calc(100vw/3);
-  grid-template-rows: 10vh 10vh 10vh 10vh 10vh 10vh 10vh 10vh 10vh;
+  grid-template-rows: 10% 10% 10% 10% 10% 10% 10% 10% 10%;
   visibility: hidden;
 }
 
 .pad {
   width: 33vw;
-  height: 10vh;
+  height: 100%;
   margin: 0;
   padding: 0;
   /* background-color:#ddd; */
@@ -92,21 +92,16 @@ canvas {
 }
 
 #controlMain.paused {
-  background: url(../v2/images/Play_btn.svg) no-repeat;
+  background: url(../images/Play_btn_crcl.svg) no-repeat;
 }
 #controlMain.playing {
-  background: url(../v2/images/Pause_btn.svg) no-repeat;
+  background: url(../images/Pause_btn_crcl.svg) no-repeat;
 } 
 
  #controlMain, #controlStems .stem {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-}
-
-#controlMain:hover, #controlStems .stem:hover {
-  opacity: 1;
-  transition-duration: 300ms;
 }
 
 #controlStems {
@@ -117,7 +112,6 @@ canvas {
 
 #controlStems .stem {
   margin-left: 20px;
-  background: #FFF;
   text-align: center;
   line-height: 2.5em;
   font-family: 'Dosis', sans-serif;
@@ -125,7 +119,6 @@ canvas {
 
 .unmuted {
   background: #fc7e86;
-  opacity: 0.6;
 }
 
 .muted {

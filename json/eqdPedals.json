@@ -1,5 +1,5 @@
-{
-    "acapulcogold": {
+[
+    {
        "id": 0,
        "fullName" : "Acapulco Gold",
        "slug" : "acapulcogold",
@@ -8,7 +8,7 @@
        "eqdurl" : "https://www.earthquakerdevices.com/acapulco-gold",
        "eqdurlJP": "https://www.earthquakerdevices.jp/acapulco-gold"
     },
-    "afterneath": {
+    {
         "id": 1,
         "fullName" : "Afterneath",
         "slug" : "afterneath",
@@ -17,7 +17,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/afterneath",
         "eqdurlJP":"https://www.earthquakerdevices.jp/afterneath"
      },
-     "afterneathmodule": {
+     {
         "id": 2,
         "fullName" : "Afterneath Module",
         "slug" : "afterneathmodule",
@@ -26,7 +26,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/afterneath-eurorack-module",
         "eqdurlJP":"https://www.earthquakerdevices.jp/afterneath-eurorack-module"
      },
-     "aqueduct": {
+     {
         "id": 3,
         "fullName" : "Aqueduct",
         "slug" : "aqueduct",
@@ -35,7 +35,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/aqueduct",
         "eqdurlJP":"https://www.earthquakerdevices.jp/aqueduct"
      },
-     "arpanoid": {
+     {
         "id": 4,
         "fullName" : "Arpanoid",
         "slug" : "arpanoid",
@@ -44,7 +44,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/arpanoid",
         "eqdurlJP":"https://www.earthquakerdevices.jp/arpanoid"
      },
-     "arrows": {
+     {
         "id": 5,
         "fullName" : "Arrows",
         "slug" : "arrows",
@@ -53,7 +53,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/arrows",
         "eqdurlJP":"https://www.earthquakerdevices.jp/arrows"
      },
-     "astraldestiny": {
+     {
         "id": 6,
         "fullName" : "Astral Destiny",
         "slug" : "astraldestiny",
@@ -62,7 +62,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/astral-destiny",
         "eqdurlJP":"https://www.earthquakerdevices.jp/astral-destiny"
      },
-     "avalancherun": {
+     {
         "id": 7,
         "fullName" : "Avalanche Run",
         "slug" : "avalancherun",
@@ -71,7 +71,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/avalanche-run",
         "eqdurlJP":"https://www.earthquakerdevices.jp/avalanche-run"
      },
-     "bitcommander": {
+     {
         "id": 8,
         "fullName" : "Bit Commander",
         "slug" : "bitcommander",
@@ -80,7 +80,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/bit-commander",
         "eqdurlJP":"https://www.earthquakerdevices.jp/bit-commander"
      },
-     "datacorrupter": {
+     {
         "id": 9,
         "fullName" : "Data Corrupter",
         "slug" : "datacorrupter",
@@ -89,7 +89,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/data-corrupter",
         "eqdurlJP":"https://www.earthquakerdevices.jp/data-corrupter"
      },
-     "dispatchmaster": {
+     {
         "id": 10,
         "fullName" : "Dispatch Master",
         "slug" : "dispatchmaster",
@@ -98,7 +98,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/dispatch-master",
         "eqdurlJP":"https://www.earthquakerdevices.jp/dispatch-master"
      },
-     "erupter": {
+     {
         "id": 11,
         "fullName" : "Erupter",
         "slug" : "erupter",
@@ -107,7 +107,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/erupter",
         "eqdurlJP":"https://www.earthquakerdevices.jp/erupter"
      },
-     "ghostecho": {
+     {
         "id": 12,
         "fullName" : "Ghost Echo",
         "slug" : "ghostecho",
@@ -116,7 +116,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/ghost-echo",
         "eqdurlJP":"https://www.earthquakerdevices.jp/ghost-echo"
      },
-     "grandorbiter": {
+     {
         "id": 13,
         "fullName" : "Grand Orbiter",
         "slug" : "grandorbiter",
@@ -125,7 +125,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/grand-orbiter",
         "eqdurlJP":"https://www.earthquakerdevices.jp/grand-orbiter"
      },
-     "hoof": {
+     {
         "id": 14,
         "fullName" : "Hoof",
         "slug" : "hoof",
@@ -134,7 +134,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/hoof",
         "eqdurlJP":"https://www.earthquakerdevices.jp/hoof"
      },
-     "hoofreaper": {
+     {
         "id": 15,
         "fullName" : "Hoof Reaper",
         "slug" : "hoofreaper",
@@ -143,7 +143,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/hoof-reaper",
         "eqdurlJP":"https://www.earthquakerdevices.jp/hoof-reaper"
      },
-     "hummingbird": {
+     {
         "id": 16,
         "fullName" : "Hummingbird",
         "slug" : "hummingbird",
@@ -152,7 +152,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/hummingbird",
         "eqdurlJP":"https://www.earthquakerdevices.jp/hummingbird"
      },
-     "levitation": {
+     {
         "id": 17,
         "fullName" : "Levitation",
         "slug" : "levitation",
@@ -161,7 +161,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/levitation",
         "eqdurlJP":"https://www.earthquakerdevices.jp/levitation"
      },
-     "nightwire": {
+     {
         "id": 18,
         "fullName" : "Night Wire",
         "slug" : "nightwire",
@@ -170,7 +170,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/night-wire",
         "eqdurlJP":"https://www.earthquakerdevices.jp/night-wire"
      },
-     "organizer": {
+     {
         "id": 19,
         "fullName" : "Organizer",
         "slug" : "organizer",
@@ -179,7 +179,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/organizer",
         "eqdurlJP":"https://www.earthquakerdevices.jp/organizer"
      },
-     "palisades": {
+      {
         "id": 20,
         "fullName" : "Palisades",
         "slug" : "palisades",
@@ -188,7 +188,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/palisades",
         "eqdurlJP":"https://www.earthquakerdevices.jp/palisades"
      },
-     "parkfuzz": {
+    {
         "id": 21,
         "fullName" : "Park Fuzz",
         "slug" : "parkfuzz",
@@ -197,7 +197,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/park-fuzz-sound",
         "eqdurlJP":"https://www.earthquakerdevices.jp/colby-fuzz-sound"
      },
-     "plumes": {
+     {
         "id": 22,
         "fullName" : "Plumes",
         "slug" : "plumes",
@@ -206,7 +206,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/plumes",
         "eqdurlJP":"https://www.earthquakerdevices.jp/plumes"
      },
-     "pyramids": {
+     {
         "id": 23,
         "fullName" : "Pyramids",
         "slug" : "pyramids",
@@ -215,7 +215,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/pyramids",
         "eqdurlJP":"https://www.earthquakerdevices.jp/pyramids"
      },
-     "rainbowmachine": {
+     {
         "id": 24,
         "fullName" : "Rainbow Machine",
         "slug" : "rainbowmachine",
@@ -224,7 +224,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/rainbow-machine",
         "eqdurlJP":"https://www.earthquakerdevices.jp/rainbow-machine"
      },
-     "seamachine": {
+     {
         "id": 25,
         "fullName" : "Sea Machine",
         "slug" : "seamachine",
@@ -233,7 +233,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/sea-machine",
         "eqdurlJP":"https://www.earthquakerdevices.jp/sea-machine"
      },
-     "spacespiral": {
+     {
         "id": 26,
         "fullName" : "Space Spiral",
         "slug" : "spacespiral",
@@ -242,7 +242,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/space-spiral",
         "eqdurlJP":"https://www.earthquakerdevices.jp/space-spiral"
      },
-     "spatialdelivery": {
+     {
         "id": 27,
         "fullName" : "Spatial Delivery",
         "slug" : "spatialdelivery",
@@ -251,7 +251,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/spatial-delivery",
         "eqdurlJP":"https://www.earthquakerdevices.jp/spatial-delivery"
      },
-     "swissthings": {
+     {
         "id": 28,
         "fullName" : "Swiss Things",
         "slug" : "swissthings",
@@ -260,7 +260,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/swiss-things",
         "eqdurlJP":"https://www.earthquakerdevices.jp/swiss-things"
      },
-     "tentacle": {
+     {
         "id": 29,
         "fullName" : "Tentacle",
         "slug" : "tentacle",
@@ -269,7 +269,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/tentacle",
         "eqdurlJP":"https://www.earthquakerdevices.jp/tentacle"
      },
-     "thedepths": {
+     {
         "id": 30,
         "fullName" : "The Depths",
         "slug" : "thedepths",
@@ -278,7 +278,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/the-depths",
         "eqdurlJP":"https://www.earthquakerdevices.jp/the-depths"
      },
-     "thewarden": {
+      {
         "id": 31,
         "fullName" : "The Warden",
         "slug" : "thewarden",
@@ -287,7 +287,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/the-warden",
         "eqdurlJP":"https://www.earthquakerdevices.jp/the-warden"
      },
-     "tonejob": {
+      {
         "id": 32,
         "fullName" : "Tone Job",
         "slug" : "tonejob",
@@ -296,7 +296,7 @@
         "eqdurl":"https://www.earthquakerdevices.com/tone-job",
         "eqdurlJP":"https://www.earthquakerdevices.jp/tone-job"
      },
-     "westwood": {
+      {
         "id": 33,
         "fullName" : "Westwood",
         "slug" : "westwood",
@@ -305,4 +305,4 @@
         "eqdurl":"https://www.earthquakerdevices.com/westwood",
         "eqdurlJP":"https://www.earthquakerdevices.jp/westwood"
      }
-}
+   ]

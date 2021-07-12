@@ -80,10 +80,10 @@ div#controller {
 }
 
 #controlMain.paused {
-  background: url(../v2/images/Play_btn.svg) no-repeat;
+  background: url(../images/Play_btn_crcl.svg) no-repeat;
 }
 #controlMain.playing {
-  background: url(../v2/images/Pause_btn.svg) no-repeat;
+  background: url(../images/Pause_btn_crcl.svg) no-repeat;
 }
 
 #controlMain, #controlStems .stem {

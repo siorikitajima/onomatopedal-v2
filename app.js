@@ -19,6 +19,7 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const methodOverride = require('method-override');
 const authController = require('./controllers/authController');
 const infoController = require('./controllers/infoController');
+const frontController = require('./controllers/frontController');
 const initializePassport = require('./controllers/passport-config');
 const User = require('./models/user');
 // const browser = require('browser-detect') 
@@ -69,37 +70,7 @@ app.use(methodOverride('_method'));
 
 //////////// Main routes ////////////
 
-app.get('/', (req, res) => {
-    const pedalImages = [
-        "v1/images/pedalsOnom/Raimbow-Machine_Sticker-NoBG.gif", 
-        "v1/images/pedalsOnom/Acapulco-Gold_Sticker-NoBG.gif",
-        "v1/images/pedalsOnom/Avalanche-Run_Stiker-NoBG.gif", 
-        "v1/images/pedalsOnom/Arpanoid_Sticker-NoBG.gif", 
-        "v1/images/pedalsOnom/Data-Corrupter_Sticker-NoBG.gif", 
-        "v1/images/pedalsOnom/Disaster-Transport-Sr_Sticker-NoBG.gif", 
-        "v1/images/pedalsOnom/Dream-Crusher_Sticker-NoBG.gif", 
-        "v1/images/pedalsOnom/Hoof-Reaper_Sticker-NoBG.gif", 
-        "v1/images/pedalsOnom/Hummingbird_Sticker-NoBG.gif", 
-        "v1/images/pedalsOnom/Levitation_Sticker-NoBG.gif", 
-        "v1/images/pedalsOnom/Organizer_Sticker-NoBG.gif", 
-        "v1/images/pedalsOnom/Palisades_Sticker-NoBG.gif", 
-        "v1/images/pedalsOnom/Spacial-Delivery_Sticker-NoBG.gif", 
-        "v1/images/pedalsOnom/Afterneath_Stiker-NoBG.gif", 
-        "v1/images/pedalsOnom/Afterneath-Module_Sticker-NoBG.gif", 
-        "v1/images/pedalsOnom/Hoof-Fuzz_Sticker-NoBG.gif", 
-        "v1/images/pedalsOnom/The-Depths_Sticker-NoBG.gif", 
-        "v1/images/pedalsOnom/Zap-Machine_Sticker-NoBG.gif", 
-        "v1/images/pedalsOnom/Night-Wire_Sticker-NoBG.gif",
-        "v1/images/pedalsOnom/Erupter_Sticker-NoBG.gif",
-        "v1/images/pedalsOnom/Pyramids_Sticker-NoBG.gif",
-        "v1/images/pedalsOnom/Astral-Destiny_Stiker-NoBG_V2.gif"
-    ]
-        res.render('index', { title: 'Home', nav:'home', pedalImages: pedalImages })
-});
-
-app.get('/about', (req, res) => {
-    res.render('about', { title: 'About', nav:'about' })
-});
+app.get('/', frontController.home_get);
 
 app.get('/login', authController.checkNotAuthenticated, authController.login_get);
 app.post('/login', authController.checkNotAuthenticated, passport.authenticate('local', {

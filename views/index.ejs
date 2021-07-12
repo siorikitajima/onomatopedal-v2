@@ -4,19 +4,19 @@
     <%- include('./partials/frontNav.ejs')  %> 
 
     <div class="featBanner">
-        <p>Featured OnomatoPedal</p>
-        <h1>Rainbow Machine + Pyon Pyon + Artist Name</h1>
+        <p>Check Out V2 Demo!</p>
+        <h1>Astral Destiny + Flutter + PatternBased</h1>
         <a href="/v2demo"><button class="lineBtn">Play</button></a>
     </div>
     <div class="grid-container">
-    <% for (var i = 0; i < pedalImages.length; i++) {%>
-        <a href="https://onomatopedal.com/pedal.html?pedalid=<%=i%>">
+    <% for (var i = 0; i < pedalListing.length; i++) {%>
+        <a href="/v1/<%= pedalListing[i].onomoid %>">
         <div class="pedal-grid">
-            <img src= <%= pedalImages[i] %> />
+            <img src= <%= pedalListing[i].image %> />
             <div class="pedal-name">
-                <h2>Pyon Pyon</h2>
-                <h2>Rainbow Machine</h2>
-                <h2>Artist Name</h2>
+                <h2><%= pedalListing[i].onomoname %></h2>
+                <h2><%= pedalListing[i].pedalFull %></h2>
+                <h2><%= pedalListing[i].artist %></h2>
             </div>
         </div>
         </a>

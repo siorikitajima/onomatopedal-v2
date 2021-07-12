@@ -58,9 +58,14 @@
         var thepedal = <%- JSON.stringify(pedal[0]) %> ;
         var eqdPedals = <%- JSON.stringify(eqdPedals) %> ;
 
-                var imgPath = 'images/pedals/' + eqdPedals[thepedal.pedalFull].slug + '.png';
-                $('#pedalDisplay').html(eqdPedals[thepedal.pedalFull].fullName);
+        for (var p = 0; p < eqdPedals.length; p++) {
+            if (thepedal.pedalFull == eqdPedals[p].slug) {
+                var imgPath = 'images/pedals/' + eqdPedals[p].slug + '.png';
+                $('#pedalDisplay').html(eqdPedals[p].fullName);
                 $('#pedalImg').attr('src', imgPath);
+                break;
+            }
+        }
 
         var onoStr = thepedal.onomato;
         var words = onoStr.split(' ').length;

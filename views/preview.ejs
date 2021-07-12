@@ -87,7 +87,7 @@ var thepedal = <%- JSON.stringify(pedal) %> ;
 var onomato = thepedal[0].onomato.toUpperCase().replace(/\s+/g, '');
 var disableKeys = false;
 var globalR = 90, globalG = 80, globalB = 80;
-var colNum = 2;
+var colNum = 1;
 var rSw = true, gSw = true, bSw = true;
 
 class Particle {
@@ -249,7 +249,7 @@ function setup() {
 
 function draw() {
   // background('rgba(15,15,15,0.01)');
-  background('rgba(10,10,10,0.007)');
+  background('rgba(15,15,15,0.02)');
   for(let i = 0;i<particles.length;i++) {
     particles[i].createParticle();
     particles[i].moveParticle();

@@ -12,10 +12,79 @@ const s3 = new AWS.S3({
     secretAccessKey: secretAccessKeyS3
 });
 
+const home_get = (req, res) => {
+    let listingArray = [];
+    let rawdata = fs.readFileSync('./json/opv1.json');
+    let opv1 = JSON.parse(rawdata);
+    for(let p = 0; p < opv1.length; p++) {
+        if(opv1[p].id == 21) {
+        } else {
+        let imgPath = 'images/opv1-cover/' + opv1[p].onomoid + '.gif';
+        let v1pedal = {
+            "onomoid": opv1[p].onomoid,
+            "onomoname":opv1[p].onomoname,
+            "pedalFull":opv1[p].name,
+            "artist": "OnomatoPedal",
+            "image": imgPath
+        }
+        listingArray.push(v1pedal);
+    }
+    }
+    res.render('index', { 
+        title: 'Home', 
+        nav:'home', 
+        pedalListing: listingArray
+    });
+}
+const v1list_get = (req, res) => {
+    let rawV1data = fs.readFileSync('./json/opv1.json');
+    let v1pedals = JSON.parse(rawV1data);
+    let rawEnData = fs.readFileSync('./json/v1language/en.json');
+    let v1EnData = JSON.parse(rawEnData);
+    let rawJpData = fs.readFileSync('./json/v1language/jp.json');
+    let v1JpData = JSON.parse(rawJpData);
+    let language = [];
+    language.push(v1EnData, v1JpData);
+    res.render('shuffle', { 
+        title: 'V1 Shuffler', 
+        nav:'opv1',
+        allPedals: v1pedals,
+        language: language
+    });
+}
+
+const v1pedal_get = (req, res) => {
+    var onomoid = req.params.onomoid;
+    let rawV1data = fs.readFileSync('./json/opv1.json');
+    let v1pedals = JSON.parse(rawV1data);
+    let rawPaperData = fs.readFileSync('./json/v1animsound.json');
+    let v1PaperData = JSON.parse(rawPaperData);
+    let rawEnData = fs.readFileSync('./json/v1language/en.json');
+    let v1EnData = JSON.parse(rawEnData);
+    let rawJpData = fs.readFileSync('./json/v1language/jp.json');
+    let v1JpData = JSON.parse(rawJpData);
+    let pedal = [];
+    let paper = [];
+    let language = [];
+    language.push(v1EnData, v1JpData);
+    for(let p = 0; p < v1pedals.length; p++) {
+        if (v1pedals[p].onomoid == onomoid) {
+            pedal.push(v1pedals[p]);
+            paper.push(v1PaperData[p]);
+        }
+    }
+    res.render('v1', { 
+        pedal: pedal,
+        paper: paper,
+        allPedals: v1pedals,
+        language: language
+    })
+}
+
 const v2demo_get = async　(req, res) => {
     const isMobile = browser(req.headers['user-agent']).mobile;
-    let rawdata = fs.readFileSync('./json/eqdPedals.json');
-    let eqdPedals = JSON.parse(rawdata);
+    let rawPedalData = fs.readFileSync('./json/eqdPedals.json');
+    let eqdPedals = JSON.parse(rawPedalData);
     const stems = [1, 2, 3];
     const filename1 = `astral/stem1.mp3`;
     const params1 = { Bucket: 'opv2-heroku', Key: filename1 };
@@ -66,5 +135,8 @@ const v2demo_get = async　(req, res) => {
     };
 
 module.exports = {
-    v2demo_get
+    v1list_get,
+    v1pedal_get,
+    v2demo_get,
+    home_get
 }
