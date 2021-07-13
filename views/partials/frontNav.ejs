@@ -6,6 +6,7 @@
         <% if (nav == undefined) { var nav = null; } %>
         <ul>
             <li <% if (nav === 'home') { %>class="current" <% } %>><a href="/">Home</a></li>
+            <li <% if (nav === 'feat' || nav === 'feat-single') { %>class="current" <% } %>><a href="/feat">Featured</a></li>
             <li <% if (nav === 'v1') { %>class="current" <% } %>><a href="/v1">V1 Shuffler</a></li>
             <li <% if (nav === 'about') { %>class="current" <% } %>><a href="/about">About</a></li>
             <li class="logoutBtn loginBtn">
@@ -19,6 +20,7 @@
         <% if (nav == undefined) { var nav = null; } %>
         <ul>
             <li <% if (nav === 'home') { %>class="current" <% } %>><a href="/">Home</a></li>
+            <li <% if (nav === 'feat') { %>class="current" <% } %>><a href="/feat">Featured</a></li>
             <li <% if (nav === 'v1') { %>class="current" <% } %>><a href="/v1">V1 Shuffler</a></li>
             <li <% if (nav === 'about') { %>class="current" <% } %>><a href="/about">About</a></li>
             <li class="logoutBtn loginBtn">

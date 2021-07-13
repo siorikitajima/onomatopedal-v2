@@ -83,6 +83,7 @@ const v1pedal_get = (req, res) => {
 
 const v2demo_get = async　(req, res) => {
     const isMobile = browser(req.headers['user-agent']).mobile;
+    const userOS = browser(req.headers['user-agent']).os;
     let rawPedalData = fs.readFileSync('./json/eqdPedals.json');
     let eqdPedals = JSON.parse(rawPedalData);
     const stems = [1, 2, 3];

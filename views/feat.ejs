@@ -1,0 +1,34 @@
+<html lang="en">
+    <%- include('./partials/frontHead.ejs')  %> 
+<body>
+    <%- include('./partials/frontNav.ejs')  %> 
+
+    <div class="featBanner sub">
+        <p>Did You Play It Already?</p>
+        <h1>Featured Collaborations</h1>
+    </div>
+    <div class="feat-container">
+    <% for (var i = 0; i < 6; i++) {%>
+        <div class="feat-item">
+            <div class="pedal-cover sq300">
+                <div class="diamond"></div>
+                <p class="onoText">Boom Boom</p>
+                <img  class="pedalImg" src="../images/pedals/astraldestiny.png" alt="pedal">
+            </div>
+        <div class="feat-info">
+            <h2>Artist Name</h2>
+            <h3>+ Pedal Name + Onomatopoeia</h3>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+            <a href="/feat/sample">
+                <button class="lineBtnWh">Read More</button>
+            </a>
+            <a href="/v2demo">
+                <button class="lineBtnWh dlt">Play</button>
+            </a>
+        </div>
+
+        </div>
+    <% } %>
+    </div>
+</body>
+</html>

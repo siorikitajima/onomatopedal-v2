@@ -61,8 +61,17 @@ nav.front .closeBtn {
 }
 
 div.center-content {
-    text-align: center;
-    padding-top: 50px;
+    width: 800px;
+    max-width: 90%;
+    padding: 50px 0;
+    margin: 0 auto;
+}
+
+div.center-content h2 {
+    margin: 50px 0 20px 0;
+}
+div.center-content p {
+    margin-bottom: 50px;
 }
 
 div.grid-container {
@@ -94,7 +103,6 @@ div.pedal-grid img {
     margin: 10%;
     /* z-index: 100; */
     position: relative;
-
 }
 
 div.pedal-grid::before {
@@ -109,20 +117,21 @@ div.pedal-grid::before {
     /* z-index: 0; */
 }
 
-div.pedal-grid div.pedal-name {
+div.pedal-grid div.pedal-name, div.pedal-cover div.pedal-name {
     width: 80%;
     height: 80%;
     padding: 10%;
-    display: none;
+    /* display: none; */
     opacity: 0;
     background-color: #F56476;
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 2000;
 }
 
-div.pedal-grid:hover div.pedal-name {
-    display: block;
+div.pedal-grid:hover div.pedal-name, div.pedal-cover:hover div.pedal-name {
+    /* display: block; */
     opacity: 1;
     transition-duration: 200ms;
 }
@@ -138,12 +147,23 @@ div.featBanner {
     padding: 50px 10px;
     height: auto;
     background: #F56476;
-
+}
+div.featBanner.sub {
+    background: #832c36;
+    margin-bottom: 30px;
 }
 
-div.featBanner h1, div.featBanner p {
+div.featBanner h1, div.featBanner p, div.featBanner h3 {
     color: #111;
     text-align: center;
+}
+
+div.featBanner.sub p {
+    color: #ddd;
+}
+
+div.featBanner.sub h1 {
+    font-size: 3em;
 }
 
 div.featBanner p {
@@ -186,6 +206,14 @@ button.lineBtnWh:hover {
     background: #F56476;
     color: #111;
     transition-duration: 200ms;
+}
+
+@media(max-width: 800px) {
+    div.featBanner.sub h1 {
+        font-size: 2.4em;
+        line-height: 1em;
+        margin-top: 10px;
+    }
 }
 
 div.infoPanel {
@@ -301,7 +329,7 @@ div.infoTwo h3.linkIcon::after {
 div.infoTwo h3.linkIcon:hover::after, div.infoTwo h2.linkIcon:hover::after {
     background-image: url('../images/openLink-hover.svg');
 }
-div.infoPanel p.label {
+p.label {
     margin: 20px 0 0 0;
     color: #777;
 }
@@ -365,4 +393,133 @@ div.smPedalImg {
 
 div.smPedalImg img {
     width: 50px;
+}
+
+div.feat-container {
+    width: 800px;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+div.feat-item {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: left;
+    margin-top: 5px;
+}
+div.feat-item.play-pedal {
+    margin-bottom: 50px;
+}
+
+div.feat-item div.feat-info {
+    width: calc(100% - 360px);
+    padding: 20px 30px;
+}
+div.feat-item h2 {
+    margin: 0;
+}
+div.feat-item h3 {
+    margin-bottom: 10px;
+}
+div.feat-item button {
+    display: inline-block;
+    margin: 20px 10px 0 0;
+}
+div.feat-item button.long {
+    width: 100%;
+}
+
+img.featCover {
+    width: 100%;
+}
+
+.sq300 {
+    width: 300px;
+    height: 300px;
+}
+
+@media(max-width: 800px) {
+    div.feat-item {
+        max-width: calc(100% - 10px);
+        height: 230px;
+        margin: 5px auto 0 auto;
+    }
+    .sq300 {
+        width: 230px;
+        height: 230px;
+    }
+    div.feat-item div.feat-info {
+        width: calc(100% - 270px);
+        padding: 10px 20px;
+    }
+    div.featBanner.sub {
+        margin-bottom: 5px;
+    }
+}
+@media(max-width: 680px) {
+    div.feat-item div.feat-info p {
+        display: none;
+    }
+    div.feat-item button {
+        width: 100%;
+        display: block;
+        margin: 10px 0;
+    }
+}
+@media(max-width: 520px) {
+    div.feat-item {
+        height: 200px;
+    }
+    .sq300 {
+        width: 200px;
+        height: 200px;
+    }
+    div.feat-item div.feat-info {
+        width: calc(100% - 210px);
+    }
+    div.feat-item button.dlt {
+        display: none;
+    }
+}
+@media(max-width: 420px) {
+    div.feat-item {
+        height: 160px;
+    }
+    .sq300 {
+        width: 160px;
+        height: 160px;
+    }
+    div.feat-item div.feat-info {
+        width: calc(100% - 200px);
+    }
+    div.feat-item h2 {
+        font-size: 1.5em;
+        margin-bottom: 5px;
+    }
+    div.feat-item h3 {
+        font-family: 'Raleway', sans-serif;
+        font-size: 1em;
+    }
+    div.feat-item button {
+        height: 36px;
+        font-size: 1em;
+        border: none;
+        position: relative;
+    }
+    div.feat-item button.long {
+        width: calc(100% - 30px);
+    }
+    div.feat-item button::after {
+        content: ">>";
+        position: absolute;
+        top: 8px;
+        right: -20px;
+        color: #F56476;
+    }
+    div.feat-item.play-pedal {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 0 50px 0;
+        }
 }

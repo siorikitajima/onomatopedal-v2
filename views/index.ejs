@@ -9,6 +9,18 @@
         <a href="/v2demo"><button class="lineBtn">Play</button></a>
     </div>
     <div class="grid-container">
+        <a href="/v2demo">
+            <div class="pedal-cover">
+                <div class="diamond"></div>
+                <p class="onoText">Flutter</p>
+                <img  class="pedalImg" src="../images/pedals/astraldestiny.png" alt="pedal">               
+                 <div class="pedal-name">
+                    <h2>Flutter</h2>
+                    <h2>Astral Destiny</h2>
+                    <h2>PatternBased</h2>
+                </div>
+            </div>
+        </a>
     <% for (var i = 0; i < pedalListing.length; i++) {%>
         <a href="/v1/<%= pedalListing[i].onomoid %>">
         <div class="pedal-grid">
@@ -22,5 +34,6 @@
         </a>
     <% } %>
     </div>
+    <%- include('./partials/pedal-cover.ejs')  %> 
 </body>
 </html>
