@@ -275,6 +275,7 @@
     .keyboard div.key {
       background-color: #444;
       border-radius: 5px;
+      width: calc(100% - 6px);
       text-align: center;
       display: inline-table;
       cursor: pointer;
@@ -377,6 +378,7 @@
     }
     .keyPanels form select, .keyPanels form input, .keyPanels form div.filebtn {
       height: 60px;
+      width: 60px;
       color: #111;
       /* border: #ddd 1px solid; */
       border-radius: 5px;

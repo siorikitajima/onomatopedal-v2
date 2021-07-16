@@ -9,7 +9,7 @@
         </div>
         <div class="sample label">
           <p>Sample Name</p>
-          <p>OG Note</p>
+          <p>Pitch</p>
         </div>
         <% if (samples.length > 0) { %>
           <% samples.forEach((sample, index) => { %>
@@ -41,7 +41,7 @@
                   <input type="text" id="name" name="name"/>
                   </div>
                   <div class="formItem">
-                  <label for="pitch">OG Note</label>
+                  <label for="pitch">Pitch</label>
                   <select id="pitch" name="pitch">
                     <% for (var p = 0; p < pitches.length; p++) { %>
                         <option value="<%= pitches[p].slug %>"><%= pitches[p].fullName %></option>
@@ -76,7 +76,7 @@
                       <input type="text" id="newname" name="newname" required/>
                   </div>
                   <div class="formItem">
-                      <label for="pitch">OG Note</label>
+                      <label for="pitch">Pitch</label>
                     <select id="pitch" name="pitch">
                         <% for (var p = 0; p < pitches.length; p++) { %>
                             <option value="<%= pitches[p].slug %>"><%= pitches[p].fullName %></option>

@@ -78,7 +78,7 @@ const key_update = (req, res) => {
             const newSample = new Sample({
                 name: req.user.name,
                 samplename: req.body.sample,
-                pitch: req.body.pitch
+                pitch: req.body.samplePitch
             });
             newSample.save((err) => {
                 if(err) { console.error(err); }

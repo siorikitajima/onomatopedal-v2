@@ -31,10 +31,10 @@
                 <div class="left flex">
                     <div class="formItem">
                     <label for="enabled">Enabled</label>
-                    <input type="checkbox" id="enabled" name="enabled" onclick="showFileBtn()" />
+                    <input type="checkbox" id="enabled" name="enabled" type="button" onclick="showFileBtn()" />
                     </div>
                     <div class="formItem">
-                    <label for="pitch">Note</label>
+                    <label for="pitch">Key Pitch</label>
                     <select id="pitch" name="pitch">
                         <% for (var p = 0; p < pitches.length; p++) { %>
                             <option value="<%= pitches[p].slug %>"><%= pitches[p].fullName %></option>
@@ -59,6 +59,15 @@
                             <input type="file" width="60" name="soundfile" id="soundfile" style="padding: 15px; opacity: 0;">
                         </div>
                     </div>
+                    <div class="formItem" id="hidden-sp" style="display: none;">
+                        <label for="samplePitch">Sample Pitch</label>
+                        <select id="samplePitch" name="samplePitch">
+                            <% for (var p = 0; p < pitches.length; p++) { %>
+                                <option value="<%= pitches[p].slug %>"><%= pitches[p].fullName %></option>
+                            <% } %>
+    
+                        </select>
+                        </div>
                 </div>
                 <button>Save</button>
             </form>
@@ -132,7 +141,8 @@
             var newName = $('#soundfile')[0].files[0].name;
             var onlyName = newName.slice(0, -4);
             $("#sample").append(`<option value="${onlyName}" selected>${onlyName}</option>`);
-            console.log(onlyName);
+            $('#hidden-sp').css('display', 'block');
+            $('#soundBtn').css('display', 'none');
         })
 
         // Update file button is visible when 'New Sound' is on
