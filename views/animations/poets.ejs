@@ -1,0 +1,457 @@
+<script>
+    var thepedal = <%- JSON.stringify(pedal) %> ;
+    var thenav = <%- JSON.stringify(nav) %> ;
+    var isMobile = <%- JSON.stringify(mobile) %> ;
+
+    var onomato = thepedal[0].onomato.toUpperCase().replace(/\s+/g, '');
+    var tempo = 60000 / thepedal[0].tempo;
+    var disableKeys = false;
+    var marginTop = isMobile ? 0 : 51; 
+
+    let cols, rows, particle, particleNumber, bGcolor, shadowColor, elemColor, lightMode, nukeAcc;
+    let noiseValue = 0.1;
+    let gridSize = 20;
+    let noiseLevel = 0.01;
+    let speed = 0.2;
+    let triSize = 150;
+    let flowField = [];
+    let particles = [];
+    let letters = [];
+    let modes = [];
+    let rains = [];
+    let ripples = [];
+    let maxR = colorValue[0]; let minR = colorValue[3];
+    let maxG = colorValue[1]; let minG = colorValue[4];
+    let maxB = colorValue[2]; let minB = colorValue[5];
+
+function preload() {
+  if(thenav == 'v2') {
+    myFont = loadFont('../css/fonts/PlayfairBold.otf');
+  } else {
+    myFont = loadFont('css/fonts/PlayfairBold.otf');
+  }
+}
+
+function setup() {
+  textFont(myFont);
+  lightMode = true;
+  bGcolor = color(238, 240, 219);
+  shadowColor = color(colorValue[6], colorValue[7], colorValue[8], 5);
+  elemColor = color(colorValue[6], colorValue[7], colorValue[8]);
+  createCanvas(innerWidth, innerHeight - marginTop); 
+  
+  cols = int( width / gridSize );
+  rows = int( height / gridSize );
+  particleNumber = (cols + rows) /2;
+
+  frameRate(24);
+  
+  for(let p = 0; p < particleNumber; p++) {
+    particle = new Particle();
+    particles.push(particle);
+  }
+
+  if(isMobile) {
+        let pads = selectAll('.pad');
+       }
+}
+
+function draw() {
+  background(bGcolor);
+  
+    translate(gridSize/2, gridSize/2);  
+  for (let v = 0; v < cols; v++) {
+    flowField[v] = [];
+    for (let r = 0; r < rows; r++) {
+      let offset = createVector((gridSize * v), (gridSize * r));
+      angleMode(DEGREES);
+      let head = p5.Vector.fromAngle(360 * noise(noiseValue * 0.01));
+      head.setMag(speed);
+      flowField[v][r] = head;
+      noiseValue = noiseValue + noiseLevel;
+    }
+  }  
+  
+  for(let m = 0; m < modes.length; m++) {
+    modes[m].show();
+    modes[m].remove(modes);
+  }
+  
+  for(let r = 0; r < rains.length; r++) {
+    rains[r].show();
+    rains[r].remove(rains);
+  }
+  
+  for(let ri = 0; ri < ripples.length; ri++) {
+    ripples[ri].show();
+    ripples[ri].remove(ripples);
+  }
+  
+  for(let l = 0; l < letters.length; l++) {
+    letters[l].show();
+    letters[l].remove(letters);
+  }
+  
+  for(let p = 0; p < particles.length; p++) {
+  particles[p].show();
+  particles[p].move();
+  particles[p].follow(flowField);
+  particles[p].bounce();
+  particles[p].joint(particles);
+  }
+}
+    
+    function keyPressed() {
+      if (key == 'a' || key == 'b') {
+        let nuke = createVector( random(width), random(height) );
+        let ripple = new Ripple(nuke);
+        ripples.push(ripple);
+      }
+      if (key == 'd' || key == 'l') {
+        let rain = new Rain();
+        rains.push(rain);   
+      }
+      if (key == 'g' || key == 'i') {
+        let letter = new Letter(key, 'random');
+        letters.push(letter);
+      }
+      if (key == 'j' || key == 'q') {
+        let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+        let letter = new Letter(OnoLetter, 'ono');
+        letters.push(letter);
+      }
+      if (key == 'm' || key == 'e') {
+        let rain = new Rain();
+        rains.push(rain);   
+      }
+      if (key == 'p' || key == 'r' || key == 'z') {
+        let letter = new Letter(key, 'random');
+        letters.push(letter);
+      }
+      if (key == 's' || key == 'u' || key == 't') {
+        let nuke = createVector( random(width), random(height) );
+        let ripple = new Ripple(nuke);
+        ripples.push(ripple);
+      }
+      if (key == 'v' || key == 'w' || key == 'k') {
+        let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+        let letter = new Letter(OnoLetter, 'ono');
+        letters.push(letter);
+      }
+      if (key == 'x' || key == 'y' || key == 'n') {
+        let letter = new Letter(key, 'random');
+        letters.push(letter);
+      }
+      if (key == 'c' || key == 'h') {
+        let nuke = createVector( random(width), random(height) );
+        let ripple = new Ripple(nuke);
+        ripples.push(ripple);
+      }
+      if (key == 'f' || key == 'o') {
+        let rain = new Rain();
+        rains.push(rain);   
+      }
+      if (keyCode === 32) {
+        let mode = new Mode();
+        modes.push(mode);
+      }
+      return false;
+    }
+    function windowResized() {
+      resizeCanvas(windowWidth, windowHeight = marginTop);
+    }
+
+    class Letter {
+        constructor(key, type) {
+            this.key = key;
+            this.type = type;
+            if(this.type == 'ono') {
+                this.size = random(width/3, width/2);
+                this.speed = random(tempo/25, tempo/12);
+            } else {
+                this.size = random(20, 200);
+                this.speed = random(tempo/100, tempo/50);
+            } 
+            this.pos = createVector (random(width - this.size), random(height/2));
+            this.r = floor(map(noise(this.size *0.5), 0, 1, maxR, minR));
+            this.g = floor(map(noise(this.speed *0.5), 0, 1, maxG, minG));
+            this.b = floor(map(noise(this.pos.x *0.5), 0, 1, maxB, minB));
+        };
+        
+        show() {
+            fill(this.r, this.g, this.b);
+            textSize(this.size)
+            text(this.key, this.pos.x, this.pos.y);
+            this.pos.y = this.pos.y + this.speed;
+        };
+        
+        remove(arrayName) {
+            let removeYpos = height + this.size;
+            if(this.pos.y > removeYpos) {
+            let index;
+            for (let l = 0; l < arrayName.length; l++) {
+                if ( this.pos.y == arrayName[l].y ) {
+                index = l;
+                break;
+                }
+            }
+            arrayName.splice( index, 1 );
+            }
+            if(arrayName.length > 30) {
+            arrayName.splice( 0, 1 );
+            }
+        };
+    }
+
+    class Mode {
+        constructor() {
+            this.r = 1;
+            this.speed = random(1.5, 2.5);
+        }
+        
+        show() {
+            if(lightMode) {
+            fill( colorValue[6], colorValue[7], colorValue[8] );
+            } else {
+            fill( 238, 245, 219 );
+            }
+            circle( width/2, height/2, this.r);
+            this.r = this.r * 2;
+        }
+        
+        remove(arrayName) {
+            if(this.r > width) {
+            arrayName.splice(0, 1);
+            if(lightMode) {
+                bGcolor = color(colorValue[6], colorValue[7], colorValue[8]);
+                shadowColor = color(238, 240, 219, 5);
+                elemColor = color(238, 240, 219);
+                maxR = maxR + 20; maxG = maxG + 20; maxB = maxB + 20;
+                lightMode = false;
+            } else {
+                bGcolor = color(238, 240, 219);
+                shadowColor = color(colorValue[6], colorValue[7], colorValue[8], 5);
+                elemColor = color(colorValue[6], colorValue[7], colorValue[8]);
+                maxR = maxR - 20; maxG = maxG - 20; maxB = maxB - 20;
+                lightMode = true;
+            }
+            }
+        }
+    }
+
+    class Particle {
+        constructor() {
+            this.pos = createVector(random(width), random(height));
+            this.vel = createVector(0, 0);
+            this.acc = createVector(0, 0);
+            this.maxspeed = tempo/125;
+            this.random = random(-10, 40);
+        }
+        show() {
+            noFill();
+            noStroke();
+            circle( this.pos.x, this.pos.y, 2 );
+        }
+        move() {
+            this.vel.add(this.acc);
+            this.vel.limit(this.maxspeed);
+            this.pos.add(this.vel);
+            this.acc.mult(0);
+        }
+        follow(vectors) {
+            let force;
+            let x = int(this.pos.x / gridSize);
+            let y = int(this.pos.y / gridSize);
+            for( let v = 0; v < cols; v++) {
+            for( let r = 0; r < rows; r++) {
+                if(v == x) {
+                if(r == y) {
+                    force = vectors[v][r];
+                    break;
+                }}}
+            }
+            this.applyForce(force);
+        }
+        applyForce(force) {
+            this.acc.add(force);
+        }
+        bounce() {
+            if (this.pos.x < 0 || this.pos.x > width) {
+            this.vel.x = this.vel.x * -1;
+            }
+            if (this.pos.y < 0 || this.pos.y > height) {
+            this.vel.y = this.vel.y * -1;
+            }
+            if ( this.vel.x == 0 && this.vel.y == 0 ) {
+            let bounce = createVector(-0.1, -0.1);
+            this.acc.add(bounce);
+            }
+        }
+        joint(particles) {
+            particles.forEach(first =>{
+            let dis = dist( this.pos.x, this.pos.y,  first.pos.x, first.pos.y );
+            if( dis < triSize ) {
+                particles.forEach(second =>{
+                let dis2 = dist( this.pos.x, this.pos.y,  second.pos.x, second.pos.y );
+                if (dis2 < triSize ) {
+                    fill(shadowColor);
+                    if (dis2 < triSize /3 ) {
+                        let r = floor(map(noise(first.pos.x *0.125), 0, 1, maxR, minR));
+                        let g = floor(map(noise(first.pos.y *0.125), 0, 1, maxG, minG));
+                        let b = floor(map(noise(second.pos.x *0.125), 0, 1, maxB, minB));
+                        fill(r, g, b);
+                    }
+                    
+                    let x1 = this.pos.x;
+                    let y1 = this.pos.y;
+                    let x2 = first.pos.x + (this.random * noise(first.pos.x *0.25));
+                    let y2 = first.pos.y + (this.random * noise(first.pos.y *0.25));
+                    let x3 = second.pos.x + (this.random * noise(second.pos.x *0.25));
+                    let y3 = second.pos.y + (this.random * noise(second.pos.y *0.25));
+                    
+                    triangle(x1, y1, x2, y2, x3, y3);
+                }
+                })
+            }
+            });
+            stroke(elemColor);
+            strokeWeight(this.random);
+            point(this.pos.x, this.pos.y);
+            noStroke();
+        }
+    }
+
+    class Rain {
+        constructor() {
+            this.speed = random( height/6 , height/10 );
+            this.w = random(2, 6);
+            this.h = 1;
+            this.num = floor(random(4, 20));
+            this.pos = createVector( random( (width - (this.w * this.num * 2)) ), -10);
+        }
+        
+        show() {
+            fill(elemColor);
+            for(let r = 0; r < this.num; r++) {
+            let offset = this.w * 2 * r;
+            rect((this.pos.x + offset), this.pos.y, this.w, this.h);
+            }
+            if (this.h > height) {
+                this.pos.y = this.pos.y + this.speed;
+            } else {
+                this.h = this.h + this.speed;      
+            }
+        }
+        
+        remove(arrayName) {
+            if(this.pos.y > height) {
+            arrayName.splice(0, 1);
+            }
+        }
+    }
+
+    class Ripple {
+        constructor(nuke) {
+            this.pos = nuke;
+            this.size = 10;
+            this.w = random(2, 6);
+        }
+        
+        show() {
+            noFill();
+            strokeWeight(this.w);
+            stroke( elemColor );
+            for (let r = 0; r < 4; r++) {
+            let offset = this.w * 4 * r;
+            circle(this.pos.x, this.pos.y, this.size + offset);
+            }
+            this.size = this.size * 2;
+            noStroke();
+        }
+        
+        remove(arrayName) {
+            if(this.size > width * 2) {
+            arrayName.splice(0,1);
+            }
+        }
+        }
+
+    if(isMobile) {
+      function randAlphbt() {
+        let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        let charactersLength = characters.length;
+        let al = Math.floor(Math.random() * charactersLength);
+        return characters[al];
+      }
+      function touchStarted() {
+      let posx = floor(mouseX);
+      let posy = floor(mouseY);
+      let col1 = posx >= 0 && posx < width/3;
+      let col2 = posx >= width/3 && posx < width/3*2;
+      let col3 = posx >= width/3*2 && posx <= width;
+      let row1 = posy >= 0 && posy < height/10;
+      let row2 = posy >= height/10 && posy < height/10*2;
+      let row3 = posy >= height/10*2 && posy < height/10*3;
+      let row4 = posy >= height/10*3 && posy < height/10*4;
+      let row5 = posy >= height/10*4 && posy < height/10*5;
+      let row6 = posy >= height/10*5 && posy < height/10*6;
+      let row7 = posy >= height/10*6 && posy < height/10*7;
+      let row8 = posy >= height/10*7 && posy < height/10*8;
+      let row9 = posy >= height/10*8 && posy < height/10*9;
+    
+      if ((col2 && row9) || (col3 && row4)) {
+        let nuke = createVector( random(width), random(height) );
+        let ripple = new Ripple(nuke);
+        ripples.push(ripple);
+      }
+      if ((col2 && row7) || (col2 && row1)) {
+        let rain = new Rain();
+        rains.push(rain);   
+      }
+      if ((col2 && row5) || (col1 && row2)) {
+        let letter = new Letter(randAlphbt(), 'random');
+        letters.push(letter);
+      }
+      if ((col2 && row3) || (col1 && row9)) {
+        let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+        let letter = new Letter(OnoLetter, 'ono');
+        letters.push(letter);
+        }
+      if ((col3 && row2) || (col1 && row7)) {
+        let rain = new Rain();
+        rains.push(rain);  
+      }
+      if ((col3 && row1) || (col1 && row6) || (col3 && row8)) {
+        let letter = new Letter(randAlphbt(), 'random');
+        letters.push(letter);
+      }
+      if ((col2 && row8) || (col1 && row3) || (col1 && row5)) {
+        let nuke = createVector( random(width), random(height) );
+        let ripple = new Ripple(nuke);
+        ripples.push(ripple);
+      }
+      if ((col3 && row5) || (col1 && row8) || (col2 && row2)) {
+        let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+        let letter = new Letter(OnoLetter, 'ono');
+        letters.push(letter);
+      }
+      if ((col3 && row7) || (col1 && row4) || (col3 && row3)) {
+        let letter = new Letter(randAlphbt(), 'random');
+        letters.push(letter);
+      }
+      if ((col3 && row6) || (col2 && row4)) {
+        let nuke = createVector( random(width), random(height) );
+        let ripple = new Ripple(nuke);
+        ripples.push(ripple);
+      }
+      if ((col2 && row6) || (col1 && row1)) {
+        let rain = new Rain();
+        rains.push(rain);   
+      }
+      if (col3 && row9) {
+        let mode = new Mode();
+        modes.push(mode);
+      }
+    }
+    }
+      </script>

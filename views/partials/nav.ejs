@@ -1,24 +1,45 @@
-<nav>
-    <div class="site-title">
-        <a href="/studio"><h1>OnomatoPedal<span>Studio</span></h1></a>
+<nav class="front">
+    <div class="site-title front">
+        <a href="/"><h1>OnomatoPedal</h1></a>
     </div>
-    <div class="nav">
+    <ul>
+        <li class="cLcases">Hello, <%= name %></li>
+        <li class="logoutBtn loginBtn">
+            <form action="/logout?_method=DELETE" method="POST">
+                <button type="submit">LOG OUT</button>
+            </form>
+        </li>
+    </ul>
+</nav>
+<div class="sideNav">
+    <p class="backFront"><a href="/">OnomatoPedal Top</a></p>
+
+    <div class="site-title">
+        <h1>OnomatoPedal<br/><span>Studio</span></h1>
+    </div>
+    <div class="navLeft">
         <% if (nav == undefined) { var nav = null; } %>
         <ul>
             <li <% if (nav === 'studio') { %>class="current" <% } %>><a href="/studio">Dashboard</a></li>
-            <li <% if (nav === 'info') { %>class="current" <% } %>><a href="/info">Info</a></li>
-            <li <% if (nav === 'aboutst') { %>class="current" <% } %>><a href="/aboutst">About</a></li>
-            <li class="logoutBtn">
-                <form action="/logout?_method=DELETE" method="POST">
-                    <button type="submit">LOG OUT</button>
-                </form>
-            </li>
-        </ul>
-        <ul>
-            <li <% if (nav === 'preview') { %>class="current" <% } %>><a href="/preview">Preview</a></li>
+
             <li <% if (nav === 'stems') { %>class="current" <% } %>><a href="/stems">Stems</a></li>
+
             <li <% if (nav === 'keys') { %>class="current" <% } %>><a href="/keys">Keys</a></li>
+
             <li <% if (nav === 'samples') { %>class="current" <% } %>><a href="/samples">Samples</a></li>
+
+            <li <% if (nav === 'info') { %>class="current" <% } %>><a href="/info">Info</a></li>
+
+            <li <% if (nav === 'preview') { %>class="current" <% } %>><a href="/preview">Preview</a></li>
+
+            <li <% if (nav === 'aboutst') { %>class="current" <% } %>><a href="/guide">Guide</a></li>
         </ul>
     </div>
-</nav>
+    <div class="footer">
+        <div class="flex">
+        <a href="https://www.earthquakerdevices.com/" target="_blank"><img class="footerLogo" src="images/EQD_logo_S.png" alt="EQD logo"></a>
+        <a href="https://www.patternbased.com/" target="_blank"><img class="footerLogo" src="images/PB_logo_S.png" alt="PB logo"></a>            
+    </div>
+        <p>&copy;2021 Earthquaker Devices and PatternBased</p>
+    </div>
+</div>

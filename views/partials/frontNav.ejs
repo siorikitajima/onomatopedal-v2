@@ -9,10 +9,25 @@
             <li <% if (nav === 'feat' || nav === 'feat-single') { %>class="current" <% } %>><a href="/feat">Featured</a></li>
             <li <% if (nav === 'v1') { %>class="current" <% } %>><a href="/v1">V1 Shuffler</a></li>
             <li <% if (nav === 'about') { %>class="current" <% } %>><a href="/about">About</a></li>
+            <li class="image">
+                <% if (nav === 'feat-single' || nav === 'v2') { %>
+                <a href="https://www.earthquakerdevices.com/" target="_blank"><img src="../images/EQD_logo_S.png" alt="EQD logo"></a>
+                <% } else { %>
+                <a href="https://www.earthquakerdevices.com/" target="_blank"><img src="images/EQD_logo_S.png" alt="EQD logo"></a>
+                <%}%>
+            </li>
+            <li class="image">
+                <% if (nav === 'feat-single' || nav === 'v2') { %>
+                <a href="https://www.patternbased.com/" target="_blank"><img src="../images/PB_logo_S.png" alt="PB logo"></a>
+                <% } else { %>
+                <a href="https://www.patternbased.com/" target="_blank"><img src="images/PB_logo_S.png" alt="PB logo"></a>
+                <%}%>
+            </li>
             <li class="logoutBtn loginBtn">
                 <a href="/login"><button type="button">ARTIST LOG IN</button></a>
             </li>
         </ul>
+        
     </div>
     <div class="menuBtn" onclick="menuPanelHandler()"></div>
     <div class="mobnav">
@@ -27,6 +42,21 @@
                 <a href="/login"><button type="button">ARTIST LOG IN</button></a>
             </li>
         </ul>
+        <div class="bottom">
+            <div class="flex">
+                <% if (nav === 'feat-single' || nav === 'v2') { %>
+                    <a href="https://www.earthquakerdevices.com/" target="_blank"><img class="footerLogo" src="../images/EQD_logo_S.png" alt="EQD logo"></a>
+                    <% } else { %>
+                    <a href="https://www.earthquakerdevices.com/" target="_blank"><img class="footerLogo" src="images/EQD_logo_S.png" alt="EQD logo"></a>
+                    <%}%>
+                <% if (nav === 'feat-single' || nav === 'v2') { %>
+                    <a href="https://www.patternbased.com/" target="_blank"><img class="footerLogo" src="../images/PB_logo_S.png" alt="PB logo"></a>
+                    <% } else { %>
+                    <a href="https://www.patternbased.com/" target="_blank"><img class="footerLogo" src="images/PB_logo_S.png" alt="PB logo"></a>
+                    <%}%>         
+        </div>
+            <p>&copy;2021 Earthquaker Devices and PatternBased</p>
+        </div>
     </div>
 </nav>
 

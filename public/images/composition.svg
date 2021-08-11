@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="pb-composition" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 120 120" style="enable-background:new 0 0 120 120;" xml:space="preserve">
+<a href="https://patternbased.com/portfolio/index.html?category=scores" target="_parent">
+<style type="text/css">
+	.cmp-st0{fill:#F56476;}
+        svg:hover .cmp-st0{fill:#BDBDBD;}
+	.cmp-st1{fill:#F6F6F6;stroke:#000000;stroke-width:1.1832;stroke-miterlimit:10;}
+	.cmp-st2{fill:none;stroke:#000000;stroke-miterlimit:10;}
+	.cmp-st3{fill:#F6F6F6;stroke:#000000;stroke-miterlimit:10;}
+	#cmp-rect-1, #cmp-rect-2, #cmp-rect-3, #cmp-circle-1, #cmp-circle-2, #cmp-circle-3, #cmp-circle-4, #cmp-circle-5, #cmp-circle-6 {
+  animation-duration: 4s;
+  animation-iteration-count:infinite;
+  transform-origin: 50% 50%;
+  animation-timing-function: ease-in-out;
+  animation-play-state: running;}
+  #cmp-rect-1 {animation-name: key-press-1;}
+  #cmp-rect-2 {animation-name: key-press-2;}
+  #cmp-rect-3 {animation-name: key-press-3;}
+  #cmp-circle-1 {animation-name: music-note-1;}
+  #cmp-circle-2 {animation-name: music-note-2;}
+  #cmp-circle-3 {animation-name: music-note-3;}
+  #cmp-circle-4 {animation-name: music-note-4;}
+  #cmp-circle-5 {animation-name: music-note-5;}
+  #cmp-circle-6 {animation-name: music-note-6;}
+  @keyframes music-note-1 {
+    0%, 26% {transform: scale(1) translate(0, -0);}
+    30%, 41% {transform: scale(1.3) translate(6.5px, 3px);}
+    45%, 100% {transform: scale(1) translate(0, -0);} 
+  }
+  @keyframes music-note-2 {
+    0%, 66% {transform: scale(1) translate(0, -0);}
+    70%, 95% {transform: scale(1.3) translate(-9.5px, 3.5px);}
+    99%, 100% {transform: scale(1) translate(0, -0);} 
+  }
+   @keyframes music-note-3 {
+    0%, 1% {transform: scale(1) translate(0, -0);}
+    5%, 29% {transform: scale(1.3) translate(10px, 6px);}
+    34%, 100% {transform: scale(1) translate(0, -0);} 
+  }
+   @keyframes music-note-4 {
+    0%, 41% {transform: scale(1) translate(0, -0);}
+    45%, 49% {transform: scale(1.3) translate(1px, 5px);}
+    53%, 100% {transform: scale(1) translate(0, -0);} 
+  }
+   @keyframes music-note-5 {
+    0%, 51% {transform: scale(1) translate(0, -0);}
+    55%, 60% {transform: scale(1.3) translate(-1.5px, 5px);}
+    64%, 100% {transform: scale(1) translate(0, -0);} 
+  }
+   @keyframes music-note-6 {
+    0%, 59% {transform: scale(1) translate(0, -0);}
+    63%, 69% {transform: scale(1.3) translate(-4.5px, 5px);}
+    73%, 100% {transform: scale(1) translate(0, -0);} 
+  }
+   @keyframes key-press-1 {
+    0%, 26% {opacity:0;}
+    30%, 41% {opacity:0.3;}
+    45%, 66% {opacity:0;} 
+    70%, 100% {opacity:0.3;}    
+  }
+   @keyframes key-press-2 {
+    0%, 41% {opacity:0;}
+    45%, 47% {opacity:0.3;}
+    51%, 53% {opacity:0;}
+    55%, 57% {opacity:0.3;}
+    61%, 62% {opacity:0;}
+    63%, 67% {opacity:0.3;}
+    70%, 100% {opacity:0;}    
+  }
+    @keyframes key-press-3 {
+    0%, 1% {opacity:0;}
+    5%, 26% {opacity:0.3;}
+    30%, 100% {opacity:0;}    
+  }
+  svg:hover #cmp-rect-1, svg:hover #cmp-rect-2, svg:hover #cmp-rect-3, svg:hover #cmp-circle-1, svg:hover #cmp-circle-2, svg:hover #cmp-circle-3, svg:hover #cmp-circle-4, svg:hover #cmp-circle-5, svg:hover #cmp-circle-6 {
+    animation-play-state: paused;
+}
+</style>
+<g>
+	<path class="cmp-st0" d="M15,114.5c-5.24,0-9.5-4.26-9.5-9.5V15c0-5.24,4.26-9.5,9.5-9.5h90c5.24,0,9.5,4.26,9.5,9.5v90
+		c0,5.24-4.26,9.5-9.5,9.5H15z"/>
+	<path d="M105,6c4.96,0,9,4.04,9,9v90c0,4.96-4.04,9-9,9H15c-4.96,0-9-4.04-9-9V15c0-4.96,4.04-9,9-9H105 M105,5H15
+		C9.48,5,5,9.48,5,15v90c0,5.52,4.48,10,10,10h90c5.52,0,10-4.48,10-10V15C115,9.48,110.52,5,105,5L105,5z"/>
+</g>
+<g>
+	<line class="cmp-st1" x1="31.65" y1="59.5" x2="31.65" y2="115"/>
+	<line class="cmp-st1" x1="17.65" y1="59.5" x2="17.65" y2="115"/>
+	<line class="cmp-st1" x1="59.65" y1="59.5" x2="59.65" y2="115"/>
+	<line class="cmp-st1" x1="45.65" y1="59.5" x2="45.65" y2="115"/>
+	<line class="cmp-st1" x1="87.65" y1="59.5" x2="87.65" y2="115"/>
+	<line class="cmp-st1" x1="101.65" y1="59.5" x2="101.65" y2="115"/>
+	<line class="cmp-st1" x1="73.65" y1="59.5" x2="73.65" y2="115"/>
+</g>
+<circle id="cmp-circle-1" cx="31" cy="46" r="4"/>
+<polyline class="cmp-st2" points="34.5,45.5 34.5,26.5 40,32 "/>
+<circle id="cmp-circle-2" cx="102" cy="45" r="4"/>
+<line class="cmp-st2" x1="105.5" y1="44.5" x2="105.5" y2="25.5"/>
+<circle id="cmp-circle-3" cx="18" cy="33" r="4"/>
+<line class="cmp-st2" x1="21.5" y1="32.5" x2="21.5" y2="13.5"/>
+<circle id="cmp-circle-4" cx="55" cy="38" r="4"/>
+<polyline class="cmp-st2" points="58.5,37.5 58.5,18.5 84.5,18.5 84.5,37.5 "/>
+<circle id="cmp-circle-5" cx="68" cy="38" r="4"/>
+<line class="cmp-st2" x1="71.5" y1="37.5" x2="71.5" y2="18.5"/>
+<circle id="cmp-circle-6" cx="81" cy="38" r="4"/>
+<line class="cmp-st3" x1="5" y1="59.5" x2="115" y2="59.5"/>
+<rect x="32" y="60" id="cmp-rect-1" width="14" height="55"/>
+<rect x="46" y="60" id="cmp-rect-2" width="14" height="55"/>
+<rect x="60" y="60" id="cmp-rect-3" width="14" height="55"/>
+<g>
+	<rect x="12.7" y="59.5" width="10" height="27.5"/>
+	<rect x="26.7" y="59.5" width="10" height="27.5"/>
+	<rect x="110.7" y="59.5" width="4.3" height="27.5"/>
+	<rect x="55.2" y="59.5" width="9" height="27.5"/>
+	<rect x="82.7" y="59.5" width="10" height="27.5"/>
+	<rect x="68.7" y="59.5" width="10" height="27.5"/>
+</g>
+</a>
+</svg>

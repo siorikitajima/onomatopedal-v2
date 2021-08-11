@@ -25,6 +25,15 @@ const pedalSchema = new Schema({
     },
     website: {
         type: String
+    },
+    animation: {
+        type: String
+    },
+    color: {
+        type: String
+    },
+    tempo: {
+        type: String
     }
 }, { timestamps: true });
 

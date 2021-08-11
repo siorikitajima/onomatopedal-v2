@@ -8,6 +8,7 @@ const multerS3 = require('multer-s3');
 const AWS = require('aws-sdk');
 const accessKeyIdS3 = require('../secKey3');
 const secretAccessKeyS3 = require('../secKey4');
+const atob = require('atob');
 
 const s3 = new AWS.S3({
     accessKeyId: accessKeyIdS3,
@@ -36,11 +37,38 @@ let upload = multer({
         cb(null, `${req.user.name}/${file.fieldname}${ext}`)
       }
     })
-  })
+  });
 
-//////////// Stem routes ////////////
+//////////// Routes ////////////
 
 router.get('/studio', authController.checkAuthenticated, stemsController.studio_get);
+
+router.post('/studio', (req, res) => {
+  let upload = multer({
+    limits: { fileSize: 500000 },
+    storage: multerS3({
+      s3: s3,
+      bucket: 'opv2-heroku',
+      acl: "public-read",
+      metadata: function (req, file, cb) {
+        cb(null, {fieldName: file.fieldname});
+      },
+      key: function (req, file, cb) {
+        cb(null, `${req.user.name}/cover.jpg`);
+      }
+    })
+  });
+  const uploadMiddleware = upload.single('cover');
+  uploadMiddleware(req, res, function(err) {
+    if (err) {
+      console.log(err);
+      return res.send("<script> alert('Oops! There was errors'); window.location =  'studio'; </script>");
+     }
+    else {
+      return res.redirect('/saved'); 
+    }    
+  })
+});
 
 router.get('/stems', authController.checkAuthenticated, stemsController.stems_get);
 
@@ -80,5 +108,7 @@ router.delete('/stem2', stemsController.stem_delete_2);
 router.delete('/stem3', stemsController.stem_delete_3);
 
 router.get('/preview', authController.checkAuthenticated, stemsController.preview_get);
+
+router.post('/animation', authController.checkAuthenticated, stemsController.animation_post);
 
 module.exports = router;

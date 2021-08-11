@@ -3,7 +3,7 @@
 <body>
     <%- include('./partials/nav.ejs')  %> 
 
-    <div class="content keys">
+    <div class="content keys sideBar">
         <div class="h2bg">
             <h2>Keys to Samples</h2>
         </div>
@@ -104,7 +104,7 @@
 
             var index = $(this).attr('data-index');
             thekey = thekeys[index];
-            console.log(index);
+            // console.log(index);
 
             $('#keyName').html(thekey.key);
             $('#noteName').html(thekey.pitch.toUpperCase().replace('M', '#'));

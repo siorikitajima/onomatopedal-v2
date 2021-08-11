@@ -22,6 +22,7 @@ const infoController = require('./controllers/infoController');
 const frontController = require('./controllers/frontController');
 const initializePassport = require('./controllers/passport-config');
 const User = require('./models/user');
+const bodyParser = require('body-parser').json({limit: '50mb'});
 // const browser = require('browser-detect') 
 
 var store = new MongoDBStore({
@@ -61,12 +62,15 @@ User.find()
 app.set('trust proxy', 1);
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ limit: "50mb", extended: false }));
 app.use(flash());
 app.use(session(sess));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride('_method'));
+// app.use(bodyParser);
+// app.use(bodyParser.json({limit: "50mb"}));
+// app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
 
 //////////// Main routes ////////////
 
@@ -82,8 +86,8 @@ app.post('/login', authController.checkNotAuthenticated, passport.authenticate('
 app.get('/register', authController.checkAuthenticated, infoController.register_get);
 app.post('/register', authController.checkAuthenticated, infoController.register_post);
 
-app.get('/aboutst', authController.checkAuthenticated, (req, res) => {
-    res.render('aboutst', { title: 'About', nav:'aboutst', name: req.user.name });
+app.get('/guide', authController.checkAuthenticated, (req, res) => {
+    res.render('guide', { title: 'About', nav:'aboutst', name: req.user.name });
 });
 
 app.get('/info', authController.checkAuthenticated, infoController.info_get);

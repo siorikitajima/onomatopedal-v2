@@ -3,14 +3,16 @@
 <body>
     <%- include('./partials/nav.ejs')  %> 
  
-    <div class="content p404">
-        <h2>SAVED</h2>
+    <div class="content about sideBar">
+        <div class="centerMiddle">
+            <h2 id="saved">SAVED</h2>
+            <img src="images/composition.svg" alt="piano" width="120">       
+        </div>
     </div>
-    <%- include('./partials/footer.ejs')  %> 
 <script>
     setTimeout(function(){
         window.location.replace('/studio');
-    }, 1000)
+    }, 500)
 </script>
 </body>
 </html>

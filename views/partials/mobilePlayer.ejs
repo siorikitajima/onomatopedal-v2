@@ -1,11 +1,8 @@
 <div class="infoPanel">
         <div class="infoOne">
-            <div class="pedalImgDiv">
-                <div id="diamond"></div>
-                <p id="onoText"><%= pedal[0].onomato %></p>
-                <img  id="pedalImg" src="" alt="pedal">
-            </div>
             <div class="opImg">
+                <% var val = Math.floor(1000 + Math.random() * 9000); %>
+                <img  src="https://opv2-heroku.s3.us-west-1.amazonaws.com/<%= name %>/cover.jpg?<%=val%>" alt="pedal">
             </div>
         </div>
         <div class="infoTwo">
@@ -13,12 +10,20 @@
             <h2><%= pedal[0].onomato %></h2>
             <p><%= pedal[0].onoMeaning %></p>
             <p class="label">FEATURED PEDAL</p>
-            <h2 id="pedalDisplay"></h2>
+            <a id="pedalLink" href="" target="_blank">
+                <h2 id="pedalDisplay" class="linkIcon"></h2>
+            </a>
             <p id="pedalDesc"></p>
             <p class="label">MUSIC BY</p>
-            <h2><%= pedal[0].artist %></h2>
-            <h3>"<%= pedal[0].trackName %>"</h3>
-
+            <h2 class="linkIcon"><%= pedal[0].artist %></h2>
+            <h3 class="linkIcon">"<%= pedal[0].trackName %>"</h3>
+            <p class="label">ANIMATION BY</p>
+            <% for ( var a = 0; a < animation.length; a++ ) { %> 
+                <% if ( animation[a].slug == pedal[0].animation ) { %>
+            <h2 class="linkIcon"><%= animation[a].artist %></h2>
+            <h3 class="linkIcon">"<%= animation[a].fullName %>"</h3>
+                <% } %>
+            <% } %>
         </div>
         <a href="/">
             <button class="line-btn">

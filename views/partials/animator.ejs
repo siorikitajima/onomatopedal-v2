@@ -1,0 +1,79 @@
+<div class="animator">
+    <form id="animaForm" class="forms" action="/animation" method="POST">
+        <label for="animation">Animation</label>
+        <select name="animation" id="animation" onchange="submitAnima();">
+            <option value="blocky">Number Five Blocky</option>
+            <option value="erosion">Erosion</option>
+            <option value="humble">Humble Pattern</option>
+            <option value="poets">Poet's Space</option>
+        </select>
+
+        <label for="color">Color Palette</label>
+        <select name="color" id="color" onchange="submitAnima();">
+            <option value="reddish">Reddish</option>
+            <option value="bluish">Bluish</option>
+            <option value="greenish">Greenish</option>
+            <option value="colorful">Colorful</option>
+            <option value="soft">Soft</option>
+            <option value="earthy">Earthy</option>
+            <option value="neon">Neon</option>
+            <option value="grayish">Grayish</option>
+        </select>
+
+        <p id="unit"><%= pedal[0].tempo%> BPM</p>
+        <label for="tempo">Tempo</label>
+        <input type="range" min=30 max=240 id="tempo" name="tempo" value="<%= pedal[0].tempo%>" style="display: inline; padding-left: 10px;"  oninput="updateRange(this.value)" onchange="submitAnima();">
+        <!-- <input type="submit" style="display: none" /> -->
+
+        <input id="hiddenKeyName" type="hidden" name="name" value="<%= pedal[0].name%>">
+    </form>
+
+    <div class="handle" onclick="animatorHandle()">
+        <img src="images/closeTab_dark.svg" alt="close"/>
+    </div>
+</div>
+<div class="blackscreen"></div>
+<div class="loadingSpinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+<script>
+    var thepedal = <%- JSON.stringify(pedal[0]) %> ;
+    var animation = document.querySelector('#animation');
+    let animaOpen = true;
+    var opt;
+    for ( var i = 0, len = animation.options.length; i < len; i++ ) {
+    opt = animation.options[i];
+    var pedalslug = thepedal.animation;
+    if ( opt.value === pedalslug ) {
+        opt.setAttribute('selected', 'selected'); 
+        break;
+    }}
+
+    var color = document.querySelector('#color');
+    var opt2;
+    for ( var i = 0, len = color.options.length; i < len; i++ ) {
+    opt2 = color.options[i];
+    var pedalslug = thepedal.color;
+    if ( opt2.value === pedalslug ) {
+        opt2.setAttribute('selected', 'selected'); 
+        break;
+    }}
+
+    function updateRange(value) {
+        document.querySelector("#unit").innerHTML = value + 'BPM';
+    }
+
+    function animatorHandle() {
+        if(animaOpen) {
+            $('.animator').css('right', '-480px');
+            $('.animator img').attr('src', 'images/openTab_dark.svg');
+        } else {
+            $('.animator').css('right', '0');
+            $('.animator img').attr('src', 'images/closeTab_dark.svg');
+        }
+        animaOpen = !animaOpen;
+    }
+    function submitAnima() {
+            $('.loadingSpinner, .blackscreen').css('display','inline-block');
+            var theform = '#animaForm';
+            $(theform).submit();
+        }
+</script>

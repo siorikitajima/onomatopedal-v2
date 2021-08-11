@@ -1,0 +1,31 @@
+<html lang="en">
+    <%- include('./partials/frontHead.ejs')  %> 
+<body>
+  <% if (!mobile) {%>
+    <%- include('./partials/frontNav.ejs')  %> 
+  <% } %>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
+
+    <script>
+        var aniName = <%- JSON.stringify(pedal[0].animation) %> ;
+        var colName = <%- JSON.stringify(pedal[0].color) %> ;
+        var allAnima = <%- JSON.stringify(animation) %> ;
+        var colorValue; var theAnima;
+        for ( var a = 0; a < allAnima.length; a++ ) {
+          if ( allAnima[a].slug == aniName) {
+            colorValue = allAnima[a][colName];
+            theAnima = allAnima[a];
+            break;
+          }
+        }
+      </script>
+
+    <% if (mobile) {%>
+    <%- include('./partials/mobileFrontPlayer.ejs')  %> 
+    <% } else { %>
+      <%- include('./partials/frontPlayer.ejs')  %> 
+    <% } %>
+      <%- include( `./animations/${ pedal[0].animation }.ejs`)  %> 
+</body>
+</html>

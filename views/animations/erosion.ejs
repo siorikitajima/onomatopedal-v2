@@ -1,0 +1,390 @@
+<script>
+    var thepedal = <%- JSON.stringify(pedal) %> ;
+    var thenav = <%- JSON.stringify(nav) %> ;
+    var isMobile = <%- JSON.stringify(mobile) %> ;
+    var onomato = thepedal[0].onomato.toUpperCase().replace(/\s+/g, '');
+    var tempo = 60000 / thepedal[0].tempo;
+    var disableKeys = false;
+    var marginTop = isMobile ? 0 : 51; 
+
+    let cols, rows, particle, particleNumber, flowField, elemColor;
+    let noiseValue = 0;
+    let gridSize = 20;
+    let noiseLevel = 0.001;
+    let speed = 1;
+    let particles = [];
+    let smudges = [];
+    let bars = [];
+    let maxR = colorValue[0]; let minR = colorValue[3];
+    let maxG = colorValue[1]; let minG = colorValue[4];
+    let maxB = colorValue[2]; let minB = colorValue[5];
+
+    function preload() {
+        if(thenav == 'v2') {
+            myFont = loadFont('../css/fonts/Anton.otf');
+        } else {
+            myFont = loadFont('css/fonts/Anton.otf');
+        }
+    }
+
+    function setup() {
+    textFont(myFont);
+    elemColor = color(colorValue[6]);
+    createCanvas(innerWidth, innerHeight - marginTop); 
+    
+    flowField = new Array(cols);
+    for (var i = 0; i < flowField.length; i++) {
+        flowField[i] = new Array(rows);
+    }
+    
+    cols = int( width / gridSize );
+    rows = int( height / gridSize );
+    particleNumber = cols + rows
+    
+    for(let p = 0; p < particleNumber; p++) {
+        particle = new Particle();
+        particles.push(particle);
+    }
+        background(random(minR, maxR), random(minG, maxG), random(minB, maxB));
+        setInterval( wipeScreen, tempo * 8);
+
+        if(isMobile) {
+        let pads = selectAll('.pad');
+       }
+    }
+
+    function draw() {
+    
+    translate(1, 1);  
+    for (let v = 0; v < cols; v++) {
+        for (let r = 0; r < rows; r++) {
+        translate(0, 0);
+        let mid = createVector( 0, 0);
+        let offset = createVector((gridSize * v), (gridSize * r));
+        var index = v + r * cols;
+        let perlin = noise(noiseValue);
+        angleMode(DEGREES);
+        let head = p5.Vector.fromAngle(360 * perlin);
+        head.setMag(speed);
+        flowField[index] = head;
+        noiseValue = noiseValue + noiseLevel;
+        }
+    }
+    
+    for(let s = 0; s < smudges.length; s++) {
+        smudges[s].show();
+        smudges[s].remove(smudges);
+    }
+        
+    for(let b = 0; b < bars.length; b++) {
+        bars[b].show();
+        bars[b].remove(bars);
+    }
+    
+    for(let p = 0; p < particles.length; p++) {
+    particles[p].show();
+    particles[p].move();
+    particles[p].follow(flowField);
+    particles[p].bounce();
+    }
+    }
+
+    function wipeScreen() {
+    let bar = new Bar(random(minR, maxR), random(minG, maxG), random(minB, maxB));
+    bars.push(bar);
+    }
+    
+    function keyPressed() {
+      if (key == 'a' || key == 'b') {
+        let paint = new Paint();
+        paint.show();
+      }
+      if (key == 'd' || key == 'l') {
+        let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+        let letter = new Letter(OnoLetter, 238, 238, 229);
+        letter.show();
+      }
+      if (key == 'g' || key == 'i') {
+        let paint = new Paint();
+        paint.show();
+      }
+      if (key == 'j' || key == 'q') {
+        let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+        let letter = new Letter(OnoLetter, random(minR, maxR), random(minG, maxG), random(minB, maxB));
+        letter.show();
+      }
+      if (key == 'm' || key == 'e') {
+        let paint = new Paint();
+        paint.show();
+      }
+      if (key == 'p' || key == 'r' || key == 'z') {
+        let smudge = new Smudge(random(minR, maxR), random(minG, maxG), random(minB, maxB));
+        smudges.push(smudge);
+      }
+      if (key == 's' || key == 'u' || key == 't') {
+        let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+        let letter = new Letter(OnoLetter, 238, 238, 229);
+        letter.show();
+      }
+      if (key == 'v' || key == 'w' || key == 'k') {
+        let smudge = new Smudge(238, 238, 229);
+        smudges.push(smudge);
+      }
+      if (key == 'x' || key == 'y' || key == 'n') {
+        let paint = new Paint();
+        paint.show();
+      }
+      if (key == 'c' || key == 'h') {
+        let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+        let letter = new Letter(OnoLetter, random(minR, maxR), random(minG, maxG), random(minB, maxB));
+        letter.show();
+      }
+      if (key == 'f' || key == 'o') {
+        let paint = new Paint();
+        paint.show();
+      }
+      if (keyCode === 32) {
+        let smudge = new Smudge(238, 238, 229);
+        smudges.push(smudge);
+      }
+      return false;
+    }
+    function windowResized() {
+      resizeCanvas(windowWidth, windowHeight - marginTop);
+    }
+
+    class Bar {
+        constructor(r, g, b) {
+            this.pos = createVector(0, -20);
+            this.speed = createVector(0, random(50, 200));
+            this.r = r;
+            this.g = g;
+            this.b = b;
+        }
+        show() {
+            noStroke();
+            fill(this.r, this.g, this.b);
+            rect(this.pos.x, this.pos.y, width, (this.speed.y + 10));
+            this.pos.add(this.speed);
+        }
+        remove(arrayName) {
+            if(this.pos.y > height) {
+            arrayName.splice(0, 1);
+            }
+        }
+    }
+
+    class Letter {
+        constructor(key, r, g, b) {
+            this.key = key;
+            this.size = width < 800 ? random(width/3, width) : random(width/5, width/2);
+            this.pos = createVector (random(width), random(height));
+            this.r = r;
+            this.g = g;
+            this.b = b;
+        };
+        
+        show() {
+            fill(this.r, this.g, this.b);
+            textSize(this.size)
+            text(this.key, this.pos.x, this.pos.y);
+        };
+    }
+    
+    class Paint {
+        constructor() {
+            this.size = width < 800 ? random(width/8, width/4) : random(100, width/4);
+            this.offset = random(10, 40);
+            this.num = floor(random(4, 20));
+            this.pos = createVector( random(width), random(height));
+            this.r = floor(map(noise(this.size), 0, 1, maxR, minR));
+            this.g = floor(map(noise(this.offset), 0, 1, maxG, minG));
+            this.b = floor(map(noise(this.num), 0, 1, maxB, minB));
+        }
+        
+        show() {
+            fill( this.r, this.g, this.b);
+            for (let c = 0; c < 3; c++ ) {
+            circle(this.pos.x * noise(this.pos.x) , this.pos.y * noise(this.pos.y), this.size * random(0.9, 1.2));
+            for ( let e = 0; e < 40; e++) {
+                let ran = random(2, 60);
+                let center = this.pos;
+                let edge = p5.Vector.random2D();
+                let length = map(noise(e*0.00000), 0, 1, this.size * noise(e*0.000001), (this.size * noise(e*0.000001) + this.offset));
+                edge.setMag(length);
+                center.add(edge);
+                circle(center.x, center.y, ran);
+            } 
+            }
+        }
+    }
+
+    class Particle {
+        constructor() {
+            this.pos = createVector(random(width), random(height));
+            this.vel = createVector(0, 0);
+            this.acc = createVector(0, 0);
+            this.maxspeed = map(tempo, 2000, 250, 2, 9);
+            this.random = random(-40, 40);
+            this.weight = random(6, 20);
+        }
+        show() {
+            stroke(elemColor);
+            let weight1 = this.weight * noise(this.pos.x);
+            let weight2 = this.weight * noise(this.pos.y);
+            let weight3 = random(1, 2);
+            let random1 = random(-60, 60);
+            let random2 = random(-60, 60);
+            strokeWeight(weight1);
+            point(this.pos.x, this.pos.y);
+            strokeWeight(weight2);
+            point(this.pos.x + this.random * noise(this.pos.x), this.pos.y + this.random * noise(this.pos.y));
+            strokeWeight(weight3);
+            line(this.pos.x, this.pos.y, this.pos.x + random1, this.pos.y + random2);
+            for(let s = 0; s < 3; s++) {
+            strokeWeight(weight2 * noise(this.pos.x));
+            point(this.pos.x + random2, this.pos.y + random1);
+            }
+            noStroke();
+        }
+        move() {
+            this.vel.add(this.acc);
+            this.vel.limit(this.maxspeed);
+            this.pos.add(this.vel);
+            this.acc.mult(0);
+        }
+        follow(vectors) {
+            let x = floor(this.pos.x / gridSize);
+            let y = floor(this.pos.y / gridSize);
+            let index = x + y * cols;
+            let force = vectors[index];
+            this.applyForce(force);
+        }
+        applyForce(force) {
+            this.acc.add(force);
+        }
+        bounce() {
+            if (this.pos.x < 0 || this.pos.x > width) {
+            this.vel.x = this.vel.x * -1;
+            }
+            if (this.pos.y < 0 || this.pos.y > height) {
+            this.vel.y = this.vel.y * -1;
+            }
+        }
+    }
+
+    class Smudge {
+        constructor(r, g, b) {
+            this.pos = createVector(random(width), 0);
+            this.size = width < 800 ? random(width/8, width/3) : random(100, 200);
+            this.splash = random(4, 20);
+            this.vel = createVector(0, random(100, 300));
+            this.r = r;
+            this.g = g;
+            this.b = b;
+        }
+        
+        show() {
+            fill(this.r, this.g, this.b);
+            stroke(this.r, this.g, this.b);
+            strokeJoin(ROUND);
+            strokeWeight(10);
+            rect(this.pos.x, this.pos.y, this.size/4, (this.vel.y + 10));
+            rect(this.pos.x + this.size/4 + 20, this.pos.y, 30, (this.vel.y + 10));
+            rect(this.pos.x + this.size/4 + 70, this.pos.y, this.size/2, (this.vel.y + 10));
+            rect(this.pos.x + this.size/4 + this.size/2 + 110, this.pos.y, 20, (this.vel.y + 10));
+            rect(this.pos.x + this.size/4 + this.size/2 + 150, this.pos.y, this.size/4 - 20, (this.vel.y + 10));
+            noStroke();
+
+            let acc = createVector(random(-0.1, 0.1), 0.1);
+            this.pos.add(this.vel);
+            this.vel.add(acc);
+        
+            for ( let e = 0; e < 10; e++) {
+                let ranX = random(-100, this.size + 200);
+                let ranY = random(-100, 100) + noise(e * 0.00001);
+                let ran = random(2, 60);
+                circle(this.pos.x + ranX, this.pos.y + ranY, ran);
+            } 
+        }
+        
+        remove(arrayName) {
+            if(this.pos.x > width && this.size.x > width || this.pos.x < 0 && this.size.x < 0 || this.pos.y > height && this.size.y > height || this.pos.y < 0 && this.size.y < 0) {
+            arrayName.splice(0, 1);
+            }
+        }
+    }
+
+    if(isMobile) {
+      function touchStarted() {
+      let posx = floor(mouseX);
+      let posy = floor(mouseY);
+      let col1 = posx >= 0 && posx < width/3;
+      let col2 = posx >= width/3 && posx < width/3*2;
+      let col3 = posx >= width/3*2 && posx <= width;
+      let row1 = posy >= 0 && posy < height/10;
+      let row2 = posy >= height/10 && posy < height/10*2;
+      let row3 = posy >= height/10*2 && posy < height/10*3;
+      let row4 = posy >= height/10*3 && posy < height/10*4;
+      let row5 = posy >= height/10*4 && posy < height/10*5;
+      let row6 = posy >= height/10*5 && posy < height/10*6;
+      let row7 = posy >= height/10*6 && posy < height/10*7;
+      let row8 = posy >= height/10*7 && posy < height/10*8;
+      let row9 = posy >= height/10*8 && posy < height/10*9;
+    
+      if ((col2 && row9) || (col3 && row4)) {
+        let paint = new Paint();
+        paint.show();
+      }
+      if ((col2 && row7) || (col2 && row1)) {
+        let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+        let letter = new Letter(OnoLetter, 238, 238, 229);
+        letter.show();
+      }
+      if ((col2 && row5) || (col1 && row2)) {
+        let paint = new Paint();
+        paint.show();
+      }
+      if ((col2 && row3) || (col1 && row9)) {
+        let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+        let letter = new Letter(OnoLetter, random(minR, maxR), random(minG, maxG), random(minB, maxB));
+        letter.show();
+        }
+      if ((col3 && row2) || (col1 && row7)) {
+        let paint = new Paint();
+        paint.show();
+      }
+      if ((col3 && row1) || (col1 && row6) || (col3 && row8)) {
+        let smudge = new Smudge(random(minR, maxR), random(minG, maxG), random(minB, maxB));
+        smudges.push(smudge);
+      }
+      if ((col2 && row8) || (col1 && row3) || (col1 && row5)) {
+        let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+        let letter = new Letter(OnoLetter, 238, 238, 229);
+        letter.show();
+      }
+      if ((col3 && row5) || (col1 && row8) || (col2 && row2)) {
+        let smudge = new Smudge(238, 238, 229);
+        smudges.push(smudge);
+      }
+      if ((col3 && row7) || (col1 && row4) || (col3 && row3)) {
+        let paint = new Paint();
+        paint.show();
+      }
+      if ((col3 && row6) || (col2 && row4)) {
+        let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+        let letter = new Letter(OnoLetter, random(minR, maxR), random(minG, maxG), random(minB, maxB));
+        letter.show();
+      }
+      if ((col2 && row6) || (col1 && row1)) {
+        let paint = new Paint();
+        paint.show();
+      }
+      if (col3 && row9) {
+        let smudge = new Smudge(238, 238, 229);
+        smudges.push(smudge);
+      }
+    }
+    }
+    
+      </script>

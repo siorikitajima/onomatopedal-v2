@@ -1,0 +1,493 @@
+<script>
+    var thepedal = <%- JSON.stringify(pedal) %> ;
+    var onomato = thepedal[0].onomato.toUpperCase().replace(/\s+/g, '');
+    var thenav = <%- JSON.stringify(nav) %> ;
+    var isMobile = <%- JSON.stringify(mobile) %> ;
+
+    var tempo = 60000 / thepedal[0].tempo;
+    var disableKeys = false;
+    var marginTop = isMobile ? 0 : 51; 
+
+    let cols, rows, bgCol, elemCol, sideMargin, verMargin;
+    let centers = [], rects = [], tiles = [], letters = [];
+    let gridSize = 80;
+    let maxR = colorValue[0]; let minR = colorValue[3];
+    let maxG = colorValue[1]; let minG = colorValue[4];
+    let maxB = colorValue[2]; let minB = colorValue[5];
+
+    // let action1 = false, action2 = false, action3 = false, action4 = false, action5 = false;
+    // let lMode = false;
+
+    let action = [];
+    for (var a = 0; a < 5; a++) {
+        action[a] = 0;
+    }
+    let lMode = 0;
+
+    function preload() {
+        if(thenav == 'v2') {
+            myFont = loadFont('../css/fonts/PressStart.otf');
+        } else {
+            myFont = loadFont('css/fonts/PressStart.otf');
+        }
+    }
+
+    function setup() {
+    createCanvas(innerWidth, innerHeight - marginTop);
+    textFont(myFont);
+
+        bgCol = color(colorValue[9]);
+        elemCol = color(colorValue[6], colorValue[7], colorValue[8]);
+
+    cols = int( width / gridSize );
+    rows = int( height / gridSize );
+    sideMargin = (innerWidth - (cols * gridSize)) /2;
+    verMargin = (innerHeight - (rows * gridSize)) /2;
+    
+    translate(gridSize/2, gridSize/2);  
+    for (let v = 0; v < cols; v++) {
+        centers[v] = [];
+        rects[v] = [];
+        tiles[v] = [];
+        for (let r = 0; r < rows; r++) {
+        let mid = createVector( 0, 0);
+        let offset = createVector((gridSize * v), (gridSize * r));
+        mid.add(offset);
+        point(mid.x, mid.y);
+        centers[v][r] = mid;
+        }
+    }
+    
+    for (let v = 0; v < cols; v++) {
+        for (let r = 0; r < rows; r++) {
+        let recta = new Recta(centers[v][r].x, centers[v][r].y);
+        rects[v][r] = recta;
+        let tile = new Tile(centers[v][r].x, centers[v][r].y);
+        tiles[v][r] = tile;
+        tiles[v][r].hide(v, r, tiles);
+        }
+    }
+    
+    setInterval( changeHides, tempo * 4);
+    setInterval( changeMode, tempo * 8);
+
+    if(isMobile) {
+        let pads = selectAll('.pad');
+    }
+    }
+
+    function draw() {
+        if (action[0] == 3) action[0] = 0;
+        if (action[1] == 3) action[1] = 0;
+        if (action[2] == 3) action[2] = 0;
+        if (action[3] == 3) action[3] = 0;
+        if (action[4] == 3) action[4] = 0;
+        if (lMode == 3) lMode = 0;
+
+    background(bgCol);
+
+    noFill();
+    angleMode(DEGREES);
+
+    translate(sideMargin, verMargin); 
+    
+    for (let v = 0; v < cols; v++) {
+        for (let r = 0; r < rows; r++) {   
+        rects[v][r].show(v, r);
+        rects[v][r].action1();
+        rects[v][r].action2();
+        rects[v][r].action3();
+        rects[v][r].action4();
+        rects[v][r].action5();
+        tiles[v][r].show(v, r);
+        }
+    }
+    for (let l = 0; l < letters.length; l++) {   
+        letters[l].show();
+        letters[l].move();
+        letters[l].remove(letters);
+    }
+    }
+        
+    function changeHides() {
+        for (let v = 0; v < cols; v++) {
+        for (let r = 0; r < rows; r++) {   
+        tiles[v][r].hide(v, r, tiles);
+        }
+        }
+    }
+
+    function changeMode() {
+        if(lMode == 0 || lMode == 1) {
+            bgCol = color(colorValue[6], colorValue[7], colorValue[8]);
+            elemCol = color(colorValue[9]);
+        } else {
+            bgCol = color(colorValue[9]);
+            elemCol = color(colorValue[6], colorValue[7], colorValue[8]);
+        }
+            lMode = lMode + 1;
+            changeHides();
+    }
+
+    function keyPressed() {
+      if (key == 'a' || key == 'b') {
+        action[0] = action[0] + 1;
+      }
+      if (key == 'd' || key == 'l') {
+        action[1] = action[1] + 1;
+      }
+      if (key == 'g' || key == 'i') {
+        action[2] = action[2] + 1;
+      }
+      if (key == 'j' || key == 'q') {
+        action[3] = action[3] + 1;
+      }
+      if (key == 'm' || key == 'e') {
+        action[4] = action[4] + 1;
+      }
+      if (key == 'p' || key == 'r') {
+        let letter = new Letter('', 'random');
+        letters.push(letter);
+        action[0] = action[0] + 1;
+      }
+      if (key == 'z' || key == 't') {
+        let letter = new Letter('', 'random');
+        letters.push(letter);
+        action[1] = action[1] + 1;
+    }
+      if (key == 's' || key == 'u') {
+        let letter = new Letter('', 'random');
+        letters.push(letter);
+        action[2] = action[2] + 1;
+      }
+      if (key == 'v' || key == 'w' || key == 'k') {
+        let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+        let letter = new Letter(OnoLetter, 'ono');
+        letters.push(letter);
+      }
+      if (key == 'x' || key == 'y' || key == 'n') {
+        let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+        let letter = new Letter(OnoLetter, 'ono');
+        letters.push(letter);
+      }
+      if (key == 'c' || key == 'h') {
+        let letter = new Letter('', 'random');
+        letters.push(letter);
+        action[3] = action[3] + 1;
+      }
+      if (key == 'f' || key == 'o') {
+        let letter = new Letter('', 'random');
+        letters.push(letter);
+        action[4] = action[4] + 1;
+      }
+      if (keyCode === 32) {
+        changeMode();
+      }
+      return false;
+    }
+    function windowResized() {
+      resizeCanvas(windowWidth, windowHeight - marginTop);
+    }
+
+    class Letter {
+        constructor(key, type) {
+            this.key = key;
+            this.type = type;
+            this.pos = createVector(gridSize * floor(random(cols)), gridSize * floor(random(rows)));
+            if(this.type == 'ono') {
+                this.size = gridSize * ( floor(random(4, 6.9)) );
+                this.speed = random(0.2, 0.4);
+            } else {
+                this.size = gridSize * ( floor(random(1, 3)) );
+                this.speed = random(0.3, 0.5);
+            }
+            this.color = color(random(maxR, minR), random(maxG, minG), random(maxB, minB));
+            this.dir = random([0, 1]);
+            this.vel = createVector(0, 0)
+            this.dotPos = -(this.size / 2) + (gridSize * 0.2);
+        }
+        
+        show() {
+            fill(this.color);
+            rect(this.pos.x, this.pos.y, this.size, this.size);
+            fill(bgCol);
+            textAlign(CENTER);
+            textSize(this.size * 0.6);
+            text(this.key, this.pos.x, this.pos.y + (this.size * 0.35));
+            rect(this.pos.x + this.dotPos, this.pos.y + this.dotPos, gridSize * 0.2, gridSize * 0.2);
+            rect(this.pos.x - this.dotPos, this.pos.y + this.dotPos, gridSize * 0.2, gridSize * 0.2);
+            rect(this.pos.x + this.dotPos, this.pos.y - this.dotPos, gridSize * 0.2, gridSize * 0.2);
+            rect(this.pos.x - this.dotPos, this.pos.y - this.dotPos, gridSize * 0.2, gridSize * 0.2);
+        }
+        
+        move() {
+            this.pos.add(this.vel);
+            if(this.dir == 0) {
+            if(this.pos.y > height /2) {
+                this.speed * -1;
+            } 
+            let moveVer = createVector(0, this.speed);
+            this.vel.add(moveVer);
+            } else if (this.dir == 1) {
+            if(this.pos.x > width /2) {
+                this.speed * -1;
+            }
+            let moveHor = createVector(this.speed, 0);
+            this.vel.add(moveHor);
+            }
+        }
+        
+        remove(arrayName) {
+            if(this.dir == 0) {
+            if(this.pos.y > height || this.pos.y < -(this.size) ) {
+                for (let l = 0; l < arrayName.length; l++) {
+                if (arrayName[l].pos.y == this.pos.y) {
+                    arrayName.splice(l, 1);
+                    break;
+                }
+                }
+            }
+            } else if (this.dir == 1) {
+            if(this.pos.x > width || this.pos.x < -(this.size) ) {
+                for (let l = 0; l < arrayName.length; l++) {
+                if (arrayName[l].pos.x == this.pos.x) {
+                    arrayName.splice(l, 1);
+                    break;
+                }
+                }
+            }      
+            }
+        }
+    }
+    
+    class Recta {
+        constructor(x, y) {
+            this.pos = createVector( x + gridSize/2 , y + gridSize/2 );
+            this.firstSize = gridSize;
+            this.secSize =  gridSize * 0.8;
+            this.thirSize =  gridSize * 0.6;
+            this.fourSize =  gridSize * 0.4;
+            this.fifSize =  gridSize * 0.2;
+            this.angle1 = 0;
+            this.offset1 = 0; // Adjust size for rotation
+            this.offset2 = 0;
+            this.center = createVector(0, 0); // center for rotating elem
+            this.shift = createVector(0, 0);
+            this.color = color(random(maxR, minR), random(maxG, minG), random(maxB, minB));
+            this.speed = 0.1;
+            this.zoomSp = 0.5;
+        }
+        
+        show(v, r) {
+            rectMode(CENTER);
+            noStroke();
+            let tx = (v * gridSize) + gridSize / 2;
+            let ty = (r * gridSize) + gridSize / 2;
+            
+            fill(this.color);
+            let rect0 = rect(this.pos.x, this.pos.y, this.firstSize, this.firstSize);
+
+            fill(bgCol);
+            push();
+            translate(tx, ty);
+            rotate(this.angle1);
+            let rect1 = rect(this.center.x + this.shift.x, this.center.y + this.shift.y, this.secSize - this.offset1, this.secSize - this.offset1); 
+            pop();
+            
+            fill(this.color);
+            let rect2 = rect(this.pos.x + (this.shift.x *2), this.pos.y + (this.shift.y *2), this.thirSize, this.thirSize);
+
+            fill(elemCol);
+            push();
+            translate(tx, ty);
+            rotate(this.angle1);
+            let rect3 = rect(this.center.x + (this.shift.x *3), this.center.y + (this.shift.y *3), this.fourSize, this.fourSize);
+            pop();
+            
+            fill(bgCol);
+            let rect4 = rect(this.pos.x + (this.shift.x *4) + this.offset2, this.pos.y + (this.shift.y *4) + this.offset2, this.fifSize, this.fifSize);
+        }
+        
+        action1() {
+            if(action[0] == 0 || action[0] == 1) {
+                if(this.angle1 == 45) {
+                    this.angle1 = 45;
+                } else {
+                    this.angle1 = this.angle1 + 1;
+                }
+                if(this.offset1 == 14) {
+                    this.offset1 = 14;
+                } else {
+                    this.offset1 = this.offset1 + 0.5;
+                }
+            } else {
+                if(this.angle1 == 0) {
+                    this.angle1 = 0;
+                } else {
+                this.angle1 = this.angle1 - 1;
+                }
+                if(this.offset1 == 0) {
+                    this.offset1 = 0;
+                } else {
+                    this.offset1 = this.offset1 - 0.5;
+                }
+            } 
+        }
+        action2() {
+            let moveR = createVector(this.speed, 0);
+            let moveL = createVector(-(this.speed), 0);
+            if (action[1] == 0 || action[1] == 1) {
+            if (this.shift.x >= gridSize * 0.1) {
+                this.shift.x = gridSize * 0.1;
+            } else { 
+                this.shift.add(moveR);
+            }
+            } else {
+            if (this.shift.x <= -(gridSize * 0.1)) {
+                this.shift.x = -(gridSize * 0.1);
+            } else {
+                this.shift.add(moveL);
+            }
+            }
+        }
+        
+        action3() {
+            let moveT = createVector(0, -(this.speed));
+            let moveB = createVector(0, this.speed);
+            if(action[2] == 0 || action[2] == 1) {
+            if(this.shift.y >= gridSize * 0.1) {
+                this.shift.y = gridSize * 0.1;
+            } else {
+                this.shift.add(moveB);
+            }
+            } else {
+            if(this.shift.y <= -(gridSize * 0.1)) {
+                this.shift.y = -(gridSize * 0.1);
+            } else {
+                this.shift.add(moveT);
+            }
+            }
+        }
+        
+        action4() {
+            if(action[3] == 0 || action[3] == 1) {
+                if(this.fifSize > this.thirSize) {
+                this.fifSize = this.thirSize;
+                } else {
+                this.fifSize = this.fifSize + this.zoomSp;
+                }
+            } else {
+                if(this.fifSize <= gridSize * 0.2) {
+                this.fifSize = gridSize * 0.2;
+                } else {
+                this.fifSize = this.fifSize - this.zoomSp;
+                }
+            }
+        }
+        
+        action5() {
+            if(action[4] == 0 || action[4] == 1) {
+                if(this.firstSize < this.thirSize) {
+                this.firstSize = this.thirSize;
+                } else {
+                this.firstSize = this.firstSize - this.zoomSp;
+                }
+            } else {
+                if(this.firstSize >= gridSize) {
+                this.firstSize = gridSize;
+                } else {
+                this.firstSize = this.firstSize + this.zoomSp;
+                }
+            }
+        }
+    }
+
+    class Tile {
+        constructor(x, y) {
+            this.size = gridSize;
+            this.pos = createVector( x + gridSize/2 , y + gridSize/2 );
+            this.color = bgCol;
+        }
+        show() {
+            rectMode(CENTER);
+            fill(this.color);
+            rect(this.pos.x, this.pos.y, this.size, this.size);
+        }
+        hide() {
+            let hide = random([0, 1]);
+            if (hide == 0) {
+            this.color = color(0, 0, 0, 0);
+            } else {
+            this.color = bgCol;
+            }
+        }
+    }
+
+    if(isMobile) {
+      function touchStarted() {
+      let posx = floor(mouseX);
+      let posy = floor(mouseY);
+      let col1 = posx >= 0 && posx < width/3;
+      let col2 = posx >= width/3 && posx < width/3*2;
+      let col3 = posx >= width/3*2 && posx <= width;
+      let row1 = posy >= 0 && posy < height/10;
+      let row2 = posy >= height/10 && posy < height/10*2;
+      let row3 = posy >= height/10*2 && posy < height/10*3;
+      let row4 = posy >= height/10*3 && posy < height/10*4;
+      let row5 = posy >= height/10*4 && posy < height/10*5;
+      let row6 = posy >= height/10*5 && posy < height/10*6;
+      let row7 = posy >= height/10*6 && posy < height/10*7;
+      let row8 = posy >= height/10*7 && posy < height/10*8;
+      let row9 = posy >= height/10*8 && posy < height/10*9;
+    
+      if ((col2 && row9) || (col3 && row4)) {
+        action[0] = action[0] +1;
+      }
+      if ((col2 && row7) || (col2 && row1)) {
+        action[1] = action[1] +1;
+      }
+      if ((col2 && row5) || (col1 && row2)) {
+        action[2] = action[2] +1;
+      }
+      if ((col2 && row3) || (col1 && row9)) {
+        action[3] = action[3] +1;
+        }
+      if ((col3 && row2) || (col1 && row7)) {
+        action[4] = action[4] +1;
+      }
+      if ((col3 && row1) || (col1 && row6) || (col3 && row8)) {
+        let letter = new Letter('', 'random');
+        letters.push(letter);
+        action[0] = action[0] +1;
+      }
+      if ((col2 && row8) || (col1 && row3) || (col1 && row5)) {
+        let letter = new Letter('', 'random');
+        letters.push(letter);
+        action[1] = action[1] +1;
+      }
+      if ((col3 && row5) || (col1 && row8) || (col2 && row2)) {
+        let letter = new Letter('', 'random');
+        letters.push(letter);
+        action[2] = action[2] +1;
+      }
+      if ((col3 && row7) || (col1 && row4) || (col3 && row3)) {
+        let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+        let letter = new Letter(OnoLetter, 'ono');
+        letters.push(letter);
+      }
+      if ((col3 && row6) || (col2 && row4)) {
+        let letter = new Letter('', 'random');
+        letters.push(letter);
+        action[3] = action[3] +1;
+      }
+      if ((col2 && row6) || (col1 && row1)) {
+        let letter = new Letter('', 'random');
+        letters.push(letter);
+        action[4] = action[4] +1;
+      }
+      if (col3 && row9) {
+        changeMode();
+      }
+    }
+    }
+      </script>

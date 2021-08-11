@@ -1,4 +1,4 @@
-    /* 404 View */
+/* 404 View */
 
     .p404 {
       text-align: center;
@@ -76,41 +76,42 @@
     } */
 
     /* Dashboard/Home View */
-
+    
     .home {
       display: flex;
       justify-content: space-between;
       gap: 40px;
       max-width: 800px;
-      margin: 50px auto;
+      margin: 80px auto 30px auto;
     }
-    .home .opInfo {
+    .home div {
       width: calc(50% - 20px);
       padding: 0;
     }
-    .home .opImg {
-      width: 100%;
-      height: fit-content;
+    .home #opImg, #opCover {
+      display: block;
+      width: 380px;
+      aspect-ratio: 1 / 1;
       position: relative;
       overflow: hidden;
       z-index: -100;
-      background-color: #333;
+      /* background-color: #333; */
     }
-    .home .opImg div {
-      height: 66.6%;
+    /* #diamond { */
+      /* height: 66.6%;
       width: 66.6%;
       position: absolute;
       background-color: #222;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) rotate(45deg);
-      z-index: -1;
-      mix-blend-mode: difference;
+      z-index: -1; */
+      /* mix-blend-mode: difference; */
       /* z-index: -1; */
   }
-    .home .opImg p {
+    .home #opImg p {
       position: absolute;
-      color: #832c36;
+      color: #111111;
       font-size: 10em;
       line-height: 0.8em;
       z-index: -10;
@@ -122,7 +123,7 @@
       text-align: center;
       /* z-index: 100; */
     }
-    .home .opImg img {
+    .home #opImg img {
       /* position: absolute;
       top: 0;
       left: 0; */
@@ -130,14 +131,20 @@
       margin: 8% 0;
       /* z-index: 1000; */
     }
+    .opImg img {
+      max-width: 100%;
+      margin: 0;
+    }
     .home button, .p404 button {
       margin: 30px 0 0 0;
     }
     .home .flex {
+      width: 100%;
       display: flex;
       justify-content: space-between;
       gap: 10px;
     }
+    
     button.sm-btn, button.sm-btn a, .samples .halfBtns {
       width: 180px;
       /* width: auto; */
@@ -149,9 +156,9 @@
       margin: 30px auto 0 auto;
       padding: 6px 12px 6px 0;
     }
-    .row2 button.sm-btn {
+    /* .row2 button.sm-btn {
       margin: 10px auto 0 auto;
-    }
+    } */
 
     button.sm-btn p, .samples .halfBtns p {
       color: #F56476;
@@ -169,8 +176,28 @@
       top: -3px;
       background: url(../images/edit_pink.svg);
     }
+    /* button.update-btn, button.img-btn {
+      display: block;
+      width: auto;
+    } */
+
     .samples .halfBtns p::before {
       background: url(../images/addNew_pink.svg);
+    }
+    button.sm-btn:hover p::before  {
+      background: url(../images/edit_dark.svg);
+    }
+    button.img-btn p::before {
+      background: url(../images/cover_pink.svg);
+    }
+    button.img-btn:hover p::before {
+      background: url(../images/cover_dark.svg);
+    }
+    button.update-btn p::before {
+      background: url(../images/update_pink.svg);
+    }
+    button.update-btn:hover p::before {
+      background: url(../images/update_dark.svg);
     }
     button.sm-btn:hover, .samples .halfBtns:hover {
       opacity: 1;
@@ -179,9 +206,7 @@
     button.sm-btn:hover p, .samples .halfBtns:hover p {
       color: #111;
     }
-    button.sm-btn:hover p::before  {
-      background: url(../images/edit_dark.svg);
-    }
+
     .samples .halfBtns:hover p::before {
       background: url(../images/addNew_dark.svg);
     }
@@ -218,9 +243,13 @@
       max-width: 800px;
       margin: 0 auto;
     }
-    .about h2 {
+
+    .about h2.offsetTop {
       margin: 40px 0 10px 0;
     }
+    /* .about h2 {
+      margin: 40px 0 10px 0;
+    } */
 
     /* Stems View */
 
@@ -518,4 +547,13 @@
     .keyboard div#SPACE {
       grid-column: 6 / 16;
       grid-row: 4;
+    }
+
+    h2#saved {
+      color: #F56476;
+      font-size: 6em;
+    }
+
+    form.stemCont {
+      margin: 20px auto ;
     }

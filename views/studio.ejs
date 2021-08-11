@@ -1,10 +1,17 @@
 <html lang="en">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
+    <script src="/js/browser-atob.js"></script>
+
     <%- include('./partials/head.ejs')  %> 
 <body>
     <%- include('./partials/nav.ejs')  %> 
 
-    <div class="content home">
+    <div class="content home sideBar">
         <div class="opInfo">
+            <a href="/preview">
+                <button class="playPreview"></button>
+            </a>
+
             <p class="label">EQD PEDAL</p>
             <h2 id="pedalDisplay"></h2>
             <p class="label">ARTIST</p>
@@ -14,8 +21,10 @@
             <p class="label">ONOMATOPOEIA</p>
             <h2><%= pedal[0].onomato %></h2>
             <p><%= pedal[0].onoMeaning %></p>
-            
-            <div class="flex">
+            <p class="label">ANIMATION</p>
+            <h2 id="animaName"></h2>
+
+            <!-- <div class="flex">
                 <a href="/info">
                     <button class="sm-btn">
                         <p>Info</p>
@@ -38,40 +47,154 @@
                         <p>Samples</p>
                     </button>
                 </a>
-            </div>
+            </div> -->
 
         </div>
         <div>
-            <div class="opImg">
-                <div id="diamond"></div>
-                <p id="onoText"><%= pedal[0].onomato %></p>
-                <img id="pedalImg" src="images/pedals/db-default.jpg" alt="pedal">
+            <div id="opCover">
+                <% if (cover === true) {%>
+                <% var val = Math.floor(1000 + Math.random() * 9000); %>
+                <img id="coverJpg" src="https://opv2-heroku.s3.us-west-1.amazonaws.com/<%=name%>/cover.jpg?<%=val%>" alt="cover" width="100%">
+                <% } %>
             </div>
-            <a href="/preview">
-                <button>Play Preview</button>
-            </a>
+
+            <div class="flex">
+                <button class="sm-btn update-btn" onclick="refreshCover(); hideCover();">
+                    <p>Color</p>
+                </button>
+                <button class="sm-btn img-btn" id="saveBtn" onclick="saveCover()">
+                    <p>Save</p>
+                </button>
+                
+            </div>
+
         </div>
     </div>
 
-    <%- include('./partials/footer.ejs') %> 
     <script>
         var thepedal = <%- JSON.stringify(pedal[0]) %> ;
         var eqdPedals = <%- JSON.stringify(eqdPedals) %> ;
+        var animations = <%- JSON.stringify(animation) %> ;
+        var cover = <%- JSON.stringify(cover) %> ;
 
+        var imgPath, theCol, theCol2, theFont, theR, theG, theB, theR2, theG2, theB2, colArray;
         for (var p = 0; p < eqdPedals.length; p++) {
             if (thepedal.pedalFull == eqdPedals[p].slug) {
-                var imgPath = 'images/pedals/' + eqdPedals[p].slug + '.png';
+                imgPath = 'images/pedals/' + eqdPedals[p].slug + '.png';
                 $('#pedalDisplay').html(eqdPedals[p].fullName);
                 $('#pedalImg').attr('src', imgPath);
                 break;
             }
         }
+        for (var a = 0; a < animations.length; a++ ) {
+            if ( thepedal.animation == animations[a].slug ) {
+                theFont = animations[a].font;
+                $('#animaName').html(animations[a].fullName);
+                theFont = animations[a].font;
+                var col = thepedal.color;
+                colArray = animations[a][col];
+                break;
+            }};
+
+        function hideCover() {
+            if(cover) $('#coverJpg').hide();
+        }
+        function refreshCover() {
+                theR = Math.floor(Math.random() * (colArray[0] - colArray[3] + 1)) + colArray[3];
+                theG = Math.floor(Math.random() * (colArray[1] - colArray[4] + 1)) + colArray[4];
+                theB = Math.floor(Math.random() * (colArray[2] - colArray[5] + 1)) + colArray[5];
+                theCol = 'rgb(' + theR + ',' + theG + ',' + theB + ')';
+                theR2 = Math.floor(Math.random() * (colArray[0] - colArray[3] + 1)) + colArray[3];
+                theG2 = Math.floor(Math.random() * (colArray[1] - colArray[4] + 1)) + colArray[4];
+                theB2 = Math.floor(Math.random() * (colArray[2] - colArray[5] + 1)) + colArray[5];
+                theCol2 = 'rgb(' + theR2 + ',' + theG2 + ',' + theB2 + ')';
+        }
+        refreshCover();
 
         var onoStr = thepedal.onomato;
         var words = onoStr.split(' ').length;
-        if (words === 1) {$('#onoText').css('font-size', '30em');}
-        else if (words === 2) {$('#onoText').css('font-size', '15em');}
-        else {$('#onoText').css('font-size', '10em');}
+        var onoStrFin = onoStr.replace(/ /g, "\r\n");
+
+        var tSize;
+        if (words === 1) { tSize = 360 }
+        else if (words === 2) { tSize = 240 }
+        else if (words === 3) { tSize = 160 }
+        else if (words === 4) { tSize = 110 }
+        else { tSize = 100 }
+
+        var myFont, myImg;
+        function preload() {
+            var fontPath = 'css/fonts/' + theFont + '.otf';
+            myFont = loadFont(fontPath);   
+            myImg = loadImage(imgPath);         
+        }
+
+        var coverImg, opImg;
+        function setup() {
+            textFont(myFont);
+            opImg = createCanvas(380, 380);
+            opImg.parent('opCover');
+            opImg.id('opImg');
+        }
+
+        function draw() {
+            noStroke();
+            rectMode(CENTER);
+            translate(width/2, height/2)
+            fill(theCol);
+            rect(0, 0, width+10, height+10);
+            // blendMode(DIFFERENCE);
+            textSize(tSize);
+            textLeading(tSize * 0.9);
+            textAlign(CENTER, CENTER);
+            fill(20);
+            text(onoStrFin, 0, -(height * 0.05));
+
+            push();
+            blendMode(DIFFERENCE);
+            angleMode(DEGREES);
+            rotate(45);
+            fill(theCol2);
+            rect(0, 0, width * 0.7, height * 0.7);
+            pop();
+
+            image(myImg, -(width/2) + 40, -(height/2) + 65, 300, 250);
+        }
+
+        // var fileName;
+        let blobData, file, downloadLink;
+        function saveCover() {
+            var canvas = $('#opImg');
+            var dataUrl = canvas[0].toDataURL('image/jpeg', 1.0);
+
+            blobData = dataURItoBlob(dataUrl);
+
+            uploadCover(blobData);
+        };
+
+        function uploadCover(file) {
+            var formdata = new FormData();
+            formdata.append("cover", file);
+            $.ajax({
+                type: "POST",
+                url: "/studio",
+                data: formdata,
+                processData: false,
+                contentType: false,
+            }).done(function(respond){
+                window.location.href = '/saved';
+            });
+        }
+
+    function dataURItoBlob(dataURI) {
+        var binary = atob(dataURI.split(',')[1]);
+        var array = [];
+        for(var i = 0; i < binary.length; i++) {
+            array.push(binary.charCodeAt(i));
+        }
+        return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+    }
+
     </script>
 </body>
 </html>

@@ -61,7 +61,10 @@ const register_post = (req, res) => {
         onoMeaning: req.body.onoMeaning,
         trackName: 'Untitled',
         artist: req.body.artist,
-        website: ''
+        website: '',
+        animation: 'blocky',
+        color: 'reddish',
+        tempo: 120
     });
     pedalInfo.save();
 

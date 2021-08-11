@@ -1,53 +1,67 @@
 <div class="infoPanel">
     <div class="flex">
-        <div class="infoOne">
-            <div class="pedalImgDiv">
-                <div id="diamond"></div>
-                <p id="onoText"><%= pedal[0].onomato %></p>
-                <img  id="pedalImg" src="" alt="pedal">
-            </div>
-            <div class="opImg">
-            </div>
-        </div>
         <div class="infoTwo">
             <p class="label">ONOMATOPOEIA</p>
             <h2><%= pedal[0].onomato %></h2>
             <p><%= pedal[0].onoMeaning %></p>
             <p class="label">FEATURED PEDAL</p>
-            <h2 id="pedalDisplay" class="linkIcon"></h2>
+            <a id="pedalLink" href="" target="_blank">
+                <h2 id="pedalDisplay" class="linkIcon"></h2>
+            </a>
             <p id="pedalDesc"></p>
             <p class="label">MUSIC BY</p>
             <h2 class="linkIcon"><%= pedal[0].artist %></h2>
             <h3 class="linkIcon">"<%= pedal[0].trackName %>"</h3>
-            <p class="label">VISUAL ART BY</p>
-            <h2 class="linkIcon">Siori Kitajima</h2>
-            <h3 class="linkIcon">"Number Five - Blocky"</h3>
+            <p class="label">ANIMATION BY</p>
+            <% for ( var a = 0; a < animation.length; a++ ) { %> 
+                <% if ( animation[a].slug == pedal[0].animation ) { %>
+            <h2 class="linkIcon"><%= animation[a].artist %></h2>
+            <h3 class="linkIcon">"<%= animation[a].fullName %>"</h3>
+                <% } %>
+            <% } %>
+        </div>
+        <div class="infoOne">
+            <div class="opImg">
+                <% var val = Math.floor(1000 + Math.random() * 9000); %>
+                <img  src="https://opv2-heroku.s3.us-west-1.amazonaws.com/<%= name %>/cover.jpg?<%=val%>" alt="pedal">
+            </div>
         </div>
         <div class="infoThree">
-            <div>
-                <p class="label">KEYS TO PLAY</p>
-                <img class="keyboard" src="images/keysOnBoard.svg" alt="keyboard">
+            <div class="keybord-container">
+                <div class="keyboard">
+                    <% if (keys.length > 0) { %>
+                        <% keys.forEach((thekey, index) => { %>
+                        <div class="key <%- thekey.enabled ? 'active' : null %> col-<%= thekey.sample %>" id="<%= thekey.key %>" data-pitch=<%= thekey.pitch %> data-enabled=<%= thekey.enabled %> data-index='<%= index %>' data-sample='<%= thekey.sample %>' >
+                                <h3><%= thekey.key %></h3>
+                                <p><%= thekey.pitch.toUpperCase().replace('M', '#') %></p>
+                        </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p>No key to display</p>
+                    <% } %>
+                </div>
             </div>
-            <p class="label">MUSIC, ART & MERCH</p>
-            <div class="merch-icons">
-                <div class="icon">
-                    <img src="images/merch/OP_Astral-Destiny_B.jpg" alt="Tshirt">
-                </div>
-                <div class="icon">
-                    <img src="images/merch/jogger-temp.jpg" alt="Jogger">
-                </div>
-                                <div class="icon">
-                    <img src="images/merch/Astral-Destiny_Mug.jpg" alt="Mug">
-                </div>
-                <div class="icon">
-                    <img src="images/merch/leggings-temp.jpg" alt="Leggings">
-                </div>
-                <div class="icon">
-                    <img src="images/merch/album-temp.jpg" alt="Album">
-                </div>
-                <div class="icon">
-                    <img src="images/merch/number-five-blk_thumb.jpg" alt="NFT">
-                </div>
+        </div>
+    </div>
+    <div class="merchContainer">
+        <div class="merch-icons">
+            <div class="icon">
+                <img src="../images/merch/OP_Astral-Destiny_B.jpg" alt="Tshirt">
+            </div>
+            <div class="icon">
+                <img src="../images/merch/jogger-temp.jpg" alt="Jogger">
+            </div>
+            <div class="icon">
+                <img src="../images/merch/Astral-Destiny_Mug.jpg" alt="Mug">
+            </div>
+            <div class="icon">
+                <img src="../images/merch/leggings-temp.jpg" alt="Leggings">
+            </div>
+            <div class="icon">
+                <img src="../images/merch/album-temp.jpg" alt="Album">
+            </div>
+            <div class="icon">
+                <img src="../images/merch/number-five-blk_thumb.jpg" alt="NFT">
             </div>
         </div>
     </div>
@@ -70,12 +84,14 @@
 <script>
         var thepedal = <%- JSON.stringify(pedal[0]) %> ;
         var eqdPedals = <%- JSON.stringify(eqdPedals) %> ;
+        var thekeys = <%- JSON.stringify(keys) %> ;
+        var thesamples = <%- JSON.stringify(samples) %> ;
+        var theAnima = <%- JSON.stringify(animation) %> ;
 
         for (var p = 0; p < eqdPedals.length; p++) {
             if (thepedal.pedalFull == eqdPedals[p].slug) {
-                var imgPath = 'images/pedals/' + eqdPedals[p].slug + '.png';
                 $('#pedalDisplay').html(eqdPedals[p].fullName);
-                $('#pedalImg').attr('src', imgPath);
+                $('#pedalLink').attr('href', eqdPedals[p].eqdurl);
                 $('#pedalDesc').html(eqdPedals[p].description);
                 break;
             }
@@ -119,10 +135,8 @@
                 event.preventDefault();
                 const checkMuted = $(event.target).hasClass("muted") ? true : false;
                 if (checkMuted) {
-                    console.log('it is muted');
                     channel.mute = false;
                 } else {
-                    console.log('it is not muted');
                     channel.mute = true;
                 }
             });
@@ -380,6 +394,50 @@
                 onkeydown(e);
             }
         });
+
+        var colorList = [
+            // '#FCA311', '#289650', '#84397C', '#1996BE', '#F98444', '#299189', '#C83F54', '#959B3F', '#466488', '#AE4F70',
+            // '#785000', '#005421', '#5E0050', '#005081', '#78320A', '#005050', '#8C0000', '#3C5A00', '#003264', '#780028',
+            // '#FCDC78', '#64C882', '#AA78A0', '#64B4DC', '#FFAA78', '#64C8C8', '#DC788C', '#A0BE78', '#6E96B4', '#D282AA',
+            // '#BE9B5F', '#BE9B5F', '#644661', '#527686', '#C88C6E', '#476F6C', '#8B555E', '#696E50', '#4D566C', '#9B5D76',
+            // '#F0C81E', '#32C850', '#B432C8', '#00AADC', '#FF6E50', '#00DCC8', '#FF3264', '#96C800', '#0064C8', '#FF64B4'
+        ];
+        var colPalette = thepedal[0].color;
+        var colData = theAnima[0][colPalette];
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        for (var c = 0; c < thesamples.length; c++) {
+            var randCol1 = getRandomInt(colData[0], colData[3]);
+            var randCol2 = getRandomInt(colData[1], colData[4]);
+            var randCol3 = getRandomInt(colData[2], colData[5]);
+            var col = 'rgb(' + randCol1 + ',' + randCol2 + ',' + randCol3 + ')';
+            colorList.push(col);
+        }
+        console.log(colorList);
+
+        for (var c = 0; c < thesamples.length; c++) {
+            var keyClass = '.active.col-' + thesamples[c].samplename;
+            var sampleClass = '.sample.col-' + c + ' > div';
+            $(keyClass).css('background-color', colorList[c] );
+            $(sampleClass).css('background-color', colorList[c] );
+
+            var playSampleBtn = '#play-sample-' + c ;
+            (function(c) {
+            var thepitch = thesamples[c].pitch.toUpperCase().replace('M', '#');
+            var sampleaudio = samplers[c];
+            $(playSampleBtn).on('click', () => {
+                if(!toneStarted) {
+                        Tone.start();
+                        toneStarted = true;
+                    }
+            // console.log(c, thepitch);
+            sampleaudio.triggerAttackRelease(thepitch);
+            });
+        })(c);   
+        }
 
     });
 </script>

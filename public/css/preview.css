@@ -6,13 +6,18 @@ canvas {
   height: calc(100% - 115px);
   margin: 0;
   padding: 0;
-  top: 115px;
+  top: 50px;
   left: 0;
   right: 0;
   bottom: 0;
   position: fixed;
   z-index: -1;
 }
+
+/* canvas.sideBar {
+  width: calc(100% - 260px);
+  left: 260px;
+} */
 
 #drumpads {
   width: 100vw;
@@ -74,48 +79,51 @@ canvas {
   }
 }
 
-/* #controlMain {
-  opacity: 0.6;
+.animator {
+  position: fixed;
+  top: 50px;
+  right: 0;
+  width: 400px;
+  height: fit-content;
+  padding: 0 40px 30px 40px;
+}
+.animator:hover {
+  background: #111;
+  border-bottom: #777 2px solid;
+  transition-duration: 200ms;
 }
 
-.paused {
-  background: url(../images/Play_btn.svg) no-repeat;
+.animator .handle {
+  position: absolute;
+  top: 0;
+  left: -60px;
+  width: 60px;
+  height: 100%;
+  border-right: #777 solid 2px ;
 }
-.playing {
-  background: url(../images/Pause_btn.svg) no-repeat;
-} */
 
-/* #controlMain, #controlStems .stem {
+.animator .handle img {
+  margin-top: 30px;
   width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  padding: 10px 8px 10px 10px;
+  border-radius: 5px 0 0 5px;
+  border: #777 solid 2px;
+  background: #777;
+  cursor: pointer;
 }
 
-#controlMain:hover, #controlStems .stem:hover {
-  opacity: 1;
-  transition-duration: 300ms;
+.animator .handle img:hover {
+  background: #F56476;
+  border: #F56476 solid 2px;
+  transition-duration: 200ms;
 }
 
-#controlStems {
-  width: auto;
-  height: 40px;
-  display: flex;
+.animator form p#unit {
+  position: relative;
+  top: 25px;
+  left: 0;
+  width: 400px;
+  height: 0;
+  color: #777;
+  text-align: right;
 }
-
-#controlStems .stem {
-  margin-left: 20px;
-  /* background: #FFF; */
-/*  text-align: center;
-  line-height: 2.5em;
-  font-family: 'Dosis', sans-serif;
-}
-
-.unmuted {
-  background: #fc7e86;
-  opacity: 0.6;
-}
-
-.muted {
-  background: #ffffff;
-  opacity: 0.3;
-} */

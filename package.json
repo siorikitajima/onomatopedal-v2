@@ -10,8 +10,10 @@
   "author": "Siori Kitajima",
   "license": "ISC",
   "dependencies": {
+    "atob": "^2.1.2",
     "aws-sdk": "^2.936.0",
     "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
     "browser-detect": "^0.2.28",
     "connect-mongodb-session": "^2.4.1",
     "dotenv": "^10.0.0",
@@ -19,6 +21,7 @@
     "express": "^4.17.1",
     "express-flash": "^0.0.2",
     "express-session": "^1.17.2",
+    "html2canvas": "^1.2.1",
     "lodash": "^4.17.21",
     "method-override": "^3.0.0",
     "mongoose": "^5.12.13",

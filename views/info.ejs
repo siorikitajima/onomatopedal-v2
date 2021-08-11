@@ -3,7 +3,7 @@
 <body>
     <%- include('./partials/nav.ejs')  %> 
 
-    <div class="content forms">
+    <div class="content forms sideBar">
         <div class="h2bg">
             <h2>Meta Info</h2>
         </div>
@@ -55,12 +55,12 @@
             <input type="text" id="onomato" name="onomato" value="<%= pedal.onomato%>">
             <label for="onoMeaning">Onomatopoeia Meaning</label>
             <input type="text" id="onoMeaning" name="onoMeaning" value="<%= pedal.onoMeaning%>">
+
             <button type="submit">Save</button>
             <input id="hiddenKeyName" type="hidden" name="name" value="<%= pedal.name%>">
             <input id="hiddenKeyName" type="hidden" name="pedalFull" value="<%= pedal.pedalFull%>">
         </form>
     </div>
-    <%- include('./partials/footer.ejs')  %> 
 
     <script>
         var thepedal = <%- JSON.stringify(pedal) %> ;
