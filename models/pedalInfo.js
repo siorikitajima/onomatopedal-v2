@@ -20,6 +20,9 @@ const pedalSchema = new Schema({
     trackName: {
         type: String
     },
+    trackOnline: {
+        type: String
+    },
     artist: {
         type: String
     },

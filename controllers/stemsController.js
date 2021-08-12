@@ -233,7 +233,7 @@ const studio_get = async　(req, res) => {
                         if(err) {console.log(err);}
                         else {
                             res.render(isMobile ? 'mobilePreview' : 'studio', { 
-                                title: 'Studio', nav:'studio', 
+                                title: 'Dashboard', nav:'studio', 
                                 keys: keyCollection,
                                 samples: sampleCollection,
                                 pedal: pedalInfo, 

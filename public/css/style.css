@@ -150,17 +150,17 @@
       background: #b64552;
       transition-duration: 200ms;
     }
-    div.navLeft li:hover a {
+    div.navLeft li:hover, div.navLeft li.current:hover {
       color: #111;
       transition-duration: 200ms;
     }
     nav li.cLcases {
       text-transform: none;
     }
-    nav li.current a {
+    nav li.current {
       color: #F56476;
     }
-    div.navLeft li.current a {
+    div.navLeft li.current {
       color: #b64552;
       font-weight: bold;
     }
@@ -174,14 +174,17 @@
       background: url('../images/current.svg');
       position: absolute;
       top: 0;
-      left: 0;
+      left: 5px;
+    }
+    div.navLeft li.current:hover::before {
+      background: url('../images/current_dark.svg');
     }
 
-    nav li a:hover {
+    nav a:hover li {
       color: #F56476;
       transition-duration: 200ms;
     }
-    nav li.current a:hover {
+    nav a:hover li.current {
       opacity: 0.5;
       transition-duration: 200ms;
     }

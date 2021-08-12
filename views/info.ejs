@@ -2,7 +2,11 @@
     <%- include('./partials/head.ejs')  %> 
 <body>
     <%- include('./partials/nav.ejs')  %> 
-
+    <a href="/guide#others">
+        <div class="help">
+            <p class="guideIcon">Guide</p>
+        </div>
+    </a>
     <div class="content forms sideBar">
         <div class="h2bg">
             <h2>Meta Info</h2>
@@ -47,9 +51,11 @@
             </select>
             <label for="trackName">Track Name</label>
             <input type="text" id="trackName" name="trackName" value="<%= pedal.trackName %>">
-            <label for="artist">Artist Name(s)</label>
+            <label for="trackOnline">Track URL (Bandcamp, Spotify, etc.)</label>
+            <input type="text" id="trackOnline" name="trackOnline" value="<%= pedal.trackOnline%>">
+            <label for="artist">Artist Name</label>
             <input type="text" id="artist" name="artist" value="<%= pedal.artist%>">
-            <label for="website">Website(s)</label>
+            <label for="website">Artist Website</label>
             <input type="text" id="website" name="website" value="<%= pedal.website%>">
             <label for="onomato">Onomatopoeia</label>
             <input type="text" id="onomato" name="onomato" value="<%= pedal.onomato%>">

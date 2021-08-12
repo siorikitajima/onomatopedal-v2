@@ -60,6 +60,7 @@ const register_post = (req, res) => {
         onomato: req.body.onomato,
         onoMeaning: req.body.onoMeaning,
         trackName: 'Untitled',
+        trackOnline: '',
         artist: req.body.artist,
         website: '',
         animation: 'blocky',
@@ -122,6 +123,7 @@ const info_post = async (req, res) => {
         user.onomato = req.body.onomato;
         user.onoMeaning = req.body.onoMeaning;
         user.trackName = req.body.trackName;
+        user.trackOnline = req.body.trackOnline;
         user.artist = req.body.artist;
         user.website = req.body.website;
         user.save((err) => {

@@ -5,7 +5,11 @@
     <%- include('./partials/head.ejs')  %> 
 <body>
     <%- include('./partials/nav.ejs')  %> 
-
+    <a href="/guide#others">
+        <div class="help">
+            <p class="guideIcon">Guide</p>
+        </div>
+    </a>
     <div class="content home sideBar">
         <div class="opInfo">
             <a href="/preview">
@@ -13,17 +17,26 @@
             </a>
 
             <p class="label">EQD PEDAL</p>
-            <h2 id="pedalDisplay"></h2>
+            <a href="/info">
+            <h2 id="pedalDisplay" class="editIcon"></h2>
+            </a>
             <p class="label">ARTIST</p>
-            <h2><%= pedal[0].artist %></h2>
+            <a href="/info">
+            <h2 class="editIcon"><%= pedal[0].artist %></h2>
+            </a>
             <p class="label">TRACK</p>
-            <h2><%= pedal[0].trackName %></h2>
+            <a href="/info">
+            <h2 class="editIcon"><%= pedal[0].trackName %></h2>
+            </a>
             <p class="label">ONOMATOPOEIA</p>
-            <h2><%= pedal[0].onomato %></h2>
+            <a href="/info">
+            <h2 class="editIcon"><%= pedal[0].onomato %></h2>
+            </a>
             <p><%= pedal[0].onoMeaning %></p>
             <p class="label">ANIMATION</p>
-            <h2 id="animaName"></h2>
-
+            <a href="/preview">
+            <h2 id="animaName" class="editIcon"></h2>
+            </a>
             <!-- <div class="flex">
                 <a href="/info">
                     <button class="sm-btn">
@@ -65,9 +78,7 @@
                 <button class="sm-btn img-btn" id="saveBtn" onclick="saveCover()">
                     <p>Save</p>
                 </button>
-                
             </div>
-
         </div>
     </div>
 
@@ -89,7 +100,7 @@
         for (var a = 0; a < animations.length; a++ ) {
             if ( thepedal.animation == animations[a].slug ) {
                 theFont = animations[a].font;
-                $('#animaName').html(animations[a].fullName);
+                $('#animaName').html(animations[a].fullName + ' + ' + thepedal.color);
                 theFont = animations[a].font;
                 var col = thepedal.color;
                 colArray = animations[a][col];

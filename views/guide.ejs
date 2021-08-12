@@ -3,19 +3,79 @@
 <body>
     <%- include('./partials/nav.ejs')  %>
 
-    <div class="content about sideBar">
+    <div class="content guide sideBar">
         <div class="h2bg">
             <h2>OnomatoPedal Studio Guide</h2>
         </div>
-        <p>OnomatoPedal Studio is a browser based application that allows a musical artist to build the audio portion of an interactive audio-visual OnomatoPedal by uploading short audio samples that will trigger when keys on the keyboard are pressed along with three looping bakcground 'stems'. An OnomatoPedal is an EQD inspired interactive experience that end users can play with by triggering sounds and visuals at OnomatoPedal.com.</p>
-        <h2 class="offsetTop">How To Use</h2>
+        <p><b>OnomatoPedal Studio</b> is a browser based application that allows a musical artist to build the audio portion of an interactive audio-visual OnomatoPedal by uploading short audio 'samples' that will trigger when keys on the keyboard are pressed along with three looping bakcground 'stems'. An <b>OnomatoPedal</b> is an EQD inspired interactive experience that end users can play with by triggering sounds and visuals at OnomatoPedal.com.</p>
+
+        <hr id="stems">
+        <h2 class="offsetTop"><span>//</span> Stems <span>//</span></h2>
+        <img class="guideImg" src="images/guide/stems.jpg" alt="onomatopedal stems">
+        <img class="guideImg" src="images/guide/stems2.jpg" alt="onomatopedal stems">
         <ul>
-            <li> Use the 'Keys' section to upload short samples (mp3s) that the end user will trigger by playing keys on their keyboard. You can set the root note manually and if you name the root note in the file, it will be set by the software. For best results, name the sound using the root note (ie C4, G#5 etc) of the sound but feel free to experiment as well.</li>
-            <li> Use the 'Stems' section to upload up to three different stems (mp3s). These will be audio tracks that the user can loop in the background as they trigger sounds. If the stems are all the same length, they will loop in sync with each other which is good for tight rhythm based music but you can also upload stems of varying lengths which would be good for ambient and more sound designerly type tracks.</li>
-            <li> Use the 'Samples' section to manage samples. The samples will each be color coded and corresponding colors will show up in the Keys section to help you keep things organized.</li>
+            <li>  On <a href="/stems">'Stems' page</a>, upload up to three different stems (mp3s). These are audio tracks that the user can loop in the background as they trigger sounds. </li>
+            <li> There are three placeholder stems set when you first login. Delete first then upload your audio files.</li>
+            <li> 'Play All Stems' button on the bottom of the screen to test your stems.</li>
+            <li> If the stems are all the same length, they will loop in sync with each other which is good for tight rhythm based music but you can also upload stems of varying lengths which would be good for ambient and more sound designerly type tracks.</li>
+            <li> One stem file must be smaller than <b>5MG</b> and in <b>MP3</b> format.</li>
         </ul>
-        <h2 class="offsetTop">Need Help?</h2>
-        <p>Questions about OnomatoPedal and technical help, <a href="https://patternbased.com/contact/">contact Siori and Joey</a> at PatternBased. Questions about the pedals, use your contact at EarthQuakerDevices.</p>
+
+        <hr id="samples">
+        <h2 class="offsetTop"><span>//</span> Samples <span>//</span></h2>
+        <img class="guideImg" src="images/guide/samples.jpg" alt="onomatopedal samples">
+        <img class="guideImg" src="images/guide/samples2.jpg" alt="onomatopedal samples">
+        <ul>    
+            <li>  On <a href="/samples">'Samples' page</a>, upload and edit short samples (mp3s) that the end user will trigger by playing keys on their keyboard. </li>
+            <li> There are three placeholder samples set when you first login for you to test.</li>
+            <li> When uploading new sample from 'Add New' button, set the 'Sample Pitch' of each sample. This app generates audio based on it. (i.e. If the Sample pitch is 'C4' and the Key pitch is 'E4', the result audio is two pitches higher than the original audio file.)</li>
+            <li> For your convenience, we recommend to name the sample using the Sample pitch (i.e. 'C4-piano', 'G#5tone', etc) of the sound.</li>
+            <li> If you delete a sample, keys using the sample will be disabled.</li>
+            <li> One sample file must be smaller than <b>500KB</b> and in <b>MP3</b> format.</li>
+        </ul>
+
+        <hr id="keys">
+        <h2 class="offsetTop"><span>//</span> Keys <span>//</span></h2>
+        <img class="guideImg" src="images/guide/keys.jpg" alt="onomatopedal keys">
+        <img class="guideImg" src="images/guide/keys2.jpg" alt="onomatopedal keys">
+        <ul>
+            <li> On <a href="/keys">'Keys' page</a>, edit each key on keyboard that the end user will play. You can set it to be enabled/disabled, and choose its 'Key Pitch' and 'Sample'.</li>
+            <li> You can also upload new sample from '+' button. Set 'Sample pitch' as well as 'Key pitch'.</li>
+            <li> You can always test by pressing keys on your keyboard.</li>
+            <li> When it is played on mobile devices, there will be drumpads on the screen to trigger samples.</li>
+        </ul>
+    
+        <hr id="others">
+        <h2 class="offsetTop"><span>//</span>Info, Preview, and Dashboard <span>//</span></h2>
+        <img class="guideImg" src="images/guide/dashboard.jpg" alt="onomatopedal info">
+        <img class="guideImg" src="images/guide/preview.jpg" alt="onomatopedal animation">
+        <ul>
+            <li> On <a href="/info">'Info' page</a>, enter and edit information appear along with your OnomatoPedal, such as artist name, track name, website, etc.</li>
+            <li> Enter an onomatopoie word inspiring the track and its description.</li>
+            <li> On <a href="/preview">'Preview' page</a>, you can change the animation and the color palette played on the screen. When you change it, it is automatically saved in the database.</li>
+            <li> You can adjust the speed of animation by changing 'Tempo'.</li>
+            <li> On <a href="/studio">'Dashboard' page</a>, set the cover image which will be used in OnomatoPedal.com. Click on 'Color' button until it generate the color combo you like, and 'Save' to send the image to the server.</li>
+            <li> The cover image is generated based on the animation style and color palette you set in 'Preview', and your onomatopoie word. We recomend to do this step after setting them all up.</li>
+        </ul>
+
+        <hr>
+        <h2 class="offsetTop"><span>//</span> Mobile Preview <span>//</span></h2>
+        <ul>
+            <li> Log in from your mobile devices to test mobile version play screen.</li>
+            <li> Other pages above are not available to use from mobile devices. Please login from a web browser in your computer.</li>
+        </ul>
+
+        <hr>
+        <h2 class="offsetTop"><span>//</span> Supported Environments <span>//</span></h2>
+        <ul>
+            <li> OS: MacOS 11+, Windows 10+, iOS 00+, Android 00+, iPadOS 00++</li>
+            <li> Browser: Chrome, Safari, FireFox, Opera, Edge</li>
+        </ul>
+
+        <hr>
+        <h2 class="offsetTop"><span>//</span> Need Help? <span>//</span></h2>
+        <p>Questions about OnomatoPedal and technical help, contact<a href="https://patternbased.com/contact/" target="_blank"> Siori and Joey</a> at PatternBased. Questions about the pedals, use your contact at EarthQuakerDevices.<br/>
+        Once you are happy with everything, let your contact know to publish it to OnomatoPedal.com.</p>
     </div>
 </body>
 </html>

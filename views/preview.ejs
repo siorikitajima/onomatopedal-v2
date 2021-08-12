@@ -16,7 +16,11 @@
   <%- include('./partials/nav.ejs')  %> 
   <%- include('./partials/player.ejs')  %> 
   <%- include('./partials/animator.ejs')  %> 
-  
+  <a href="/guide#others">
+    <div class="help">
+        <p class="guideIcon">Guide</p>
+    </div>
+</a>
   <script>
     var aniName = <%- JSON.stringify(pedal[0].animation) %> ;
     var colName = <%- JSON.stringify(pedal[0].color) %> ;

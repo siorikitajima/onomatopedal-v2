@@ -86,17 +86,12 @@ div#controller {
       width: calc(100% - 6px);
       text-align: center;
       display: inline-table;
-      cursor: pointer;
       padding: 3px;
       visibility: hidden;
     }
     .keyboard div.key p {
       color:#777;
       font-size: 0.8em;
-    }
-    .keyboard div.key:hover {
-      opacity: 0.5;
-      transition-duration: 200ms;
     }
     .keyboard div.key.active {
       background-color: #F56476;

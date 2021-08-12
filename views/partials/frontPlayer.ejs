@@ -120,11 +120,12 @@
         const controlMain = $('#controlMain, #controlStems');
         const stems = $('.stem');
         let toneStarted = false;
+        // var val = Math.floor(1000 + Math.random() * 9000);
 
         function makeChannel( url, pan = 0 ) {
             const channel = new Tone.Channel({ pan }).toDestination();
             const player = new Tone.Player({
-                url: 'https://opv2-heroku.s3.us-west-1.amazonaws.com/' + username + `/${url}.mp3`,
+                url: 'https://opv2-heroku.s3.us-west-1.amazonaws.com/' + username + `/${url}.mp3?`,
                 loop: true
             }).sync().start(0);
             player.connect(channel);

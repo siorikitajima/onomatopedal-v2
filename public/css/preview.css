@@ -86,10 +86,10 @@ canvas {
   width: 400px;
   height: fit-content;
   padding: 0 40px 30px 40px;
+  border-bottom: #777 2px solid;
 }
 .animator:hover {
   background: #111;
-  border-bottom: #777 2px solid;
   transition-duration: 200ms;
 }
 
@@ -103,7 +103,7 @@ canvas {
 }
 
 .animator .handle img {
-  margin-top: 30px;
+  margin-top: 50px;
   width: 40px;
   padding: 10px 8px 10px 10px;
   border-radius: 5px 0 0 5px;
