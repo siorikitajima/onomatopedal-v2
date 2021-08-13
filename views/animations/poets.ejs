@@ -102,56 +102,61 @@ function draw() {
 }
     
     function keyPressed() {
-      if (key == 'a' || key == 'b') {
+      if (keyCode == 65 || keyCode == 66 || keyCode == 49) { // a + b + 1
         let nuke = createVector( random(width), random(height) );
         let ripple = new Ripple(nuke);
         ripples.push(ripple);
       }
-      if (key == 'd' || key == 'l') {
+      if (keyCode == 68 || keyCode == 76 || keyCode == 56) { // d + l + 8
         let rain = new Rain();
         rains.push(rain);   
       }
-      if (key == 'g' || key == 'i') {
+      if (keyCode == 71 || keyCode == 73 || keyCode == 51) { // g + i + 3
         let letter = new Letter(key, 'random');
         letters.push(letter);
       }
-      if (key == 'j' || key == 'q') {
+      if (keyCode == 74 || keyCode == 81 || keyCode == 52) { // j + q + 4
         let OnoLetter = onomato[floor(random(0, onomato.length -1))];
         let letter = new Letter(OnoLetter, 'ono');
         letters.push(letter);
       }
-      if (key == 'm' || key == 'e') {
+      if (keyCode == 77 || keyCode == 69 || keyCode == 53) { // m + e + 5
         let rain = new Rain();
         rains.push(rain);   
       }
-      if (key == 'p' || key == 'r' || key == 'z') {
+      if (keyCode == 80 || keyCode == 82 || keyCode == 90) { // p + r + z
         let letter = new Letter(key, 'random');
         letters.push(letter);
       }
-      if (key == 's' || key == 'u' || key == 't') {
+      if (keyCode == 83 || keyCode == 85 || keyCode == 84) { // s + u + t
         let nuke = createVector( random(width), random(height) );
         let ripple = new Ripple(nuke);
         ripples.push(ripple);
       }
-      if (key == 'v' || key == 'w' || key == 'k') {
+      if (keyCode == 86 || keyCode == 87 || keyCode == 75) { // v + w + k
         let OnoLetter = onomato[floor(random(0, onomato.length -1))];
         let letter = new Letter(OnoLetter, 'ono');
         letters.push(letter);
       }
-      if (key == 'x' || key == 'y' || key == 'n') {
+      if (keyCode == 88 || keyCode == 89 || keyCode == 78) { // x + y + n
         let letter = new Letter(key, 'random');
         letters.push(letter);
       }
-      if (key == 'c' || key == 'h') {
+      if (keyCode == 67 || keyCode == 72 || keyCode == 48) { // c + h + 0
         let nuke = createVector( random(width), random(height) );
         let ripple = new Ripple(nuke);
         ripples.push(ripple);
       }
-      if (key == 'f' || key == 'o') {
+      if (keyCode == 70 || keyCode == 79 || keyCode == 55) { // f + o + 7
         let rain = new Rain();
         rains.push(rain);   
       }
-      if (keyCode === 32) {
+      if (keyCode == 50 || keyCode == 57 || keyCode == 54) { // 2 + 9 + 6
+        let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+        let letter = new Letter(OnoLetter, 'ono');
+        letters.push(letter);
+      }
+      if (keyCode === 32) { // space
         let mode = new Mode();
         modes.push(mode);
       }

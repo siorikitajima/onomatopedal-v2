@@ -508,113 +508,153 @@
 
     /* Keybord keys */
 
-    .keyboard div#Q {
+    .keyboard div#ONE {
       grid-column: 1 / 3;
       grid-row: 1;
     }
-    .keyboard div#W {
+    .keyboard div#TWO {
       grid-column: 3 / 5;
       grid-row: 1;
     }
-    .keyboard div#E {
+    .keyboard div#THREE {
       grid-column: 5 / 7;
       grid-row: 1;
     }
-    .keyboard div#R {
+    .keyboard div#FOUR {
       grid-column: 7 / 9;
       grid-row: 1;
     }
-    .keyboard div#T {
+    .keyboard div#FIVE {
       grid-column: 9 / 11;
       grid-row: 1;
     }
-    .keyboard div#Y {
+    .keyboard div#SIX {
       grid-column: 11 / 13;
       grid-row: 1;
     }
-    .keyboard div#U {
+    .keyboard div#SEVEN {
       grid-column: 13 / 15;
       grid-row: 1;
     }
-    .keyboard div#I {
+    .keyboard div#EIGHT {
       grid-column: 15 / 17;
       grid-row: 1;
     }
-    .keyboard div#O {
+    .keyboard div#NINE {
       grid-column: 17 / 19;
       grid-row: 1;
     }
-    .keyboard div#P {
+    .keyboard div#ZERO {
       grid-column: 19 / 21;
       grid-row: 1;
     }
+    .keyboard div#Q {
+      grid-column: 1 / 3;
+      grid-row: 2;
+    }
+    .keyboard div#W {
+      grid-column: 3 / 5;
+      grid-row: 2;
+    }
+    .keyboard div#E {
+      grid-column: 5 / 7;
+      grid-row: 2;
+    }
+    .keyboard div#R {
+      grid-column: 7 / 9;
+      grid-row: 2;
+    }
+    .keyboard div#T {
+      grid-column: 9 / 11;
+      grid-row: 2;
+    }
+    .keyboard div#Y {
+      grid-column: 11 / 13;
+      grid-row: 2;
+    }
+    .keyboard div#U {
+      grid-column: 13 / 15;
+      grid-row: 2;
+    }
+    .keyboard div#I {
+      grid-column: 15 / 17;
+      grid-row: 2;
+    }
+    .keyboard div#O {
+      grid-column: 17 / 19;
+      grid-row: 2;
+    }
+    .keyboard div#P {
+      grid-column: 19 / 21;
+      grid-row: 2;
+    }
     .keyboard div#A {
       grid-column: 2 / 4;
-      grid-row: 2;
+      grid-row: 3;
     }
     .keyboard div#S {
       grid-column: 4 / 6;
-      grid-row: 2;
+      grid-row: 3;
     }
     .keyboard div#D {
       grid-column: 6 / 8;
-      grid-row: 2;
+      grid-row: 3;
     }
     .keyboard div#F {
       grid-column: 8 / 10;
-      grid-row: 2;
+      grid-row: 3;
     }
     .keyboard div#G {
       grid-column: 10 / 12;
-      grid-row: 2;
+      grid-row: 3;
     }
     .keyboard div#H {
       grid-column: 12 / 14;
-      grid-row: 2;
+      grid-row: 3;
     }
     .keyboard div#J {
       grid-column: 14 / 16;
-      grid-row: 2;
+      grid-row: 3;
     }
     .keyboard div#K {
       grid-column: 16 / 18;
-      grid-row: 2;
+      grid-row: 3;
     }
     .keyboard div#L {
       grid-column: 18 / 20;
-      grid-row: 2;
+      grid-row: 3;
     }
     .keyboard div#Z {
       grid-column: 3 / 5;
-      grid-row: 3;
+      grid-row: 4;
     }
     .keyboard div#X {
       grid-column: 5 / 7;
-      grid-row: 3;
+      grid-row: 4;
     }
     .keyboard div#C {
       grid-column: 7 / 9;
-      grid-row: 3;
+      grid-row: 4;
     }
     .keyboard div#V {
       grid-column: 9 / 11;
-      grid-row: 3;
+      grid-row: 4;
     }
     .keyboard div#B {
       grid-column: 11 / 13;
-      grid-row: 3;
+      grid-row: 4;
     }
     .keyboard div#N {
       grid-column: 13 / 15;
-      grid-row: 3;
+      grid-row: 4;
     }
     .keyboard div#M {
       grid-column: 15 / 17;
-      grid-row: 3;
+      grid-row: 4;
     }
     .keyboard div#SPACE {
       grid-column: 6 / 16;
-      grid-row: 4;
+      grid-row: 5;
     }
 
     h2#saved {

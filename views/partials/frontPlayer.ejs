@@ -32,7 +32,19 @@
                     <% if (keys.length > 0) { %>
                         <% keys.forEach((thekey, index) => { %>
                         <div class="key <%- thekey.enabled ? 'active' : null %> col-<%= thekey.sample %>" id="<%= thekey.key %>" data-pitch=<%= thekey.pitch %> data-enabled=<%= thekey.enabled %> data-index='<%= index %>' data-sample='<%= thekey.sample %>' >
+                            <% if(thekey.key == 'ONE') { %> <h3>1</h3> 
+                                <%} else if(thekey.key == 'TWO') { %> <h3>2</h3> 
+                                <%} else if(thekey.key == 'THREE') { %> <h3>3</h3> 
+                                <%} else if(thekey.key == 'FOUR') { %> <h3>4</h3> 
+                                <%} else if(thekey.key == 'FIVE') { %> <h3>5</h3> 
+                                <%} else if(thekey.key == 'SIX') { %> <h3>6</h3> 
+                                <%} else if(thekey.key == 'SEVEN') { %> <h3>7</h3> 
+                                <%} else if(thekey.key == 'EIGHT') { %> <h3>8</h3> 
+                                <%} else if(thekey.key == 'NINE') { %> <h3>9</h3> 
+                                <%} else if(thekey.key == 'ZERO') { %> <h3>0</h3> 
+                                <%} else {%>
                                 <h3><%= thekey.key %></h3>
+                                <%}%>
                                 <p><%= thekey.pitch.toUpperCase().replace('M', '#') %></p>
                         </div>
                         <% }) %>
@@ -241,8 +253,18 @@
             var thekey = thekeys[i].key.toLowerCase();
             var note = thekeys[i].pitch.toUpperCase().replace('M', '#'); 
            if(thekeys[i].enabled) {
-               if(thekey == 'space') {
+            if(thekey == 'space') {
                 keyToPitch[' '] = note;
+                } else if(thekey == 'one') { keyToPitch['1'] = note; 
+                } else if(thekey == 'two') { keyToPitch['2'] = note; 
+                } else if(thekey == 'three') { keyToPitch['3'] = note; 
+                } else if(thekey == 'four') { keyToPitch['4'] = note; 
+                } else if(thekey == 'five') { keyToPitch['5'] = note; 
+                } else if(thekey == 'six') { keyToPitch['6'] = note; 
+                } else if(thekey == 'seven') { keyToPitch['7'] = note; 
+                } else if(thekey == 'eight') { keyToPitch['8'] = note; 
+                } else if(thekey == 'nine') { keyToPitch['9'] = note; 
+                } else if(thekey == 'zero') { keyToPitch['0'] = note; 
                } else {
                 keyToPitch[thekey] = note;
                }
@@ -295,6 +317,38 @@
 
             var index;
             switch (x) {
+
+                // 1 - 0
+                case 49:
+                index = theIndex('ONE');
+                break;
+                case 50:
+                index = theIndex('TWO');
+                break;
+                case 51:
+                index = theIndex('THREE');
+                break;
+                case 52:
+                index = theIndex('FOUR');
+                break;
+                case 53:
+                index = theIndex('FIVE');
+                break;
+                case 54:
+                index = theIndex('SIX');
+                break;
+                case 55:
+                index = theIndex('SEVEN');
+                break;
+                case 56:
+                index = theIndex('EIGHT');
+                break;
+                case 57:
+                index = theIndex('NINE');
+                break;
+                case 48:
+                index = theIndex('ZERO');
+                break;
 
                 // Q - P
                 case 81:

@@ -14,8 +14,8 @@ const s3 = new AWS.S3({
     secretAccessKey: secretAccessKeyS3
 });
 
-const keyList = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'SPACE'];
-const noteList = ["c5", "cm5", "d5", "dm5", "e5", "f5", "fm5", "g5", "gm5", "a5", "am5", "b5", "c4", "cm4", "d4", "dm4", "e4", "f4", "fm4", "g4", "gm4", "cm3", "d3", "dm3", "e3", "f3", "c3"];
+const keyList = ['ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE', 'ZERO', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'SPACE'];
+const noteList = ["c5", "cm5", "d5", "dm5", "e5", "f5", "fm5", "g5", "gm5", "a5", "am5", "b5", "c4", "cm4", "d4", "dm4", "e4", "f4", "fm4", "g4", "gm4", "a4", "am4", "b4", "c3", "cm3", "d3", "dm3", "e3", "f3", "fm3", "g3", "gm3", "a3", "am3", "b3", "c2"];
 
 const register_get = (req, res) => {
     res.render('register', { title: 'Register a Pedal' });
@@ -40,8 +40,8 @@ const register_post = (req, res) => {
     for (let k = 0; k < keyList.length; k++) {
         let sampleName;
         if (k < 10) { sampleName = 'c4pluck'; }
-        else if (k < 19 ) { sampleName = 'c4piano'; }
-        else if (k < 26 ) { sampleName = 'c4tone'; }
+        else if (k < 20 ) { sampleName = 'c4piano'; }
+        else if (k < 29 ) { sampleName = 'c4tone'; }
         else { sampleName = 'c4pluck'; }
         const key = new Key({
             name: req.body.name,

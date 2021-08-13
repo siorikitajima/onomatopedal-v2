@@ -6,12 +6,12 @@
     <div class="featBanner">
         <p>Check Out V2 Demo!</p>
         <% for (var p = 0; p < fillPedalNames.length; p++) { %>
-                <%  if (v2Pedals[1].pedalFull == fillPedalNames[p].slug) { %>
-        <h1><%= v2Pedals[1].onomato %> + <%= fillPedalNames[p].fullName %> + <%= v2Pedals[1].artist %></h1>
+                <%  if (v2Pedals[0].pedalFull == fillPedalNames[p].slug) { %>
+        <h1><%= v2Pedals[0].onomato %> + <%= fillPedalNames[p].fullName %> + <%= v2Pedals[0].artist %></h1>
                 <% break; %>
             <% } %>
         <% } %>
-        <a href="/v2/<%= v2Pedals[1].name %>"><button class="lineBtn">Play</button></a>
+        <a href="/v2/<%= v2Pedals[0].name %>"><button class="lineBtn">Play</button></a>
     </div>
     <div class="grid-container">
     <% for (var i = 0; i < v2Pedals.length; i++) { %>

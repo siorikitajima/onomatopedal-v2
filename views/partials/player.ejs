@@ -125,8 +125,6 @@
 
     $(document).ready(function() {
         var keyPlayed = false;
-        // console.log(thekeys);
-        // console.log(thesamples);
 
         var fileName = [], pitchString = [];
         for (var i = 0; i < thesamples.length; i++) {
@@ -135,10 +133,6 @@
                 fileName.push(name);
                 pitchString.push(note);
         }
-        // console.log('fileName: ');
-        // console.log(fileName);
-        // console.log('pitchString: ');
-        // console.log(pitchString);
 
         var keyToPitch = {};
         for (var i = 0; i < thekeys.length; i++) {
@@ -147,16 +141,23 @@
            if(thekeys[i].enabled) {
                if(thekey == 'space') {
                 keyToPitch[' '] = note;
-               } else {
+                } else if(thekey == 'one') { keyToPitch['1'] = note; 
+                } else if(thekey == 'two') { keyToPitch['2'] = note; 
+                } else if(thekey == 'three') { keyToPitch['3'] = note; 
+                } else if(thekey == 'four') { keyToPitch['4'] = note; 
+                } else if(thekey == 'five') { keyToPitch['5'] = note; 
+                } else if(thekey == 'six') { keyToPitch['6'] = note; 
+                } else if(thekey == 'seven') { keyToPitch['7'] = note; 
+                } else if(thekey == 'eight') { keyToPitch['8'] = note; 
+                } else if(thekey == 'nine') { keyToPitch['9'] = note; 
+                } else if(thekey == 'zero') { keyToPitch['0'] = note; 
+            } else {
                 keyToPitch[thekey] = note;
                }
             } else {
                 keyToPitch[thekey] = null;
             }
         }
-
-        // console.log('Key to Pitch: ');
-        // console.log(keyToPitch);
 
         var samplers = [];
         for(i=0; i<fileName.length;i++) {
@@ -202,6 +203,38 @@
 
             var index;
             switch (x) {
+
+                // 1 - 0
+                case 49:
+                index = theIndex('ONE');
+                break;
+                case 50:
+                index = theIndex('TWO');
+                break;
+                case 51:
+                index = theIndex('THREE');
+                break;
+                case 52:
+                index = theIndex('FOUR');
+                break;
+                case 53:
+                index = theIndex('FIVE');
+                break;
+                case 54:
+                index = theIndex('SIX');
+                break;
+                case 55:
+                index = theIndex('SEVEN');
+                break;
+                case 56:
+                index = theIndex('EIGHT');
+                break;
+                case 57:
+                index = theIndex('NINE');
+                break;
+                case 48:
+                index = theIndex('ZERO');
+                break;
 
                 // Q - P
                 case 81:
@@ -326,7 +359,6 @@
                         Tone.start();
                         toneStarted = true;
                     }
-            // console.log(c, thepitch);
             sampleaudio.triggerAttackRelease(thepitch);
             });
         })(c);   

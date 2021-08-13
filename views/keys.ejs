@@ -15,7 +15,19 @@
         <% if (keys.length > 0) { %>
             <% keys.forEach((thekey, index) => { %>
             <div class="key <%- thekey.enabled ? 'active' : null %> col-<%= thekey.sample %>" id="<%= thekey.key %>" data-pitch=<%= thekey.pitch %> data-enabled=<%= thekey.enabled %> data-index='<%= index %>' data-sample='<%= thekey.sample %>' >
+                <% if(thekey.key == 'ONE') { %> <h3>1</h3> 
+                <%} else if(thekey.key == 'TWO') { %> <h3>2</h3> 
+                <%} else if(thekey.key == 'THREE') { %> <h3>3</h3> 
+                <%} else if(thekey.key == 'FOUR') { %> <h3>4</h3> 
+                <%} else if(thekey.key == 'FIVE') { %> <h3>5</h3> 
+                <%} else if(thekey.key == 'SIX') { %> <h3>6</h3> 
+                <%} else if(thekey.key == 'SEVEN') { %> <h3>7</h3> 
+                <%} else if(thekey.key == 'EIGHT') { %> <h3>8</h3> 
+                <%} else if(thekey.key == 'NINE') { %> <h3>9</h3> 
+                <%} else if(thekey.key == 'ZERO') { %> <h3>0</h3> 
+                <%} else {%>
                     <h3><%= thekey.key %></h3>
+                <%}%>
                     <p><%= thekey.pitch.toUpperCase().replace('M', '#') %></p>
             </div>
             <% }) %>

@@ -181,56 +181,59 @@
     }
     
     function keyPressed() {
-      if (key == 'a' || key == 'b') {
+      if (keyCode == 65 || keyCode == 66 || keyCode == 49) { // a + b + 1
         globalR = floor(random(colorValue[3], colorValue[0]));
         for(var i=0;i<10;i++) {
           particles.push(new Particle(globalR, globalG, globalB));
         }
       }
-      if (key == 'd' || key == 'l') {
+      if (keyCode == 68 || keyCode == 76 || keyCode == 56) { // d + l + 8
         globalG = floor(random(colorValue[4], colorValue[1]));
         for(var i=0;i<10;i++) {
           particles.push(new Particle(globalR, globalG, globalB));
         }
       }
-      if (key == 'g' || key == 'i') {
+      if (keyCode == 71 || keyCode == 73 || keyCode == 51) { // g + i + 3
         globalB =  floor(random(colorValue[5], colorValue[2]));
         for(var i=0;i<10;i++) {
           particles.push(new Particle(globalR, globalG, globalB));
         }
         }
-      if (key == 'j' || key == 'q') { 
+      if (keyCode == 74 || keyCode == 81 || keyCode == 52) { // j + q + 4
         for(var i=0;i<10;i++) {
           particles.push(new Particle(colorValue[6], colorValue[7], colorValue[8]));
         }
         }
-      if (key == 'm' || key == 'e') {
+      if (keyCode == 77 || keyCode == 69 || keyCode == 53) { // m + e + 5
         for(var i=0;i<10;i++) {
           particles.push(new Particle(190, 180, 180));
         }
       }
-      if (key == 'p' || key == 'r' || key == 'z') {
+      if (keyCode == 80 || keyCode == 82 || keyCode == 90) { // p + r + z
         var r = 10, g = 10, b = 10;
         onoLetters.push(new OnoLetter(r, g, b));
       }
-      if (key == 's' || key == 'u' || key == 't') {
+      if (keyCode == 83 || keyCode == 85 || keyCode == 84) { // s + u + t
         onoLetters.push(new OnoLetter(globalR, globalG, globalB));
       }
-      if (key == 'v' || key == 'w' || key == 'k') {
+      if (keyCode == 86 || keyCode == 87 || keyCode == 75) { // v + w + k
         var r = 10, g = 10, b = 10;
         lineCircles.push(new LineCircle(r, g, b, false));
       }
-      if (key == 'x' || key == 'y' || key == 'n') {
+      if (keyCode == 88 || keyCode == 89 || keyCode == 78) { // x + y + n
         var r = 10, g = 10, b = 10;
         lineCircles.push(new LineCircle(r, g, b, true));
       }
-      if (key == 'c' || key == 'h') {
+      if (keyCode == 67 || keyCode == 72 || keyCode == 48) { // c + h + 0
         lineCircles.push(new LineCircle(globalR, globalG, globalB, true));
       }
-      if (key == 'f' || key == 'o') {
+      if (keyCode == 70 || keyCode == 79 || keyCode == 55) { // f + o + 7
         lineCircles.push(new LineCircle(globalR, globalG, globalB, false));
       }
-      if (keyCode === 32) {
+      if (keyCode == 50 || keyCode == 57 || keyCode == 54) { // 2 + 9 + 6
+        onoLetters.push(new OnoLetter(globalR, globalG, globalB));
+      }
+      if (keyCode === 32) { // space
         wideBars.push(new WideBar(0,10,10,10));
       }
     
@@ -247,69 +250,75 @@
       function touchStarted() {
       let posx = floor(mouseX);
       let posy = floor(mouseY);
-      let col1 = posx >= 0 && posx < width/3;
-      let col2 = posx >= width/3 && posx < width/3*2;
-      let col3 = posx >= width/3*2 && posx <= width;
-      let row1 = posy >= 0 && posy < height/10;
-      let row2 = posy >= height/10 && posy < height/10*2;
-      let row3 = posy >= height/10*2 && posy < height/10*3;
-      let row4 = posy >= height/10*3 && posy < height/10*4;
-      let row5 = posy >= height/10*4 && posy < height/10*5;
-      let row6 = posy >= height/10*5 && posy < height/10*6;
-      let row7 = posy >= height/10*6 && posy < height/10*7;
-      let row8 = posy >= height/10*7 && posy < height/10*8;
-      let row9 = posy >= height/10*8 && posy < height/10*9;
+      let col0 = posx >= 0 && posx < width/4;
+      let col1 = posx >= width/4 && posx < width/4*2;
+      let col2 = posx >= width/4*2 && posx < width/4*3;
+      let col3 = posx >= width/4*3 && posx <= width;
+      let theheight = innerHeight - 80;
+      let row0 = posy >= 0 && posy < theheight/10;
+      let row1 = posy >= theheight/10 && posy < theheight/10*2;
+      let row2 = posy >= theheight/10*2 && posy < theheight/10*3;
+      let row3 = posy >= theheight/10*3 && posy < theheight/10*4;
+      let row4 = posy >= theheight/10*4 && posy < theheight/10*5;
+      let row5 = posy >= theheight/10*5 && posy < theheight/10*6;
+      let row6 = posy >= theheight/10*6 && posy < theheight/10*7;
+      let row7 = posy >= theheight/10*7 && posy < theheight/10*8;
+      let row8 = posy >= theheight/10*8 && posy < theheight/10*9;
+      let row9 = posy >= theheight/10*9 && posy < theheight;
     
-      if ((col2 && row9) || (col3 && row4)) {
+      if ((col2 && row9)  || (col3 && row1) || (col0 && row9)) {
         globalR = floor(random(colorValue[3], colorValue[0]));
         for(var i=0;i<10;i++) {
           particles.push(new Particle(globalR, globalG, globalB));
         }
       }
-      if ((col2 && row7) || (col2 && row1)) {
+      if ((col2 && row7) || (col2 && row1) || (col0 && row2)) {
         globalG = floor(random(colorValue[4], colorValue[1]));
         for(var i=0;i<10;i++) {
           particles.push(new Particle(globalR, globalG, globalB));
         }
       }
-      if ((col2 && row5) || (col1 && row2)) {
+      if ((col2 && row5) || (col1 && row2 || (col0 && row7))) {
         globalB =  floor(random(colorValue[5], colorValue[2]));
         for(var i=0;i<10;i++) {
           particles.push(new Particle(globalR, globalG, globalB));
         }
       }
-      if ((col2 && row3) || (col1 && row9)) {
+      if ((col2 && row3) || (col1 && row9) || (col0 && row6)) {
         for(var i=0;i<10;i++) {
           particles.push(new Particle(colorValue[6], colorValue[7], colorValue[8]));
         }
         }
-      if ((col3 && row2) || (col1 && row7)) {
+      if ((col2 && row0) || (col1 && row7) || (col0 && row5)) {
         for(var i=0;i<10;i++) {
           particles.push(new Particle(190, 180, 180));
         }
       }
-      if ((col3 && row1) || (col1 && row6) || (col3 && row8)) {
+      if ((col1 && row0) || (col1 && row6) || (col3 && row9)) {
         var r = 10, g = 10, b = 10;
         onoLetters.push(new OnoLetter(r, g, b));
       }
       if ((col2 && row8) || (col1 && row3) || (col1 && row5)) {
         onoLetters.push(new OnoLetter(globalR, globalG, globalB));
       }
-      if ((col3 && row5) || (col1 && row8) || (col2 && row2)) {
+      if ((col3 && row2) || (col1 && row8) || (col2 && row2)) {
         var r = 10, g = 10, b = 10;
         lineCircles.push(new LineCircle(r, g, b, false));
       }
-      if ((col3 && row7) || (col1 && row4) || (col3 && row3)) {
+      if ((col3 && row8) || (col1 && row4) || (col3 && row0)) {
         var r = 10, g = 10, b = 10;
         lineCircles.push(new LineCircle(r, g, b, true));
       }
-      if ((col3 && row6) || (col2 && row4)) {
+      if ((col3 && row7) || (col2 && row4) || (col0 && row0)) {
         lineCircles.push(new LineCircle(globalR, globalG, globalB, true));
       }
-      if ((col2 && row6) || (col1 && row1)) {
+      if ((col2 && row6) || (col1 && row1) || (col0 && row3)) {
         lineCircles.push(new LineCircle(globalR, globalG, globalB, false));
       }
-      if (col3 && row9) {
+      if ((col0 && row8) || (col0 && row1) || (col0 && row4)) {
+        onoLetters.push(new OnoLetter(globalR, globalG, globalB));
+      }
+      if (col3 && row3 || col3 && row4 || col3 && row5 || col3 && row6) {
         wideBars.push(new WideBar(0,10,10,10));
       }
     
