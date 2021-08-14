@@ -37,8 +37,8 @@ div.pedal-grid {
 }
 
 div.pedal-grid img {
-    width: 80%;
-    margin: 10%;
+    width: 75%;
+    margin: 12.5%;
     /* z-index: 100; */
     position: relative;
 }
@@ -47,10 +47,21 @@ div.pedal-grid.v2 img {
     margin: 0;
 }
 
+div.pedal-grid h3.artistName {
+    width: calc(100% - 10px);
+    position: absolute;
+    margin: 0;
+    bottom: 0;
+    left: 0;
+    padding: 5px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
 div.pedal-grid::before {
     content: "";
-    height: 66.6%;
-    width: 66.6%;
+    height: 70%;
+    width: 70%;
     position: absolute;
     background-color: #111;
     top: 50%;
@@ -79,9 +90,12 @@ div.pedal-grid:hover div.pedal-name, div.pedal-cover:hover div.pedal-name {
     transition-duration: 200ms;
 }
 
+div.pedal-name p {
+    font-size: 1em;
+}
 div.pedal-name h2 {
     color: #111;
-    font-size: 1.4em;
+    font-size: 1.2em;
     margin: 0 0 10px 0;
 }
 

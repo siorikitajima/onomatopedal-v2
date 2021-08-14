@@ -34,7 +34,7 @@ function preload() {
 
 function setup() {
   textFont(myFont);
-  lightMode = true;
+  lightMode = 0;
   bGcolor = color(238, 240, 219);
   shadowColor = color(colorValue[6], colorValue[7], colorValue[8], 5);
   elemColor = color(colorValue[6], colorValue[7], colorValue[8]);
@@ -58,6 +58,7 @@ function setup() {
 
 function draw() {
   background(bGcolor);
+  if(lightMode == 3) { lightMode = 0; }
   
     translate(gridSize/2, gridSize/2);  
   for (let v = 0; v < cols; v++) {
@@ -215,7 +216,7 @@ function draw() {
         }
         
         show() {
-            if(lightMode) {
+            if(lightMode == 1 || lightMode == 2 ) {
             fill( colorValue[6], colorValue[7], colorValue[8] );
             } else {
             fill( 238, 245, 219 );
@@ -227,18 +228,18 @@ function draw() {
         remove(arrayName) {
             if(this.r > width) {
             arrayName.splice(0, 1);
-            if(lightMode) {
+            if(lightMode == 1 || lightMode == 2 ) {
                 bGcolor = color(colorValue[6], colorValue[7], colorValue[8]);
                 shadowColor = color(238, 240, 219, 5);
                 elemColor = color(238, 240, 219);
                 maxR = maxR + 20; maxG = maxG + 20; maxB = maxB + 20;
-                lightMode = false;
+                lightMode = lightMode + 1;
             } else {
                 bGcolor = color(238, 240, 219);
                 shadowColor = color(colorValue[6], colorValue[7], colorValue[8], 5);
                 elemColor = color(colorValue[6], colorValue[7], colorValue[8]);
                 maxR = maxR - 20; maxG = maxG - 20; maxB = maxB - 20;
-                lightMode = true;
+                lightMode = lightMode + 1;
             }
             }
         }
@@ -391,42 +392,45 @@ function draw() {
       function touchStarted() {
       let posx = floor(mouseX);
       let posy = floor(mouseY);
-      let col1 = posx >= 0 && posx < width/3;
-      let col2 = posx >= width/3 && posx < width/3*2;
-      let col3 = posx >= width/3*2 && posx <= width;
-      let row1 = posy >= 0 && posy < height/10;
-      let row2 = posy >= height/10 && posy < height/10*2;
-      let row3 = posy >= height/10*2 && posy < height/10*3;
-      let row4 = posy >= height/10*3 && posy < height/10*4;
-      let row5 = posy >= height/10*4 && posy < height/10*5;
-      let row6 = posy >= height/10*5 && posy < height/10*6;
-      let row7 = posy >= height/10*6 && posy < height/10*7;
-      let row8 = posy >= height/10*7 && posy < height/10*8;
-      let row9 = posy >= height/10*8 && posy < height/10*9;
+      let col0 = posx >= 0 && posx < width/4;
+      let col1 = posx >= width/4 && posx < width/4*2;
+      let col2 = posx >= width/4*2 && posx < width/4*3;
+      let col3 = posx >= width/4*3 && posx <= width;
+      let theheight = innerHeight - 80;
+      let row0 = posy >= 0 && posy < theheight/10;
+      let row1 = posy >= theheight/10 && posy < theheight/10*2;
+      let row2 = posy >= theheight/10*2 && posy < theheight/10*3;
+      let row3 = posy >= theheight/10*3 && posy < theheight/10*4;
+      let row4 = posy >= theheight/10*4 && posy < theheight/10*5;
+      let row5 = posy >= theheight/10*5 && posy < theheight/10*6;
+      let row6 = posy >= theheight/10*6 && posy < theheight/10*7;
+      let row7 = posy >= theheight/10*7 && posy < theheight/10*8;
+      let row8 = posy >= theheight/10*8 && posy < theheight/10*9;
+      let row9 = posy >= theheight/10*9 && posy < theheight;
     
-      if ((col2 && row9) || (col3 && row4)) {
+      if ((col2 && row9)  || (col3 && row1) || (col0 && row9)) {
         let nuke = createVector( random(width), random(height) );
         let ripple = new Ripple(nuke);
         ripples.push(ripple);
       }
-      if ((col2 && row7) || (col2 && row1)) {
+      if ((col2 && row7) || (col2 && row1) || (col0 && row2)) {
         let rain = new Rain();
         rains.push(rain);   
       }
-      if ((col2 && row5) || (col1 && row2)) {
+      if ((col2 && row5) || (col1 && row2 || (col0 && row7))) {
         let letter = new Letter(randAlphbt(), 'random');
         letters.push(letter);
       }
-      if ((col2 && row3) || (col1 && row9)) {
+      if ((col2 && row3) || (col1 && row9) || (col0 && row6)) {
         let OnoLetter = onomato[floor(random(0, onomato.length -1))];
         let letter = new Letter(OnoLetter, 'ono');
         letters.push(letter);
         }
-      if ((col3 && row2) || (col1 && row7)) {
+        if ((col2 && row0) || (col1 && row7) || (col0 && row5)) {
         let rain = new Rain();
         rains.push(rain);  
       }
-      if ((col3 && row1) || (col1 && row6) || (col3 && row8)) {
+      if ((col1 && row0) || (col1 && row6) || (col3 && row9)) {
         let letter = new Letter(randAlphbt(), 'random');
         letters.push(letter);
       }
@@ -435,25 +439,30 @@ function draw() {
         let ripple = new Ripple(nuke);
         ripples.push(ripple);
       }
-      if ((col3 && row5) || (col1 && row8) || (col2 && row2)) {
+      if ((col3 && row2) || (col1 && row8) || (col2 && row2)) {
         let OnoLetter = onomato[floor(random(0, onomato.length -1))];
         let letter = new Letter(OnoLetter, 'ono');
         letters.push(letter);
       }
-      if ((col3 && row7) || (col1 && row4) || (col3 && row3)) {
+      if ((col3 && row8) || (col1 && row4) || (col3 && row0)) {
         let letter = new Letter(randAlphbt(), 'random');
         letters.push(letter);
       }
-      if ((col3 && row6) || (col2 && row4)) {
+      if ((col3 && row7) || (col2 && row4) || (col0 && row0)) {
         let nuke = createVector( random(width), random(height) );
         let ripple = new Ripple(nuke);
         ripples.push(ripple);
       }
-      if ((col2 && row6) || (col1 && row1)) {
+      if ((col2 && row6) || (col1 && row1) || (col0 && row3)) {
         let rain = new Rain();
         rains.push(rain);   
       }
-      if (col3 && row9) {
+      if ((col0 && row8) || (col0 && row1) || (col0 && row4)) {
+        let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+        let letter = new Letter(OnoLetter, 'ono');
+        letters.push(letter);
+      }
+      if (col3 && row3 || col3 && row4 || col3 && row5 || col3 && row6) {
         let mode = new Mode();
         modes.push(mode);
       }

@@ -17,7 +17,8 @@
       "sampleurl":"../sound/v1/ukiuki.zip",
       "eqdurl":"https://www.earthquakerdevices.com/rainbow-machine",
       "eqdurlJP":"https://www.earthquakerdevices.jp/rainbow-machine",
-      "morePedalImg":"Rainbow-Machine-bgtx.png"
+      "morePedalImg":"Rainbow-Machine-bgtx.png",
+      "artist": "Kevin Carr"
     },
     {
       "id":1,
@@ -37,7 +38,8 @@
       "sampleurl":"../sound/v1/zakuzaku.zip",
       "eqdurl":"https://www.earthquakerdevices.com/acapulco-gold",
       "eqdurlJP":"https://www.earthquakerdevices.jp/acapulco-gold",
-      "morePedalImg":"Acapulco-Gold-bgtx.png"
+      "morePedalImg":"Acapulco-Gold-bgtx.png",
+      "artist": "Billy Dixon & Low in the Sky"
     },
     {
       "id":2,
@@ -57,7 +59,8 @@
       "sampleurl":"../sound/v1/kotsukotsu.zip",
       "eqdurl":"https://www.earthquakerdevices.com/avalanche-run",
       "eqdurlJP":"https://www.earthquakerdevices.jp/avalanche-run",
-      "morePedalImg":"Avalanche-Run-bgtx.png"
+      "morePedalImg":"Avalanche-Run-bgtx.png",
+      "artist": "Joshua Maxon Novak"
     },
     {
       "id":3,
@@ -77,7 +80,8 @@
       "sampleurl":"../sound/v1/giragira.zip",
       "eqdurl":"https://www.earthquakerdevices.com/arpanoid",
       "eqdurlJP":"https://www.earthquakerdevices.jp/arpanoid",
-      "morePedalImg":"Arpanoid-bgtx.png"
+      "morePedalImg":"Arpanoid-bgtx.png",
+      "artist":"Microstructures"
     },
     {
       "id":4,
@@ -97,7 +101,8 @@
       "sampleurl":"../sound/v1/garagara.zip",
       "eqdurl":"https://www.earthquakerdevices.com/data-corrupter",
       "eqdurlJP":"https://www.earthquakerdevices.jp/data-corrupter",
-      "morePedalImg":"Data-Corrupter-bgtx_V2.png"
+      "morePedalImg":"Data-Corrupter-bgtx_V2.png",
+      "artist":"Corey Haren"
     },
     {
       "id":5,
@@ -117,7 +122,8 @@
       "sampleurl":"../sound/v1/suyasuya.zip",
       "eqdurl":"https://www.earthquakerdevices.com/disaster-transport-sr",
       "eqdurlJP":"https://www.earthquakerdevices.jp/disaster-transport-sr",
-      "morePedalImg":"Disaster-Transport-SR-bgtx_V2.png"
+      "morePedalImg":"Disaster-Transport-SR-bgtx_V2.png",
+      "artist":"Michael Tolan"
     },
     {
       "id":6,
@@ -137,7 +143,8 @@
       "sampleurl":"../sound/v1/ujauja.zip",
       "eqdurl":"https://www.earthquakerdevices.com/dream-crusher",
       "eqdurlJP":"https://www.earthquakerdevices.com/dream-crusher",
-      "morePedalImg":"Dream-Crusher-bgtx.png"
+      "morePedalImg":"Dream-Crusher-bgtx.png",
+      "artist":"Taka Tozawa & Josh Spoon"
     },
     {
       "id":7,
@@ -157,7 +164,8 @@
       "sampleurl":"../sound/v1/gyugyu.zip",
       "eqdurl":"https://www.earthquakerdevices.com/hoof-reaper",
       "eqdurlJP":"https://www.earthquakerdevices.jp/hoof-reaper",
-      "morePedalImg":"Hoof-Reaper-bgtx_V3.png"
+      "morePedalImg":"Hoof-Reaper-bgtx_V3.png",
+      "artist":"Gnosotros"
     },
     {
       "id":8,
@@ -177,7 +185,8 @@
       "sampleurl":"../sound/v1/bunbun.zip",
       "eqdurl":"https://www.earthquakerdevices.com/hummingbird",
       "eqdurlJP":"https://www.earthquakerdevices.jp/hummingbird",
-      "morePedalImg":"Hummingbird-bgtx_V2.png"
+      "morePedalImg":"Hummingbird-bgtx_V2.png",
+      "artist":"Amehuru"
     },
     {
       "id":9,
@@ -197,7 +206,8 @@
       "sampleurl":"../sound/v1/potapota.zip",
       "eqdurl":"https://www.earthquakerdevices.com/levitation",
       "eqdurlJP":"https://www.earthquakerdevices.jp/levitation",
-      "morePedalImg":"Levitation-bgtx.png"
+      "morePedalImg":"Levitation-bgtx.png",
+      "artist":"Hainbach"
     },
     {
       "id":10,
@@ -217,7 +227,8 @@
       "sampleurl":"../sound/v1/tsurutsuru.zip",
       "eqdurl":"https://www.earthquakerdevices.com/organizer",
       "eqdurlJP":"https://www.earthquakerdevices.jp/organizer",
-      "morePedalImg":"Organizer-bgtx.png"
+      "morePedalImg":"Organizer-bgtx.png",
+      "artist":"Puffy Shapes"
     },
     {
       "id":11,
@@ -237,7 +248,8 @@
       "sampleurl":"../sound/v1/dondon.zip",
       "eqdurl":"https://www.earthquakerdevices.com/palisades",
       "eqdurlJP":"https://www.earthquakerdevices.jp/palisades",
-      "morePedalImg":"Palisades-bgtx_V2.png"
+      "morePedalImg":"Palisades-bgtx_V2.png",
+      "artist":"Jamie Stillman"
     },
     {
       "id":12,
@@ -257,7 +269,8 @@
       "sampleurl":"../sound/v1/pikapika.zip",
       "eqdurl":"https://www.earthquakerdevices.com/spatial-delivery",
       "eqdurlJP":"https://www.earthquakerdevices.jp/spatial-delivery",
-      "morePedalImg":"Spatial-Delivery-bgtx_V2.png"
+      "morePedalImg":"Spatial-Delivery-bgtx_V2.png",
+      "artist":"Ralph Carney & Microstructures"
     },
     {
       "id":13,
@@ -277,7 +290,8 @@
       "sampleurl":"../sound/v1/utouto.zip",
       "eqdurl":"https://www.earthquakerdevices.com/afterneath",
       "eqdurlJP":"https://www.earthquakerdevices.jp/afterneath",
-      "morePedalImg":"Afterneath-bgtx_V2.png"
+      "morePedalImg":"Afterneath-bgtx_V2.png",
+      "artist":"Michael Tolan & Hainbach"
     },
     {
       "id":14,
@@ -297,7 +311,8 @@
       "sampleurl":"../sound/v1/kosokoso.zip",
       "eqdurl":"https://www.earthquakerdevices.com/afterneath-eurorack-module",
       "eqdurlJP":"https://www.earthquakerdevices.jp/afterneath-eurorack-module",
-      "morePedalImg":"Afterneath-Module-bgtx.png"
+      "morePedalImg":"Afterneath-Module-bgtx.png",
+      "artist":"Karl Vorndran & Curt Brown"
     },
     {
       "id":15,
@@ -317,7 +332,8 @@
       "sampleurl":"../sound/v1/zarazara.zip",
       "eqdurl":"https://www.earthquakerdevices.com/hoof",
       "eqdurlJP":"https://www.earthquakerdevices.jp/hoof",
-      "morePedalImg":"Hoof-Fuzz-bgtx_V2.png"
+      "morePedalImg":"Hoof-Fuzz-bgtx_V2.png",
+      "artist":"Jamie Stillman & Jack Randall"
     },
     {
       "id":16,
@@ -337,7 +353,8 @@
       "sampleurl":"../sound/v1/bukubuku.zip",
       "eqdurl":"https://www.earthquakerdevices.com/the-depths",
       "eqdurlJP":"https://www.earthquakerdevices.jp/the-depths",
-      "morePedalImg":"The-Depths-bgtx.png"
+      "morePedalImg":"The-Depths-bgtx.png",
+      "artist":"Joe Golden"
     },
     {
       "id":17,
@@ -357,7 +374,8 @@
       "sampleurl":"../sound/v1/biribiri.zip",
       "eqdurl":"https://www.earthquakerdevices.com/zap-machine",
       "eqdurlJP":"https://www.earthquakerdevices.com/zap-machine",
-      "morePedalImg":"Zap-Machine-bgtx.png"
+      "morePedalImg":"Zap-Machine-bgtx.png",
+      "artist":"Taka Tozawa"
     },
     {
       "id":18,
@@ -377,7 +395,8 @@
       "sampleurl":"../sound/v1/pokapoka.zip",
       "eqdurl":"https://www.earthquakerdevices.com/night-wire",
       "eqdurlJP":"https://www.earthquakerdevices.jp/night-wire",
-      "morePedalImg":"Night-Wire-bgtx_V2.png"
+      "morePedalImg":"Night-Wire-bgtx_V2.png",
+      "artist":"Full Blown Kirk"
     },
     {
       "id":19,
@@ -397,7 +416,8 @@
       "sampleurl":"../sound/v1/gorigori.zip",
       "eqdurl":"https://www.earthquakerdevices.com/erupter",
       "eqdurlJP":"https://www.earthquakerdevices.jp/erupter",
-      "morePedalImg":"Erupter-bgtx.png"
+      "morePedalImg":"Erupter-bgtx.png",
+      "artist":"Jack Randall"
     },
     {
       "id":20,
@@ -417,7 +437,8 @@
       "sampleurl":"../sound/v1/jirijiri.zip",
       "eqdurl":"https://www.earthquakerdevices.com/pyramids",
       "eqdurlJP":"https://www.earthquakerdevices.jp/pyramids",
-      "morePedalImg":"Pyramids-bgtx.png"
+      "morePedalImg":"Pyramids-bgtx.png",
+      "artist":"Taka Tozawa, Cory Juba & Jamie Stillman"
     },
     {
       "id":21,
@@ -456,6 +477,7 @@
       "sampleurl":"../sound/v1/howanhowan.zip",
       "eqdurl":"https://www.earthquakerdevices.com/astral-destiny",
       "eqdurlJP":"https://www.earthquakerdevices.jp/astral-destiny",
-      "morePedalImg":"Astral-Destiny-bgtx.png"
+      "morePedalImg":"Astral-Destiny-bgtx.png",
+      "artist":"Fej"
     }
   ]

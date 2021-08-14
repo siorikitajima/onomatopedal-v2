@@ -75,7 +75,7 @@
                 <button class="sm-btn update-btn" onclick="refreshCover(); hideCover();">
                     <p>Color</p>
                 </button>
-                <button class="sm-btn img-btn" id="saveBtn" onclick="saveCover()">
+                <button class="sm-btn img-btn disabled" id="saveBtn" disabled onclick="saveCover()">
                     <p>Save</p>
                 </button>
             </div>
@@ -109,6 +109,8 @@
 
         function hideCover() {
             if(cover) $('#coverJpg').hide();
+            $('#saveBtn').removeClass('disabled');
+            $('#saveBtn').removeAttr('disabled');
         }
         function refreshCover() {
                 theR = Math.floor(Math.random() * (colArray[0] - colArray[3] + 1)) + colArray[3];
@@ -179,7 +181,6 @@
             var dataUrl = canvas[0].toDataURL('image/jpeg', 1.0);
 
             blobData = dataURItoBlob(dataUrl);
-
             uploadCover(blobData);
         };
 

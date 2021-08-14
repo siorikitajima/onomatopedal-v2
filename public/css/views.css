@@ -152,7 +152,7 @@
       z-index: -1; */
       /* mix-blend-mode: difference; */
       /* z-index: -1; */
-  }
+  /* } */
     .home #opImg p {
       position: absolute;
       color: #111111;
@@ -253,6 +253,22 @@
 
     .samples .halfBtns:hover p::before {
       background: url(../images/addNew_dark.svg);
+    }
+
+    button.img-btn.disabled {
+      opacity: 0.5;
+      cursor: unset;
+    }
+
+    button.sm-btn.disabled:hover {
+      opacity: 0.5;
+      background-color: #111111;
+    }
+    button.sm-btn.disabled:hover p {
+      color: #F56476;
+    }
+    button.img-btn.disabled:hover p::before {
+      background: url(../images/cover_pink.svg);
     }
 
     .home .label {

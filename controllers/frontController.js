@@ -29,7 +29,7 @@ const home_get = async (req, res) => {
             "onomoid": opv1[p].onomoid,
             "onomoname":opv1[p].onomoname,
             "pedalFull":opv1[p].name,
-            "artist": "OnomatoPedal",
+            "artist": opv1[p].artist,
             "image": imgPath
         }
         listingArray.push(v1pedal);

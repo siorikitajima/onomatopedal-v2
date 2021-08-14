@@ -55,7 +55,7 @@
                   </div>
                   <input class="hiddensampleName" type="hidden" name="oldname">
               </div>
-              <button type="submit">Save</button>
+              <button id="sampleSaveBtn" class="disabled" disabled type="submit">Save</button>
           </form>
           <div class="halfBtns" id="deleteBtn" onclick="askDelete()">Delete</div>
             <form class="popup hidden" id="deletePanel" action="/sample?_method=DELETE" method="POST">
@@ -88,8 +88,8 @@
                     </select>
                   </div>
               </div>
-              <input type="file" name="newfile" id="newfile">
-              <button>Save</button>
+              <input type="file" name="newfile" id="newfile" required>
+              <button id="newSampleBtn" class="disabled" disabled>Save</button>
           </form>
     </div>
   </div>
@@ -102,6 +102,10 @@
 
         // Open and close key panel
         function samplePanel() {
+            document.querySelector('#sampleForm').reset();
+            if(!$('#sampleSaveBtn').hasClass('disabled')) {$('#sampleSaveBtn').addClass('disabled');}
+            if(!$('#sampleSaveBtn').attr('disabled')){$('#sampleSaveBtn').attr('disabled')};
+
             let samplePanelWrap = document.querySelector('#samplePanel');
             let allPanels = document.querySelector('#transparentScreen');
             let deletePanel = document.querySelector('#deletePanel');
@@ -119,6 +123,11 @@
                     }
                 }
         function sampleNewPanel() {
+            document.querySelector('#sampleNewForm').reset();
+
+            if(!$('#newSampleBtn').hasClass('disabled')) {$('#newSampleBtn').addClass('disabled');}
+            if(!$('#newSampleBtn').attr('disabled')){$('#newSampleBtn').attr('disabled')};
+
             let panelWrap = document.querySelector('#samplePanelNew');
             let panelBG = document.querySelector('#transparentScreenNew');
             if(!panelBG.classList.contains('hidden')) {
@@ -168,6 +177,14 @@
             samplePanel();
         });
     });
+    $('#newname, #pitch').on('change', () => {
+        $('#sampleSaveBtn').removeClass('disabled');
+        $('#sampleSaveBtn').removeAttr('disabled');
+    })
+    $('#newfile, #newname').on('change', () => {
+        $('#newSampleBtn').removeClass('disabled');
+        $('#newSampleBtn').removeAttr('disabled');
+    })
 
         $('#newfile').change(() => {
             var newName = $('#newfile')[0].files[0].name;

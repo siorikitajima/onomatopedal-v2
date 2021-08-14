@@ -366,6 +366,10 @@
       max-width: 90%;
       margin: 0 auto;
     }
+    .content.paddingBottom {
+      padding-bottom: 50px;
+    }
+
     .forms input,
     .forms select,
     .forms textarea{
@@ -404,6 +408,11 @@
       transition-duration: 200ms;
       opacity: 0.5;
     }
+    .forms button.disabled {
+      opacity: 0.5;
+      cursor: unset;
+    }
+
     .home button.playPreview {
       position: relative;
       margin: 0 0 30px 0;

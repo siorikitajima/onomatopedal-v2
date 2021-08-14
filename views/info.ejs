@@ -7,11 +7,11 @@
             <p class="guideIcon">Guide</p>
         </div>
     </a>
-    <div class="content forms sideBar">
+    <div class="content forms sideBar paddingBottom">
         <div class="h2bg">
             <h2>Meta Info</h2>
         </div>
-        <form action="/info" method="POST">
+        <form id="infoForm" action="/info" method="POST">
             <label for="featuredpedal">Featured EQD Pedal</label>
             <select name="featuredpedal" id="featuredpedal">
                 <option value="acapulcogold">Acapulco Gold</option>
@@ -62,7 +62,7 @@
             <label for="onoMeaning">Onomatopoeia Meaning</label>
             <input type="text" id="onoMeaning" name="onoMeaning" value="<%= pedal.onoMeaning%>">
 
-            <button type="submit">Save</button>
+            <button id="infoSaveBtn" class="disabled" disabled type="submit">Save</button>
             <input id="hiddenKeyName" type="hidden" name="name" value="<%= pedal.name%>">
             <input id="hiddenKeyName" type="hidden" name="pedalFull" value="<%= pedal.pedalFull%>">
         </form>
@@ -79,6 +79,11 @@
             opt.setAttribute('selected', 'selected'); 
             break;
         }}
+
+        $('#infoForm input, #infoForm select').on('change', () => {
+            $('#infoSaveBtn').removeClass('disabled');
+            $('#infoSaveBtn').removeAttr('disabled');
+        })
     </script>
 </body>
 </html>

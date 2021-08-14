@@ -85,7 +85,7 @@
                         </select>
                         </div>
                 </div>
-                <button>Save</button>
+                <button id="keySaveBtn" class="disabled" disabled>Save</button>
             </form>
 
         </div>
@@ -117,12 +117,27 @@
         var thekey;
         $(document).on('click', '.key', function() {
             document.querySelector('#keyForm').reset();
+            if(!$('#keySaveBtn').hasClass('disabled')) {$('#keySaveBtn').addClass('disabled');}
+            if(!$('#keySaveBtn').attr('disabled')){$('#keySaveBtn').attr('disabled')};
 
             var index = $(this).attr('data-index');
             thekey = thekeys[index];
             // console.log(index);
 
-            $('#keyName').html(thekey.key);
+            var keyName;
+            if(thekey.key == 'ONE') { keyName = 1;}
+            else if(thekey.key == 'TWO') { keyName = 2;}
+            else if(thekey.key == 'THREE') { keyName = 3;}
+            else if(thekey.key == 'FOUR') { keyName = 4;}
+            else if(thekey.key == 'FIVE') { keyName = 5;}
+            else if(thekey.key == 'SIX') { keyName = 6;}
+            else if(thekey.key == 'SEVEN') { keyName = 7;}
+            else if(thekey.key == 'EIGHT') { keyName = 8;}
+            else if(thekey.key == 'NINE') { keyName = 9;}
+            else if(thekey.key == 'ZERO') { keyName = 0;}
+            else { keyName = thekey.key; }
+            $('#keyName').html(keyName);
+
             $('#noteName').html(thekey.pitch.toUpperCase().replace('M', '#'));
             if (thekey.enabled == true) { 
                 $('input#enabled').prop('checked', true); 
@@ -159,6 +174,11 @@
             $("#sample").append(`<option value="${onlyName}" selected>${onlyName}</option>`);
             $('#hidden-sp').css('display', 'block');
             $('#soundBtn').css('display', 'none');
+        })
+
+        $('#enabled, #pitch, #sample').on('change', () => {
+            $('#keySaveBtn').removeClass('disabled');
+            $('#keySaveBtn').removeAttr('disabled');
         })
 
         // Update file button is visible when 'New Sound' is on
