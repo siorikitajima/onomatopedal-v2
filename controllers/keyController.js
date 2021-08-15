@@ -1,5 +1,5 @@
-const Key = require('../models/key');
-const Sample = require('../models/sample');
+const OpMain = require('../models/opMain');
+
 const AWS = require('aws-sdk');
 const accessKeyIdS3 = require('../secKey3');
 const secretAccessKeyS3 = require('../secKey4');
@@ -40,23 +40,17 @@ const key_index = async (req, res) => {
             err => { if (err.code === 'NotFound') { return false; }
                     throw err; });
 
-        Key.find({name: req.user.name}, (err, keyCollection) => {
+        OpMain.findOne({name: req.user.name}, (err, opInfo) => {
             if(err) {console.log(err);}
             else {
-                Sample.find({name: req.user.name}, (err, sampleCollection) => {
-                    if(err) {console.log(err);}
-                    else {
-                        res.render('keys', { 
-                            title: 'Keys', 
-                            nav:'keys',
-                            keys: keyCollection, 
-                            name: req.user.name, 
-                            samples: sampleCollection,
-                            pitches: pitches,
-                            stemFiles: [stem1, stem2, stem3], 
-                            stems: stems })
-                    }
-                })
+                res.render('keys', { 
+                    title: 'Keys', 
+                    nav:'keys',
+                    pedal: opInfo,
+                    name: req.user.name, 
+                    pitches: pitches,
+                    stemFiles: [stem1, stem2, stem3], 
+                    stems: stems })
             }
         })
     }
@@ -70,34 +64,74 @@ const key_update = (req, res) => {
     if (req.body.sample){ sample = req.body.sample;
     } else { sample = null }
 
-    const keyFilter = { name:req.user.name, key: req.body.key };
-    const sampleFilter = { name:req.user.name, samplename: req.body.sample };
-
-    Sample.countDocuments(sampleFilter, (err, count) => { 
-        if(count === 0){
-            const newSample = new Sample({
-                name: req.user.name,
+    OpMain.findOne({name: req.user.name}, (err, opInfo) => {
+        for(let k = 0; k < opInfo.keys.length; k++) {
+            if (opInfo.keys[k].key == req.body.key) {
+                opInfo.keys[k].enabled = enabled;
+                opInfo.keys[k].pitch = req.body.pitch;
+                opInfo.keys[k].sample = req.body.sample;
+            }
+        }
+        let exist = false;
+        for(let s = 0; s < opInfo.samples.length; s++) {
+            if (opInfo.samples[s].samplename == req.body.sample) {
+                exist = true;
+            }
+        }
+        if(!exist) {
+            opInfo.samples.push({
                 samplename: req.body.sample,
                 pitch: req.body.samplePitch
             });
-            newSample.save((err) => {
-                if(err) { console.error(err); }
-            })
         }
-    }); 
-
-    Key.findOne(keyFilter, (err, key) => {
-        key.enabled = enabled;
-        key.pitch = req.body.pitch;
-        key.sample = req.body.sample;
-        key.save((err) => {
-            if(err) { console.error(err); }
-        })
+        opInfo.save((err) => {
+            if(err) { console.error(err); 
+            }
+        });
     })
     .then(() => {
-        res.redirect('/keys');
-    });
-    };
+    res.redirect('/keys');
+    })
+};
+
+const pad_post = (req, res) => {
+    let enabled, sample;
+
+    if (req.body.enabledp == 'on'){ enabled = true;
+    } else { enabled = false }
+    if (req.body.samplep){ sample = req.body.samplep;
+    } else { sample = null }
+
+    OpMain.findOne({name: req.user.name}, (err, opInfo) => {
+        for(let p = 0; p < opInfo.pads.length; p++) {
+            if (opInfo.pads[p].pad == req.body.pad) {
+                opInfo.pads[p].enabled = enabled;
+                opInfo.pads[p].pitch = req.body.pitchp;
+                opInfo.pads[p].sample = req.body.samplep;
+            }
+        }
+        let exist = false;
+        for(let s = 0; s < opInfo.samples.length; s++) {
+            if (opInfo.samples[s].samplename == req.body.samplep) {
+                exist = true;
+            }
+        }
+        if(!exist) {
+            opInfo.samples.push({
+                samplename: req.body.samplep,
+                pitch: req.body.samplePitchp
+            });
+        }
+        opInfo.save((err) => {
+            if(err) { console.error(err); 
+            }
+        });
+    })
+    .then(() => {
+    res.redirect('/keys');
+    })
+};
+
 
 const samples_get = async (req, res) => {
     const isMobile = browser(req.headers['user-agent']).mobile;
@@ -129,23 +163,17 @@ const samples_get = async (req, res) => {
             err => { if (err.code === 'NotFound') { return false; }
                     throw err; });
         
-        Key.find({name: req.user.name}, (err, keyCollection) => {
+        OpMain.findOne({name: req.user.name}, (err, opInfo) => {
             if(err) {console.log(err);}
             else {
-                Sample.find({name: req.user.name}, (err, sampleCollection) => {
-                    if(err) {console.log(err);}
-                    else {
-                        res.render('samples', { 
-                            title: 'Samples', 
-                            nav:'samples',
-                            keys: keyCollection, 
-                            name: req.user.name, 
-                            samples: sampleCollection,
-                            stemFiles: [stem1, stem2, stem3], 
-                            pitches: pitches,
-                            stems: stems })
-                    }
-                })
+            res.render('samples', { 
+                title: 'Samples', 
+                nav:'samples',
+                pedal: opInfo, 
+                name: req.user.name, 
+                stemFiles: [stem1, stem2, stem3], 
+                pitches: pitches,
+                stems: stems })
             }
         })
     }
@@ -153,11 +181,6 @@ const samples_get = async (req, res) => {
 
     const samples_post = async (req, res) => {
         if (req.body.oldname !== req.body.name) {
-            const keyFilter = { name:req.user.name, sample: req.body.oldname };
-            const newKeySample = { sample: req.body.name };
-            Key.updateMany(keyFilter, newKeySample, (err) => {
-                    if(err) { console.error(err); }
-            });
 
             const oldname = `opv2-heroku/${req.user.name}/${req.body.oldname}.mp3`;
             const newname = `${req.user.name}/${req.body.name}.mp3`;
@@ -175,14 +198,27 @@ const samples_get = async (req, res) => {
                 else     console.log(data);
             });
         }
-
-        const sampleFilter = { name:req.user.name, samplename: req.body.oldname };
-        Sample.findOne(sampleFilter, (err, sample) => {
-            sample.samplename = req.body.name;
-            sample.pitch = req.body.pitch;
-            sample.save((err) => {
-                if(err) { console.error(err); }
-            })
+        
+        OpMain.findOne({name: req.user.name}, (err, opInfo) => {
+            if(err) {console.log(err);}
+            else {
+                for(let s = 0; s < opInfo.samples.length; s++) {
+                    if (opInfo.samples[s].samplename == req.body.oldname) {
+                        opInfo.samples[s].samplename = req.body.name;
+                        opInfo.samples[s].pitch = req.body.pitch;
+                        break;
+                    }
+                }
+                for(let k = 0; k < opInfo.keys.length; k++) {
+                    if (opInfo.keys[k].sample == req.body.oldname) {
+                        opInfo.keys[k].sample = req.body.name;
+                    }
+                }
+                opInfo.save((err) => {
+                if(err) { console.error(err); 
+                }
+                })
+            };
         })
         .then(() => {
             res.redirect('/samples');
@@ -190,21 +226,30 @@ const samples_get = async (req, res) => {
     };
 
     const sample_delete = (req, res) => {
-        const keyFilter = { name:req.user.name, sample: req.body.oldname };
-        const newKeyEnabled = { enabled: false };
-        Key.updateMany(keyFilter, newKeyEnabled, (err) => {
-                if(err) { console.error(err); }
-        });
-
         const filename = `${req.user.name}/${req.body.oldname}.mp3`;
         var params = {  Bucket: 'opv2-heroku', Key: filename };
         s3.deleteObject(params, (err, data) => {
         if (err) console.log(err, err.stack);
         });
 
-        const sampleFilter = { name:req.user.name, samplename: req.body.oldname };
-        Sample.findOneAndDelete(sampleFilter, (err) => {
-            if(err) { throw err }
+        OpMain.findOne({name: req.user.name}, (err, opInfo) => {
+            if(err) {console.log(err);}
+            else {
+                for(let s = 0; s < opInfo.samples.length; s++) {
+                    if (opInfo.samples[s].samplename == req.body.oldname) {
+                        opInfo.samples[s].remove();
+                    }
+                }
+                for(let k = 0; k < opInfo.keys.length; k++) {
+                    if (opInfo.keys[k].sample == req.body.oldname) {
+                        opInfo.keys[k].enabled = false;
+                    }
+                }
+                opInfo.save((err) => {
+                    if(err) { console.error(err); 
+                    }
+                });
+            }
         })
         .then(() => {
               res.redirect('/samples');
@@ -212,18 +257,26 @@ const samples_get = async (req, res) => {
         };
 
     const sample_new = (req, res) => {
-        const sampleFilter = { name:req.user.name, samplename: req.body.newname };
 
-        Sample.countDocuments(sampleFilter, (err, count) => { 
-            if(count === 0){
-                const newSample = new Sample({
-                    name: req.user.name,
-                    samplename: req.body.newname,
-                    pitch: req.body.pitch
-                });
-                newSample.save((err) => {
-                    if(err) { console.error(err); }
-                })
+        OpMain.findOne({name: req.user.name}, (err, opInfo) => {
+            if(err) {console.log(err);}
+            else {
+                let exist = false;
+                for(let s = 0; s < opInfo.samples.length; s++) {
+                    if (opInfo.samples[s].samplename == req.body.newname) {
+                        exist = true;
+                    }
+                }
+                if(!exist) {
+                    opInfo.samples.push({
+                        samplename: req.body.newname,
+                        pitch: req.body.pitch
+                    });
+                    opInfo.save((err) => {
+                        if(err) { console.error(err); 
+                        }
+                    });
+                }
             }
         })
         .then(() => {
@@ -234,6 +287,7 @@ const samples_get = async (req, res) => {
 module.exports = {
         key_index,
         key_update,
+        pad_post,
         samples_get,
         samples_post,
         sample_delete,

@@ -15,8 +15,8 @@
           <p>Sample Name</p>
           <p>Pitch</p>
         </div>
-        <% if (samples.length > 0) { %>
-          <% samples.forEach((sample, index) => { %>
+        <% if (pedal.samples.length > 0) { %>
+          <% pedal.samples.forEach((sample, index) => { %>
           <div class="sample col-<%= index %>" id="sample<%= index %>" data-pitch=<%= sample.pitch %> data-index='<%= index %>' >
                   <div><h3><%= sample.samplename %></h3></div>
                   <div><p><%= sample.pitch.toUpperCase().replace('M', '#') %></p></div>
@@ -97,7 +97,7 @@
     <%- include('./partials/player.ejs')  %> 
     
     <script>
-        var thesamples = <%- JSON.stringify(samples) %> ;
+        var thesamples = <%- JSON.stringify(pedal.samples) %> ;
         var disableKeys = false;
 
         // Open and close key panel

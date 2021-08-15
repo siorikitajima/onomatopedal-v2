@@ -22,17 +22,17 @@
             </a>
             <p class="label">ARTIST</p>
             <a href="/info">
-            <h2 class="editIcon"><%= pedal[0].artist %></h2>
+            <h2 class="editIcon"><%= pedal.artist %></h2>
             </a>
             <p class="label">TRACK</p>
             <a href="/info">
-            <h2 class="editIcon"><%= pedal[0].trackName %></h2>
+            <h2 class="editIcon"><%= pedal.trackName %></h2>
             </a>
             <p class="label">ONOMATOPOEIA</p>
             <a href="/info">
-            <h2 class="editIcon"><%= pedal[0].onomato %></h2>
+            <h2 class="editIcon"><%= pedal.onomato %></h2>
             </a>
-            <p><%= pedal[0].onoMeaning %></p>
+            <p><%= pedal.onoMeaning %></p>
             <p class="label">ANIMATION</p>
             <a href="/preview">
             <h2 id="animaName" class="editIcon"></h2>
@@ -83,7 +83,7 @@
     </div>
 
     <script>
-        var thepedal = <%- JSON.stringify(pedal[0]) %> ;
+        var thepedal = <%- JSON.stringify(pedal) %> ;
         var eqdPedals = <%- JSON.stringify(eqdPedals) %> ;
         var animations = <%- JSON.stringify(animation) %> ;
         var cover = <%- JSON.stringify(cover) %> ;

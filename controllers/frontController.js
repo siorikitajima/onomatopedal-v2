@@ -1,3 +1,5 @@
+const OpMain = require('../models/opMain');
+
 const Key = require('../models/key');
 const Sample = require('../models/sample');
 const PedalInfo = require('../models/pedalInfo');
@@ -39,7 +41,7 @@ const home_get = async (req, res) => {
         v2Array.push(name);
     }
 
-    await PedalInfo.find({name: { $in: v2Array}}, (err, pedalInfo) => {
+    await OpMain.find({name: { $in: v2Array}}, (err, pedalInfo) => {
         if(err) {console.log(err);}
         else {
         res.render('index', { 
@@ -128,31 +130,19 @@ const v1pedal_get = (req, res) => {
             err => { if (err.code === 'NotFound') { return false; }
                     throw err; });
         
-        PedalInfo.find({name: onomoid}, (err, pedalInfo) => {
+        OpMain.findOne({name: onomoid}, (err, opInfo) => {
             if(err) {console.log(err);}
             else {
-            Key.find({name: onomoid}, (err, keyCollection) => {
-                if(err) {console.log(err);}
-                else {
-                    Sample.find({name: onomoid}, (err, sampleCollection) => {
-                        if(err) {console.log(err);}
-                        else {
-                            res.render('v2Pedal', { 
-                                title: 'V2',
-                                nav:'v2', 
-                                keys: keyCollection, 
-                                name: onomoid, 
-                                samples: sampleCollection,
-                                pedal: pedalInfo,
-                                eqdPedals: eqdPedals,
-                                stemFiles: [stem1, stem2, stem3], 
-                                stems: stems,
-                                mobile: isMobile,
-                                animation: animaData
-                             })
-                        }
-                    })
-                }
+                res.render('v2Pedal', { 
+                    title: 'V2',
+                    nav:'v2', 
+                    name: onomoid, 
+                    pedal: opInfo,
+                    eqdPedals: eqdPedals,
+                    stemFiles: [stem1, stem2, stem3], 
+                    stems: stems,
+                    mobile: isMobile,
+                    animation: animaData
             })
         }})
         };

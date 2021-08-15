@@ -1,9 +1,4 @@
-const Key = require('../models/key');
-const Sample = require('../models/sample');
-const PedalInfo = require('../models/pedalInfo');
-// const multer = require('multer');
-// const path = require('path');
-// const multerS3 = require('multer-s3');
+const OpMain = require('../models/opMain');
 const AWS = require('aws-sdk');
 const accessKeyIdS3 = require('../secKey3');
 const secretAccessKeyS3 = require('../secKey4');
@@ -14,22 +9,6 @@ const s3 = new AWS.S3({
     accessKeyId: accessKeyIdS3,
     secretAccessKey: secretAccessKeyS3
 });
-
-//////////// Multer ////////////
-
-// let upload = multer({
-//       storage: multerS3({
-//         s3: s3,
-//         acl: "public-read",
-//         bucket: 'opv2-heroku',
-//         // metadata: function (req, file, cb) {
-//         //   cb(null, {fieldName: file.fieldname});
-//         // },
-//         key: (req, cb) => {
-//           cb(null, `${req.user.name}/cover.jpg`)
-//         }
-//       })
-//     });
 
 const stems_get = async (req, res) => {   
     const isMobile = browser(req.headers['user-agent']).mobile;
@@ -60,22 +39,16 @@ const stems_get = async (req, res) => {
             err => { if (err.code === 'NotFound') { return false; }
                     throw err; });
 
-        Key.find({name: req.user.name}, (err, keyCollection) => {
+        OpMain.findOne({name: req.user.name}, (err, opInfo) => {
             if(err) {console.log(err);}
             else {
-                Sample.find({name: req.user.name}, (err, sampleCollection) => {
-                    if(err) {console.log(err);}
-                    else {
-                        res.render('stems', { 
-                            title: 'Stems', 
-                            nav:'stems',
-                            keys: keyCollection, 
-                            name: req.user.name, 
-                            samples: sampleCollection,
-                            stemFiles: [stem1, stem2, stem3], 
-                            stems: stems });
-                    }
-                })
+                res.render('stems', { 
+                    title: 'Stems', 
+                    nav:'stems',
+                    pedal: opInfo, 
+                    name: req.user.name, 
+                    stemFiles: [stem1, stem2, stem3], 
+                    stems: stems });
             }
         })
     }
@@ -143,37 +116,25 @@ const preview_get = async　(req, res) => {
             err => { if (err.code === 'NotFound') { return false; }
                     throw err; });
         
-        PedalInfo.find({name: req.user.name}, (err, pedalInfo) => {
+        OpMain.findOne({name: req.user.name}, (err, opInfo) => {
             if(err) {console.log(err);}
             else {
-            Key.find({name: req.user.name}, (err, keyCollection) => {
-                if(err) {console.log(err);}
-                else {
-                    Sample.find({name: req.user.name}, (err, sampleCollection) => {
-                        if(err) {console.log(err);}
-                        else {
-                            res.render('preview', { 
-                                title: 'Preview',
-                                nav:'preview', 
-                                keys: keyCollection, 
-                                name: req.user.name, 
-                                samples: sampleCollection,
-                                pedal: pedalInfo,
-                                stemFiles: [stem1, stem2, stem3], 
-                                stems: stems,
-                                mobile: isMobile,
-                                animation: animaData
-                             })
-                        }
-                    })
-                }
+                res.render('preview', { 
+                    title: 'Preview',
+                    nav:'preview', 
+                    name: req.user.name, 
+                    pedal: opInfo,
+                    stemFiles: [stem1, stem2, stem3], 
+                    stems: stems,
+                    mobile: isMobile,
+                    animation: animaData
             })
         }})
     }
     };
 
 const animation_post = async (req, res) => {
-    PedalInfo.findOne({name: req.body.name}, (err, user) => {
+    OpMain.findOne({name: req.body.name}, (err, user) => {
         user.animation = req.body.animation;
         user.color = req.body.color;
         user.tempo = req.body.tempo;
@@ -223,31 +184,19 @@ const studio_get = async　(req, res) => {
             err => { if (err.code === 'NotFound') { return false; }
                     throw err; });
         
-        PedalInfo.find({name: req.user.name}, (err, pedalInfo) => {
+        OpMain.findOne({name: req.user.name}, (err, opInfo) => {
             if(err) {console.log(err);}
             else {
-            Key.find({name: req.user.name}, (err, keyCollection) => {
-                if(err) {console.log(err);}
-                else {
-                    Sample.find({name: req.user.name}, (err, sampleCollection) => {
-                        if(err) {console.log(err);}
-                        else {
-                            res.render(isMobile ? 'mobilePreview' : 'studio', { 
-                                title: 'Dashboard', nav:'studio', 
-                                keys: keyCollection,
-                                samples: sampleCollection,
-                                pedal: pedalInfo, 
-                                eqdPedals: eqdPedals,
-                                name: req.user.name,
-                                mobile: isMobile,
-                                stemFiles: [stem1, stem2, stem3], 
-                                stems: stems,
-                                animation: animaData,
-                                cover: cover
-                            })
-                        }
-                    })
-                }
+                res.render(isMobile ? 'mobilePreview' : 'studio', { 
+                    title: 'Dashboard', nav:'studio', 
+                    pedal: opInfo, 
+                    eqdPedals: eqdPedals,
+                    name: req.user.name,
+                    mobile: isMobile,
+                    stemFiles: [stem1, stem2, stem3], 
+                    stems: stems,
+                    animation: animaData,
+                    cover: cover
             })
         }})
         };

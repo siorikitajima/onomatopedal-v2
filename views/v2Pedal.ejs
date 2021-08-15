@@ -8,8 +8,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
 
     <script>
-        var aniName = <%- JSON.stringify(pedal[0].animation) %> ;
-        var colName = <%- JSON.stringify(pedal[0].color) %> ;
+        var aniName = <%- JSON.stringify(pedal.animation) %> ;
+        var colName = <%- JSON.stringify(pedal.color) %> ;
         var allAnima = <%- JSON.stringify(animation) %> ;
         var colorValue; var theAnima;
         for ( var a = 0; a < allAnima.length; a++ ) {
@@ -26,6 +26,6 @@
     <% } else { %>
       <%- include('./partials/frontPlayer.ejs')  %> 
     <% } %>
-      <%- include( `./animations/${ pedal[0].animation }.ejs`)  %> 
+      <%- include( `./animations/${ pedal.animation }.ejs`)  %> 
 </body>
 </html>

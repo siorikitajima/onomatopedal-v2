@@ -1,7 +1,5 @@
-const PedalInfo = require('../models/pedalInfo');
-const Key = require('../models/key');
+const OpMain = require('../models/opMain');
 const User = require('../models/user');
-const Sample = require('../models/sample');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
 const hashNumber = require('../secKey2');
@@ -15,14 +13,16 @@ const s3 = new AWS.S3({
 });
 
 const keyList = ['ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE', 'ZERO', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'SPACE'];
-const noteList = ["c5", "cm5", "d5", "dm5", "e5", "f5", "fm5", "g5", "gm5", "a5", "am5", "b5", "c4", "cm4", "d4", "dm4", "e4", "f4", "fm4", "g4", "gm4", "a4", "am4", "b4", "c3", "cm3", "d3", "dm3", "e3", "f3", "fm3", "g3", "gm3", "a3", "am3", "b3", "c2"];
+const padList = ['zero-0', 'one-0', 'two-0', 'three-0', 'zero-1', 'one-1', 'two-1', 'three-1', 'zero-2', 'one-2', 'two-2', 'three-2', 'zero-3', 'one-3', 'two-3', 'three-3', 'zero-4', 'one-4', 'two-4', 'three-4', 'zero-5', 'one-5', 'two-5', 'three-5', 'zero-6', 'one-6', 'two-6', 'three-6', 'zero-7', 'one-7', 'two-7', 'three-7', 'zero-8', 'one-8', 'two-8', 'three-8', 'zero-9', 'one-9', 'two-9', 'three-9'];
+const noteList = ["c5", "cm5", "d5", "dm5", "e5", "f5", "fm5", "g5", "gm5", "a5", "c4", "cm4", "d4", "dm4", "e4", "f4", "fm4", "g4", "gm4", "a4", "c3", "cm3", "d3", "dm3", "e3", "f3", "fm3", "g3", "gm3", "c2", "cm2", "d2", "dm2", "e2", "f2", "fm2", "g2"];
+const noteListPad = ["b5", "am5", "a5", "gm5", "g5", "fm5", "f5", "e5", "dm5", "d5", "cm5", "c5", "b4", "am4", "a4", "gm4", "g4", "fm4", "f4", "e4", "dm4", "d4", "cm4", "c4", "b3", "am3", "a3", "gm3", "g3", "fm3", "f3", "e3", "dm3", "d3", "cm3", "c3", "b2", "am2", "a2", "gm2"];
 
 const register_get = (req, res) => {
-    res.render('register', { title: 'Register a Pedal' });
+    res.render('register', { title: 'Register' });
 };
 
 const register_post = (req, res) => {
-    //// Create a user in DB
+    //// Create a user + pass
         const hashedPassword = bcrypt.hash(req.body.password, hashNumber)
         .then((hash) => {
             const user = new User({
@@ -36,25 +36,52 @@ const register_post = (req, res) => {
             console.log(err);
         })
 
-    //// Create 27 Keys in DB
+    let allKeys = [];
+    //// Create 37 Keys
     for (let k = 0; k < keyList.length; k++) {
         let sampleName;
         if (k < 10) { sampleName = 'c4pluck'; }
         else if (k < 20 ) { sampleName = 'c4piano'; }
         else if (k < 29 ) { sampleName = 'c4tone'; }
         else { sampleName = 'c4pluck'; }
-        const key = new Key({
-            name: req.body.name,
+        const key = {
             key: keyList[k],
             enabled: true,
             pitch: noteList[k],
             sample: sampleName
-        });
-        key.save();
+        };
+        allKeys.push(key);
         }
 
-    //// Create Peadl Info in DB
-    const pedalInfo = new PedalInfo({
+    let allPads = []; 
+    //// Create 40 Pads
+    for (let k = 0; k < padList.length; k++) {
+        let sampleName;
+        if (k < 12) { sampleName = 'c4pluck'; }
+        else if (k < 24 ) { sampleName = 'c4piano'; }
+        else { sampleName = 'c4tone'; }
+        const pad = {
+            pad: padList[k],
+            enabled: true,
+            pitch: noteListPad[k],
+            sample: sampleName
+        };
+        allPads.push(pad);
+    }
+
+    let allSamples = [];
+    //// Create Samples
+    const sname = [ 'c4pluck', 'c4piano', 'c4tone' ];
+    for (let s = 0; s < 3; s++) {
+        const sample = {
+            samplename: sname[s],
+            pitch: 'c4'
+        };
+        allSamples.push(sample);
+    }
+
+    //// Create opMain document in DB
+    const opMain = new OpMain({
         name: req.body.name,
         pedalFull: req.body.featuredpedal,
         onomato: req.body.onomato,
@@ -65,22 +92,14 @@ const register_post = (req, res) => {
         website: '',
         animation: 'blocky',
         color: 'reddish',
-        tempo: 120
+        tempo: 120,
+        keys: allKeys,
+        pads: allPads,
+        samples: allSamples
     });
-    pedalInfo.save();
+    opMain.save();
 
-    //// Create 1st Sample in DB
-    const sname = [ 'c4pluck', 'c4piano', 'c4tone' ];
-    for (let s = 0; s < 3; s++) {
-        const firstSample = new Sample({
-            name: req.body.name,
-            samplename: sname[s],
-            pitch: 'c4'
-        });
-        firstSample.save();
-    }
-    
-    //// Create directly to store Key sound files
+    //// Save default audio files to S3
     try {
         const sampleFiles = ['c4piano.mp3', 'c4pluck.mp3', 'c4tone.mp3', 'stem1.mp3', 'stem2.mp3', 'stem3.mp3'];
 
@@ -108,7 +127,7 @@ const register_post = (req, res) => {
 
 const info_get = async (req, res) => {   
     try {
-        PedalInfo.find({name: req.user.name})
+        OpMain.find({name: req.user.name})
         .then( (result) => {
             res.render('info', { title: 'Info', nav:'info', pedal: result[0], name: req.user.name });
         });
@@ -118,7 +137,7 @@ const info_get = async (req, res) => {
 };
 
 const info_post = async (req, res) => {
-    PedalInfo.findOne({name: req.body.name}, (err, user) => {
+    OpMain.findOne({name: req.body.name}, (err, user) => {
         user.pedalFull = req.body.featuredpedal;
         user.onomato = req.body.onomato;
         user.onoMeaning = req.body.onoMeaning;

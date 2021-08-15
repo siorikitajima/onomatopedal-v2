@@ -385,7 +385,7 @@
       grid-template-rows: repeat(5, 1fr);
       gap: 5px;
     }
-    .keyboard div.key {
+    .keyboard div.key, .mobilePads div.pad {
       background-color: #444;
       border-radius: 5px;
       width: calc(100% - 6px);
@@ -404,13 +404,32 @@
     .keyboard div.key.active {
       background-color: #F56476;
     }
-    .keyboard div.key.active p {
+    .keyboard div.key.active p, .mobilePads div.pad.active p {
       color: #fff;
     }
     .keyboard div.key h3 {
       font-size: 1.5em;
       margin: 0;
       color: #111;
+    }
+
+    .mobilePads {
+      width: 300px;
+      height: fit-content;
+      margin: 30px auto 100px auto;
+      padding: 10px;
+      border-radius: 10px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(11, 1fr);
+      gap: 5px;
+      border: #777 solid 1px;
+      background-image: url('../images/mobile-bottom.svg');
+      background-position: bottom;
+      background-repeat: no-repeat;
+    }
+    .mobilePads div.pad {
+      padding: 8px 3px;
     }
 
     .keyPanels, .samplePanels {
@@ -448,7 +467,7 @@
       color: #111;
     }
 
-    #transparentScreen, #transparentScreenNew, #transparentScreenTrack1, #transparentScreenTrack2, #transparentScreenTrack3 {
+    #transparentScreen, #transparentScreenP, #transparentScreenNew, #transparentScreenTrack1, #transparentScreenTrack2, #transparentScreenTrack3 {
       margin: 0;
       padding: 0;
       width: 100vw;

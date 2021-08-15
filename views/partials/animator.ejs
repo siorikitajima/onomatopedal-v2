@@ -20,12 +20,12 @@
             <option value="grayish">Grayish</option>
         </select>
 
-        <p id="unit"><%= pedal[0].tempo%> BPM</p>
+        <p id="unit"><%= pedal.tempo%> BPM</p>
         <label for="tempo">Tempo</label>
-        <input type="range" min=30 max=240 id="tempo" name="tempo" value="<%= pedal[0].tempo%>" style="display: inline; padding-left: 10px;"  oninput="updateRange(this.value)" onchange="submitAnima();">
+        <input type="range" min=30 max=240 id="tempo" name="tempo" value="<%= pedal.tempo%>" style="display: inline; padding-left: 10px;"  oninput="updateRange(this.value)" onchange="submitAnima();">
         <!-- <input type="submit" style="display: none" /> -->
 
-        <input id="hiddenKeyName" type="hidden" name="name" value="<%= pedal[0].name%>">
+        <input id="hiddenKeyName" type="hidden" name="name" value="<%= pedal.name%>">
     </form>
 
     <div class="handle" onclick="animatorHandle()">
@@ -35,7 +35,7 @@
 <div class="blackscreen"></div>
 <div class="loadingSpinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 <script>
-    var thepedal = <%- JSON.stringify(pedal[0]) %> ;
+    var thepedal = <%- JSON.stringify(pedal) %> ;
     var animation = document.querySelector('#animation');
     let animaOpen = true;
     var opt;

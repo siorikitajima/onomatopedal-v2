@@ -2,19 +2,19 @@
     <div class="flex">
         <div class="infoTwo">
             <p class="label">ONOMATOPOEIA</p>
-            <h2><%= pedal[0].onomato %></h2>
-            <p><%= pedal[0].onoMeaning %></p>
+            <h2><%= pedal.onomato %></h2>
+            <p><%= pedal.onoMeaning %></p>
             <p class="label">FEATURED PEDAL</p>
             <a id="pedalLink" href="" target="_blank">
                 <h2 id="pedalDisplay" class="linkIcon"></h2>
             </a>
             <p id="pedalDesc"></p>
             <p class="label">MUSIC BY</p>
-            <h2 class="linkIcon"><%= pedal[0].artist %></h2>
-            <h3 class="linkIcon">"<%= pedal[0].trackName %>"</h3>
+            <h2 class="linkIcon"><%= pedal.artist %></h2>
+            <h3 class="linkIcon">"<%= pedal.trackName %>"</h3>
             <p class="label">ANIMATION BY</p>
             <% for ( var a = 0; a < animation.length; a++ ) { %> 
-                <% if ( animation[a].slug == pedal[0].animation ) { %>
+                <% if ( animation[a].slug == pedal.animation ) { %>
             <h2 class="linkIcon"><%= animation[a].artist %></h2>
             <h3 class="linkIcon">"<%= animation[a].fullName %>"</h3>
                 <% } %>
@@ -29,8 +29,8 @@
         <div class="infoThree">
             <div class="keybord-container">
                 <div class="keyboard">
-                    <% if (keys.length > 0) { %>
-                        <% keys.forEach((thekey, index) => { %>
+                    <% if (pedal.keys.length > 0) { %>
+                        <% pedal.keys.forEach((thekey, index) => { %>
                         <div class="key <%- thekey.enabled ? 'active' : null %> col-<%= thekey.sample %>" id="<%= thekey.key %>" data-pitch=<%= thekey.pitch %> data-enabled=<%= thekey.enabled %> data-index='<%= index %>' data-sample='<%= thekey.sample %>' >
                             <% if(thekey.key == 'ONE') { %> <h3>1</h3> 
                                 <%} else if(thekey.key == 'TWO') { %> <h3>2</h3> 
@@ -94,10 +94,10 @@
   </div>
 
 <script>
-        var thepedal = <%- JSON.stringify(pedal[0]) %> ;
+        var thepedal = <%- JSON.stringify(pedal) %> ;
         var eqdPedals = <%- JSON.stringify(eqdPedals) %> ;
-        var thekeys = <%- JSON.stringify(keys) %> ;
-        var thesamples = <%- JSON.stringify(samples) %> ;
+        var thekeys = <%- JSON.stringify(pedal.keys) %> ;
+        var thesamples = <%- JSON.stringify(pedal.samples) %> ;
         var theAnima = <%- JSON.stringify(animation) %> ;
 
         for (var p = 0; p < eqdPedals.length; p++) {
@@ -122,8 +122,8 @@
         });
 
         ///// Audio Player
-        var thekeys = <%- JSON.stringify(keys) %> ;
-        var thesamples = <%- JSON.stringify(samples) %> ;
+        var thekeys = <%- JSON.stringify(pedal.keys) %> ;
+        var thesamples = <%- JSON.stringify(pedal.samples) %> ;
         var username = <%- JSON.stringify(name) %> ;
 
         // var name = <%- JSON.stringify(name) %> ;
@@ -457,7 +457,7 @@
             // '#BE9B5F', '#BE9B5F', '#644661', '#527686', '#C88C6E', '#476F6C', '#8B555E', '#696E50', '#4D566C', '#9B5D76',
             // '#F0C81E', '#32C850', '#B432C8', '#00AADC', '#FF6E50', '#00DCC8', '#FF3264', '#96C800', '#0064C8', '#FF64B4'
         ];
-        var colPalette = thepedal[0].color;
+        var colPalette = thepedal.color;
         var colData = theAnima[0][colPalette];
         function getRandomInt(min, max) {
             min = Math.ceil(min);

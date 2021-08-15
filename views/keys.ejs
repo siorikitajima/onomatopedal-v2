@@ -7,13 +7,13 @@
             <p class="guideIcon">Guide</p>
         </div>
     </a>
-    <div class="content keys sideBar">
+    <div class="content keys sideBar paddingBottom">
         <div class="h2bg">
             <h2>Keys to Samples</h2>
         </div>
         <div class="keyboard">
-        <% if (keys.length > 0) { %>
-            <% keys.forEach((thekey, index) => { %>
+        <% if (pedal.keys.length > 0) { %>
+            <% pedal.keys.forEach((thekey, index) => { %>
             <div class="key <%- thekey.enabled ? 'active' : null %> col-<%= thekey.sample %>" id="<%= thekey.key %>" data-pitch=<%= thekey.pitch %> data-enabled=<%= thekey.enabled %> data-index='<%= index %>' data-sample='<%= thekey.sample %>' >
                 <% if(thekey.key == 'ONE') { %> <h3>1</h3> 
                 <%} else if(thekey.key == 'TWO') { %> <h3>2</h3> 
@@ -35,8 +35,24 @@
             <p>No key to display</p>
         <% } %>
         </div>
+
+        <div class="h2bg">
+            <h2>Mobile Pads to Samples</h2>
+        </div>
+        <div class="mobilePads">
+        <% if (pedal.pads.length > 0) { %>
+            <% pedal.pads.forEach((thepad, index) => { %>
+            <div class="pad <%- thepad.enabled ? 'active' : null %> col-<%= thepad.sample %>" id="<%= thepad.pad %>" data-pitch=<%= thepad.pitch %> data-enabled=<%= thepad.enabled %> data-index='<%= index %>' data-sample='<%= thepad.sample %>' >
+                    <p><%= thepad.pitch.toUpperCase().replace('M', '#') %></p>
+            </div>
+            <% }) %>
+        <% } else { %>
+            <p>No pad to display</p>
+        <% } %>
+        </div>
         
-        <div class="hidden" id="transparentScreen" onclick="keyPanel()">
+        
+        <div class="hidden" id="transparentScreen" onclick="keyPanel();">
         </div>
         <div class="forms keyPanels hidden" id="keyPanel">
             <h3 class="panelTitle">Key: <span id="keyName"></span></h3>
@@ -64,8 +80,8 @@
                     <div class="formItem">
                         <label for="sample">Sample</label>
                         <select name="sample" id="sample">
-                            <% for (let s = 0; s < samples.length; s++) {%>
-                                <option value="<%= samples[s].samplename %>"><%= samples[s].samplename %></option>
+                            <% for (let s = 0; s < pedal.samples.length; s++) {%>
+                                <option value="<%= pedal.samples[s].samplename %>"><%= pedal.samples[s].samplename %></option>
                             <% } %>
                         </select>
                     </div>
@@ -87,7 +103,54 @@
                 </div>
                 <button id="keySaveBtn" class="disabled" disabled>Save</button>
             </form>
+        </div>
 
+        <div class="hidden" id="transparentScreenp" onclick="padPanel()">
+        </div>
+        <div class="forms keyPanels hidden" id="padPanel">
+            <div class="closebtn" onclick="padPanel()"></div>
+            <form id="padForm" action="/pads" method="POST" enctype="multipart/form-data">
+                <div class="left flex">
+                    <div class="formItem">
+                    <label for="enabledp">Enabled</label>
+                    <input type="checkbox" id="enabledp" name="enabledp" type="button" onclick="showFileBtnP()" />
+                    </div>
+                    <div class="formItem">
+                    <label for="pitchp">Pad Pitch</label>
+                    <select id="pitchp" name="pitchp">
+                        <% for (var p = 0; p < pitches.length; p++) { %>
+                            <option value="<%= pitches[p].slug %>"><%= pitches[p].fullName %></option>
+                        <% } %>
+                    </select>
+                    </div>
+                    <input id="hiddenPadName" type="hidden" name="pad">
+                </div>
+                <div class="right flex" id="sampleDivp">
+                    <div class="formItem">
+                        <label for="samplep">Sample</label>
+                        <select name="samplep" id="samplep">
+                            <% for (let s = 0; s < pedal.samples.length; s++) {%>
+                                <option value="<%= pedal.samples[s].samplename %>"><%= pedal.samples[s].samplename %></option>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="formItem" id="soundBtnp">
+                        <label for="soundfilep">Add New</label>
+                        <div class="filebtn">
+                            <input type="file" width="60" name="soundfilep" id="soundfilep" style="padding: 15px; opacity: 0;">
+                        </div>
+                    </div>
+                    <div class="formItem" id="hidden-spp" style="display: none;">
+                        <label for="samplePitchp">Sample Pitch</label>
+                        <select id="samplePitchp" name="samplePitchp">
+                            <% for (var p = 0; p < pitches.length; p++) { %>
+                                <option value="<%= pitches[p].slug %>"><%= pitches[p].fullName %></option>
+                            <% } %>
+                        </select>
+                        </div>
+                </div>
+                <button id="padSaveBtn" class="disabled" disabled>Save</button>
+            </form>
         </div>
         
     </div>
@@ -95,8 +158,9 @@
     
     <script src="js/ejs.js"></script>
     <script>
-        var thekeys = <%- JSON.stringify(keys) %> ;
-        var thesamples = <%- JSON.stringify(samples) %> ;
+        var thekeys = <%- JSON.stringify(pedal.keys) %> ;
+        var thepads = <%- JSON.stringify(pedal.pads) %> ;
+        var thesamples = <%- JSON.stringify(pedal.samples) %> ;
         var username = <%- JSON.stringify(name) %> ;
         var disableKeys = false;
 
@@ -110,6 +174,17 @@
                     } else {
                         keyPanelWrap.classList.remove('hidden');
                         allPanels.classList.remove('hidden');
+                    }
+                }
+        function padPanel() {
+            let padPanelWrap = document.querySelector('#padPanel');
+            let allPanelsP = document.querySelector('#transparentScreenp');
+                    if(!allPanelsP.classList.contains('hidden')) {
+                        padPanelWrap.classList.add('hidden');
+                        allPanelsP.classList.add('hidden');
+                    } else {
+                        padPanelWrap.classList.remove('hidden');
+                        allPanelsP.classList.remove('hidden');
                     }
                 }
 
@@ -168,6 +243,50 @@
             keyPanel();
         });
 
+
+        // Rendering pad panel content
+        var thepad;
+        $(document).on('click', '.pad', function() {
+            document.querySelector('#padForm').reset();
+            if(!$('#padSaveBtn').hasClass('disabled')) {$('#padSaveBtn').addClass('disabled');}
+            if(!$('#padSaveBtn').attr('disabled')){$('#padSaveBtn').attr('disabled')};
+
+            var index = $(this).attr('data-index');
+            thepad = thepads[index];
+
+            // var padName = thekey.key;
+            // $('#padName').html(padName);
+
+            $('#noteName').html(thepad.pitch.toUpperCase().replace('M', '#'));
+            if (thepad.enabled == true) { 
+                $('input#enabledp').prop('checked', true); 
+                $('#sampleDivp').removeClass('hidden2');
+            } else { 
+                $('input#enabledp').prop('checked', false); 
+                $('#sampleDivp').addClass('hidden2');
+            }
+
+            var pitch = document.querySelector('#pitchp');
+            var sampleName = document.querySelector('#samplep');
+            var opt, opt2;
+            for ( var i = 0, len = pitch.options.length; i < len; i++ ) {
+            opt = pitch.options[i];
+            if ( opt.value === thepad.pitch ) {
+                opt.setAttribute('selected', 'selected'); 
+                break;
+            }}
+            for ( var i = 0, len = sampleName.options.length; i < len; i++ ) {
+            opt2 = sampleName.options[i];
+            if ( opt2.value === thepad.sample ) {
+                opt2.setAttribute('selected', 'selected'); 
+                break;
+            }}
+
+            $('#hiddenPadName').attr('value', thepad.pad);
+            padPanel();
+        });
+
+        /// Key panel button
         $('#soundfile').change(() => {
             var newName = $('#soundfile')[0].files[0].name;
             var onlyName = newName.slice(0, -4);
@@ -181,9 +300,34 @@
             $('#keySaveBtn').removeAttr('disabled');
         })
 
+        /// Pad panel button
+        $('#soundfilep').change(() => {
+            var newName = $('#soundfilep')[0].files[0].name;
+            var onlyName = newName.slice(0, -4);
+            $("#samplep").append(`<option value="${onlyName}" selected>${onlyName}</option>`);
+            $('#hidden-spp').css('display', 'block');
+            $('#soundBtnp').css('display', 'none');
+        })
+
+        $('#enabledp, #pitchp, #samplep').on('change', () => {
+            $('#padSaveBtn').removeClass('disabled');
+            $('#padSaveBtn').removeAttr('disabled');
+        })
+
         // Update file button is visible when 'New Sound' is on
         function showFileBtn() {
         let sampleDiv = $('#sampleDiv');
+        if ( sampleDiv.hasClass('hidden2') ) {
+            sampleDiv.removeClass('hidden2');
+            sampleDiv.addClass('show2');
+        } else {
+            sampleDiv.removeClass('show2');
+            sampleDiv.addClass('hidden2');
+        }
+    }
+
+    function showFileBtnP() {
+        let sampleDiv = $('#sampleDivp');
         if ( sampleDiv.hasClass('hidden2') ) {
             sampleDiv.removeClass('hidden2');
             sampleDiv.addClass('show2');

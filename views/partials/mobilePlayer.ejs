@@ -7,19 +7,19 @@
         </div>
         <div class="infoTwo">
             <p class="label">ONOMATOPOEIA</p>
-            <h2><%= pedal[0].onomato %></h2>
-            <p><%= pedal[0].onoMeaning %></p>
+            <h2><%= pedal.onomato %></h2>
+            <p><%= pedal.onoMeaning %></p>
             <p class="label">FEATURED PEDAL</p>
             <a id="pedalLink" href="" target="_blank">
                 <h2 id="pedalDisplay" class="linkIcon"></h2>
             </a>
             <p id="pedalDesc"></p>
             <p class="label">MUSIC BY</p>
-            <h2 class="linkIcon"><%= pedal[0].artist %></h2>
-            <h3 class="linkIcon">"<%= pedal[0].trackName %>"</h3>
+            <h2 class="linkIcon"><%= pedal.artist %></h2>
+            <h3 class="linkIcon">"<%= pedal.trackName %>"</h3>
             <p class="label">ANIMATION BY</p>
             <% for ( var a = 0; a < animation.length; a++ ) { %> 
-                <% if ( animation[a].slug == pedal[0].animation ) { %>
+                <% if ( animation[a].slug == pedal.animation ) { %>
             <h2 class="linkIcon"><%= animation[a].artist %></h2>
             <h3 class="linkIcon">"<%= animation[a].fullName %>"</h3>
                 <% } %>
@@ -53,59 +53,59 @@
   </div>
 
   <div id="drumpads">
-    <div class="pad" id="zero"></div>
-    <div class="pad" id="p"></div>
-    <div class="pad" id="m"></div>
-    <div class="pad" id="n"></div>
+    <div class="pad" id="zero-0"></div>
+    <div class="pad" id="one-0"></div>
+    <div class="pad" id="two-0"></div>
+    <div class="pad" id="three-0"></div>
 
-    <div class="pad" id="nine"></div>
-    <div class="pad" id="o"></div>
-    <div class="pad" id="l"></div>
-    <div class="pad" id="b"></div>
+    <div class="pad" id="zero-1"></div>
+    <div class="pad" id="one-1"></div>
+    <div class="pad" id="two-1"></div>
+    <div class="pad" id="three-1"></div>
 
-    <div class="pad" id="eight"></div>
-    <div class="pad" id="i"></div>
-    <div class="pad" id="k"></div>
-    <div class="pad" id="v"></div>
+    <div class="pad" id="zero-2"></div>
+    <div class="pad" id="one-2"></div>
+    <div class="pad" id="two-2"></div>
+    <div class="pad" id="three-2"></div>
 
-    <div class="pad" id="seven"></div>
-    <div class="pad" id="u"></div>
-    <div class="pad" id="j"></div>
-    <div class="pad" id="space"></div>
+    <div class="pad" id="zero-3"></div>
+    <div class="pad" id="one-3"></div>
+    <div class="pad" id="two-3"></div>
+    <div class="pad" id="three-3"></div>
 
-    <div class="pad" id="six"></div>
-    <div class="pad" id="y"></div>
-    <div class="pad" id="h"></div>
-    <div class="pad" id="space"></div>
+    <div class="pad" id="zero-4"></div>
+    <div class="pad" id="one-4"></div>
+    <div class="pad" id="two-4"></div>
+    <div class="pad" id="three-4"></div>
 
-    <div class="pad" id="five"></div>
-    <div class="pad" id="t"></div>
-    <div class="pad" id="g"></div>
-    <div class="pad" id="space"></div>
+    <div class="pad" id="zero-5"></div>
+    <div class="pad" id="one-5"></div>
+    <div class="pad" id="two-5"></div>
+    <div class="pad" id="three-5"></div>
 
-    <div class="pad" id="four"></div>
-    <div class="pad" id="r"></div>
-    <div class="pad" id="f"></div>
-    <div class="pad" id="space"></div>
+    <div class="pad" id="zero-6"></div>
+    <div class="pad" id="one-6"></div>
+    <div class="pad" id="two-6"></div>
+    <div class="pad" id="three-6"></div>
 
-    <div class="pad" id="three"></div>
-    <div class="pad" id="e"></div>
-    <div class="pad" id="d"></div>
-    <div class="pad" id="c"></div>
+    <div class="pad" id="zero-7"></div>
+    <div class="pad" id="one-7"></div>
+    <div class="pad" id="two-7"></div>
+    <div class="pad" id="three-7"></div>
 
-    <div class="pad" id="two"></div>
-    <div class="pad" id="w"></div>
-    <div class="pad" id="s"></div>
-    <div class="pad" id="x"></div>
+    <div class="pad" id="zero-8"></div>
+    <div class="pad" id="one-8"></div>
+    <div class="pad" id="two-8"></div>
+    <div class="pad" id="three-8"></div>
 
-    <div class="pad" id="one"></div>
-    <div class="pad" id="q"></div>
-    <div class="pad" id="a"></div>
-    <div class="pad" id="z"></div>
+    <div class="pad" id="zero-9"></div>
+    <div class="pad" id="one-9"></div>
+    <div class="pad" id="two-9"></div>
+    <div class="pad" id="three-9"></div>
   </div>
 
 <script>
-        var thepedal = <%- JSON.stringify(pedal[0]) %> ;
+        var thepedal = <%- JSON.stringify(pedal) %> ;
         var eqdPedals = <%- JSON.stringify(eqdPedals) %> ;
 
         for (var p = 0; p < eqdPedals.length; p++) {
@@ -131,8 +131,8 @@
         });
 
         ///// Audio Player
-        var thekeys = <%- JSON.stringify(keys) %> ;
-        var thesamples = <%- JSON.stringify(samples) %> ;
+        var thepads = <%- JSON.stringify(pedal.pads) %> ;
+        var thesamples = <%- JSON.stringify(pedal.samples) %> ;
         var username = <%- JSON.stringify(name) %> ;
 
         var stemFiles = <%- JSON.stringify(stemFiles) %> ;
@@ -248,7 +248,7 @@
         }
     });
 
-    ////////// Keys to Play Sample
+    ////////// Pads to Play Sample
 
     $(document).ready(function() {
         var keyPlayed = false;
@@ -261,14 +261,14 @@
                 pitchString.push(note);
         }
 
-        var keyToPitch = {};
-        for (var i = 0; i < thekeys.length; i++) {
-            var thekey = thekeys[i].key.toLowerCase();
-            var note = thekeys[i].pitch.toUpperCase().replace('M', '#'); 
-           if(thekeys[i].enabled) {
-                keyToPitch[thekey] = note;
+        var padToPitch = {};
+        for (var i = 0; i < thepads.length; i++) {
+            var thepad = thepads[i].pad;
+            var note = thepads[i].pitch.toUpperCase().replace('M', '#'); 
+           if(thepads[i].enabled) {
+                padToPitch[thepad] = note;
             } else {
-                keyToPitch[thekey] = null;
+                padToPitch[thepad] = null;
             }
         }
 
@@ -285,24 +285,18 @@
             }).toDestination();
         }
 
-        // console.log('keyToPitch: ');
-        // console.log(keyToPitch);
-        // console.log('Samplers: ');
-        // console.log(samplers);
-
         function touchPad(id){
 
-            //// Find index# of sample for the key
+            //// Find index# of sample for the pad
             function theIndex(id) {
                 var i, n, s;
-                for (var ke = 0; ke < thekeys.length; ke++) {
-                    var uc = id.toUpperCase();
-                    if (thekeys[ke].key == uc) {
+                for (var ke = 0; ke < thepads.length; ke++) {
+                    if (thepads[ke].pad == id) {
                         i = ke;
                         break;
                     }
                 }
-                n = thekeys[i].sample;
+                n = thepads[i].sample;
                 for (var sa = 0; sa < thesamples.length; sa++) {
                     if (thesamples[sa].samplename == n) {
                         s = sa;
@@ -311,15 +305,13 @@
                         s = 0;
                     }
                 }
-                console.log(s)
                 return s;
             }
-            // Do nothing with other keys
-            if (keyToPitch[id] == null) {
+            // Do nothing with other pads
+            if (padToPitch[id] == null) {
             } else {
             var index = theIndex(id);
-            // console.log(index, keyToPitch[id]);
-            samplers[index].triggerAttackRelease(keyToPitch[id]);
+            samplers[index].triggerAttackRelease(padToPitch[id]);
             }
         }
 
@@ -329,7 +321,6 @@
                 toneStarted = true;
             }
             var id = event.target.id;
-            // console.log(uc);
             touchPad(id);
         });
     });

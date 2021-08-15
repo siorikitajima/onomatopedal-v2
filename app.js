@@ -44,7 +44,7 @@ var sess = {
 
 //////////// Connect to DB with Passport ////////////
 
-mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
     .then(() => app.listen(process.env.PORT || 8080))
     .catch((err) => console.log(err));
 

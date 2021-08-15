@@ -33,7 +33,7 @@ const upload = multer({
       },
       key: function (req, file, cb) {
           let ext = path.extname(file.originalname);
-              cb(null, `${req.user.name}/${req.body.newname || req.body.sample}${ext}`);
+              cb(null, `${req.user.name}/${req.body.newname || req.body.sample || req.body.samplep }${ext}`);
       }
     }),
   });
@@ -52,6 +52,19 @@ router.post('/keys', (req, res, next) => {
         // console.log("File response", req.file);
         next(); }
   })}, keyController.key_update);
+
+router.post('/pads', (req, res, next) => {
+    const uploadMiddleware = upload.single('soundfilep');
+    uploadMiddleware(req, res, function(err) {
+      if (err instanceof multer.MulterError) {
+        return res.send("<script> alert('Oops! The sample file size must be under 500KB'); window.location =  'keys'; </script>"); }
+      else if (err) {
+        return res.send("<script> alert('Oops! The file type must be MP3'); window.location =  'keys'; </script>"); }
+      else {
+          // console.log("File response", req.file);
+          next(); }
+    })}, keyController.pad_post);
+
 router.get('/samples', authController.checkAuthenticated, keyController.samples_get);
 router.post('/samples', authController.checkAuthenticated, keyController.samples_post);
 router.delete('/sample', keyController.sample_delete);
