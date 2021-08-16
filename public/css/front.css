@@ -91,12 +91,12 @@ div.pedal-grid:hover div.pedal-name, div.pedal-cover:hover div.pedal-name {
 }
 
 div.pedal-name p {
-    font-size: 1em;
+    font-size: 0.8em;
 }
 div.pedal-name h2 {
     color: #111;
-    font-size: 1.2em;
-    margin: 0 0 10px 0;
+    font-size: 1.1em;
+    margin: 0 0 5px 0;
 }
 
 div.featBanner {
@@ -135,7 +135,7 @@ button.lineBtn, button.lineBtnWh {
     color: #111;
     padding: 6px;
     border: #111 2px solid;
-    font-size: 1.1em;
+    font-size: 1em;
     font-family: 'Raleway', sans-serif;
     text-transform: uppercase;
     cursor: pointer;
@@ -175,7 +175,7 @@ button.lineBtnWh:hover {
 
 div.infoPanel {
     width: 100%;
-    position: fixed;
+    position: absolute;
     top: 51px;
     height: auto;
     padding: 50px 0 0 0 ;
@@ -190,7 +190,7 @@ div.infoPanel div.flex {
     display: flex;
     margin: 0 auto;
     justify-content: space-between;
-    gap: 50px;
+    gap: 40px;
 }
 
 div.infoPanel div.playBtnPanel {
@@ -200,7 +200,7 @@ div.infoPanel div.playBtnPanel {
     padding: 10px;
     background-color: #F56476;
     color: #111;
-    font-size: 2em;
+    font-size: 1.6em;
     font-family: 'Staatliches', sans-serif;
     letter-spacing: 0.1em;
     text-align: center;
@@ -216,7 +216,7 @@ div.infoPanel div.infoOne {
     background: #444;
     position: relative;
     overflow: hidden;
-    z-index: -100;
+    flex-shrink: 0;
 }
 
 div.infoPanel div.infoOne #diamond {
@@ -252,10 +252,51 @@ div.infoPanel div.infoOne img {
 
 div.infoPanel div.infoTwo {
     width: 400px;
+    flex-shrink: 2;
 }
 div.infoPanel div.infoThree {
     width: 400px;
+    flex-shrink: 1;
 }
+@media (max-width: 1090px) {
+    div.infoPanel div.flex {
+        padding: 0 20px;
+        gap: 20px;
+        display: block;
+        width: 740px;
+        max-width: 90%;
+        margin: 0 auto;
+    }
+    div.infoPanel div.infoOne, div.infoPanel div.infoTwo, div.infoPanel div.infoThree {
+        display: inline-block;
+        vertical-align: top;
+    }
+    div.infoPanel div.infoThree {
+        display: block;
+        width: 100%;
+        margin: 30px auto;
+        padding: 20px 0 ;
+        border-top: #777 1px solid;
+        border-bottom: #777 1px solid;
+        /* display: none; */
+    }
+    div.infoPanel div.infoThree div {
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 782px) {
+    div.infoPanel {
+        padding: 0;
+    }
+    div.infoPanel div.infoOne, div.infoPanel div.infoTwo {
+        display: block;
+        margin: 30px auto;
+        text-align: center;
+    }
+}
+
+
 div.infoPanel h2, div.infoPanel p {
     margin: 0;
 }
@@ -281,6 +322,14 @@ div.infoTwo h2.linkIcon::after, div.infoTwo h3.linkIcon::after {
     top: 6px;
     right: -30px;
 }
+@media (max-width: 782px) {
+    div.infoTwo h2.linkIcon, div.infoTwo h3.linkIcon {
+        width: unset;
+    }
+    div.infoTwo h2.linkIcon::after, div.infoTwo h3.linkIcon::after {
+        display: none;
+    }
+}
 div.infoTwo h2.linkIcon:hover, div.infoTwo h3.linkIcon:hover {
     color: #F56476;
     cursor: pointer;
@@ -295,8 +344,9 @@ div.infoTwo h3.linkIcon:hover::after, div.infoTwo h2.linkIcon:hover::after {
     background-image: url('../images/openLink-hover.svg');
 }
 div.infoPanel p.label {
-    margin: 20px 0 0 0;
+    margin: 10px 0 0 0;
     color: #777;
+    font-size: 0.8em;
 }
 div.infoPanel p.label:first-of-type {
     margin: 0;
@@ -326,12 +376,13 @@ div.infoPanel div.merchContainer {
 div.infoPanel div.merch-icons {
     width: fit-content;
     margin: 20px auto 0 auto;
-    padding-left: 100px;
+    padding-left: 75px;
     position: relative;
 }
 div.infoPanel div.merch-icons::before {
     content: "MUSIC, ART & MERCH";
-    width: 85px;
+    width: 60px;
+    font-size: 0.8em;
     height: fit-content;
     position: absolute;
     top: 50%;
@@ -343,8 +394,8 @@ div.infoPanel div.merch-icons::before {
 
 div.infoPanel div.merch-icons div.icon {
     display: inline-block;
-    width: 85px;
-    height: 85px;
+    width: 60px;
+    height: 60px;
     margin: 10px 10px 0 0;
     /* border: #F56476 1px solid; */
     background-color: #F56476;
@@ -370,7 +421,7 @@ div.infoPanel div.merch-icons div.icon:hover h3 {
 }
 
 div.infoPanel div.merch-icons img {
-    width: 85px;
+    width: 60px;
     margin: 0;
     border-radius: 5px;
 }

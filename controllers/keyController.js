@@ -94,6 +94,77 @@ const key_update = (req, res) => {
     })
 };
 
+const key_group_post = (req, res) => {
+    let enabled;
+    var keyNames = req.body.keyg.split(",");
+
+    if (req.body.enabledg == 'on'){ enabled = true;
+    } else { enabled = false }
+
+    OpMain.findOne({name: req.user.name}, (err, opInfo) => {
+        for(let p = 0; p < opInfo.keys.length; p++) {
+            for(let i = 0; i < keyNames.length; i++) {
+                if (opInfo.keys[p].key == keyNames[i]) {
+                    opInfo.keys[p].enabled = enabled;
+                    opInfo.keys[p].sample = req.body.sampleg;
+                }
+            }
+        }
+        opInfo.save((err) => {
+            if(err) { console.error(err); 
+            }
+        });
+    })
+    .then(() => {
+    res.redirect('/keys');
+    })
+};
+
+const pad_get = async (req, res) => {
+    let rawdata = fs.readFileSync('./json/pitches.json');
+    let pitches = JSON.parse(rawdata);
+    const isMobile = browser(req.headers['user-agent']).mobile;
+        if(isMobile) { res.redirect('/studio'); } else {
+
+        const stems = [1, 2, 3];
+        const filename1 = `${req.user.name}/stem1.mp3`;
+        const params1 = { Bucket: 'opv2-heroku', Key: filename1 };
+        const stem1 = await s3
+        .headObject(params1).promise()
+        .then( () => true,
+        err => { if (err.code === 'NotFound') { return false; }
+                throw err; });
+        const filename2 = `${req.user.name}/stem2.mp3`;
+        const params2 = { Bucket: 'opv2-heroku', Key: filename2 };
+        const stem2 = await s3
+        .headObject(params2).promise()
+        .then( () => true,
+            err => { if (err.code === 'NotFound') { return false; }
+                    throw err; });
+        const filename3 = `${req.user.name}/stem3.mp3`;
+        const params3 = { Bucket: 'opv2-heroku', Key: filename3 };
+        const stem3 = await s3
+        .headObject(params3).promise()
+        .then( () => true,
+            err => { if (err.code === 'NotFound') { return false; }
+                    throw err; });
+
+        OpMain.findOne({name: req.user.name}, (err, opInfo) => {
+            if(err) {console.log(err);}
+            else {
+                res.render('pads', { 
+                    title: 'Pads', 
+                    nav:'pads',
+                    pedal: opInfo,
+                    name: req.user.name, 
+                    pitches: pitches,
+                    stemFiles: [stem1, stem2, stem3], 
+                    stems: stems })
+            }
+        })
+    }
+    };
+
 const pad_post = (req, res) => {
     let enabled, sample;
 
@@ -128,10 +199,35 @@ const pad_post = (req, res) => {
         });
     })
     .then(() => {
-    res.redirect('/keys');
+    res.redirect('/pads');
     })
 };
 
+const pad_group_post = (req, res) => {
+    let enabled;
+    var padNames = req.body.padg.split(",");
+
+    if (req.body.enabledpg == 'on'){ enabled = true;
+    } else { enabled = false }
+
+    OpMain.findOne({name: req.user.name}, (err, opInfo) => {
+        for(let p = 0; p < opInfo.pads.length; p++) {
+            for(let i = 0; i < padNames.length; i++) {
+                if (opInfo.pads[p].pad == padNames[i]) {
+                    opInfo.pads[p].enabled = enabled;
+                    opInfo.pads[p].sample = req.body.samplepg;
+                }
+            }
+        }
+        opInfo.save((err) => {
+            if(err) { console.error(err); 
+            }
+        });
+    })
+    .then(() => {
+    res.redirect('/pads');
+    })
+};
 
 const samples_get = async (req, res) => {
     const isMobile = browser(req.headers['user-agent']).mobile;
@@ -276,6 +372,8 @@ const samples_get = async (req, res) => {
                         if(err) { console.error(err); 
                         }
                     });
+                } else {
+                    return res.send("<script> alert('This filename already exists.'); window.location =  'samples'; </script>"); 
                 }
             }
         })
@@ -287,7 +385,10 @@ const samples_get = async (req, res) => {
 module.exports = {
         key_index,
         key_update,
+        key_group_post,
+        pad_get,
         pad_post,
+        pad_group_post,
         samples_get,
         samples_post,
         sample_delete,

@@ -209,14 +209,14 @@
             $(controlMain).removeClass("paused");
             $(controlMain).addClass("playing");
             $('#controller').css('bottom', '20px');
-            $('.infoPanel').css('top', '-120%');
+            $('.infoPanel').css('top', '-200%');
             Tone.Transport.start();
             $(stems).removeClass("muted");
             $(stems).addClass("unmuted");
         } else {
             $(controlMain).removeClass("playing");
             $(controlMain).addClass("paused");
-            $('#controller').css('bottom', '-120%');
+            $('#controller').css('bottom', '-200%');
             $('.infoPanel').css('top', '51px');
             $(stems).removeClass("unmuted");
             $(stems).addClass("muted");

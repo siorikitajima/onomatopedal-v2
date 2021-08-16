@@ -15,7 +15,7 @@ const s3 = new AWS.S3({
 const keyList = ['ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE', 'ZERO', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'SPACE'];
 const padList = ['zero-0', 'one-0', 'two-0', 'three-0', 'zero-1', 'one-1', 'two-1', 'three-1', 'zero-2', 'one-2', 'two-2', 'three-2', 'zero-3', 'one-3', 'two-3', 'three-3', 'zero-4', 'one-4', 'two-4', 'three-4', 'zero-5', 'one-5', 'two-5', 'three-5', 'zero-6', 'one-6', 'two-6', 'three-6', 'zero-7', 'one-7', 'two-7', 'three-7', 'zero-8', 'one-8', 'two-8', 'three-8', 'zero-9', 'one-9', 'two-9', 'three-9'];
 const noteList = ["c5", "cm5", "d5", "dm5", "e5", "f5", "fm5", "g5", "gm5", "a5", "c4", "cm4", "d4", "dm4", "e4", "f4", "fm4", "g4", "gm4", "a4", "c3", "cm3", "d3", "dm3", "e3", "f3", "fm3", "g3", "gm3", "c2", "cm2", "d2", "dm2", "e2", "f2", "fm2", "g2"];
-const noteListPad = ["b5", "am5", "a5", "gm5", "g5", "fm5", "f5", "e5", "dm5", "d5", "cm5", "c5", "b4", "am4", "a4", "gm4", "g4", "fm4", "f4", "e4", "dm4", "d4", "cm4", "c4", "b3", "am3", "a3", "gm3", "g3", "fm3", "f3", "e3", "dm3", "d3", "cm3", "c3", "b2", "am2", "a2", "gm2"];
+const noteListPad = ["gm5", "a5", "am5", "b5", "e5", "f5", "fm5", "g5", "c5", "cm5", "d5", "dm5", "gm4", "a4", "am4", "b4", "e4", "f4", "fm4", "g4", "c4", "cm4", "d4", "dm4", "gm3", "a3", "am3", "b3", "e3", "f3", "fm3", "g3", "c3", "cm3", "d3", "dm3", "gm2", "a2", "am2", "b2"];
 
 const register_get = (req, res) => {
     res.render('register', { title: 'Register' });
@@ -58,7 +58,7 @@ const register_post = (req, res) => {
     for (let k = 0; k < padList.length; k++) {
         let sampleName;
         if (k < 12) { sampleName = 'c4pluck'; }
-        else if (k < 24 ) { sampleName = 'c4piano'; }
+        else if (k < 28 ) { sampleName = 'c4piano'; }
         else { sampleName = 'c4tone'; }
         const pad = {
             pad: padList[k],

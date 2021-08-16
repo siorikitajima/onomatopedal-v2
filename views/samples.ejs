@@ -155,7 +155,6 @@
 
             var index = $(this).attr('data-index');
             thesample = thesamples[index];
-            console.log(index);
 
             var namefield = $('input#name');
             $(namefield).attr('value', thesample.samplename);
@@ -177,7 +176,7 @@
             samplePanel();
         });
     });
-    $('#newname, #pitch').on('change', () => {
+    $('#name, #pitch').on('change', () => {
         $('#sampleSaveBtn').removeClass('disabled');
         $('#sampleSaveBtn').removeAttr('disabled');
     })

@@ -1,6 +1,10 @@
 [
     {
+        "id": 0,
+        "name": "astral"
+    },
+    {
         "id": 1,
-        "name": "schema2"
+        "name": "testPedal"
     }
   ]

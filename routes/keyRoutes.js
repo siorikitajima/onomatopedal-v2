@@ -53,6 +53,7 @@ router.post('/keys', (req, res, next) => {
         next(); }
   })}, keyController.key_update);
 
+router.get('/pads', authController.checkAuthenticated, keyController.pad_get);
 router.post('/pads', (req, res, next) => {
     const uploadMiddleware = upload.single('soundfilep');
     uploadMiddleware(req, res, function(err) {
@@ -61,10 +62,12 @@ router.post('/pads', (req, res, next) => {
       else if (err) {
         return res.send("<script> alert('Oops! The file type must be MP3'); window.location =  'keys'; </script>"); }
       else {
-          // console.log("File response", req.file);
           next(); }
     })}, keyController.pad_post);
 
+  router.post('/keys-group', keyController.key_group_post);
+  router.post('/pads-group', keyController.pad_group_post);
+    
 router.get('/samples', authController.checkAuthenticated, keyController.samples_get);
 router.post('/samples', authController.checkAuthenticated, keyController.samples_post);
 router.delete('/sample', keyController.sample_delete);

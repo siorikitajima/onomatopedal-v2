@@ -32,7 +32,7 @@
       /* letter-spacing: 0.05em; */
     }
     h2{
-      font-size: 2em;
+      font-size: 1.8em;
       margin-bottom: 40px;
     }
     h3{
@@ -42,9 +42,9 @@
 
     /* Global Elements */
 
-    .content {
+    /* .content {
       min-height: calc(100vh - 50px);
-    }
+    } */
     .sideBar {
       padding-left: 260px;
     }
@@ -110,7 +110,7 @@
       transform: translateY(-50%);
     }
     .sideNav .site-title h1 {
-      margin: 40px 20px;
+      margin: 30px 20px;
       font-size: 2.5em;
       line-height: 0.9em;
     }
@@ -126,7 +126,7 @@
       margin: 0;
     }
     div.navLeft ul {
-      margin: 40px 0;
+      margin: 30px 0;
     }
     nav li, div.nav li{
       display: block;
@@ -140,9 +140,9 @@
     }
 
     div.navLeft li {
-      font-size: 1.1em;
+      font-size: 1em;
       line-height: 2em;
-      margin: 10px 0;
+      margin: 8px 0;
       padding: 0 0 0 40px;
       background: #333;
     }
@@ -314,6 +314,7 @@
     div.footer p, p.backFront, p.backFront a {
       color: #999;
       margin: 20px;
+      font-size: 0.9em;
     }
     p.backFront a {
       padding-left: 20px;
@@ -398,7 +399,7 @@
       color: #111;
       padding: 6px;
       border: 0;
-      font-size: 1.1em;
+      font-size: 1em;
       font-family: 'Raleway', sans-serif;
       text-transform: uppercase;
       cursor: pointer;
@@ -423,7 +424,7 @@
         width: fit-content;
         height: calc(100% - 70px);
         color: #111;
-        font-size: 1.1em;
+        font-size: 1em;
         line-height: 1em;
         text-transform: uppercase;
         left: calc( 50% + 10px);
@@ -463,6 +464,7 @@
       padding: 10px 0;
       border-top: #777 1px solid;
       background: #111;
+      z-index: 3000;
     }
     #playAllBtn, #BtnContainer {
       margin: 10px auto 0 auto;
@@ -510,7 +512,7 @@
       width: fit-content;
       height: calc(100% - 70px);
       color: #111;
-      font-size: 1.1em;
+      font-size: 1em;
       text-transform: uppercase;
       left: calc( 50% + 10px);
       transform: translateX(-50%);
