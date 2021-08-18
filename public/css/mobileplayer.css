@@ -204,14 +204,16 @@ div.infoPanel div.infoTwo, div.infoPanel div.infoThree {
     margin: 20px auto;
 }
 
-div.infoPanel h2, div.infoPanel p {
+div.infoPanel h2, div.infoPanel h3, div.infoPanel p {
     margin: 0;
+    text-align: center;
 }
 div.infoTwo h2.linkIcon, div.infoTwo h3.linkIcon {
     position: relative;
-    width: fit-content;
+    width: unset;
 }
-div.infoTwo h2.linkIcon::after, div.infoTwo h3.linkIcon::after {
+
+/* div.infoTwo h2.linkIcon::after, div.infoTwo h3.linkIcon::after {
     content: "";
     width: 20px;
     height: 20px;
@@ -229,7 +231,7 @@ div.infoTwo h3.linkIcon::after {
 }
 div.infoTwo h3.linkIcon:hover::after, div.infoTwo h2.linkIcon:hover::after {
     background-image: url('../images/openLink-hover.svg');
-}
+} */
 div.infoPanel p.label {
     margin: 20px 0 0 0;
     color: #777;

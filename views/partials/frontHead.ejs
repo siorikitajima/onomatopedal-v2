@@ -26,4 +26,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
     <title>OnomatoPedal | <%= title %> </title>
+    <meta property="og:type" content="music.song" />
+    <meta property="description" content="OnomatoPedal is an Earthquaker Devices inspired online interactive experience that users can play music with by triggering sounds and visuals.">
+    <% if (nav === 'v2') { %>
+        <meta property="og:title" content="OnomatoPedal | <%= name %>" />
+        <meta property="og:url" content="https://onomatopedal.com/v2/<%=name%>/" />
+        <meta property="og:image" content="https://opv2-heroku.s3.us-west-1.amazonaws.com/<%= name %>/cover.jpg" />
+    <% } else {%>
+        <meta property="og:title" content="OnomatoPedal | <%= title %>" />
+        <meta property="og:url" content="https://onomatopedal.com/<%=nav%>/" />
+        <meta property="og:image" content="https://dev.onomatopedal.com/images/v1/OnomatoPedal_Cover_V2.jpg" />
+    <%}%>
 </head>
