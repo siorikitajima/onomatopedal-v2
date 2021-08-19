@@ -58,8 +58,11 @@
             <form id="keyForm" action="/keys" method="POST" enctype="multipart/form-data">
                 <div class="left flex">
                     <div class="formItem">
-                    <label for="enabled">Enabled</label>
+                    <label for="enabled" class="checkItem">Enabled
                     <input type="checkbox" id="enabled" name="enabled" type="button" onclick="showFileBtn()" />
+                    <span class="checkmark"></span>
+                    </label>
+
                     </div>
                     <div class="formItem">
                     <label for="pitch">Key Pitch</label>
@@ -109,8 +112,11 @@
             <form id="keyGForm" action="/keys-group" method="POST">
                 <div class="left flex">
                     <div class="formItem">
-                    <label for="enabledg">Enabled</label>
+                    <label for="enabledg" class=" checkItem">Enabled
                     <input type="checkbox" id="enabledg" name="enabledg" type="button" />
+                    <span class="checkmark"></span>
+                    </label>
+
                     </div>
                     <input id="hiddenKeyGName" type="hidden" name="keyg">
                     <div class="formItem">

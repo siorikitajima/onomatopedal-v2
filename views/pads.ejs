@@ -62,8 +62,11 @@
             <form id="padForm" action="/pads" method="POST" enctype="multipart/form-data">
                 <div class="left flex">
                     <div class="formItem">
-                    <label for="enabledp">Enabled</label>
+                    <label for="enabledp" class="checkItem">Enabled
                     <input type="checkbox" id="enabledp" name="enabledp" type="button" onclick="showFileBtnP()" />
+                    <span class="checkmark"></span>
+                    </label>
+
                     </div>
                     <div class="formItem">
                     <label for="pitchp">Pad Pitch</label>
@@ -111,8 +114,11 @@
             <form id="padGForm" action="/pads-group" method="POST">
                 <div class="left flex">
                     <div class="formItem">
-                    <label for="enabledpg">Enabled</label>
+                    <label for="enabledpg" class="checkItem">Enabled
                     <input type="checkbox" id="enabledpg" name="enabledpg" type="button" />
+                    <span class="checkmark"></span>
+                    </label>
+
                     </div>
                     <input id="hiddenPadGName" type="hidden" name="padg">
                     <div class="formItem">

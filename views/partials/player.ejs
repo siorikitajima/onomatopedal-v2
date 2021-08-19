@@ -53,18 +53,19 @@
 
             var eachPlaybtn = '#play-' + url;
             var allPlaybtn = ['#play-stem1', '#play-stem2', '#play-stem3'];
+
             $(eachPlaybtn).on('click', () => {
                 if(!toneStarted) {
                         Tone.start();
                         toneStarted = true;
                     }
                 if ($(eachPlaybtn).hasClass('stemOnPlay')) {
-                    Tone.Transport.stop();
+                    Tone.Transport.pause();
                     $(eachPlaybtn).html('Play').removeClass('stemOnPlay');
                     channel.solo = false;
                 } else if (!$(eachPlaybtn).hasClass('stemOnPlay')) {
                     for(var c = 0; c < allPlaybtn.length; c++) {
-                        if($(allPlaybtn[c]).hasClass('stemOnPlay')) {
+                        if($(allPlaybtn[c]) !== $(eachPlaybtn) && $(allPlaybtn[c]).hasClass('stemOnPlay')) {
                             $(allPlaybtn[c]).trigger('click');
                         }
                     }
@@ -82,44 +83,44 @@
             }
         }
 
-            // Play/Pause Button
-            function controlHandler() {
-                if(!toneStarted) {
-                        Tone.start();
-                        toneStarted = true;
+        // Play/Pause Button
+        function controlHandler() {
+            if(!toneStarted) {
+                    Tone.start();
+                    toneStarted = true;
+                }
+            var allPlaybtn = ['#play-stem1', '#play-stem2', '#play-stem3'];
+            for(var c = 0; c < allPlaybtn.length; c++) {
+                    if($(allPlaybtn[c]).hasClass('stemOnPlay')) {
+                        $(allPlaybtn[c]).trigger('click');
                     }
-                var allPlaybtn = ['#play-stem1', '#play-stem2', '#play-stem3'];
-                for(var c = 0; c < allPlaybtn.length; c++) {
-                        if($(allPlaybtn[c]).hasClass('stemOnPlay')) {
-                            $(allPlaybtn[c]).trigger('click');
-                        }
-                }
+            }
 
-                if($(controlMain).hasClass("paused")) {
-                    $(controlMain).removeClass("paused");
-                    $(controlMain).addClass("playing");
-                    Tone.Transport.start();
-                    $(stems).removeClass("muted");
-                    $(stems).addClass("unmuted");
-                } else {
-                    $(controlMain).removeClass("playing");
-                    $(controlMain).addClass("paused");
-                    $(stems).removeClass("unmuted");
-                    $(stems).addClass("muted");
-                    Tone.Transport.stop();
-                }
-            };
+            if($(controlMain).hasClass("paused")) {
+                $(controlMain).removeClass("paused");
+                $(controlMain).addClass("playing");
+                Tone.Transport.start();
+                $(stems).removeClass("muted");
+                $(stems).addClass("unmuted");
+            } else {
+                $(controlMain).removeClass("playing");
+                $(controlMain).addClass("paused");
+                $(stems).removeClass("unmuted");
+                $(stems).addClass("muted");
+                Tone.Transport.stop();
+            }
+        };
 
-            // Stem buttons
-            $(stems).on('click', event => {
-                if($(event.target).hasClass("unmuted")) {
-                    $(event.target).removeClass("unmuted");
-                    $(event.target).addClass("muted");
-                } else {
-                    $(event.target).removeClass("muted");
-                    $(event.target).addClass("unmuted");
-                }
-            });
+        // Stem buttons
+        $(stems).on('click', event => {
+            if($(event.target).hasClass("unmuted")) {
+                $(event.target).removeClass("unmuted");
+                $(event.target).addClass("muted");
+            } else {
+                $(event.target).removeClass("muted");
+                $(event.target).addClass("unmuted");
+            }
+        });
 
     ////////// Keys to Play Sample
 

@@ -461,7 +461,7 @@
     .mobilePads {
       width: 300px;
       height: fit-content;
-      margin: 60px auto 100px auto;
+      margin: 80px auto 100px auto;
       padding: 10px;
       border-radius: 10px;
       display: grid;
@@ -537,15 +537,15 @@
         top: -6px;
       }
       .mobilePads div.areaSelector.left.one {
-        top: 150px;
+        top: 157px;
         padding: 74px 0 74px 10px;
       }
       .mobilePads div.areaSelector.right.one {
-        top: 150px;
+        top: 157px;
         padding: 74px 10px 74px 0;
       }
       .mobilePads div.areaSelector.two {
-        top: 330px;
+        top: 345px;
       }
     
 
@@ -656,6 +656,59 @@
     }
     .keyPanels form .formItem {
       text-align: center;
+    }
+
+    label.checkItem {
+      display: block;
+      position: relative;
+      padding-left: 35px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    label.checkItem input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+    .checkmark {
+      position: absolute;
+      top: 30px;
+      left: calc(50% - 15px);
+      height: 60px;
+      width: 60px;
+      background-color: #eee;
+      border-radius: 5px;
+    }
+    label.checkItem:hover input ~ .checkmark {
+      background-color: #ccc;
+    }
+    label.checkItem input:checked ~ .checkmark {
+      background-color: #F56476;
+    }
+    .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }    
+    label.checkItem input:checked ~ .checkmark:after {
+      display: block;
+    }    
+    label.checkItem .checkmark:after {
+      left: 20px;
+      top: 15px;
+      width: 10px;
+      height: 20px;
+      border: solid white;
+      border-width: 0 5px 5px 0;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
     }
 
     /* Keybord keys */
