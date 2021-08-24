@@ -1,10 +1,16 @@
 <html lang="en">
     <%- include('./partials/head.ejs')  %> 
 <body>
+    <nav class="featListNav front">
+        <h1>OnomatoPedal<span>Admin</span></h1>
+        <form action="/logout?_method=DELETE" method="POST">
+            <button class="navbtn" type="submit">LOG OUT</button>
+        </form>
+    </nav>
 
     <div class="content forms nonav">
         <div class="h2bg">
-            <h2>Add New Pedal</h2>
+            <h2>Create New Artist User</h2>
         </div>
 
         <form action="/register" method="POST">
@@ -50,11 +56,11 @@
                 <option value="westwood">Westwood</option>
             </select>
             <label for="onomato">Onomatopoeia</label>
-            <input type="text" id="onomato" name="onomato" required>
+            <input type="text" id="onomato" name="onomato">
             <label for="onoMeaning">Onomato Meaning</label>
-            <input type="text" id="onoMeaning" name="onoMeaning" required>
-            <label for="artist">Artist(s) (separate by commas)</label>
-            <input type="text" id="artist" name="artist" required>
+            <input type="text" id="onoMeaning" name="onoMeaning">
+            <label for="artist">Artist</label>
+            <input type="text" id="artist" name="artist">
             <button>Save</button>
         </form>
     </div>

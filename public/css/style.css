@@ -245,6 +245,9 @@
         font-size: 1.6em;
         margin-top: 2px;
       }
+    nav.front h1 span {
+      color: #b64552;
+    }
     
     nav.front div.mobnav {
         width: 220px;

@@ -18,7 +18,11 @@ const noteList = ["c5", "cm5", "d5", "dm5", "e5", "f5", "fm5", "g5", "gm5", "a5"
 const noteListPad = ["gm5", "a5", "am5", "b5", "e5", "f5", "fm5", "g5", "c5", "cm5", "d5", "dm5", "gm4", "a4", "am4", "b4", "e4", "f4", "fm4", "g4", "c4", "cm4", "d4", "dm4", "gm3", "a3", "am3", "b3", "e3", "f3", "fm3", "g3", "c3", "cm3", "d3", "dm3", "gm2", "a2", "am2", "b2"];
 
 const register_get = (req, res) => {
+    if(req.user.type == 'editor') {res.redirect('/featList');}
+    else if (req.user.type == 'artist') {res.redirect('/studio');}
+    else {
     res.render('register', { title: 'Register' });
+    }
 };
 
 const register_post = (req, res) => {
@@ -27,7 +31,8 @@ const register_post = (req, res) => {
         .then((hash) => {
             const user = new User({
                 name: req.body.name,
-                password: hash
+                password: hash,
+                type: 'artist'
             });
             user.save();
             console.log(user);
@@ -126,13 +131,17 @@ const register_post = (req, res) => {
 };
 
 const info_get = async (req, res) => {   
-    try {
-        OpMain.find({name: req.user.name})
-        .then( (result) => {
-            res.render('info', { title: 'Info', nav:'info', pedal: result[0], name: req.user.name });
-        });
-    } catch {
-        res.redirect('/info');
+    if(req.user.type == 'editor') {res.redirect('/featList');}
+    else if (req.user.type == 'admin') {res.redirect('/register');}
+    else {
+        try {
+            OpMain.find({name: req.user.name})
+            .then( (result) => {
+                res.render('info', { title: 'Info', nav:'info', pedal: result[0], name: req.user.name });
+            });
+        } catch {
+            res.redirect('/info');
+        }
     }
 };
 

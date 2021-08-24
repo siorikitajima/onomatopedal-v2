@@ -4,8 +4,11 @@
 <body>
     <nav class="featListNav front">
         <h1>OnomatoPedal<span>Editorial</span></h1>
-        <button class="navbtn">Log Out</button>
+        <form action="/logout?_method=DELETE" method="POST">
+            <button class="navbtn" type="submit">LOG OUT</button>
+        </form>
     </nav>
+
     <div class="content editor featList">
         <div class="createNew" onclick="newPanel()">
             + Create New

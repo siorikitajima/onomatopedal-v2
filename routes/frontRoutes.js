@@ -8,6 +8,7 @@ const AWS = require('aws-sdk');
 const accessKeyIdS3 = require('../secKey3');
 const secretAccessKeyS3 = require('../secKey4');
 const metaFetcher = require('meta-fetcher');
+const authController = require('../controllers/authController');
 
 
 const s3 = new AWS.S3({
@@ -15,7 +16,7 @@ const s3 = new AWS.S3({
     secretAccessKey: secretAccessKeyS3
 });
 
-// router.get('/v2demo', frontController.v2demo_get);
+// Public
 
 router.get('/v2/:onomoid', frontController.v2pedal_get);
 
@@ -30,13 +31,14 @@ router.get('/about', (req, res) => {
 router.get('/feat/:featid', featController.feat_single_get);
 router.get('/feat', featController.feat_get);
 
-router.get('/edit/:featid', featController.editor_get);
+// Editor's CMS
+router.get('/edit/:featid', authController.checkAuthenticated, featController.editor_get);
 router.post('/edit/:featid', featController.editor_post);
 router.post('/publish/:featid', featController.publish_post);
-router.get('/featList', featController.featList_get);
+router.get('/featList', authController.checkAuthenticated, featController.featList_get);
 router.post('/featList', featController.featList_post);
 router.delete('/featDelete', featController.featList_delete);
-router.post('/featRename', featController.featList_rename);
+router.post('/featRename', authController.checkAuthenticated, featController.featList_rename);
 
 router.post('/featimage', (req, res) => {
     let filename;

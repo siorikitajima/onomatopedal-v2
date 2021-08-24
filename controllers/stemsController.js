@@ -11,6 +11,9 @@ const s3 = new AWS.S3({
 });
 
 const stems_get = async (req, res) => {   
+    if(req.user.type == 'editor') {res.redirect('/featList');}
+    else if (req.user.type == 'admin') {res.redirect('/register');}
+    else {
     const isMobile = browser(req.headers['user-agent']).mobile;
     if(isMobile) { res.redirect('/studio'); } else {
         const stems = [1, 2, 3];
@@ -52,6 +55,7 @@ const stems_get = async (req, res) => {
             }
         })
     }
+    }
 };
 
 const stem_delete_1 = (req, res) => {
@@ -89,6 +93,9 @@ const stem_delete_3 = (req, res) => {
     };
 
 const preview_get = async　(req, res) => {
+    if(req.user.type == 'editor') {res.redirect('/featList');}
+    else if (req.user.type == 'admin') {res.redirect('/register');}
+    else {
     const isMobile = browser(req.headers['user-agent']).mobile;
     let rawdata = fs.readFileSync('./json/animation.json');
     let animaData = JSON.parse(rawdata);
@@ -131,6 +138,7 @@ const preview_get = async　(req, res) => {
             })
         }})
     }
+    }
     };
 
 const animation_post = async (req, res) => {
@@ -148,6 +156,9 @@ const animation_post = async (req, res) => {
 };
         
 const studio_get = async　(req, res) => {
+    if(req.user.type == 'editor') {res.redirect('/featList');}
+    else if (req.user.type == 'admin') {res.redirect('/register');}
+    else {
     const isMobile = browser(req.headers['user-agent']).mobile;
     let rawdata = fs.readFileSync('./json/eqdPedals.json');
     let eqdPedals = JSON.parse(rawdata);
@@ -199,7 +210,8 @@ const studio_get = async　(req, res) => {
                     cover: cover
             })
         }})
-        };
+    }
+    };
 
 module.exports = {
   stems_get,

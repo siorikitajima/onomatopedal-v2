@@ -12,6 +12,9 @@ const s3 = new AWS.S3({
 });
 
 const key_index = async (req, res) => {
+    if(req.user.type == 'editor') {res.redirect('/featList');}
+    else if (req.user.type == 'admin') {res.redirect('/register');}
+    else {
     let rawdata = fs.readFileSync('./json/pitches.json');
     let pitches = JSON.parse(rawdata);
     const isMobile = browser(req.headers['user-agent']).mobile;
@@ -53,6 +56,7 @@ const key_index = async (req, res) => {
                     stems: stems })
             }
         })
+    }
     }
     };
 
@@ -121,6 +125,9 @@ const key_group_post = (req, res) => {
 };
 
 const pad_get = async (req, res) => {
+    if(req.user.type == 'editor') {res.redirect('/featList');}
+    else if (req.user.type == 'admin') {res.redirect('/register');}
+    else {
     let rawdata = fs.readFileSync('./json/pitches.json');
     let pitches = JSON.parse(rawdata);
     const isMobile = browser(req.headers['user-agent']).mobile;
@@ -162,6 +169,7 @@ const pad_get = async (req, res) => {
                     stems: stems })
             }
         })
+    }
     }
     };
 
@@ -230,6 +238,9 @@ const pad_group_post = (req, res) => {
 };
 
 const samples_get = async (req, res) => {
+    if(req.user.type == 'editor') {res.redirect('/featList');}
+    else if (req.user.type == 'admin') {res.redirect('/register');}
+    else {
     const isMobile = browser(req.headers['user-agent']).mobile;
     if(isMobile) { res.redirect('/studio'); } else {
             
@@ -272,6 +283,7 @@ const samples_get = async (req, res) => {
                 stems: stems })
             }
         })
+    }
     }
     };
 

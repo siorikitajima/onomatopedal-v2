@@ -1,12 +1,14 @@
 const Feat = require('../models/feat');
-
-const AWS = require('aws-sdk');
-const accessKeyIdS3 = require('../secKey3');
-const secretAccessKeyS3 = require('../secKey4');
+// const AWS = require('aws-sdk');
+// const accessKeyIdS3 = require('../secKey3');
+// const secretAccessKeyS3 = require('../secKey4');
 const fs = require('fs');
-const browser = require('browser-detect');
+// const browser = require('browser-detect');
 
 const editor_get = (req, res) => {
+    if(req.user.type == 'artist') {res.redirect('/studio');}
+    else if (req.user.type == 'admin') {res.redirect('/register');}
+    else {
     var featid = req.params.featid;
     Feat.findOne({name: featid}, (err, featData) => {
         if(err) {console.log(err);}
@@ -20,6 +22,7 @@ const editor_get = (req, res) => {
             })
         }
     })
+    }
 };
 
 const editor_post = (req, res) => {
@@ -98,6 +101,9 @@ const publish_post = (req, res) => {
 }
 
 const featList_get = (req, res) => {
+    if(req.user.type == 'artist') {res.redirect('/studio');}
+    else if (req.user.type == 'admin') {res.redirect('/register');}
+    else {
     Feat.find({}, (err, featsData) => {
         featsData.sort(function(a, b) {
             var keyA = new Date(a.updatedAt),
@@ -115,6 +121,7 @@ const featList_get = (req, res) => {
             })
         }
     })
+    }
 }
 
 const featList_post = (req, res) => {
