@@ -1,0 +1,112 @@
+<html lang="en">
+  <%- include('./partials/frontHead.ejs')  %> 
+
+<body>
+    <nav class="featListNav front">
+        <h1>OnomatoPedal<span>Editorial</span></h1>
+        <button class="navbtn">Log Out</button>
+    </nav>
+    <div class="content editor featList">
+        <div class="createNew" onclick="newPanel()">
+            + Create New
+        </div>
+    <% if (posts.length > 1) { %>
+        <% posts.forEach((thepost, index) => { %>
+            <div class="post <%- thepost.published ? 'published' : null %>" id="<%= thepost.name %>" data-index='<%= index %>'>
+                <a href="edit/<%= thepost.name %>">
+                    <div class="main">
+                        <p><b>Name/ID: </b><%= thepost.name %></p>
+                        <h2><%= thepost.title %></h2>
+                        <p><b>Status:</b> <%- thepost.published ? 'Published' : 'Draft' %>, 
+                        <b>Updated:</b> <% var date = new Date(thepost.updatedAt); var dateStr = ("00" + (date.getMonth() + 1)).slice(-2) + "/" + ("00" + date.getDate()).slice(-2) + "/" + date.getFullYear() + " " + ("00" + date.getHours()).slice(-2) + ":" + ("00" + date.getMinutes()).slice(-2) + ":" + ("00" + date.getSeconds()).slice(-2);%><%=dateStr%></p>
+                    </div>
+                </a>
+                    <div class="actions">
+                        <div class="actionBtn renameBtn" data-name="<%= thepost.name %>">Rename</div>
+                        <div class="actionBtn deleteBtn" data-name="<%= thepost.name %>">Delete</div>
+                    </div>
+            </div>
+        <% }) %>
+    <% } else { %>
+            <p>No post to display</p>
+    <% } %>
+    </div>
+    <div class="hidden" id="transparentScreen" onclick="newPanel()">
+    </div>
+    <div class="forms newPanel hidden" id="newPanel">
+        <h3>Name New Article</h3>
+        <div class="closebtn" onclick="newPanel()"></div>
+        <p class="exp">The name has to be <b>unique and one word</b> (or use hyphen to connect words). It will be used for the URL. i.e. 'onomatopedal.com/feat/<b>this-name</b>'</p>
+
+        <form id="postForm" action="/featList" method="POST">
+            <div class="formItem">
+            <label for="featname">Name</label>
+            <input type="text" id="featname" name="featname" />
+            </div>
+            <button class="disabled" id="createBtn" disabled>Create</button>
+        </form>
+    </div>
+    
+    <div class="hidden" id="transparentScreen2" onclick="deletePanel()"></div>
+    <form class="popup hidden" id="deletePanel" action="/featDelete?_method=DELETE" method="POST">
+        <h2>Deleting Article "<span class="featNameHere"></span>"</h2>
+        <div class="closebtn" onclick="deletePanel()"></div>
+        <p>Are you sure you want to delete a file?<br/>You can not undo this action.</p>
+        <input class="hiddenfeatName" type="hidden" name="oldname">
+        <input class="formButton" type="submit" value="Delete">
+    </form>
+
+    <div class="hidden" id="transparentScreen3" onclick="renamePanel()"></div>
+        <form class="popup forms hidden" id="renamePanel" action="/featRename" method="POST">
+            <h2>Rename Article "<span class="featNameHere"></span>"</h2>
+            <div class="closebtn" onclick="renamePanel()"></div>
+            <p class="exp">The name has to be <b>unique and one word</b> (or use hyphen to connect words). It will be used for the URL. i.e. 'onomatopedal.com/feat/<b>this-name</b>'</p>
+            <input type="text" name="newname" id="newname">
+            <input class="hiddenfeatName" type="hidden" name="oldname">
+            <input class="formButton" type="submit" value="Save">
+        </form>
+
+    <script>
+    function newPanel() {
+            if($('#newPanel').hasClass('hidden')) {
+                $('#newPanel, #transparentScreen').removeClass('hidden');
+            } else {
+                $('#newPanel, #transparentScreen').addClass('hidden');
+            }
+        }
+    function deletePanel() {
+        if($('#deletePanel').hasClass('hidden')) {
+            } else {
+                $('#deletePanel, #transparentScreen2').addClass('hidden');
+            }
+    }
+    function renamePanel() {
+        if($('#renamePanel').hasClass('hidden')) {
+            } else {
+                $('#renamePanel, #transparentScreen3').addClass('hidden');
+            }
+    }
+        $('#featname').on('change', () => {
+        $('#createBtn').removeClass('disabled');
+        $('#createBtn').removeAttr('disabled');
+    })        
+    $(document).ready(()=> {
+        $('.deleteBtn').on('click', (e)=> {
+            $target = $(e.target);
+            let theName = $target.attr('data-name');
+            $('.featNameHere').html(theName);
+            $('.hiddenfeatName').val(theName);
+            $('#deletePanel, #transparentScreen2').removeClass('hidden');
+        });
+        $('.renameBtn').on('click', (e)=> {
+            $target = $(e.target);
+            let theName = $target.attr('data-name');
+            $('.featNameHere').html(theName);
+            $('.hiddenfeatName').val(theName);
+            $('#renamePanel, #transparentScreen3').removeClass('hidden');
+        });
+    })
+
+    </script>
+</body>
+</html>

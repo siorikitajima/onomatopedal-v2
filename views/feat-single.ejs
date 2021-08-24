@@ -1,0 +1,57 @@
+<html lang="en">
+    <%- include('./partials/frontHead.ejs')  %> 
+<body>
+    <%- include('./partials/frontNav.ejs')  %> 
+    <div class="featBanner sub">
+        <% post.header.forEach((theblock, index) => { %>
+            <% if (theblock.type == "paragraph") { %>
+        <p><%= theblock.data.text %></p>
+        <% } else if (theblock.type == "header" && theblock.data.level == 1 ) { %>
+            <h1><%= theblock.data.text %></h1>
+        <% } else if (theblock.type == "header" && theblock.data.level == 3 ) { %>
+            <h3><%= theblock.data.text %></h3>
+        <% }}); %>
+    </div>
+        <div class="center-content feat">
+
+        <% post.body.forEach((theblock, index) => { %>
+        <% if (theblock.type == "paragraph") { %>
+            <p><%- theblock.data.text %></p>
+        <% } else if (theblock.type == "image") { %>
+            <img class="featCover" src="<%= theblock.data.file.url %>" alt="image">
+            <p class="caption"><%= theblock.data.caption %></p>
+        <% } else if (theblock.type == "embed") { %>
+            <iframe src="<%= theblock.data.embed %>" frameborder="0" height="400"></iframe>
+            <p class="caption"><%= theblock.data.caption %></p>
+        <% } else if (theblock.type == "linkTool") { %>
+            <a href="<%= theblock.data.link %>">
+            <div class="linkTool feat-item play-pedal">
+                <div class="meta feat-info">
+                    <h2><%= theblock.data.meta.title %></h2>
+                    <% if( theblock.data.meta.description.length > 170) { var stripHere = 170; var shortText = theblock.data.meta.description.substring(0, stripHere) + "..."; %>
+                        <p><%=shortText%></p>
+                    <% } else { %>
+                        <p><%= theblock.data.meta.description %></p>
+                    <% } %>
+                    <p class="url"><%= theblock.data.link %></p>
+                </div>
+                <div class="linkImg pedal-cover sp300">
+                    <img class="featImg" src="<%= theblock.data.meta.image.url %>" alt="image">
+                </div>
+            </div>
+            </a>
+        <% } else if (theblock.type == "header" && theblock.data.level == 1 ) { %>
+            <h1><%= theblock.data.text %></h1>  
+        <% } else if (theblock.type == "header" && theblock.data.level == 2 ) { %>
+            <div class="h2bg">
+            <h2><%= theblock.data.text %></h2>
+            </div>
+        <% } else if (theblock.type == "header" && theblock.data.level == 3 ) { %>
+            <h3><%= theblock.data.text %></h3>
+        <% }}); %>
+
+        </div>
+    </div>
+    <%- include('./partials/footer.ejs')  %> 
+</body>
+</html>

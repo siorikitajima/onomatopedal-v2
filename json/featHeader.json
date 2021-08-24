@@ -1,0 +1,22 @@
+[
+    {
+        "type":"paragraph",
+        "data": {
+            "text":"Featured OnomatoPedal"
+            }
+    },
+    {
+        "type":"header",
+        "data": {
+            "text":"Artist Name comes here",
+            "level":"1"
+            }
+    },
+    {
+        "type":"header",
+        "data": {
+            "text":"Pedal Name + Onomato Word",
+            "level":"3"
+            }
+    }
+]

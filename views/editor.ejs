@@ -1,0 +1,158 @@
+<html lang="en">
+  <%- include('./partials/frontHead.ejs')  %> 
+
+<body>
+  <a href="/featList">
+    <div class="editorNav">
+      <img src="../images/back.svg" alt="back">
+    </div>
+  </a>
+    <div class="featBanner sub" id="headerED">
+    </div>
+    
+    <div class="content editor" id="bodyED"></div>
+    
+    <div class="editor buttons">
+      <button id="saveBtn" class="disabled" data-id="<%= name %>" disabled>SAVE</button>
+        <% if(post.published == true) { %>
+          <button id="pubBtn" class="line-button" data-id="<%= name %>" data-pub=<%= post.published %>>
+          UNPUBLISH
+        <% } else { %>
+          <button id="pubBtn" data-id="<%= name %>" data-pub=<%= post.published %>>
+          PUBLISH
+        <% } %>
+      </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@2.3.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/link@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
+
+    <script>
+var thepost = <%- JSON.stringify(post) %> ;
+const ImageTool = window.ImageTool;
+const headerED = new EditorJS({ 
+        holder: 'headerED', 
+        onChange: () => {
+          $('#saveBtn').removeClass('disabled');
+          $('#saveBtn').removeAttr('disabled');
+        },
+        inlineToolbar: true,
+        tools: { 
+          header: {
+            class: Header, 
+            inlineToolbar: true,
+            config: {
+              defaultLevel: 1
+            }
+          }
+        },
+        data: {blocks: thepost.header}
+      });
+const bodyED = new EditorJS({ 
+        holder: 'bodyED', 
+        onChange: () => {
+          $('#saveBtn').removeClass('disabled');
+          $('#saveBtn').removeAttr('disabled');
+        },
+        tools: { 
+            header: {
+              class: Header, 
+              inlineToolbar: ['link'] 
+            }, 
+            image: {
+              class: ImageTool,
+              config: {
+                endpoints: {
+                  byFile: '/featimage'
+                },
+                field: 'image',
+                types: 'image/*'
+              }
+            },
+            embed: {
+              class: Embed,
+              config: {
+                services: {
+                  youtube: true,
+                  vimeo: true,
+                  instagram: true,
+                  facebook: true
+                }
+              }
+            },
+          linkTool: {
+            class: LinkTool,
+            config: {
+              endpoint: '/fetchUrl',
+            }
+          },
+          list: {
+            class: List,
+            inlineToolbar: true,
+          },
+        },
+        data: {blocks: thepost.body}
+      })
+
+      $(document).ready(()=> {
+        $('#saveBtn').on('click', async (e) => {
+          $target = $(e.target);
+          const id = $target.attr('data-id');
+          bodyED.save().then((bodyData) => {
+           headerED.save().then((headerData) => {
+             let allData = [];
+             for( let h = 0; h < headerData.blocks.length; h++) {
+              allData.push(headerData.blocks[h]);
+             }
+             for( let b = 0; b < bodyData.blocks.length; b++) {
+              allData.push(bodyData.blocks[b]);
+             }
+             const data = JSON.stringify(allData);
+
+            $.ajax({
+              type: 'POST',
+              data: data,
+              contentType: 'application/json',
+              url: '/edit/' + id,
+              headers: {
+                'headLength': headerData.blocks.length
+              },
+              success: (res) => {
+                window.location = '/edit/' + id;
+              }
+            })
+          }).catch((error) => {
+            console.log('Saving failed: ', error)
+          });
+        })
+      })
+    });
+
+    $(document).ready(()=> {
+        $('#pubBtn').on('click', async (e) => {
+          if(!$('#saveBtn').hasClass('disabled')) {
+            alert('Save the change first!');
+          } else {
+          $target = $(e.target);
+          const id = $target.attr('data-id');
+          const pub = $target.attr('data-pub');
+          const data = JSON.stringify({'published': pub});
+          $.ajax({
+              type: 'POST',
+              data: data,
+              contentType: 'application/json',
+              url: '/publish/' + id,
+              success: (res) => {
+                window.location = '/edit/' + id;
+              }
+            })
+          }
+        });
+      });
+    </script>
+</body>
+</html>

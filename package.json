@@ -10,6 +10,7 @@
   "author": "Siori Kitajima",
   "license": "ISC",
   "dependencies": {
+    "@editorjs/editorjs": "^2.22.2",
     "atob": "^2.1.2",
     "aws-sdk": "^2.936.0",
     "bcrypt": "^5.0.1",
@@ -23,6 +24,7 @@
     "express-session": "^1.17.2",
     "html2canvas": "^1.2.1",
     "lodash": "^4.17.21",
+    "meta-fetcher": "^3.1.1",
     "method-override": "^3.0.0",
     "mongoose": "^5.12.13",
     "multer": "^1.4.2",

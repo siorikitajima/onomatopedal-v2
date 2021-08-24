@@ -1,8 +1,5 @@
 const OpMain = require('../models/opMain');
 
-const Key = require('../models/key');
-const Sample = require('../models/sample');
-const PedalInfo = require('../models/pedalInfo');
 const AWS = require('aws-sdk');
 const accessKeyIdS3 = require('../secKey3');
 const secretAccessKeyS3 = require('../secKey4');

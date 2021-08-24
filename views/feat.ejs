@@ -4,29 +4,32 @@
     <%- include('./partials/frontNav.ejs')  %> 
 
     <div class="featBanner sub">
-        <p>Did You Play It Already?</p>
+        <p>Did You Play Already?</p>
         <h1>Featured Collaborations</h1>
     </div>
     <div class="feat-container">
-    <% for (var i = 0; i < 6; i++) {%>
-        <div class="feat-item">
-            <div class="pedal-cover sq300">
-                <img  class="pedalImg" src="../images/v2cover/v2-flutter.jpg" alt="pedal">
+        <% posts.forEach((thepost, index) => { %>
+            <% if (thepost.published == true) { %>
+        <a href="/feat/<%= thepost.name %>">
+        <div class="feat-item list">
+            <div class="feat-cover">
+                <img  class="featImg" src="<%= thepost.featimg %>" alt="featured image">
             </div>
-        <div class="feat-info">
-            <h2>Artist Name</h2>
-            <h3>+ Pedal Name + Onomatopoeia</h3>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-            <a href="/feat/sample">
-                <button class="lineBtnWh">Read More</button>
-            </a>
-            <a href="/v2/astral">
-                <button class="lineBtnWh dlt">Play</button>
-            </a>
+            <div class="feat-info">
+                <h2><%= thepost.title %></h2>
+                <h3><%= thepost.subtitle %></h3>
+                <p><%= thepost.desc %></p>
+            </div>
         </div>
+        </a>
+        <% } %>
+    <% }) %>
+    <%- include('./partials/footer.ejs')  %> 
 
-        </div>
-    <% } %>
     </div>
+    <script>
+    var allposts = <%- JSON.stringify(posts) %> ;
+
+    </script>
 </body>
 </html>
