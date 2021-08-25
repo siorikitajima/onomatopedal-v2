@@ -82,7 +82,21 @@ const opSchema = new Schema({
     },
     keys: [ keySchema ],
     pads: [ padSchema ],
-    samples: [ sampleSchema ]
+    samples: [ sampleSchema ],
+    cover: {
+        coverPedal: {
+            type: String
+        },
+        coverAnima: {
+            type: String
+        },
+        coverCol: {
+            type: String
+        },
+        coverOno: {
+            type: String
+        }
+    }
 }, { timestamps: true });
 
 const OpMain = mongoose.model('opMain', opSchema);

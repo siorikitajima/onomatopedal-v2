@@ -74,14 +74,15 @@ div.pedal-grid::before {
 }
 
 div.pedal-grid div.pedal-name, div.pedal-cover div.pedal-name {
-    width: 80%;
-    height: 80%;
-    padding: 10%;
+    width: 90%;
+    height: fit-content;
+    padding: 5%;
+    max-height: 90%;
     /* display: none; */
     opacity: 0;
     background-color: #F56476;
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
     z-index: 2000;
     text-align: center;

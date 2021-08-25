@@ -37,34 +37,14 @@
             <a href="/preview">
             <h2 id="animaName" class="editIcon"></h2>
             </a>
-            <!-- <div class="flex">
-                <a href="/info">
-                    <button class="sm-btn">
-                        <p>Info</p>
-                    </button>
-                </a>
-                <a href="/stems">
-                    <button class="sm-btn">
-                        <p>Stems</p>
-                    </button>
-                </a>
-            </div>
-            <div class="flex row2">
-                <a href="/keys">
-                    <button class="sm-btn">
-                        <p>Keys</p>
-                    </button>
-                </a>
-                <a href="/samples">
-                    <button class="sm-btn">
-                        <p>Samples</p>
-                    </button>
-                </a>
-            </div> -->
 
         </div>
         <div class="opCoverContainer">
             <div id="opCover">
+                <div class="imgWarning">
+                    <h3>! Update Cover Image !</h3>
+                    <p id="warningText">This image does not match the current onomatopedal.</p>
+                </div>
                 <% if (cover === true) {%>
                 <% var val = Math.floor(1000 + Math.random() * 9000); %>
                 <img id="coverJpg" src="https://opv2-heroku.s3.us-west-1.amazonaws.com/<%=name%>/cover.jpg?<%=val%>" alt="cover" width="100%">
@@ -75,7 +55,11 @@
                 <button class="sm-btn update-btn" onclick="refreshCover(); hideCover();">
                     <p>Color</p>
                 </button>
+                <% if (cover == true) { %>
                 <button class="sm-btn img-btn disabled" id="saveBtn" disabled onclick="saveCover()">
+                <% } else { %>
+                <button class="sm-btn img-btn" id="saveBtn" onclick="saveCover()">
+                <% } %>
                     <p>Save</p>
                 </button>
             </div>
@@ -87,6 +71,7 @@
         var eqdPedals = <%- JSON.stringify(eqdPedals) %> ;
         var animations = <%- JSON.stringify(animation) %> ;
         var cover = <%- JSON.stringify(cover) %> ;
+        console.log(cover);
 
         var imgPath, theCol, theCol2, theFont, theR, theG, theB, theR2, theG2, theB2, colArray;
         for (var p = 0; p < eqdPedals.length; p++) {
@@ -121,6 +106,7 @@
                 theG2 = Math.floor(Math.random() * (colArray[1] - colArray[4] + 1)) + colArray[4];
                 theB2 = Math.floor(Math.random() * (colArray[2] - colArray[5] + 1)) + colArray[5];
                 theCol2 = 'rgb(' + theR2 + ',' + theG2 + ',' + theB2 + ')';
+                if($('.imgWarning').css('display') == 'block') {$('.imgWarning').css('display', 'none');}
         }
         refreshCover();
 
@@ -129,7 +115,7 @@
         var onoStrFin = onoStr.replace(/ /g, "\r\n");
 
         var tSize;
-        if (words === 1) { tSize = 360 }
+        if (words === 1) { tSize = 400 }
         else if (words === 2) { tSize = 240 }
         else if (words === 3) { tSize = 160 }
         else if (words === 4) { tSize = 110 }
@@ -206,6 +192,37 @@
         }
         return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
     }
+
+    $(document).ready(() => {
+        if (cover === true) {
+        let imgPedal = thepedal.cover.coverPedal;
+        let imgAnima = thepedal.cover.coverAnima;
+        let imgCol = thepedal.cover.coverCol;
+        let imgOno = thepedal.cover.coverOno;
+        let crtPedal = thepedal.pedalFull;
+        let crtAnima = thepedal.animation;
+        let crtCol = thepedal.color;
+        let crtOno = thepedal.onomato;
+
+        let conflicts = [];
+        let confText;
+        if(imgPedal != crtPedal) { conflicts.push('EQD Pedal'); }
+        if(imgAnima != crtAnima) { conflicts.push('animation'); }
+        if(imgCol != crtCol) { conflicts.push('color scheme'); }
+        if(imgOno != crtOno) { conflicts.push('Onomatopoeia'); }
+        console.log(conflicts);
+        let leng = conflicts.length;
+        if(leng == 0) {null}
+        else {
+            if(leng == 1) { confText = conflicts[0]; }
+            else if(leng == 2) { confText = conflicts[0] + ' and ' + conflicts[1]}
+            else if(leng == 3) { confText = conflicts[0] + ', ' + conflicts[1] + ' and ' + conflicts[2]}
+            else if(leng == 4) { confText = conflicts[0] + ', ' + conflicts[1] + ', ' + conflicts[2] + ' and ' + conflicts[3]}
+            $('#warningText').html('This image does not match your current ' + confText + '.');
+            $('.imgWarning').css('display', 'block');
+        }
+        }
+    });
 
     </script>
 </body>

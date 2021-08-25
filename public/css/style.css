@@ -165,7 +165,7 @@
     nav li.cLcases {
       text-transform: none;
     }
-    nav li.current {
+    nav li.current, nav.front ul li.current a{
       color: #F56476;
     }
     div.navLeft li.current {
@@ -188,11 +188,11 @@
       background: url('../images/current_dark.svg');
     }
 
-    nav a:hover li {
+    nav a:hover li, nav li:hover a {
       color: #F56476;
       transition-duration: 200ms;
     }
-    nav a:hover li.current {
+    nav a:hover li.current, nav li.current:hover a, nav.front div.site-title a:hover, nav li.image:hover a {
       opacity: 0.5;
       transition-duration: 200ms;
     }
@@ -307,7 +307,7 @@
       top: 0;
       background: #333;
       border-right: #777 1px solid;
-      z-index: 200;
+      z-index: 4000;
     }
 
     /* footer */

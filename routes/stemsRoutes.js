@@ -43,32 +43,33 @@ let upload = multer({
 
 router.get('/studio', authController.checkAuthenticated, stemsController.studio_get);
 
-router.post('/studio', (req, res) => {
-  let upload = multer({
-    limits: { fileSize: 500000 },
-    storage: multerS3({
-      s3: s3,
-      bucket: 'opv2-heroku',
-      acl: "public-read",
-      metadata: function (req, file, cb) {
-        cb(null, {fieldName: file.fieldname});
-      },
-      key: function (req, file, cb) {
-        cb(null, `${req.user.name}/cover.jpg`);
-      }
-    })
-  });
-  const uploadMiddleware = upload.single('cover');
-  uploadMiddleware(req, res, function(err) {
-    if (err) {
-      console.log(err);
-      return res.send("<script> alert('Oops! There was errors'); window.location =  'studio'; </script>");
-     }
-    else {
-      return res.redirect('/saved'); 
-    }    
-  })
-});
+router.post('/studio', stemsController.studio_post);
+//  (req, res) => {
+//   let upload = multer({
+//     limits: { fileSize: 500000 },
+//     storage: multerS3({
+//       s3: s3,
+//       bucket: 'opv2-heroku',
+//       acl: "public-read",
+//       metadata: function (req, file, cb) {
+//         cb(null, {fieldName: file.fieldname});
+//       },
+//       key: function (req, file, cb) {
+//         cb(null, `${req.user.name}/cover.jpg`);
+//       }
+//     })
+//   });
+//   const uploadMiddleware = upload.single('cover');
+//   uploadMiddleware(req, res, function(err) {
+//     if (err) {
+//       console.log(err);
+//       return res.send("<script> alert('Oops! There was errors'); window.location =  'studio'; </script>");
+//      }
+//     else {
+//       return res.redirect('/saved'); 
+//     }    
+//   })
+// });
 
 router.get('/stems', authController.checkAuthenticated, stemsController.stems_get);
 

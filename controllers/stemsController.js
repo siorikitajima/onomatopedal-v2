@@ -4,6 +4,8 @@ const accessKeyIdS3 = require('../secKey3');
 const secretAccessKeyS3 = require('../secKey4');
 const fs = require('fs');
 const browser = require('browser-detect');
+const multer = require('multer');
+const multerS3 = require('multer-s3');
 
 const s3 = new AWS.S3({
     accessKeyId: accessKeyIdS3,
@@ -213,6 +215,46 @@ const studio_get = async　(req, res) => {
     }
     };
 
+    const studio_post = (req, res) => {
+        let upload = multer({
+          limits: { fileSize: 500000 },
+          storage: multerS3({
+            s3: s3,
+            bucket: 'opv2-heroku',
+            acl: "public-read",
+            metadata: function (req, file, cb) {
+              cb(null, {fieldName: file.fieldname});
+            },
+            key: function (req, file, cb) {
+              cb(null, `${req.user.name}/cover.jpg`);
+            }
+          })
+        });
+        const uploadMiddleware = upload.single('cover');
+        uploadMiddleware(req, res, (err) => {
+            OpMain.findOne({name: req.user.name}, (err, user) => {
+                let thePedal = user.pedalFull;
+                let theAnima = user.animation;
+                let theCol = user.color;
+                let theOno = user.onomato;
+                user.cover.coverPedal = thePedal;
+                user.cover.coverAnima = theAnima;
+                user.cover.coverCol = theCol;
+                user.cover.coverOno = theOno;
+                user.save((err) => {
+                    if(err) { console.error(err); }
+                });
+            })            
+          if (err) {
+            console.log(err);
+            return res.send("<script> alert('Oops! There was errors'); window.location =  'studio'; </script>");
+           }
+          else {
+            return res.redirect('/saved'); 
+          }    
+        })
+    }
+
 module.exports = {
   stems_get,
   stem_delete_1,
@@ -220,5 +262,6 @@ module.exports = {
   stem_delete_3,
   preview_get,
   animation_post,
-  studio_get
+  studio_get,
+  studio_post
 }
