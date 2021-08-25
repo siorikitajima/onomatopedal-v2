@@ -115,11 +115,12 @@
         var onoStrFin = onoStr.replace(/ /g, "\r\n");
 
         var tSize;
-        if (words === 1) { tSize = 400 }
+        if (words === 1) { tSize = 440 }
         else if (words === 2) { tSize = 240 }
-        else if (words === 3) { tSize = 160 }
-        else if (words === 4) { tSize = 110 }
-        else { tSize = 100 }
+        else if (words === 3) { tSize = 164 }
+        else { tSize = 164 }
+        // else if (words === 4) { tSize = 110 }
+        // else { tSize = 100 }
 
         var myFont, myImg;
         function preload() {
@@ -147,7 +148,7 @@
             textLeading(tSize * 0.9);
             textAlign(CENTER, CENTER);
             fill(20);
-            text(onoStrFin, 0, -(height * 0.05));
+            text(onoStrFin, 0, -(height * 0.05) );
 
             push();
             blendMode(DIFFERENCE);
