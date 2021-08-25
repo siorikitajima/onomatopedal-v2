@@ -20,7 +20,7 @@
                     <div class="main">
                         <p><b>Name/ID: </b><%= thepost.name %></p>
                         <h2><%= thepost.title %></h2>
-                        <p><b>Status:</b> <%- thepost.published ? 'Published' : 'Draft' %>, 
+                        <p><b>Status:</b> <%- thepost.published ? 'Published' : 'Draft' %><br/>
                         <b>Updated:</b> <% var date = new Date(thepost.updatedAt); var dateStr = ("00" + (date.getMonth() + 1)).slice(-2) + "/" + ("00" + date.getDate()).slice(-2) + "/" + date.getFullYear() + " " + ("00" + date.getHours()).slice(-2) + ":" + ("00" + date.getMinutes()).slice(-2) + ":" + ("00" + date.getSeconds()).slice(-2);%><%=dateStr%></p>
                     </div>
                 </a>

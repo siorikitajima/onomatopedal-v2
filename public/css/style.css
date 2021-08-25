@@ -89,6 +89,14 @@
       text-align: center;
     }
 
+    @media(max-width: 480px) {
+    div.h2bg {
+      width: calc(100% - 20px);
+      margin: 40px 0;
+      padding: 0 10px;
+    }
+  }
+
     /* nav */
 
     nav{
@@ -191,7 +199,7 @@
     nav h2 {
       margin-bottom: 0;
     }
-    nav p, nav a{
+    nav p, nav a {
       color: #777;
       font-weight: 300;
     }
@@ -310,6 +318,7 @@
       width: 100%;
       text-align: center;
       margin: 50px auto 0 auto;
+      padding: 0 0 30px 0;
       color: #777;
       /* position: fixed; */
       /* bottom: 0;
