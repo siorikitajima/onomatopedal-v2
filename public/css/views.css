@@ -86,9 +86,9 @@
       margin: 80px auto 30px auto;
     }
 
-    .home div {
+    /* .home div {
       padding: 10px;
-    }
+    } */
     .home .opInfo {
       flex-shrink: 2;
     }
@@ -245,11 +245,11 @@
     }
     button.sm-btn p::before, .samples .halfBtns p::before {
       content: "";
-      width: 30px;
-      height: 30px;
+      width: 24px;
+      height: 24px;
       position: absolute;
       left: 0;
-      top: -3px;
+      top: 0;
       background: url(../images/edit_pink.svg);
     }
     /* button.update-btn, button.img-btn {

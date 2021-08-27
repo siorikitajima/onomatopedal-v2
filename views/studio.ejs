@@ -53,7 +53,7 @@
 
             <div class="flex">
                 <button class="sm-btn update-btn" onclick="refreshCover(); hideCover();">
-                    <p>Color</p>
+                    <p>Update</p>
                 </button>
                 <% if (cover == true) { %>
                 <button class="sm-btn img-btn disabled" id="saveBtn" disabled onclick="saveCover()">
@@ -71,7 +71,6 @@
         var eqdPedals = <%- JSON.stringify(eqdPedals) %> ;
         var animations = <%- JSON.stringify(animation) %> ;
         var cover = <%- JSON.stringify(cover) %> ;
-        console.log(cover);
 
         var imgPath, theCol, theCol2, theFont, theR, theG, theB, theR2, theG2, theB2, colArray;
         for (var p = 0; p < eqdPedals.length; p++) {
@@ -114,6 +113,16 @@
         var words = onoStr.split(' ').length;
         var onoStrFin = onoStr.replace(/ /g, "\r\n");
 
+        var remSpace = onoStr.replace(' ', '');
+        let textCheck = /^[a-zA-Z]+$/.test(remSpace);
+
+        // var onoStrFinCharCodes = [];
+        //     for(var o = 0; o < remSpace.length; o++ ) {
+        //         var charCode = remSpace.charCodeAt(o);
+        //         onoStrFinCharCodes[o] = charCode;
+        //     }
+        // console.log(onoStrFinCharCodes)
+
         var tSize;
         if (words === 1) { tSize = 440 }
         else if (words === 2) { tSize = 240 }
@@ -122,16 +131,24 @@
         // else if (words === 4) { tSize = 110 }
         // else { tSize = 100 }
 
-        var myFont, myImg;
+        var myFont, myImg, onoChar = [];
         function preload() {
             var fontPath = 'css/fonts/' + theFont + '.otf';
             myFont = loadFont(fontPath);   
-            myImg = loadImage(imgPath);         
+            myImg = loadImage(imgPath); 
+            // for( var c = 0; c < onoStrFinCharCodes.length; c++) {
+            // var letter = String.fromCharCode(onoStrFinCharCodes[c]);
+            // onoChar[c] = letter;
+            // }
+            // onoChar = join(onoChar);
+            // console.log(onoChar)
         }
 
         var coverImg, opImg;
         function setup() {
-            textFont(myFont);
+            if(textCheck) {textFont(myFont);}
+            else {textStyle(BOLD);}
+            // textFont(myFont);
             opImg = createCanvas(380, 380);
             opImg.parent('opCover');
             opImg.id('opImg');
@@ -211,7 +228,6 @@
         if(imgAnima != crtAnima) { conflicts.push('animation'); }
         if(imgCol != crtCol) { conflicts.push('color scheme'); }
         if(imgOno != crtOno) { conflicts.push('Onomatopoeia'); }
-        console.log(conflicts);
         let leng = conflicts.length;
         if(leng == 0) {null}
         else {

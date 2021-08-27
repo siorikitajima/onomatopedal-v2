@@ -181,7 +181,7 @@
       height: 35px;
       background: url('../images/current.svg');
       position: absolute;
-      top: 0;
+      top: -3px;
       left: 5px;
     }
     div.navLeft li.current:hover::before {
@@ -417,6 +417,7 @@
       text-transform: uppercase;
       cursor: pointer;
       border-radius: 5px;
+      line-height: 1.5em;
     }
     .forms button:hover, .home button:hover, .p404 button:hover, div.halfBtns:hover, .editor button:hover {
       transition-duration: 200ms;
@@ -440,7 +441,7 @@
         font-size: 1em;
         line-height: 1em;
         text-transform: uppercase;
-        left: calc( 50% + 10px);
+        left: calc( 50% + 20px);
         top: 35%;
         transform: translateX(-50%);
     }
@@ -488,6 +489,7 @@
       cursor: pointer;
       border-radius: 5px;
       background-color: #F56476;
+      line-height: 1.5em;
     }
     #playAllBtn:hover {
       opacity: 0.5;
@@ -535,8 +537,11 @@
       position: absolute;
       width: 40px;
       height: 40px;
-      left: calc(50% - 100px);
+      left: calc(50% - 80px);
       top: 5px;
+    }
+    #playAllBtn::before {
+      left: calc(50% - 100px);
     }
     #BtnContainer div {
       width: inherit;
