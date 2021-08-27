@@ -734,6 +734,10 @@ div.codex-editor__redactor {
     padding-bottom: 0 !important;
 }
 
+#bodyED div.codex-editor__redactor {
+    padding-bottom: 120px !important;
+}
+
 .featBanner .ce-paragraph {
     margin-bottom: 0;
 }

@@ -5,15 +5,12 @@ const featController = require('../controllers/featController');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 const AWS = require('aws-sdk');
-const accessKeyIdS3 = require('../secKey3');
-const secretAccessKeyS3 = require('../secKey4');
 const metaFetcher = require('meta-fetcher');
 const authController = require('../controllers/authController');
 
-
 const s3 = new AWS.S3({
-    accessKeyId: accessKeyIdS3,
-    secretAccessKey: secretAccessKeyS3
+    accessKeyId: process.env.ACCESS_KEY_ID_S3,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY_S3
 });
 
 // Public

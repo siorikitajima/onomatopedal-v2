@@ -2,14 +2,12 @@ const OpMain = require('../models/opMain');
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
-const hashNumber = require('../secKey2');
-const accessKeyIdS3 = require('../secKey3');
-const secretAccessKeyS3 = require('../secKey4');
+
 const AWS = require('aws-sdk');
 
 const s3 = new AWS.S3({
-    accessKeyId: accessKeyIdS3,
-    secretAccessKey: secretAccessKeyS3
+    accessKeyId: process.env.ACCESS_KEY_ID_S3,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY_S3
 });
 
 const keyList = ['ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE', 'ZERO', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'SPACE'];
@@ -27,7 +25,7 @@ const register_get = (req, res) => {
 
 const register_post = (req, res) => {
     //// Create a user + pass
-        const hashedPassword = bcrypt.hash(req.body.password, hashNumber)
+        const hashedPassword = bcrypt.hash(req.body.password, process.env.HASH_NUMBER)
         .then((hash) => {
             const user = new User({
                 name: req.body.name,

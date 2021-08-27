@@ -1,9 +1,5 @@
 const Feat = require('../models/feat');
-// const AWS = require('aws-sdk');
-// const accessKeyIdS3 = require('../secKey3');
-// const secretAccessKeyS3 = require('../secKey4');
 const fs = require('fs');
-// const browser = require('browser-detect');
 
 const editor_get = (req, res) => {
     if(req.user.type == 'artist') {res.redirect('/studio');}

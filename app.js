@@ -3,18 +3,14 @@ if(process.env.NODE_ENV !== 'production') { require('dotenv').config(); }
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-// const PedalInfo = require('./models/pedalInfo');
 const { render } = require('ejs');
 const keyRoutes = require('./routes/keyRoutes');
 const stemsRoutes = require('./routes/stemsRoutes');
 const frontRoutes = require('./routes/frontRoutes');
-const dbURL = require('./secKey');
-const secret = require('./secKey5');
 const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
-// const fs = require('fs');
 
 const methodOverride = require('method-override');
 const authController = require('./controllers/authController');
@@ -23,15 +19,14 @@ const frontController = require('./controllers/frontController');
 const initializePassport = require('./controllers/passport-config');
 const User = require('./models/user');
 const bodyParser = require('body-parser').json({limit: '50mb'});
-// const browser = require('browser-detect') 
 
 var store = new MongoDBStore({
-    uri: dbURL,
+    uri: process.env.DB_URL,
     collection: 'mySessions'
   });
 
 var sess = {
-    secret: process.env.SESSION_SECRET || secret,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store: store,
@@ -40,11 +35,10 @@ var sess = {
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
   }
-  
 
 //////////// Connect to DB with Passport ////////////
 
-mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
+mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
     .then(() => app.listen(process.env.PORT || 8080))
     .catch((err) => console.log(err));
 

@@ -1,14 +1,12 @@
 const OpMain = require('../models/opMain');
 
 const AWS = require('aws-sdk');
-const accessKeyIdS3 = require('../secKey3');
-const secretAccessKeyS3 = require('../secKey4');
 const fs = require('fs');
 const browser = require('browser-detect');
 
 const s3 = new AWS.S3({
-    accessKeyId: accessKeyIdS3,
-    secretAccessKey: secretAccessKeyS3
+    accessKeyId: process.env.ACCESS_KEY_ID_S3,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY_S3
 });
 
 const home_get = async (req, res) => {
