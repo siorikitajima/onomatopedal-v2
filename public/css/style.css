@@ -564,7 +564,8 @@
     }
     #BtnContainer div#stem1Btn, #BtnContainer div#stem2Btn, #BtnContainer div#stem3Btn {
       text-align: center;
-      font-size: 2.2em;
+      font-size: 1.8em;
+      line-height: 1.8em;
     }
     #BtnContainer div#stem1Btn.muted, #BtnContainer div#stem2Btn.muted, #BtnContainer div#stem3Btn.muted, #BtnContainer div#stem1Btn.disabled, #BtnContainer div#stem2Btn.disabled, #BtnContainer div#stem3Btn.disabled {
       opacity: 0.5;

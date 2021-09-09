@@ -111,7 +111,7 @@ const register_post = (req, res) => {
             const s3FileKey = req.body.name + '/' + sampleFiles[i];
             const fileContent = fs.readFileSync(ogFilePath);
             const params = {
-                Bucket: 'opv2-heroku',
+                Bucket: 'opv2-versioning',
                 ACL: "public-read",
                 Key: s3FileKey, 
                 Body: fileContent

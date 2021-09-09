@@ -19,7 +19,7 @@ const stems_get = async (req, res) => {
         const stems = [1, 2, 3];
 
         const filename1 = `${req.user.name}/stem1.mp3`;
-        const params1 = { Bucket: 'opv2-heroku', Key: filename1 };
+        const params1 = { Bucket: 'opv2-versioning', Key: filename1 };
         const stem1 = await s3
         .headObject(params1).promise()
         .then( () => true,
@@ -27,7 +27,7 @@ const stems_get = async (req, res) => {
                 throw err; });
 
         const filename2 = `${req.user.name}/stem2.mp3`;
-        const params2 = { Bucket: 'opv2-heroku', Key: filename2 };
+        const params2 = { Bucket: 'opv2-versioning', Key: filename2 };
         const stem2 = await s3
         .headObject(params2).promise()
         .then( () => true,
@@ -35,7 +35,7 @@ const stems_get = async (req, res) => {
                     throw err; });
 
         const filename3 = `${req.user.name}/stem3.mp3`;
-        const params3 = { Bucket: 'opv2-heroku', Key: filename3 };
+        const params3 = { Bucket: 'opv2-versioning', Key: filename3 };
         const stem3 = await s3
         .headObject(params3).promise()
         .then( () => true,
@@ -60,7 +60,7 @@ const stems_get = async (req, res) => {
 
 const stem_delete_1 = (req, res) => {
     const filename = `${req.user.name}/stem1.mp3`;
-    var params = {  Bucket: 'opv2-heroku', Key: filename };
+    var params = {  Bucket: 'opv2-versioning', Key: filename };
     s3.deleteObject(params, (err, data) => {
     if (err) console.log(err, err.stack);
     else {
@@ -71,7 +71,7 @@ const stem_delete_1 = (req, res) => {
     };
 const stem_delete_2 = (req, res) => {
     const filename = `${req.user.name}/stem2.mp3`;
-    var params = {  Bucket: 'opv2-heroku', Key: filename };
+    var params = {  Bucket: 'opv2-versioning', Key: filename };
     s3.deleteObject(params, (err, data) => {
     if (err) console.log(err, err.stack);
     else {
@@ -82,7 +82,7 @@ const stem_delete_2 = (req, res) => {
     };
 const stem_delete_3 = (req, res) => {
     const filename = `${req.user.name}/stem3.mp3`;
-    var params = {  Bucket: 'opv2-heroku', Key: filename };
+    var params = {  Bucket: 'opv2-versioning', Key: filename };
     s3.deleteObject(params, (err, data) => {
     if (err) console.log(err, err.stack);
     else {
@@ -102,21 +102,21 @@ const preview_get = async　(req, res) => {
     if(isMobile) { res.redirect('/studio'); } else {
         const stems = [1, 2, 3];
         const filename1 = `${req.user.name}/stem1.mp3`;
-        const params1 = { Bucket: 'opv2-heroku', Key: filename1 };
+        const params1 = { Bucket: 'opv2-versioning', Key: filename1 };
         const stem1 = await s3
         .headObject(params1).promise()
         .then( () => true,
         err => { if (err.code === 'NotFound') { return false; }
                 throw err; });
         const filename2 = `${req.user.name}/stem2.mp3`;
-        const params2 = { Bucket: 'opv2-heroku', Key: filename2 };
+        const params2 = { Bucket: 'opv2-versioning', Key: filename2 };
         const stem2 = await s3
         .headObject(params2).promise()
         .then( () => true,
             err => { if (err.code === 'NotFound') { return false; }
                     throw err; });
         const filename3 = `${req.user.name}/stem3.mp3`;
-        const params3 = { Bucket: 'opv2-heroku', Key: filename3 };
+        const params3 = { Bucket: 'opv2-versioning', Key: filename3 };
         const stem3 = await s3
         .headObject(params3).promise()
         .then( () => true,
@@ -167,28 +167,28 @@ const studio_get = async　(req, res) => {
 
         const stems = [1, 2, 3];
         const filename1 = `${req.user.name}/stem1.mp3`;
-        const params1 = { Bucket: 'opv2-heroku', Key: filename1 };
+        const params1 = { Bucket: 'opv2-versioning', Key: filename1 };
         const stem1 = await s3
         .headObject(params1).promise()
         .then( () => true,
           err => { if (err.code === 'NotFound') { return false; }
                   throw err; });
         const filename2 = `${req.user.name}/stem2.mp3`;
-        const params2 = { Bucket: 'opv2-heroku', Key: filename2 };
+        const params2 = { Bucket: 'opv2-versioning', Key: filename2 };
         const stem2 = await s3
         .headObject(params2).promise()
         .then( () => true,
             err => { if (err.code === 'NotFound') { return false; }
                     throw err; });
         const filename3 = `${req.user.name}/stem3.mp3`;
-        const params3 = { Bucket: 'opv2-heroku', Key: filename3 };
+        const params3 = { Bucket: 'opv2-versioning', Key: filename3 };
         const stem3 = await s3
         .headObject(params3).promise()
         .then( () => true,
             err => { if (err.code === 'NotFound') { return false; }
                     throw err; });
         const filename4 = `${req.user.name}/cover.jpg`;
-        const params4 = { Bucket: 'opv2-heroku', Key: filename4 };
+        const params4 = { Bucket: 'opv2-versioning', Key: filename4 };
         const cover = await s3
         .headObject(params4).promise()
         .then( () => true,
@@ -218,7 +218,7 @@ const studio_get = async　(req, res) => {
           limits: { fileSize: 500000 },
           storage: multerS3({
             s3: s3,
-            bucket: 'opv2-heroku',
+            bucket: 'opv2-versioning',
             acl: "public-read",
             metadata: function (req, file, cb) {
               cb(null, {fieldName: file.fieldname});

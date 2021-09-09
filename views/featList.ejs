@@ -13,7 +13,7 @@
         <div class="createNew" onclick="newPanel()">
             + Create New
         </div>
-    <% if (posts.length > 1) { %>
+    <% if (posts.length > 0) { %>
         <% posts.forEach((thepost, index) => { %>
             <div class="post <%- thepost.published ? 'published' : null %>" id="<%= thepost.name %>" data-index='<%= index %>'>
                 <a href="edit/<%= thepost.name %>">

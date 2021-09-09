@@ -43,7 +43,7 @@ router.post('/featimage', (req, res) => {
         limits: { fileSize: 5000000 },
         storage: multerS3({
           s3: s3,
-          bucket: 'opv2-heroku',
+          bucket: 'opv2-versioning',
           acl: "public-read",
           metadata: function (req, file, cb) {
             cb(null, {fieldName: file.fieldname});
@@ -64,7 +64,7 @@ router.post('/featimage', (req, res) => {
           return res.send({
             success: 1,
             file: {
-              url: `https://opv2-heroku.s3.us-west-1.amazonaws.com/${filename}`,
+              url: `https://opv2-versioning.s3.us-west-2.amazonaws.com/${filename}`,
             } 
         })}
       });

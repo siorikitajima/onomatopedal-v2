@@ -104,21 +104,21 @@ const v1pedal_get = (req, res) => {
         let eqdPedals = JSON.parse(rawPedalData);
         const stems = [1, 2, 3];
         const filename1 = `${onomoid}/stem1.mp3`;
-        const params1 = { Bucket: 'opv2-heroku', Key: filename1 };
+        const params1 = { Bucket: 'opv2-versioning', Key: filename1 };
         const stem1 = await s3
         .headObject(params1).promise()
         .then( () => true,
           err => { if (err.code === 'NotFound') { return false; }
                   throw err; });
         const filename2 = `${onomoid}/stem2.mp3`;
-        const params2 = { Bucket: 'opv2-heroku', Key: filename2 };
+        const params2 = { Bucket: 'opv2-versioning', Key: filename2 };
         const stem2 = await s3
         .headObject(params2).promise()
         .then( () => true,
             err => { if (err.code === 'NotFound') { return false; }
                     throw err; });
         const filename3 = `${onomoid}/stem3.mp3`;
-        const params3 = { Bucket: 'opv2-heroku', Key: filename3 };
+        const params3 = { Bucket: 'opv2-versioning', Key: filename3 };
         const stem3 = await s3
         .headObject(params3).promise()
         .then( () => true,
