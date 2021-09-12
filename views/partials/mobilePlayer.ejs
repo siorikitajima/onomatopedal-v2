@@ -104,7 +104,13 @@
     <div class="pad" id="three-9"></div>
   </div>
 
+  <div class="blackscreen"></div>
+<div class="loadingSpinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
 <script>
+    $('.blackscreen, .loadingSpinner').show();
+    window.onload = ()=> { $('.blackscreen, .loadingSpinner').hide(); };
+
         var thepedal = <%- JSON.stringify(pedal) %> ;
         var eqdPedals = <%- JSON.stringify(eqdPedals) %> ;
 
@@ -148,6 +154,7 @@
                 loop: true
             }).sync().start(0);
             player.connect(channel);
+            player.context.resume(); // necessary for Safari
 
             const btn = url;
             const thisMuteButton = document.getElementById(btn);

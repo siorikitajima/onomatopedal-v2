@@ -20,12 +20,12 @@
     </div>
 
     <div class="grid-container">
+    <% var val = Math.floor(1000 + Math.random() * 9000); %>
     <% for (var i = 0; i < v2Pedals.length; i++) { %>
         <% for (var p = 0; p < fillPedalNames.length; p++) { %>
             <%  if (v2Pedals[i].pedalFull == fillPedalNames[p].slug) { %>
                 <a href="/v2/<%= v2Pedals[i].name %>">
-                    <div class="pedal-grid v2">
-                        <% var val = Math.floor(1000 + Math.random() * 9000); %>
+                    <div class="pedal-grid v2">  
                         <img  src="https://opv2-versioning.s3.us-west-2.amazonaws.com/<%= v2Pedals[i].name %>/cover.jpg?<%=val%>" alt="pedal">
                         <h3 class="artistName"><%= v2Pedals[i].artist %></h3>         
                         <div class="pedal-name">

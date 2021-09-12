@@ -46,8 +46,8 @@
                     <p id="warningText">This image does not match the current onomatopedal.</p>
                 </div>
                 <% if (cover === true) {%>
-                <% var val = Math.floor(1000 + Math.random() * 9000); %>
-                <img id="coverJpg" src="https://opv2-versioning.s3.us-west-2.amazonaws.com/<%=name%>/cover.jpg?<%=val%>" alt="cover" width="100%">
+                    <% const val = Math.floor(1000 + Math.random() * 9000); %>
+                        <img id="coverJpg" src="https://opv2-versioning.s3.us-west-2.amazonaws.com/<%=name%>/cover.jpg?<%=val%>" alt="cover" width="100%">
                 <% } %>
             </div>
 
@@ -71,6 +71,16 @@
         var eqdPedals = <%- JSON.stringify(eqdPedals) %> ;
         var animations = <%- JSON.stringify(animation) %> ;
         var cover = <%- JSON.stringify(cover) %> ;
+        var name = <%- JSON.stringify(name) %> ;
+
+        // const queryString = window.location.search; 
+        // const urlParams = new URLSearchParams(queryString); 
+        // const ver = urlParams.get('ver');
+        // if(ver) {
+        //     $('#coverJpg').attr('src', `https://opv2-versioning.s3.us-west-2.amazonaws.com/${name}/cover.jpg?${ver}`)
+        // } else {
+        //     $('#coverJpg').attr('src', `https://opv2-versioning.s3.us-west-2.amazonaws.com/${name}/cover.jpg`)
+        // }
 
         var imgPath, theCol, theCol2, theFont, theR, theG, theB, theR2, theG2, theB2, colArray;
         for (var p = 0; p < eqdPedals.length; p++) {

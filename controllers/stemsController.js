@@ -10,12 +10,22 @@ const s3 = new AWS.S3({
     secretAccessKey: process.env.SECRET_ACCESS_KEY_S3
 });
 
+function isTouchDevice() {
+    // return (('ontouchstart' in window) ||
+    //    (navigator.maxTouchPoints > 0) ||
+    //    (navigator.msMaxTouchPoints > 0));
+    return (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  }
+
 const stems_get = async (req, res) => {   
     if(req.user.type == 'editor') {res.redirect('/featList');}
     else if (req.user.type == 'admin') {res.redirect('/register');}
     else {
     const isMobile = browser(req.headers['user-agent']).mobile;
-    if(isMobile) { res.redirect('/studio'); } else {
+    const isTouch = isTouchDevice();
+    let drumPad;
+    if(isMobile || isTouch) { drumPad = true; } else { drumPad = false; }
+    if(drumPad) { res.redirect('/studio'); } else {
         const stems = [1, 2, 3];
 
         const filename1 = `${req.user.name}/stem1.mp3`;
@@ -51,7 +61,8 @@ const stems_get = async (req, res) => {
                     pedal: opInfo, 
                     name: req.user.name, 
                     stemFiles: [stem1, stem2, stem3], 
-                    stems: stems });
+                    stems: stems
+                });
             }
         })
     }
@@ -64,8 +75,8 @@ const stem_delete_1 = (req, res) => {
     s3.deleteObject(params, (err, data) => {
     if (err) console.log(err, err.stack);
     else {
-        // console.log('stem1 is deleted');
-        res.redirect('/stems');
+        let val = Math.floor(1000 + Math.random() * 9000);
+        res.redirect(`/stems?ver=${val}`);
     }
     });
     };
@@ -75,8 +86,8 @@ const stem_delete_2 = (req, res) => {
     s3.deleteObject(params, (err, data) => {
     if (err) console.log(err, err.stack);
     else {
-        // console.log('stem2 is deleted');
-        res.redirect('/stems');
+        let val = Math.floor(1000 + Math.random() * 9000);
+        res.redirect(`/stems?ver=${val}`);
     }
     });
     };
@@ -86,8 +97,8 @@ const stem_delete_3 = (req, res) => {
     s3.deleteObject(params, (err, data) => {
     if (err) console.log(err, err.stack);
     else {
-        // console.log('stem3 is deleted');
-        res.redirect('/stems');
+        let val = Math.floor(1000 + Math.random() * 9000);
+        res.redirect(`/stems?ver=${val}`);
     }
     });
     };
@@ -97,9 +108,12 @@ const preview_get = async　(req, res) => {
     else if (req.user.type == 'admin') {res.redirect('/register');}
     else {
     const isMobile = browser(req.headers['user-agent']).mobile;
+    const isTouch = isTouchDevice();
+    let drumPad;
+    if(isMobile || isTouch) { drumPad = true; } else { drumPad = false; }
     let rawdata = fs.readFileSync('./json/animation.json');
     let animaData = JSON.parse(rawdata);
-    if(isMobile) { res.redirect('/studio'); } else {
+    if(drumPad) { res.redirect('/studio'); } else {
         const stems = [1, 2, 3];
         const filename1 = `${req.user.name}/stem1.mp3`;
         const params1 = { Bucket: 'opv2-versioning', Key: filename1 };
@@ -133,7 +147,7 @@ const preview_get = async　(req, res) => {
                     pedal: opInfo,
                     stemFiles: [stem1, stem2, stem3], 
                     stems: stems,
-                    mobile: isMobile,
+                    mobile: drumPad,
                     animation: animaData
             })
         }})
@@ -160,6 +174,9 @@ const studio_get = async　(req, res) => {
     else if (req.user.type == 'admin') {res.redirect('/register');}
     else {
     const isMobile = browser(req.headers['user-agent']).mobile;
+    const isTouch = isTouchDevice();
+    let drumPad;
+    if(isMobile || isTouch) { drumPad = true; } else { drumPad = false; }
     let rawdata = fs.readFileSync('./json/eqdPedals.json');
     let eqdPedals = JSON.parse(rawdata);
     let rawdataAni = fs.readFileSync('./json/animation.json');
@@ -198,12 +215,12 @@ const studio_get = async　(req, res) => {
         OpMain.findOne({name: req.user.name}, (err, opInfo) => {
             if(err) {console.log(err);}
             else {
-                res.render(isMobile ? 'mobilePreview' : 'studio', { 
+                res.render(drumPad ? 'mobilePreview' : 'studio', { 
                     title: 'Dashboard', nav:'studio', 
                     pedal: opInfo, 
                     eqdPedals: eqdPedals,
                     name: req.user.name,
-                    mobile: isMobile,
+                    mobile: drumPad,
                     stemFiles: [stem1, stem2, stem3], 
                     stems: stems,
                     animation: animaData,
@@ -248,7 +265,7 @@ const studio_get = async　(req, res) => {
             return res.send("<script> alert('Oops! There was errors'); window.location =  'studio'; </script>");
            }
           else {
-            return res.redirect('/saved'); 
+            res.redirect(`/saved`); 
           }    
         })
     }

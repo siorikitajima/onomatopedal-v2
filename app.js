@@ -88,7 +88,7 @@ app.get('/info', authController.checkAuthenticated, infoController.info_get);
 app.post('/info', infoController.info_post)
 
 app.get('/saved', authController.checkAuthenticated, (req, res) => {
-    res.render('saved', { title: 'Saved', name: req.user.name});
+        res.render('saved', { title: 'Saved', name: req.user.name }); 
 });
 
 app.delete('/logout', authController.log_out);

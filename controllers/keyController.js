@@ -8,6 +8,10 @@ const s3 = new AWS.S3({
     secretAccessKey: process.env.SECRET_ACCESS_KEY_S3
 });
 
+function isTouchDevice() {
+    return (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  }
+
 const key_index = async (req, res) => {
     if(req.user.type == 'editor') {res.redirect('/featList');}
     else if (req.user.type == 'admin') {res.redirect('/register');}
@@ -15,8 +19,11 @@ const key_index = async (req, res) => {
     let rawdata = fs.readFileSync('./json/pitches.json');
     let pitches = JSON.parse(rawdata);
     const isMobile = browser(req.headers['user-agent']).mobile;
-        if(isMobile) { res.redirect('/studio'); } else {
+    const isTouch = isTouchDevice();
+    let drumPad;
+    if(isMobile || isTouch) { drumPad = true; } else { drumPad = false; }
 
+    if(drumPad) { res.redirect('/studio'); } else {
         const stems = [1, 2, 3];
         const filename1 = `${req.user.name}/stem1.mp3`;
         const params1 = { Bucket: 'opv2-versioning', Key: filename1 };
@@ -128,8 +135,11 @@ const pad_get = async (req, res) => {
     let rawdata = fs.readFileSync('./json/pitches.json');
     let pitches = JSON.parse(rawdata);
     const isMobile = browser(req.headers['user-agent']).mobile;
-        if(isMobile) { res.redirect('/studio'); } else {
+    const isTouch = isTouchDevice();
+    let drumPad;
+    if(isMobile || isTouch) { drumPad = true; } else { drumPad = false; }
 
+    if(drunPad) { res.redirect('/studio'); } else {
         const stems = [1, 2, 3];
         const filename1 = `${req.user.name}/stem1.mp3`;
         const params1 = { Bucket: 'opv2-versioning', Key: filename1 };
@@ -239,8 +249,11 @@ const samples_get = async (req, res) => {
     else if (req.user.type == 'admin') {res.redirect('/register');}
     else {
     const isMobile = browser(req.headers['user-agent']).mobile;
-    if(isMobile) { res.redirect('/studio'); } else {
-            
+    const isTouch = isTouchDevice();
+    let drumPad;
+    if(isMobile || isTouch) { drumPad = true; } else { drumPad = false; }
+
+    if(drumPad) { res.redirect('/studio'); } else {
         let rawdata = fs.readFileSync('./json/pitches.json');
         let pitches = JSON.parse(rawdata);
 

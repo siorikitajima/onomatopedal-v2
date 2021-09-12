@@ -53,7 +53,8 @@ router.post('/stem1', (req, res) => {
     else if (err) {
       return res.send("<script> alert('Oops! The file type must be MP3'); window.location =  'stems'; </script>"); }
     else {
-      res.redirect('/stems'); }
+      let val = Math.floor(1000 + Math.random() * 9000);
+      res.redirect(`/stems?ver=${val}`); }
   })});
 router.post('/stem2', (req, res) => {
   const uploadMiddleware = upload.single('stem2');
@@ -63,7 +64,8 @@ router.post('/stem2', (req, res) => {
     else if (err) {
       return res.send("<script> alert('Oops! The file type must be MP3'); window.location =  'stems'; </script>"); }
     else {
-      res.redirect('/stems'); }
+      let val = Math.floor(1000 + Math.random() * 9000);
+      res.redirect(`/stems?ver=${val}`); }
   })});
 router.post('/stem3', (req, res) => {
   const uploadMiddleware = upload.single('stem3');
@@ -73,7 +75,8 @@ router.post('/stem3', (req, res) => {
     else if (err) {
       return res.send("<script> alert('Oops! The file type must be MP3'); window.location =  'stems'; </script>"); }
     else {
-      res.redirect('/stems'); }
+      let val = Math.floor(1000 + Math.random() * 9000);
+      res.redirect(`/stems?ver=${val}`); }
   })});
 
 router.delete('/stem1', stemsController.stem_delete_1);

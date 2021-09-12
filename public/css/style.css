@@ -583,7 +583,6 @@
   z-index: 9000;
 }
 .loadingSpinner {
-  /* display: inline-block; */
   display: none;
   position: fixed;
   top: 50%;

@@ -9,6 +9,10 @@ const s3 = new AWS.S3({
     secretAccessKey: process.env.SECRET_ACCESS_KEY_S3
 });
 
+function isTouchDevice() {
+    return (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  }
+
 const home_get = async (req, res) => {
     let listingArray = [];
     let v2Array = [];
@@ -95,52 +99,55 @@ const v1pedal_get = (req, res) => {
     })
 }
 
-    const v2pedal_get = async (req, res) => {
-        var onomoid = req.params.onomoid;
-        const isMobile = browser(req.headers['user-agent']).mobile;
-        let rawdata = fs.readFileSync('./json/animation.json');
-        let animaData = JSON.parse(rawdata);
-        let rawPedalData = fs.readFileSync('./json/eqdPedals.json');
-        let eqdPedals = JSON.parse(rawPedalData);
-        const stems = [1, 2, 3];
-        const filename1 = `${onomoid}/stem1.mp3`;
-        const params1 = { Bucket: 'opv2-versioning', Key: filename1 };
-        const stem1 = await s3
-        .headObject(params1).promise()
-        .then( () => true,
-          err => { if (err.code === 'NotFound') { return false; }
-                  throw err; });
-        const filename2 = `${onomoid}/stem2.mp3`;
-        const params2 = { Bucket: 'opv2-versioning', Key: filename2 };
-        const stem2 = await s3
-        .headObject(params2).promise()
-        .then( () => true,
-            err => { if (err.code === 'NotFound') { return false; }
-                    throw err; });
-        const filename3 = `${onomoid}/stem3.mp3`;
-        const params3 = { Bucket: 'opv2-versioning', Key: filename3 };
-        const stem3 = await s3
-        .headObject(params3).promise()
-        .then( () => true,
-            err => { if (err.code === 'NotFound') { return false; }
-                    throw err; });
-        
-        OpMain.findOne({name: onomoid}, (err, opInfo) => {
-            if(err) {console.log(err);}
-            else {
-                res.render('v2Pedal', { 
-                    title: 'V2',
-                    nav:'v2', 
-                    name: onomoid, 
-                    pedal: opInfo,
-                    eqdPedals: eqdPedals,
-                    stemFiles: [stem1, stem2, stem3], 
-                    stems: stems,
-                    mobile: isMobile,
-                    animation: animaData
-            })
-        }})
-        };
+const v2pedal_get = async (req, res) => {
+    var onomoid = req.params.onomoid;
+    const isMobile = browser(req.headers['user-agent']).mobile;
+    const isTouch = isTouchDevice();
+    let drumPad;
+    if(isMobile || isTouch) { drumPad = true; } else { drumPad = false; }
+    let rawdata = fs.readFileSync('./json/animation.json');
+    let animaData = JSON.parse(rawdata);
+    let rawPedalData = fs.readFileSync('./json/eqdPedals.json');
+    let eqdPedals = JSON.parse(rawPedalData);
+    const stems = [1, 2, 3];
+    const filename1 = `${onomoid}/stem1.mp3`;
+    const params1 = { Bucket: 'opv2-versioning', Key: filename1 };
+    const stem1 = await s3
+    .headObject(params1).promise()
+    .then( () => true,
+        err => { if (err.code === 'NotFound') { return false; }
+                throw err; });
+    const filename2 = `${onomoid}/stem2.mp3`;
+    const params2 = { Bucket: 'opv2-versioning', Key: filename2 };
+    const stem2 = await s3
+    .headObject(params2).promise()
+    .then( () => true,
+        err => { if (err.code === 'NotFound') { return false; }
+                throw err; });
+    const filename3 = `${onomoid}/stem3.mp3`;
+    const params3 = { Bucket: 'opv2-versioning', Key: filename3 };
+    const stem3 = await s3
+    .headObject(params3).promise()
+    .then( () => true,
+        err => { if (err.code === 'NotFound') { return false; }
+                throw err; });
+    
+    OpMain.findOne({name: onomoid}, (err, opInfo) => {
+        if(err) {console.log(err);}
+        else {
+            res.render('v2Pedal', { 
+                title: 'V2',
+                nav:'v2', 
+                name: onomoid, 
+                pedal: opInfo,
+                eqdPedals: eqdPedals,
+                stemFiles: [stem1, stem2, stem3], 
+                stems: stems,
+                mobile: drumPad,
+                animation: animaData
+        })
+    }})
+};
 
 module.exports = {
     home_get,

@@ -11,26 +11,33 @@
         <% } %>
     </div>
 </div>
+<div class="blackscreen"></div>
+<div class="loadingSpinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 
 <script>
+    $('.blackscreen, .loadingSpinner').show();
+    window.onload = ()=> { $('.blackscreen, .loadingSpinner').hide(); };
         var thekeys = <%- JSON.stringify(pedal.keys) %> ;
         var thesamples = <%- JSON.stringify(pedal.samples) %> ;
         var username = <%- JSON.stringify(name) %> ;
         var stemFiles = <%- JSON.stringify(stemFiles) %> ;
 
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const ver = urlParams.get('ver');
+
         const controlMain = $('#playAllBtn, #BtnContainer');
         const stems = $('.stem');
         let toneStarted = false;
 
-        let val = Math.floor(1000 + Math.random() * 9000);
-
         function makeChannel( url, pan = 0 ) {
             const channel = new Tone.Channel({ pan }).toDestination();
             const player = new Tone.Player({
-                url: 'https://opv2-versioning.s3.us-west-2.amazonaws.com/' + username + `/${url}.mp3?val`,
+                url: ver ? 'https://opv2-versioning.s3.us-west-2.amazonaws.com/' + username + `/${url}.mp3?${ver}` : 'https://opv2-versioning.s3.us-west-2.amazonaws.com/' + username + `/${url}.mp3`,
                 loop: true
             }).sync().start(0);
             player.connect(channel);
+            player.context.resume(); // necessary for Safari
 
             const btn = url + 'Btn';
             const thisMuteButton = document.getElementById(btn);
@@ -38,10 +45,8 @@
                 event.preventDefault();
                 const checkMuted = $(event.target).hasClass("muted") ? true : false;
                 if (checkMuted) {
-                    // console.log('it is muted');
                     channel.mute = false;
                 } else {
-                    // console.log('it is not muted');
                     channel.mute = true;
                 }
             });

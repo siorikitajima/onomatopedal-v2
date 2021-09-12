@@ -62,9 +62,10 @@
         }
 
         function submitTrack(n) {
-            $('.loadingSpinner, .blackscreen').css('display','inline-block');
-            var theform = '#form' + n;
-            $(theform).submit();
+            $('.blackscreen, .loadingSpinner').show(() => {
+                var theform = '#form' + n;
+                $(theform).submit();
+            });
         }
         
     </script>
