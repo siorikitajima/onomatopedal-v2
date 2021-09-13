@@ -162,10 +162,10 @@
                 event.preventDefault();
                 const checkMuted = $(event.target).hasClass("muted") ? true : false;
                 if (checkMuted) {
-                    console.log('it is muted');
+                    // console.log('it is muted');
                     channel.mute = false;
                 } else {
-                    console.log('it is not muted');
+                    // console.log('it is not muted');
                     channel.mute = true;
                 }
             });

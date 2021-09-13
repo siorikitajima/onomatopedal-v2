@@ -256,3 +256,35 @@ div#controller {
       grid-column: 6 / 16;
       grid-row: 5;
     }
+
+    #drumpads {
+      width: 100vw;
+      height: calc(100% - 50px);
+      margin: 0;
+      padding: 0;
+      top: 50px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      position: fixed;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: calc(100vw/4) calc(100vw/4) calc(100vw/4) calc(100vw/4);
+      grid-template-rows: 9% 9% 9% 9% 9% 9% 9% 9% 9% 9%;
+      visibility: hidden;
+    }
+    
+    .pad {
+      width: 25vw;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      /* background-color:#ddd; */
+      /* opacity: 0; */
+      border-bottom: rgba(221, 221, 221, 0.3) solid 1px;
+      border-right: rgba(221, 221, 221, 0.3) solid 1px;
+      mix-blend-mode: overlay;
+    }
+    .pad:nth-of-type(4n) {
+        border-right: none;
+    }

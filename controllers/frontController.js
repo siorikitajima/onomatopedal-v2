@@ -9,10 +9,6 @@ const s3 = new AWS.S3({
     secretAccessKey: process.env.SECRET_ACCESS_KEY_S3
 });
 
-function isTouchDevice() {
-    return (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  }
-
 const home_get = async (req, res) => {
     let listingArray = [];
     let v2Array = [];
@@ -102,13 +98,27 @@ const v1pedal_get = (req, res) => {
 const v2pedal_get = async (req, res) => {
     var onomoid = req.params.onomoid;
     const isMobile = browser(req.headers['user-agent']).mobile;
-    const isTouch = isTouchDevice();
-    let drumPad;
-    if(isMobile || isTouch) { drumPad = true; } else { drumPad = false; }
     let rawdata = fs.readFileSync('./json/animation.json');
     let animaData = JSON.parse(rawdata);
     let rawPedalData = fs.readFileSync('./json/eqdPedals.json');
     let eqdPedals = JSON.parse(rawPedalData);
+    let raw2VData = fs.readFileSync('./json/opv2.json');
+    let v2list = JSON.parse(raw2VData);
+    let prev, next;
+    for(let p = 0; p < v2list.length; p++) {
+        if ( v2list[p].name == onomoid ) {
+            if(p == (v2list.length - 1)) {
+                next = v2list[0].name;
+            } else {
+                next = v2list[p + 1].name;
+            }
+            if(p == 0) {
+                prev = v2list[v2list.length - 1].name;
+            } else {
+                prev = v2list[p - 1].name;
+            }
+        }
+    }
     const stems = [1, 2, 3];
     const filename1 = `${onomoid}/stem1.mp3`;
     const params1 = { Bucket: 'opv2-versioning', Key: filename1 };
@@ -143,8 +153,10 @@ const v2pedal_get = async (req, res) => {
                 eqdPedals: eqdPedals,
                 stemFiles: [stem1, stem2, stem3], 
                 stems: stems,
-                mobile: drumPad,
-                animation: animaData
+                mobile: isMobile,
+                animation: animaData,
+                prev: prev,
+                next: next
         })
     }})
 };

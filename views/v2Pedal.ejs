@@ -21,11 +21,8 @@
         }
       </script>
 
-    <% if (mobile) {%>
-    <%- include('./partials/mobileFrontPlayer.ejs')  %> 
-    <% } else { %>
       <%- include('./partials/frontPlayer.ejs')  %> 
-    <% } %>
+
       <%- include( `./animations/${ pedal.animation }.ejs`)  %> 
 </body>
 </html>

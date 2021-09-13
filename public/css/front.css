@@ -1,7 +1,7 @@
 div.center-content {
     width: 800px;
     max-width: 90%;
-    padding: 50px 0;
+    padding: 50px 0 0 0;
     margin: 0 auto;
 }
 
@@ -526,13 +526,6 @@ div.feat-item p.url {
 div.feat-item h3 {
     margin-bottom: 10px;
 }
-div.feat-item button {
-    display: inline-block;
-    margin: 20px 10px 0 0;
-}
-div.feat-item button.long {
-    width: 100%;
-}
 
 img.featCover {
     width: 100%;
@@ -560,6 +553,7 @@ img.featImg {
 }
 .feat iframe {
     width: 100%;
+    height: 400px;
 }
 
 div.center-content.feat p {
@@ -579,15 +573,16 @@ div.center-content.feat p {
 @media(max-width: 800px) {
     div.feat-item {
         max-width: calc(100% - 10px);
-        height: 230px;
+        height: 220px;
         margin: 5px auto 0 auto;
+        overflow: hidden;
     }
     .sq300 {
-        width: 230px;
-        height: 230px;
+        width: 220px;
+        height: 220px;
     }
     div.feat-item div.feat-info {
-        width: calc(100% - 270px);
+        width: calc(100% - 220px);
         padding: 10px 20px;
     }
     div.featBanner.sub {
@@ -595,70 +590,115 @@ div.center-content.feat p {
     }
 }
 @media(max-width: 680px) {
-    div.feat-item div.feat-info p {
+    div.feat-item {
+        max-width: calc(100% - 10px);
+        margin: 5px auto;
+    }
+    div.feat-item div.feat-info p.desc, div.feat-item div.feat-info p.listdesc {
         display: none;
     }
-    div.feat-item button {
-        width: 100%;
-        display: block;
-        margin: 10px 0;
+    div.feat-item div.feat-info p.url {
+        position: static;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        line-height: 1em;
+        padding-top: 10px;
+    }
+    .feat iframe {
+        height: 300px;
+    }
+    div.feat-item.linkTool h2 {
+        font-size: 1.3em;
     }
 }
 @media(max-width: 520px) {
-    div.feat-item {
-        height: 200px;
+    div.feat-item, img.featImg {
+       height: 200px;
     }
-    .sq300 {
+    .feat-cover, .sq300 { 
         width: 200px;
         height: 200px;
     }
+    div.feat-item h2 {
+        font-size: 1.5em;
+        line-height: 1.3em;
+        margin-bottom: 15px;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+    }
+    div.feat-item.list h2::after {
+        bottom: -10px;
+    }
     div.feat-item div.feat-info {
         width: calc(100% - 210px);
+        height: 180px;
     }
-    div.feat-item button.dlt {
-        display: none;
+    .feat iframe {
+        height: 250px;
+    }
+    div.feat-item.linkTool {
+        display: block;
+        height: fit-content;
+        width: calc(100% - 40px);
+    }
+    div.feat-item.linkTool div.feat-info {
+        width: calc(100% - 40px);
+        height: fit-content;
+    }
+    div.feat-item.linkTool div.linkImg {
+        width: 100%;
+        height: fit-content;
+        max-height: 240px;
+        overflow: hidden;
+        /* position: relative; */
+        border-radius: 0 0 5px 5px;
+    }
+    div.feat-item.linkTool div.linkImg img.featImg {
+        width: 100%;
+        height: auto;
+    }
+    div.center-content.feat div.feat-item h2::after {
+        bottom: -10px;
     }
 }
 @media(max-width: 420px) {
-    div.feat-item {
+    div.feat-item, img.featImg {
         height: 160px;
     }
-    .sq300 {
+    div.feat-item.linkTool {
+        height: fit-content;
+    }
+    .feat-cover, .sq300 {
         width: 160px;
         height: 160px;
     }
     div.feat-item div.feat-info {
         width: calc(100% - 200px);
+        height: 140px;
+        overflow: hidden;
     }
+    div.feat-item.linkTool div.feat-info {
+        width: calc(100% - 40px);
+        height: fit-content;
+    }
+    /* div.feat-item.linkTool  div.feat-info {
+        width: calc(100% - 130px);
+    } */
     div.feat-item h2 {
-        font-size: 1.5em;
-        margin-bottom: 5px;
+        font-size: 1.3em;
+        line-height: 1.1em;
     }
     div.feat-item h3 {
         font-family: 'Raleway', sans-serif;
-        font-size: 1em;
+        font-size: 0.9em;
+        font-weight: normal;
     }
-    div.feat-item button {
-        height: 36px;
-        font-size: 1em;
-        border: none;
-        position: relative;
+    .feat iframe {
+        height: 200px;
     }
-    div.feat-item button.long {
-        width: calc(100% - 30px);
-    }
-    div.feat-item button::after {
-        content: ">>";
-        position: absolute;
-        top: 8px;
-        right: -20px;
-        color: #F56476;
-    }
-    div.feat-item.play-pedal {
-        width: 100%;
-        max-width: 100%;
-        margin: 0 0 50px 0;
-        }
+    /* div.feat-item.linkTool h2::after {
+        display: none;
+    } */
 }
 
 .editor {

@@ -1,5 +1,31 @@
 <div class="infoPanel">
-    <div class="flex">
+        <% if (mobile) {%>
+            <div class="mobPlayerNav">
+                <div class="prev">
+                    <a href="/v2/<%= prev %>">
+                    <img src="../images/prevBtn.svg" alt="prev">
+                    <img class="navthumb" src="https://opv2-versioning.s3.us-west-2.amazonaws.com/<%= prev %>/cover.jpg?<%=val%>" alt="pedal">
+                    </a>
+                </div>
+                <div class="site-title front">
+                    <a href="/"><h1>OnomatoPedal</h1></a>
+                </div>                
+                <div class="next">
+                    <a href="/v2/<%= next %>">
+                    <img class="navthumb" src="https://opv2-versioning.s3.us-west-2.amazonaws.com/<%= next %>/cover.jpg?<%=val%>" alt="pedal">
+                    <img src="../images/nextBtn.svg" alt="next">
+                    </a>
+                </div>
+            </div>
+            <div class="infoOne">
+                <div class="opImg">
+                    <% var val = Math.floor(1000 + Math.random() * 9000); %>
+                    <img  src="https://opv2-versioning.s3.us-west-2.amazonaws.com/<%= name %>/cover.jpg?<%=val%>" alt="pedal">
+                </div>
+            </div>
+        <% } else { %>
+            <div class="flex">
+        <% } %>   
         <div class="infoTwo">
             <p class="label">ONOMATOPOEIA</p>
             <h2><%= pedal.onomato %></h2>
@@ -20,13 +46,16 @@
                 <% } %>
             <% } %>
         </div>
+        <% if (!mobile) {%>
         <div class="infoOne">
             <div class="opImg">
                 <% var val = Math.floor(1000 + Math.random() * 9000); %>
                 <img  src="https://opv2-versioning.s3.us-west-2.amazonaws.com/<%= name %>/cover.jpg?<%=val%>" alt="pedal">
             </div>
         </div>
+        <% } %>
         <div class="infoThree">
+        <% if (!mobile) {%>
             <div class="keybord-container">
                 <div class="keyboard">
                     <% if (pedal.keys.length > 0) { %>
@@ -56,6 +85,10 @@
         </div>
     </div>
     <div class="merchContainer">
+    <% } %>
+    <% if (mobile) { %>
+        <p class="label">MUSIC, ART & MERCH</p>
+    <% } %>
         <div class="merch-icons">
             <div class="icon">
                 <img src="../images/merch/OP_Astral-Destiny_B.jpg" alt="Tshirt">
@@ -77,8 +110,13 @@
             </div>
         </div>
     </div>
-    <div class="playBtnPanel" onclick="controlHandler()">PLAY</div>
+    <% if (mobile) {%>
 </div>
+    <% } %>
+    <div class="playBtnPanel" onclick="controlHandler()">PLAY</div>
+    <% if (!mobile) {%>
+</div>
+    <% } %>
 
 <div id="controller">
     <div id="controlMain" class="paused" onclick="controlHandler()"></div>
@@ -92,18 +130,99 @@
     <% } %>
     </div>
   </div>
+    <div id="drumpads">
+        <div class="pad" id="zero-0"></div>
+        <div class="pad" id="one-0"></div>
+        <div class="pad" id="two-0"></div>
+        <div class="pad" id="three-0"></div>
+    
+        <div class="pad" id="zero-1"></div>
+        <div class="pad" id="one-1"></div>
+        <div class="pad" id="two-1"></div>
+        <div class="pad" id="three-1"></div>
+    
+        <div class="pad" id="zero-2"></div>
+        <div class="pad" id="one-2"></div>
+        <div class="pad" id="two-2"></div>
+        <div class="pad" id="three-2"></div>
+    
+        <div class="pad" id="zero-3"></div>
+        <div class="pad" id="one-3"></div>
+        <div class="pad" id="two-3"></div>
+        <div class="pad" id="three-3"></div>
+    
+        <div class="pad" id="zero-4"></div>
+        <div class="pad" id="one-4"></div>
+        <div class="pad" id="two-4"></div>
+        <div class="pad" id="three-4"></div>
+    
+        <div class="pad" id="zero-5"></div>
+        <div class="pad" id="one-5"></div>
+        <div class="pad" id="two-5"></div>
+        <div class="pad" id="three-5"></div>
+    
+        <div class="pad" id="zero-6"></div>
+        <div class="pad" id="one-6"></div>
+        <div class="pad" id="two-6"></div>
+        <div class="pad" id="three-6"></div>
+    
+        <div class="pad" id="zero-7"></div>
+        <div class="pad" id="one-7"></div>
+        <div class="pad" id="two-7"></div>
+        <div class="pad" id="three-7"></div>
+    
+        <div class="pad" id="zero-8"></div>
+        <div class="pad" id="one-8"></div>
+        <div class="pad" id="two-8"></div>
+        <div class="pad" id="three-8"></div>
+    
+        <div class="pad" id="zero-9"></div>
+        <div class="pad" id="one-9"></div>
+        <div class="pad" id="two-9"></div>
+        <div class="pad" id="three-9"></div>
+      </div>
+
   <div class="blackscreen"></div>
 <div class="loadingSpinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 
 <script>
+    function isTouchDevice() {
+        // return (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        var result = false;
+    if ((/(iPad)/.test(navigator.userAgent)
+    && /WebKit/.test(navigator.userAgent)
+    && !window.MSStream)
+    || (navigator.platform === 'MacIntel'
+    && navigator.maxTouchPoints
+    && navigator.maxTouchPoints === 5)
+      ) {
+        //   console.log('iOS')
+          result = true;
+    } else if (window.PointerEvent && ('maxTouchPoints' in navigator)) {
+        // if Pointer Events are supported, just check maxTouchPoints
+        if (navigator.maxTouchPoints > 0) {
+        result = true;
+        } 
+    } else {
+        // no Pointer Events...
+        if (window.matchMedia && window.matchMedia("(any-pointer:coarse)").matches) {
+        // check for any-pointer:coarse which mostly means touchscreen
+        result = true;
+        } else if (window.TouchEvent || ('ontouchstart' in window)) {
+        // last resort - check for exposed touch events API / event handler
+        result = true;
+        } 
+    }
+    return result;
+    }
+    var isTouch = isTouchDevice();
     $('.blackscreen, .loadingSpinner').show();
     window.onload = ()=> { $('.blackscreen, .loadingSpinner').hide(); };
-
+console.log('isMobile: ' + mobile + ', isTouch: ' + isTouch);
         var thepedal = <%- JSON.stringify(pedal) %> ;
         var eqdPedals = <%- JSON.stringify(eqdPedals) %> ;
-        var thekeys = <%- JSON.stringify(pedal.keys) %> ;
-        var thesamples = <%- JSON.stringify(pedal.samples) %> ;
         var theAnima = <%- JSON.stringify(animation) %> ;
+        var mobile = <%- JSON.stringify(mobile) %> ;
 
         for (var p = 0; p < eqdPedals.length; p++) {
             if (thepedal.pedalFull == eqdPedals[p].slug) {
@@ -128,16 +247,15 @@
 
         ///// Audio Player
         var thekeys = <%- JSON.stringify(pedal.keys) %> ;
+        var thepads = <%- JSON.stringify(pedal.pads) %> ;
         var thesamples = <%- JSON.stringify(pedal.samples) %> ;
         var username = <%- JSON.stringify(name) %> ;
 
-        // var name = <%- JSON.stringify(name) %> ;
         var stemFiles = <%- JSON.stringify(stemFiles) %> ;
 
         const controlMain = $('#controlMain, #controlStems');
         const stems = $('.stem');
         let toneStarted = false;
-        // var val = Math.floor(1000 + Math.random() * 9000);
 
         function makeChannel( url, pan = 0 ) {
             const channel = new Tone.Channel({ pan }).toDestination();
@@ -197,7 +315,9 @@
                 makeChannel(channelName[sf]);
             }
         }
-
+        if(mobile || isTouch) {
+            $('div.infoThree').hide();
+        }
     // Play/Pause Button
     function controlHandler() {
         if(!toneStarted) {
@@ -214,16 +334,32 @@
         if($(controlMain).hasClass("paused")) {
             $(controlMain).removeClass("paused");
             $(controlMain).addClass("playing");
+            if(mobile || isTouch) {
+            $('#controller').css('bottom', '10px');
+            $('.infoPanel').css('top', '-120%');
+            $('.mobPlayerNav').css('top', '-120%');
+            $('#drumpads').css('visibility', 'visible');
+            $('.playBtnPanel').css('bottom', '-120%');
+            } else {
             $('#controller').css('bottom', '20px');
             $('.infoPanel').css('top', '-200%');
+            }
             Tone.Transport.start();
             $(stems).removeClass("muted");
             $(stems).addClass("unmuted");
         } else {
             $(controlMain).removeClass("playing");
             $(controlMain).addClass("paused");
+            if(mobile || isTouch) {
+            $('#controller').css('bottom', '-120%');
+            $('.infoPanel').css('top', '51px');
+            $('.mobPlayerNav').css('top', 0);
+            $('#drumpads').css('visibility', 'hidden');
+            $('.playBtnPanel').css('bottom', 0);
+            } else {
             $('#controller').css('bottom', '-200%');
             $('.infoPanel').css('top', '51px');
+            }
             $(stems).removeClass("unmuted");
             $(stems).addClass("muted");
             Tone.Transport.stop();
@@ -241,7 +377,7 @@
         }
     });
 
-    ////////// Keys to Play Sample
+    ////////// Keys/Pads to Play Sample
 
     $(document).ready(function() {
         var keyPlayed = false;
@@ -254,6 +390,18 @@
                 pitchString.push(note);
         }
 
+        if(mobile || isTouch) {
+            var padToPitch = {};
+        for (var i = 0; i < thepads.length; i++) {
+            var thepad = thepads[i].pad;
+            var note = thepads[i].pitch.toUpperCase().replace('M', '#'); 
+           if(thepads[i].enabled) {
+                padToPitch[thepad] = note;
+            } else {
+                padToPitch[thepad] = null;
+            }
+            }
+        }
         var keyToPitch = {};
         for (var i = 0; i < thekeys.length; i++) {
             var thekey = thekeys[i].key.toLowerCase();
@@ -280,7 +428,7 @@
         }
 
         var samplers = [];
-        for(i=0; i<fileName.length;i++) {
+        for( i = 0; i < fileName.length; i++ ) {
             samplers[i] = new Tone.Sampler({
             [pitchString[i]]: 'https://opv2-versioning.s3.us-west-2.amazonaws.com/' + username + '/' + fileName[i] + '.mp3'
             }, {
@@ -290,6 +438,45 @@
                 Tone.context.lookAhead = 0;
                 }
             }).toDestination();
+        }
+
+        if(mobile || isTouch) {
+            function touchPad(id){
+            //// Find index# of sample for the pad
+            function theIndex(id) {
+                var i, n, s;
+                for (var ke = 0; ke < thepads.length; ke++) {
+                    if (thepads[ke].pad == id) {
+                        i = ke;
+                        break;
+                    }
+                }
+                n = thepads[i].sample;
+                for (var sa = 0; sa < thesamples.length; sa++) {
+                    if (thesamples[sa].samplename == n) {
+                        s = sa;
+                        break;
+                    } else {
+                        s = 0;
+                    }
+                }
+                return s;
+            }
+            // Do nothing with other pads
+            if (padToPitch[id] == null) {
+            } else {
+            var index = theIndex(id);
+            samplers[index].triggerAttackRelease(padToPitch[id]);
+            }
+            }
+            $('div.pad').on('touchstart', () => {
+                if(!toneStarted) {
+                    Tone.start();
+                    toneStarted = true;
+                }
+                var id = event.target.id;
+                touchPad(id);
+            });
         }
 
         function onkeydown(e){
@@ -456,13 +643,7 @@
             }
         });
 
-        var colorList = [
-            // '#FCA311', '#289650', '#84397C', '#1996BE', '#F98444', '#299189', '#C83F54', '#959B3F', '#466488', '#AE4F70',
-            // '#785000', '#005421', '#5E0050', '#005081', '#78320A', '#005050', '#8C0000', '#3C5A00', '#003264', '#780028',
-            // '#FCDC78', '#64C882', '#AA78A0', '#64B4DC', '#FFAA78', '#64C8C8', '#DC788C', '#A0BE78', '#6E96B4', '#D282AA',
-            // '#BE9B5F', '#BE9B5F', '#644661', '#527686', '#C88C6E', '#476F6C', '#8B555E', '#696E50', '#4D566C', '#9B5D76',
-            // '#F0C81E', '#32C850', '#B432C8', '#00AADC', '#FF6E50', '#00DCC8', '#FF3264', '#96C800', '#0064C8', '#FF64B4'
-        ];
+        var colorList = [];
         var colPalette = thepedal.color;
         var colData = theAnima[0][colPalette];
         function getRandomInt(min, max) {

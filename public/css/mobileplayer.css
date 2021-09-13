@@ -63,19 +63,6 @@ canvas {
     border-right: none;
 }
 
-/* .pad:nth-of-type(7n+1) {opacity: 0.05;}
-.pad:nth-of-type(7n+2) {opacity: 0.2;}
-.pad:nth-of-type(7n+3) {opacity: 0.3;}
-.pad:nth-of-type(7n+4) {opacity: 0.1;}
-.pad:nth-of-type(7n+5) {opacity: 0.25;}
-.pad:nth-of-type(7n+6) {opacity: 0.15;} */
-
-/* @media only screen and (max-width: 800px) {
-  #drumpads {
-    visibility: visible;
-  }
-} */
-
 #controller {
   position: fixed;
   bottom: -120%;
@@ -132,7 +119,7 @@ div.infoPanel {
     position: fixed;
     top: 0;
     height: calc(100% - 70px);
-    padding: 10px ;
+    padding: 60px 10px 10px 10px ;
     background-color: rgba(17, 17, 17, 0.8);
     transition-duration: 200ms;
     overflow-y: scroll;
@@ -156,6 +143,34 @@ div.playBtnPanel {
     transition-duration: 100ms;
     z-index: 3000;
 }
+
+.mobPlayerNav {
+  position: fixed;
+  width: calc(100% - 20px);
+  height: 30px;
+  top: 0;
+  left: 0;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  background: #111;
+  border-bottom: #444 1px solid;
+  z-index: 4000;
+}
+
+.mobPlayerNav .site-title h1 {
+  margin-top: 4px;
+  font-size: 1.2em;
+  opacity: 0.5;
+}
+
+.mobPlayerNav img {
+  height: 30px;
+}
+
+/* .mobPlayerNav .prev, .mobPlayerNav .next {
+  display: flex;
+} */
 
 div.infoPanel div.infoOne {
     height: 300px;
@@ -202,6 +217,10 @@ div.infoPanel div.infoTwo, div.infoPanel div.infoThree {
     width: 100%;
     max-width: 500px;
     margin: 20px auto;
+}
+
+div.infoPanel div.infoThree {
+  margin: 20px auto 60px auto;
 }
 
 div.infoPanel h2, div.infoPanel h3, div.infoPanel p {

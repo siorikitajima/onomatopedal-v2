@@ -34,6 +34,13 @@
         <title>OnomatoPedal - <%= name %> </title>
         <meta property="og:description" name="og:description" content="OnomatoPedal - <%= name %> is an Earthquaker Devices inspired online interactive music experience created by <%= pedal.artist %>.">
         <meta property="description" name="description" content="OnomatoPedal|<%= name %> is an Earthquaker Devices inspired online interactive music experience created by <%= pedal.artist %>.">
+    <%  } else if (nav === 'feat-single') { %>
+        <meta property="og:title" content="OnomatoPedal - <%= post.title %>" />
+        <meta property="og:url" content="https://onomatopedal.com/feat/<%=post.name%>/" />
+        <meta property="og:image" content="<%= post.featimg %>" />
+        <title>OnomatoPedal - <%= post.title %> </title>
+        <meta property="og:description" name="og:description" content="<%= post.desc %>">
+        <meta property="description" name="description" content="<%= post.desc %>">
     <% } else {%>
         <title>OnomatoPedal | <%= title %> </title>
         <meta property="og:title" content="OnomatoPedal | <%= title %>" />

@@ -10,22 +10,12 @@ const s3 = new AWS.S3({
     secretAccessKey: process.env.SECRET_ACCESS_KEY_S3
 });
 
-function isTouchDevice() {
-    // return (('ontouchstart' in window) ||
-    //    (navigator.maxTouchPoints > 0) ||
-    //    (navigator.msMaxTouchPoints > 0));
-    return (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  }
-
 const stems_get = async (req, res) => {   
     if(req.user.type == 'editor') {res.redirect('/featList');}
     else if (req.user.type == 'admin') {res.redirect('/register');}
     else {
     const isMobile = browser(req.headers['user-agent']).mobile;
-    const isTouch = isTouchDevice();
-    let drumPad;
-    if(isMobile || isTouch) { drumPad = true; } else { drumPad = false; }
-    if(drumPad) { res.redirect('/studio'); } else {
+    if(isMobile) { res.redirect('/studio'); } else {
         const stems = [1, 2, 3];
 
         const filename1 = `${req.user.name}/stem1.mp3`;
@@ -108,12 +98,9 @@ const preview_get = async　(req, res) => {
     else if (req.user.type == 'admin') {res.redirect('/register');}
     else {
     const isMobile = browser(req.headers['user-agent']).mobile;
-    const isTouch = isTouchDevice();
-    let drumPad;
-    if(isMobile || isTouch) { drumPad = true; } else { drumPad = false; }
     let rawdata = fs.readFileSync('./json/animation.json');
     let animaData = JSON.parse(rawdata);
-    if(drumPad) { res.redirect('/studio'); } else {
+    if(isMobile) { res.redirect('/studio'); } else {
         const stems = [1, 2, 3];
         const filename1 = `${req.user.name}/stem1.mp3`;
         const params1 = { Bucket: 'opv2-versioning', Key: filename1 };
@@ -147,7 +134,7 @@ const preview_get = async　(req, res) => {
                     pedal: opInfo,
                     stemFiles: [stem1, stem2, stem3], 
                     stems: stems,
-                    mobile: drumPad,
+                    mobile: isMobile,
                     animation: animaData
             })
         }})
@@ -174,9 +161,6 @@ const studio_get = async　(req, res) => {
     else if (req.user.type == 'admin') {res.redirect('/register');}
     else {
     const isMobile = browser(req.headers['user-agent']).mobile;
-    const isTouch = isTouchDevice();
-    let drumPad;
-    if(isMobile || isTouch) { drumPad = true; } else { drumPad = false; }
     let rawdata = fs.readFileSync('./json/eqdPedals.json');
     let eqdPedals = JSON.parse(rawdata);
     let rawdataAni = fs.readFileSync('./json/animation.json');
@@ -215,12 +199,12 @@ const studio_get = async　(req, res) => {
         OpMain.findOne({name: req.user.name}, (err, opInfo) => {
             if(err) {console.log(err);}
             else {
-                res.render(drumPad ? 'mobilePreview' : 'studio', { 
+                res.render(isMobile ? 'mobilePreview' : 'studio', { 
                     title: 'Dashboard', nav:'studio', 
                     pedal: opInfo, 
                     eqdPedals: eqdPedals,
                     name: req.user.name,
-                    mobile: drumPad,
+                    mobile: isMobile,
                     stemFiles: [stem1, stem2, stem3], 
                     stems: stems,
                     animation: animaData,

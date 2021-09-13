@@ -21,7 +21,7 @@
             <img class="featCover" src="<%= theblock.data.file.url %>" alt="image">
             <p class="caption"><%= theblock.data.caption %></p>
         <% } else if (theblock.type == "embed") { %>
-            <iframe src="<%= theblock.data.embed %>" frameborder="0" height="400"></iframe>
+            <iframe src="<%= theblock.data.embed %>" frameborder="0" ></iframe>
             <p class="caption"><%= theblock.data.caption %></p>
         <% } else if (theblock.type == "linkTool") { %>
             <a href="<%= theblock.data.link %>">
@@ -31,7 +31,7 @@
                     <% if( theblock.data.meta.description.length > 170) { var stripHere = 170; var shortText = theblock.data.meta.description.substring(0, stripHere) + "..."; %>
                         <p><%=shortText%></p>
                     <% } else { %>
-                        <p><%= theblock.data.meta.description %></p>
+                        <p class="desc"><%= theblock.data.meta.description %></p>
                     <% } %>
                     <p class="url"><%= theblock.data.link %></p>
                 </div>
