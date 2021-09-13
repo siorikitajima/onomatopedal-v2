@@ -119,11 +119,15 @@ div.infoPanel {
     position: fixed;
     top: 0;
     height: calc(100% - 70px);
-    padding: 60px 10px 10px 10px ;
+    padding: 60px 10px 10px 10px;
     background-color: rgba(17, 17, 17, 0.8);
     transition-duration: 200ms;
     overflow-y: scroll;
     z-index: 1000;
+}
+div.infoPanel.mblpreview {
+  height: calc(100% - 130px);
+  padding: 60px 10px;
 }
 div.playBtnPanel {
     width: calc(100vw - 20px);

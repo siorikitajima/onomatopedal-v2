@@ -214,6 +214,64 @@ const studio_get = async　(req, res) => {
     }
     };
 
+    const mobilepreview_get = async　(req, res) => {
+        if(req.user.type == 'editor') {res.redirect('/featList');}
+        else if (req.user.type == 'admin') {res.redirect('/register');}
+        else {
+        const isMobile = browser(req.headers['user-agent']).mobile;
+        let rawdata = fs.readFileSync('./json/eqdPedals.json');
+        let eqdPedals = JSON.parse(rawdata);
+        let rawdataAni = fs.readFileSync('./json/animation.json');
+        let animaData = JSON.parse(rawdataAni);
+    
+            const stems = [1, 2, 3];
+            const filename1 = `${req.user.name}/stem1.mp3`;
+            const params1 = { Bucket: 'opv2-versioning', Key: filename1 };
+            const stem1 = await s3
+            .headObject(params1).promise()
+            .then( () => true,
+              err => { if (err.code === 'NotFound') { return false; }
+                      throw err; });
+            const filename2 = `${req.user.name}/stem2.mp3`;
+            const params2 = { Bucket: 'opv2-versioning', Key: filename2 };
+            const stem2 = await s3
+            .headObject(params2).promise()
+            .then( () => true,
+                err => { if (err.code === 'NotFound') { return false; }
+                        throw err; });
+            const filename3 = `${req.user.name}/stem3.mp3`;
+            const params3 = { Bucket: 'opv2-versioning', Key: filename3 };
+            const stem3 = await s3
+            .headObject(params3).promise()
+            .then( () => true,
+                err => { if (err.code === 'NotFound') { return false; }
+                        throw err; });
+            const filename4 = `${req.user.name}/cover.jpg`;
+            const params4 = { Bucket: 'opv2-versioning', Key: filename4 };
+            const cover = await s3
+            .headObject(params4).promise()
+            .then( () => true,
+                err => { if (err.code === 'NotFound') { return false; }
+                        throw err; });
+            
+            OpMain.findOne({name: req.user.name}, (err, opInfo) => {
+                if(err) {console.log(err);}
+                else {
+                    res.render('mobilePreview', { 
+                        title: 'Mobile Preview', nav:'studio', 
+                        pedal: opInfo, 
+                        eqdPedals: eqdPedals,
+                        name: req.user.name,
+                        mobile: isMobile,
+                        stemFiles: [stem1, stem2, stem3], 
+                        stems: stems,
+                        animation: animaData,
+                        cover: cover
+                })
+            }})
+        }
+        };
+
     const studio_post = (req, res) => {
         let upload = multer({
           limits: { fileSize: 500000 },
@@ -261,6 +319,7 @@ module.exports = {
   stem_delete_3,
   preview_get,
   animation_post,
+  mobilepreview_get,
   studio_get,
   studio_post
 }

@@ -85,6 +85,8 @@ router.delete('/stem3', stemsController.stem_delete_3);
 
 router.get('/preview', authController.checkAuthenticated, stemsController.preview_get);
 
+router.get('/mobilepreview', authController.checkAuthenticated, stemsController.mobilepreview_get);
+
 router.post('/animation', authController.checkAuthenticated, stemsController.animation_post);
 
 module.exports = router;

@@ -567,7 +567,7 @@
       }
     
 
-    .keyPanels, .samplePanels {
+    .keyPanels, .samplePanels, .warnPopup {
       width: 400px;
       padding: 50px 30px 30px 30px;
       background: #444;
@@ -579,6 +579,13 @@
       transform: translate(-50%, -50%);
       border-radius: 5px;
       z-index: 1000;
+    }
+    .warnPopup {
+      left: 50%;
+      text-align: center;
+    }
+    .warnPopup h2 {
+      margin-bottom: 20px;
     }
     .keyPanels form, .samplePanels form {
       width: 300px;
@@ -602,7 +609,7 @@
       color: #111;
     }
 
-    #transparentScreen, #transparentScreenP, #transparentScreenNew, #transparentScreenTrack1, #transparentScreenTrack2, #transparentScreenTrack3, #transparentScreenpg, #transparentScreeng {
+    #transparentScreen, #transparentScreenP, #transparentScreenNew, #transparentScreenTrack1, #transparentScreenTrack2, #transparentScreenTrack3, #transparentScreenpg, #transparentScreeng, #transparentScreenWarn {
       margin: 0;
       padding: 0;
       width: 100vw;
@@ -611,8 +618,12 @@
       cursor: pointer;
       top: 0;
       left: 0;
-      background-color: rgba(245, 100, 118, 0);
+      background-color: rgba(0, 0, 0, 0);
       z-index: 500;
+    }
+    #transparentScreenWarn {
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 5000;
     }
     #transparentScreenTrack1, #transparentScreenTrack2, #transparentScreenTrack3 {
       z-index: 8000;

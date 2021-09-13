@@ -65,6 +65,16 @@
             </div>
         </div>
     </div>
+        <div class="hidden" id="transparentScreenWarn" onclick="closePanel()">
+            <div class="warnPopup">
+            <h2>Touch-Panel Detected</h2>
+            <p>OnomatoPedal Studio is <b>not optimized for mobile devices unless a keyboard input connected</b>. <br/>If you continue, please make sure you have one, or login from a computer. If not, you can test mobile preview instead.</p>
+            <button onclick="touchOk()">Continue</button>
+            <a href="/mobilepreview">
+                <button>Mobile Preview</button>
+            </a>
+            </div>
+        </div>
 
     <script>
         var thepedal = <%- JSON.stringify(pedal) %> ;
@@ -73,14 +83,36 @@
         var cover = <%- JSON.stringify(cover) %> ;
         var name = <%- JSON.stringify(name) %> ;
 
-        // const queryString = window.location.search; 
-        // const urlParams = new URLSearchParams(queryString); 
-        // const ver = urlParams.get('ver');
-        // if(ver) {
-        //     $('#coverJpg').attr('src', `https://opv2-versioning.s3.us-west-2.amazonaws.com/${name}/cover.jpg?${ver}`)
-        // } else {
-        //     $('#coverJpg').attr('src', `https://opv2-versioning.s3.us-west-2.amazonaws.com/${name}/cover.jpg`)
-        // }
+        function isTouchDevice() {
+            var result = false;
+        if ((/(iPad)/.test(navigator.userAgent)
+        && /WebKit/.test(navigator.userAgent)
+        && !window.MSStream)
+        || (navigator.platform === 'MacIntel'
+        && navigator.maxTouchPoints
+        && navigator.maxTouchPoints === 5)
+        ) {
+            result = true;
+        } else if (window.PointerEvent && ('maxTouchPoints' in navigator)) {
+            if (navigator.maxTouchPoints > 0) {
+            result = true;
+            } 
+        } else {
+            if (window.matchMedia && window.matchMedia("(any-pointer:coarse)").matches) {
+            result = true;
+            } else if (window.TouchEvent || ('ontouchstart' in window)) {
+            result = true;
+            } 
+        }
+        return result;
+        }
+        var isTouch = isTouchDevice();
+        if(isTouch) {
+            $('#transparentScreenWarn').removeClass('hidden');
+            function touchOk() {
+                $('#transparentScreenWarn').addClass('hidden');
+            }
+        }
 
         var imgPath, theCol, theCol2, theFont, theR, theG, theB, theR2, theG2, theB2, colArray;
         for (var p = 0; p < eqdPedals.length; p++) {
