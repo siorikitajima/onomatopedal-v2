@@ -104,7 +104,7 @@ const v2pedal_get = async (req, res) => {
     let eqdPedals = JSON.parse(rawPedalData);
     let raw2VData = fs.readFileSync('./json/opv2.json');
     let v2list = JSON.parse(raw2VData);
-    let prev, next;
+    let prev, next, merch =[];
     for(let p = 0; p < v2list.length; p++) {
         if ( v2list[p].name == onomoid ) {
             if(p == (v2list.length - 1)) {
@@ -117,6 +117,9 @@ const v2pedal_get = async (req, res) => {
             } else {
                 prev = v2list[p - 1].name;
             }
+            for(let m = 0; m < v2list[p].links.length; m++ ) {
+                merch.push(v2list[p].links[m]);
+            } 
         }
     }
     const stems = [1, 2, 3];
@@ -156,7 +159,8 @@ const v2pedal_get = async (req, res) => {
                 mobile: isMobile,
                 animation: animaData,
                 prev: prev,
-                next: next
+                next: next,
+                merch: merch
         })
     }})
 };

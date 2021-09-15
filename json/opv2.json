@@ -1,10 +1,74 @@
 [
     {
         "id": 0,
-        "name": "astral"
+        "name": "astral",
+        "links": [
+            {
+            "label": "Mug",
+            "image": "Astral_Mug.jpg",
+            "url": "https://eqdmerch.com/onomatopedal-mugs/"
+            },
+            {
+            "label": "Jogger",
+            "image": "jogger-temp.jpg",
+            "url": "https://eqdmerch.com/onomatopedal-joggers/"
+            },
+            {
+            "label": "T-shirt",
+            "image": "Astral_T.jpg",
+            "url": "https://eqdmerch.com/onomatopedal-astral-destiny-shirt/"
+            },
+            {
+            "label": "Leggings",
+            "image": "leggings-temp.jpg",
+            "url": "https://eqdmerch.com/onomatopedal-leggings/"
+            },
+            {
+            "label": "Album",
+            "image": "album-temp.jpg",
+            "url": "https://albums.patternbased.com/album/lcubb"
+            },
+            {
+            "label": "NFT",
+            "image": "num-five-blk.jpg",
+            "url": "https://opensea.io/oqlOlpo"
+            }
+        ]
     },
     {
         "id": 1,
-        "name": "astral"
+        "name": "demo-test",
+        "links": [
+            {
+            "label": "Mug",
+            "image": "Afterneath_Mug.jpg",
+            "url": "https://eqdmerch.com/onomatopedal-mugs/"
+            },
+            {
+            "label": "Neck Gaiter",
+            "image": "neckgater.jpg",
+            "url": "https://eqdmerch.com/onomatopedal-neck-gaiters/"
+            },
+            {
+            "label": "T-shirt",
+            "image": "Afterneath_T.jpg",
+            "url": "https://eqdmerch.com/onomatopedal-afterneath-shirt/"
+            },
+            {
+            "label": "Poster",
+            "image": "OP_Poster.jpg",
+            "url": "https://eqdmerch.com/onomatopedal-poster/"
+            },
+            {
+            "label": "Album",
+            "image": "SIMH_Cover.jpg",
+            "url": "https://albums.patternbased.com/album/lcubb"
+            },
+            {
+            "label": "NFT",
+            "image": "nft-temp.jpg",
+            "url": "https://opensea.io/oqlOlpo"
+            }
+        ]
     }
   ]

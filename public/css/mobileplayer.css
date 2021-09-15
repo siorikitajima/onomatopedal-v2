@@ -148,29 +148,7 @@ div.playBtnPanel {
     z-index: 3000;
 }
 
-.mobPlayerNav {
-  position: fixed;
-  width: calc(100% - 20px);
-  height: 30px;
-  top: 0;
-  left: 0;
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
-  background: #111;
-  border-bottom: #444 1px solid;
-  z-index: 4000;
-}
 
-.mobPlayerNav .site-title h1 {
-  margin-top: 4px;
-  font-size: 1.2em;
-  opacity: 0.5;
-}
-
-.mobPlayerNav img {
-  height: 30px;
-}
 
 /* .mobPlayerNav .prev, .mobPlayerNav .next {
   display: flex;
@@ -263,37 +241,37 @@ div.infoPanel div.pedalImgDiv, div.infoPanel div.pedalImgDiv img#pedalImg {
     width: 300px;
 }
 
-div.infoPanel div.merch-icons {
+/* div.infoPanel div.merch-icons {
     justify-content: left;
     padding-left: 0;
     margin: 0 auto;
-}
-div.infoPanel div.merch-icons::before {
+} */
+/* div.infoPanel div.merch-icons::before {
   display: none;
-}
+} */
 
-div.infoPanel div.merch-icons div.icon {
-    display: inline-block;
+/* div.infoPanel div.merch-icons div.icon {
+    /* display: inline-block; 
     width: calc(25vw - 20px);
     height: calc(25vw - 20px);
     max-width: 85px;
     max-height: 85px;
     margin: 10px 10px 0 0;
-    /* border: #F56476 1px solid; */
+    /* border: #F56476 1px solid; 
     background-color: #F56476;
     border-radius: 5px;
     position: relative;
     cursor: pointer;
-}
+} */
 
-div.infoPanel div.merch-icons div.icon h3 {
+/* div.infoPanel div.merch-icons div.icon h3 {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     opacity: 0;
-}
-div.infoPanel div.merch-icons div.icon:hover img {
+} */
+/* div.infoPanel div.merch-icons div.icon:hover img {
     opacity: 0;
     transition-duration: 200ms;
 }
@@ -306,7 +284,7 @@ div.infoPanel div.merch-icons img {
     width: 85px;
     margin: 0;
     border-radius: 5px;
-}
+} */
 
 div.smPedalImg {
     width: 100px;
@@ -320,4 +298,8 @@ div.smPedalImg {
 
 div.smPedalImg img {
     width: 50px;
+}
+
+div.infoPanel div.merch-icons {
+  margin: 20px auto 50px auto;
 }

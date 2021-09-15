@@ -25,19 +25,17 @@ const register_get = (req, res) => {
 
 const register_post = (req, res) => {
     //// Create a user + pass
-        const hashedPassword = bcrypt.hash(req.body.password, process.env.HASH_NUMBER)
-        .then((hash) => {
-            const user = new User({
-                name: req.body.name,
-                password: hash,
-                type: 'artist'
-            });
-            user.save();
-            console.log(user);
-        })
-        .catch((err)=> {
-            console.log(err);
-        })
+    const salt = Number(process.env.HASH_NUMBER);
+    bcrypt.hash(req.body.password, salt)
+    .then(function(hash) {
+        const user = new User({
+            name: req.body.name,
+            password: hash,
+            type: 'artist'
+        });
+        user.save();
+        console.log(user);
+    });
 
     let allKeys = [];
     //// Create 37 Keys

@@ -1,6 +1,6 @@
 <div class="infoPanel">
-        <% if (mobile) {%>
-            <div class="mobPlayerNav">
+        
+            <div class="v2Nav">
                 <div class="prev">
                     <a href="/v2/<%= prev %>">
                     <img src="../images/prevBtn.svg" alt="prev">
@@ -17,6 +17,8 @@
                     </a>
                 </div>
             </div>
+
+            <% if (mobile) {%>
             <div class="infoOne">
                 <div class="opImg">
                     <% var val = Math.floor(1000 + Math.random() * 9000); %>
@@ -83,31 +85,21 @@
                 </div>
             </div>
         </div>
+        <% } %>
     </div>
+
     <div class="merchContainer">
-    <% } %>
-    <% if (mobile) { %>
-        <p class="label">MUSIC, ART & MERCH</p>
-    <% } %>
         <div class="merch-icons">
-            <div class="icon">
-                <img src="../images/merch/OP_Astral-Destiny_B.jpg" alt="Tshirt">
-            </div>
-            <div class="icon">
-                <img src="../images/merch/jogger-temp.jpg" alt="Jogger">
-            </div>
-            <div class="icon">
-                <img src="../images/merch/Astral-Destiny_Mug.jpg" alt="Mug">
-            </div>
-            <div class="icon">
-                <img src="../images/merch/leggings-temp.jpg" alt="Leggings">
-            </div>
-            <div class="icon">
-                <img src="../images/merch/album-temp.jpg" alt="Album">
-            </div>
-            <div class="icon">
-                <img src="../images/merch/number-five-blk_thumb.jpg" alt="NFT">
-            </div>
+            <% merch.forEach((item, index) => { %>
+                <a href="<%=item.url%>" target="_blank">
+                    <div class="icon">
+                        <div class="label">
+                            <p><%=item.label%></p>
+                        </div>
+                        <img src="../images/merch/<%=item.image%>" alt="<%=item.label%>">
+                    </div>
+                </a>
+            <% }) %>
         </div>
     </div>
     <% if (mobile) {%>
@@ -218,7 +210,7 @@
     var isTouch = isTouchDevice();
     $('.blackscreen, .loadingSpinner').show();
     window.onload = ()=> { $('.blackscreen, .loadingSpinner').hide(); };
-console.log('isMobile: ' + mobile + ', isTouch: ' + isTouch);
+// console.log('isMobile: ' + mobile + ', isTouch: ' + isTouch);
         var thepedal = <%- JSON.stringify(pedal) %> ;
         var eqdPedals = <%- JSON.stringify(eqdPedals) %> ;
         var theAnima = <%- JSON.stringify(animation) %> ;
@@ -239,11 +231,22 @@ console.log('isMobile: ' + mobile + ', isTouch: ' + isTouch);
         else if (words === 2) {$('#onoText').css('font-size', '12em');}
         else {$('#onoText').css('font-size', '8em');}
 
-        var allMerchIcons = $('.icon');
-        allMerchIcons.each(function() {
-            var merchName = $(this).children('img').attr('alt');
-            $(this).append('<h3>' + merchName + '</h3>');
-        });
+        // var allMerchIcons = $('.icon');
+        // allMerchIcons.each(function() {
+        //     var merchName = $(this).children('img').attr('alt');
+        //     $(this).append('<h3>' + merchName + '</h3>');
+        // });
+        var labels = $('div.infoPanel div.merch-icons div.icon div.label');
+        var labelOn = false;
+        function setLabel() {
+            labelOn = !labelOn;
+            if(labelOn) { 
+                $(labels).css('bottom', 0);
+            } else {
+                $(labels).css('bottom', '-120%');
+            }
+        }
+        setTimeout(() => { setLabel() }, 2000);
 
         ///// Audio Player
         var thekeys = <%- JSON.stringify(pedal.keys) %> ;
@@ -337,7 +340,7 @@ console.log('isMobile: ' + mobile + ', isTouch: ' + isTouch);
             if(mobile || isTouch) {
             $('#controller').css('bottom', '10px');
             $('.infoPanel').css('top', '-120%');
-            $('.mobPlayerNav').css('top', '-120%');
+            $('.v2Nav').css('top', '-120%');
             $('#drumpads').css('visibility', 'visible');
             $('.playBtnPanel').css('bottom', '-120%');
             } else {
@@ -353,7 +356,7 @@ console.log('isMobile: ' + mobile + ', isTouch: ' + isTouch);
             if(mobile || isTouch) {
             $('#controller').css('bottom', '-120%');
             $('.infoPanel').css('top', '51px');
-            $('.mobPlayerNav').css('top', 0);
+            $('.v2Nav').css('top', 0);
             $('#drumpads').css('visibility', 'hidden');
             $('.playBtnPanel').css('bottom', 0);
             } else {
