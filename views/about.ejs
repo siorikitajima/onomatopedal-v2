@@ -6,15 +6,59 @@
         <p>What the fun is this?</p>
         <h1>About OnomatoPedal</h1>
     </div>
-    
-        <div class="center-content">
-        <h2>OnomatoPedal?</h2>
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-        <h2>How To Play</h2>
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-        <h2>Credit</h2>
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+
+    <div class="center-content about">
+        <div class='h2bg'>
+            <h2><%- about.aboutOPHeader %></h2>
+        </div>
+        <p><%- about.aboutOPBody1 %></p>
+        <p><%- about.aboutOPBody2 %></p>
+        <div class='h2bg'>
+            <h2><%- about.howToPlayHeader %></h2>
+        </div>
+        <h3>// On Desktop //</h3>
+        <p><%- about.howToPlayBody1 %></p>
+        <div class='keyimages'>
+            <img class='keyImage' src='../images/v1/keysOnBoard-v1.svg'>
+            <img class='keyImage' src='../images/v1/keysOnBoard-v2.svg'>
+        </div>
+        <h3>// On Mobile //</h3>
+        <p><%- about.howToPlayBody2 %></p>
+        <div class='keyimages'>
+            <img class='keyImage' src='../images/v1/mobile-preview_V1@2x.png'>
+            <img class='keyImage' src='../images/v1/mobile-preview_V2@2x.png'>
+        </div>
+        <div class='h2bg'>
+            <h2><%- about.creditsHeader %></h2>
+        </div>
+        <div class='keyimages logos'>
+            <a href='https://www.earthquakerdevices.com/' target='_blank'>
+                <img src='../images/v1/EarthQuaker-Devices-Logo.png'>
+            </a>
+            <a href='https://www.patternbased.com/' target='_blank'>
+                <img src='../images/v1/PatternBased_Logo_WHCL.png'>
+            </a>
+        </div>
+        <h3>// Version 1 Onomatopedals //</h3>
+        <p><%- about.creditsBodyV1 %></p>
+        <a href='https://albums.patternbased.com/album/onomatopedal' target='_blank'>
+            <div class='sideBanner'>
+                <img src='../images/v1/OnomatoPedal_Cover_V2.jpg'>
+                <h3 class='albumBanner'>
+                    <%- about.creditsV1Album %> 
+                </h3>
+            </div>
+        </a>
+        <h3>// Version 2 Onomatopedals //</h3>
+        <p><%- about.creditsBodyV2 %></p>
+        <h3>// OnomatoPedal App //</h3>
+        <p><%- about.creditsBodyMain %></p>
+        <h3>// Acknowledgement //</h3>
+        <p><%- about.creditsBodTools %></p>
+        <p><%- about.creditsThanks %></p>
+
     </div>
 
+    <%- include('./partials/footer.ejs')  %> 
 </body>
 </html>

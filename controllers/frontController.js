@@ -165,9 +165,26 @@ const v2pedal_get = async (req, res) => {
     }})
 };
 
+const about_get = (req, res) => {
+    // let rawV1data = fs.readFileSync('./json/opv1.json');
+    // let v1pedals = JSON.parse(rawV1data);
+    let rawEnData = fs.readFileSync('./json/about.json');
+    let v1EnData = JSON.parse(rawEnData);
+    // let rawJpData = fs.readFileSync('./json/v1language/jp.json');
+    // let v1JpData = JSON.parse(rawJpData);
+    // let language = [];
+    // language.push(v1EnData, v1JpData);
+    res.render('about', { 
+        title: 'About', 
+        nav:'about',
+        about: v1EnData
+    });
+}
+
 module.exports = {
     home_get,
     v1list_get,
     v1pedal_get,
-    v2pedal_get
+    v2pedal_get,
+    about_get
 }

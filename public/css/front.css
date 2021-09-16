@@ -4,9 +4,15 @@ div.center-content {
     padding: 50px 0 0 0;
     margin: 0 auto;
 }
+div.center-content.about {
+    padding: 0;
+}
 
 div.center-content h2 {
     margin: 50px 0 20px 0;
+}
+div.center-content.about h2 {
+    margin: 0;
 }
 div.center-content.feat h2 {
     margin: unset;
@@ -615,14 +621,55 @@ div.center-content.feat p {
     margin-bottom: 60px;
     line-height: 1.6em;
 }
+div.center-content.about p {
+    margin-bottom: 10px;
+    line-height: 1.6em;
+}
 
-.feat p a {
+.feat p a, .about p a {
     color: #F56476;
 }
 .feat p.caption {
     color: #777;
     margin-top: 10px;
     text-align: right;
+}
+.about .keyimages {
+    margin-bottom: 20px;
+    text-align: center;
+}
+.about .keyimages img{
+    display: inline-block;
+    margin: 10px;
+    width: calc(50% - 24px);
+}
+.about .keyimages.logos img {
+    margin: 20px 30px;
+    width: 240px;
+}
+.about h3 {
+    color: #777;
+    letter-spacing: 0.1em;
+    margin-top: 20px;
+}
+.about .sideBanner {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border-radius: 5px;
+    background: #222;
+    margin: 20px 0;
+    display: inline-flex;
+    justify-content: left;
+}
+.about .sideBanner img {
+    width: 160px;
+    height: 160px;
+}
+.about .sideBanner h3 {
+    margin: auto 30px;
+}
+.about .sideBanner h3 b.highlight {
+    color: #ddd;
 }
 
 @media(max-width: 800px) {
@@ -714,6 +761,27 @@ div.center-content.feat p {
     }
     div.center-content.feat div.feat-item h2::after {
         bottom: -10px;
+    }
+
+    .about .sideBanner {
+        display: block;
+        text-align: center;
+    }
+    .about .sideBanner img {
+        width: 160px;
+        height: 160px;
+    }
+    .about .sideBanner h3 {
+        margin: 20px 10px 10px 10px;
+    }
+    .about .keyimages img{
+        display: block;
+        margin: 20px 10px;
+        width: calc(100% - 20px);
+    }
+    .about .keyimages.logos img {
+        margin: 20px 10px;
+        width: 240px;
     }
 }
 @media(max-width: 420px) {
