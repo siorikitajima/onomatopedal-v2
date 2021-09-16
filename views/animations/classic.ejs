@@ -1,0 +1,402 @@
+<script>
+    var thepedal = <%- JSON.stringify(pedal) %> ;
+    var isMobile = <%- JSON.stringify(mobile) %> ;
+    var onomato = thepedal.onomato.toUpperCase().replace(/\s+/g, '');
+    var tempo = 60000 / thepedal.tempo;
+    var speedControl;
+    var disableKeys = false;
+    var marginTop = isMobile ? 0 : 51; 
+    
+    let maxR = colorValue[3]; let minR = colorValue[0];
+    let maxG = colorValue[4]; let minG = colorValue[1];
+    let maxB = colorValue[5]; let minB = colorValue[2];
+    let maxBG = colorValue[7]; let minBG = colorValue[6];
+    let circlesL = [], circlesS = [], lettersL = [], lettersS = [], bars = [], waves = [];
+    let bgColor = 125;
+    let dark = true;
+
+    function setup() {
+        frameRate(24);
+        createCanvas(innerWidth, innerHeight);
+        speedControl = map(tempo, 2000, 250, 0.5, 1.5);
+    }
+
+    function draw() {
+      background(bgColor);
+
+    for(let l = 0; l < circlesL.length; l++ ) {
+        circlesL[l].show();
+        circlesL[l].move();
+        circlesL[l].remove(circlesL);
+    }
+    for(let s = 0; s < circlesS.length; s++ ) {
+        circlesS[s].show();
+        circlesS[s].move();
+        circlesS[s].remove(circlesS);
+    }  
+    for(let l = 0; l < lettersL.length; l++ ) {
+        lettersL[l].show();
+        lettersL[l].move();
+        lettersL[l].remove(lettersL);
+    }
+    for(let s = 0; s < lettersS.length; s++ ) {
+        lettersS[s].show();
+        lettersS[s].move();
+        lettersS[s].remove(lettersS);
+    }
+    for(let b = 0; b < bars.length; b++ ) {
+        bars[b].show();
+        bars[b].move();
+        bars[b].remove(bars);
+    }
+    for(let w = 0; w < waves.length; w++ ) {
+        waves[w].show();
+        waves[w].move();
+        waves[w].remove(waves);
+    }
+    
+    if(dark) {
+        if(bgColor > minBG + 1) {
+        bgColor = bgColor - 20*speedControl;
+        } else {
+        bgColor = minBG;
+        }
+    } else {
+        if(bgColor < maxBG - 1) {
+        bgColor = bgColor + 20*speedControl;
+        } else {
+        bgColor = maxBG;
+        }
+    }
+    // console.log(bgColor);
+    }
+    
+    function keyPressed() {
+    if (keyCode == 65 || keyCode == 66 || keyCode == 49) { // a + b + 1
+      let circleL = new Cir(true, true);
+      circlesL.push(circleL);
+    }
+    if (keyCode == 68 || keyCode == 76 || keyCode == 56) { // d + l + 8
+      let circleL = new Cir(true, false);
+      circlesL.push(circleL);
+    }
+    if (keyCode == 71 || keyCode == 73 || keyCode == 51) { // g + i + 3
+      let circleS = new Cir(false, true);
+      circlesS.push(circleS);
+    }
+    if (keyCode == 74 || keyCode == 81 || keyCode == 52) { // j + q + 4
+      let circleS = new Cir(false, false);
+      circlesS.push(circleS);
+    }
+    if (keyCode == 77 || keyCode == 69 || keyCode == 53) { // m + e + 5
+      let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+      let letter = new Letter(OnoLetter, true, true);
+      lettersL.push(letter);
+    }
+    if (keyCode == 80 || keyCode == 82 || keyCode == 90) { // p + r + z
+      let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+      let letter = new Letter(OnoLetter, true, false);
+      lettersL.push(letter);
+    }
+    if (keyCode == 83 || keyCode == 85 || keyCode == 84) { // s + u + t
+      let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+      let letter = new Letter(OnoLetter, false, true);
+      lettersS.push(letter);
+    }
+    if (keyCode == 86 || keyCode == 87 || keyCode == 75) { // v + w + k
+      let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+      let letter = new Letter(OnoLetter, false, false);
+      lettersS.push(letter);
+    }
+    if (keyCode == 88 || keyCode == 89 || keyCode == 78) { // x + y + n
+      let bar = new Bar(true);
+      bars.push(bar);
+    }
+    if (keyCode == 67 || keyCode == 72 || keyCode == 48) { // c + h + 0
+      let bar = new Bar(false);
+      bars.push(bar);
+    }
+    if (keyCode == 70 || keyCode == 79 || keyCode == 55) { // f + o + 7
+      let wave = new Wave();
+      waves.push(wave);
+    }
+    if (keyCode == 50 || keyCode == 57 || keyCode == 54) { // 2 + 9 + 6
+      let wave = new Wave();
+      waves.push(wave);
+    }
+    if (keyCode === 32) { // space
+      dark = !dark;
+      console.log(dark);
+    }
+    }
+    function windowResized() {
+      resizeCanvas(windowWidth, windowHeight - marginTop);
+    }
+
+class Wave {
+  constructor() {
+    this.middle = height/2;
+    this.grid = random(50, 200);
+    this.points = floor(width/this.grid);
+    this.size = [];
+    for( let p = 0; p < this.points; p++ ) {
+      this.size[p] = random(-height/4, height/4);
+    }
+    this.easing = random(0.06, 0.1)*speedControl;
+    this.r = random(minR, maxR);
+    this.g = random(minG, maxG);
+    this.b = random(minB, maxB);
+  }
+  show() {
+    noFill();
+    stroke(this.r, this.g, this.b)
+    strokeWeight(2);
+    beginShape();
+    curveVertex(-50, this.middle);
+    curveVertex(-50, this.middle);
+    for( let p = 0; p < this.points; p++ ) {
+      curveVertex(this.grid * p, this.middle + this.size[p]);
+    }
+    curveVertex(width+50, this.middle);
+    curveVertex(width+50, this.middle);
+    endShape();
+  }
+  move() {
+    for( let p = 0; p < this.points; p++ ) {
+      let dist = -(this.size[p]);
+      this.size[p] = this.size[p] + dist * this.easing * 2;
+    }
+  }
+  remove(arrayName) {
+    let result = true;
+    for( let p = 0; p < this.points; p++ ) {
+      if ( this.size[p] >= 2 ) {
+        result = false;
+        break;
+      }
+    }
+    if(result) {
+      arrayName.splice(0, 1);
+    }
+  }
+}
+
+class Bar {
+  constructor(up) {
+    this.direction = up;
+    this.speed = 50*speedControl;
+    this.r = random(minR, maxR);
+    this.g = random(minG, maxG);
+    this.b = random(minB, maxB);
+    this.y1 = height;
+    this.y2 = -60;
+  }
+  show() {
+    noStroke();
+    fill(this.r, this.g, this.b);
+    if(this.direction) {
+      rect(0, this.y1, width, 60);
+    } else {
+      rect(0, this.y2, width, 60);
+    }
+  }
+  move() {
+    if(this.direction) {
+      this.y1 = this.y1 - this.speed;
+    } else {
+      this.y2 = this.y2 + this.speed;
+    }
+  }
+  remove(arrayName) {
+    if(this.direction) {
+      if(this.y1 < -60) {
+        arrayName.splice(0, 1);
+      }
+    } else {
+      if(this.y2 > height) {
+        arrayName.splice(0, 1);
+      }
+    }
+  }
+}
+
+class Letter {
+  constructor(key, fill, larger) {
+    this.key = key;
+    this.pos = createVector (random(width), random(height));
+    this.fill = fill;
+    this.larger = larger;
+    this.r = random(minR, maxR);
+    this.g = random(minG, maxG);
+    this.b = random(minB, maxB);
+    this.minsize = random(1, 4);
+    this.maxsize = random(width/3, width/2);
+    this.easing = random(0.06, 0.1)*speedControl;
+  }
+  show() {
+    if(this.fill) {
+      noStroke();
+      fill(this.r, this.g, this.b);
+    } else {
+      noFill();
+      strokeWeight(4);
+      stroke(this.r, this.g, this.b);
+    }
+    if(this.larger) {
+      textSize(this.minsize);
+    } else {
+      textSize(this.maxsize);
+    }
+    textAlign(CENTER);
+    text(this.key, this.pos.x, this.pos.y);
+  }
+  move() {
+    if(this.larger) {
+    let dist = width - this.minsize;
+      this.minsize = this.minsize + dist * this.easing;
+    } else {
+      let dist = -(this.maxsize);
+      this.maxsize = this.maxsize + dist * this.easing * 2;
+    }
+  }
+  remove(arrayName) {
+    if(this.larger) {
+      if(this.minsize > width/3*2) {
+        arrayName.splice(0, 1);
+      }
+    } else {
+      if(this.maxsize < 10) {
+        arrayName.splice(0, 1);
+      }
+    }
+  }
+}
+
+class Cir {
+  constructor(fill, larger) {
+    this.pos = createVector(random(width), random(height));
+    this.r = random(minR, maxR);
+    this.g = random(minG, maxG);
+    this.b = random(minB, maxB);
+    this.fill = fill;
+    this.larger = larger;
+    this.minsize = random(1, 4);
+    this.maxsize = random(width/3, width/2);
+    this.easing = random(0.06, 0.1)*speedControl;
+  }
+  show() {
+    if(this.fill) {
+      noStroke();
+      fill(this.r, this.g, this.b);
+    } else {
+      noFill();
+      strokeWeight(4);
+      stroke(this.r, this.g, this.b);
+    }
+    if(this.larger) {
+      circle(this.pos.x, this.pos.y, this.minsize);
+    } else {
+      circle(this.pos.x, this.pos.y, this.maxsize);
+    }
+  }
+  move() {
+    if(this.larger) {
+    let dist = width - this.minsize;
+      this.minsize = this.minsize + dist * this.easing;
+    } else {
+      let dist = -(this.maxsize);
+      this.maxsize = this.maxsize + dist * this.easing * 2;
+    }
+  }
+  remove(arrayName) {
+    if(this.larger) {
+      if(this.minsize > width/3*2) {
+        arrayName.splice(0, 1);
+      }
+    } else {
+      if(this.maxsize < 10) {
+        arrayName.splice(0, 1);
+      }
+    }
+  }
+}
+    ////////
+    if(isMobile) {
+      function touchStarted() {
+      let posx = floor(mouseX);
+      let posy = floor(mouseY);
+      let col0 = posx >= 0 && posx < width/4;
+      let col1 = posx >= width/4 && posx < width/4*2;
+      let col2 = posx >= width/4*2 && posx < width/4*3;
+      let col3 = posx >= width/4*3 && posx <= width;
+      let theheight = innerHeight - 80;
+      let row0 = posy >= 0 && posy < theheight/10;
+      let row1 = posy >= theheight/10 && posy < theheight/10*2;
+      let row2 = posy >= theheight/10*2 && posy < theheight/10*3;
+      let row3 = posy >= theheight/10*3 && posy < theheight/10*4;
+      let row4 = posy >= theheight/10*4 && posy < theheight/10*5;
+      let row5 = posy >= theheight/10*5 && posy < theheight/10*6;
+      let row6 = posy >= theheight/10*6 && posy < theheight/10*7;
+      let row7 = posy >= theheight/10*7 && posy < theheight/10*8;
+      let row8 = posy >= theheight/10*8 && posy < theheight/10*9;
+      let row9 = posy >= theheight/10*9 && posy < theheight;
+    
+      if ((col2 && row9)  || (col3 && row1) || (col0 && row9)) {
+        let circleL = new Cir(true, true);
+        circlesL.push(circleL);
+      }
+      if ((col2 && row7) || (col2 && row1) || (col0 && row2)) {
+        let circleL = new Cir(true, false);
+        circlesL.push(circleL);
+      }
+      if ((col2 && row5) || (col1 && row2 || (col0 && row7))) {
+        let circleS = new Cir(false, true);
+        circlesS.push(circleS);
+      }
+      if ((col2 && row3) || (col1 && row9) || (col0 && row6)) {
+        let circleS = new Cir(false, false);
+        circlesS.push(circleS);
+        }
+      if ((col2 && row0) || (col1 && row7) || (col0 && row5)) {
+        let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+        let letter = new Letter(OnoLetter, true, true);
+        lettersL.push(letter);
+      }
+      if ((col1 && row0) || (col1 && row6) || (col3 && row9)) {
+        let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+        let letter = new Letter(OnoLetter, true, false);
+        lettersL.push(letter);
+      }
+      if ((col2 && row8) || (col1 && row3) || (col1 && row5)) {
+        let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+        let letter = new Letter(OnoLetter, false, true);
+        lettersS.push(letter);
+      }
+      if ((col3 && row2) || (col1 && row8) || (col2 && row2)) {
+        let OnoLetter = onomato[floor(random(0, onomato.length -1))];
+        let letter = new Letter(OnoLetter, false, false);
+        lettersS.push(letter);
+      }
+      if ((col3 && row8) || (col1 && row4) || (col3 && row0)) {
+        let bar = new Bar(true);
+        bars.push(bar);
+      }
+      if ((col3 && row7) || (col2 && row4) || (col0 && row0)) {
+        let bar = new Bar(false);
+        bars.push(bar);
+      }
+      if ((col2 && row6) || (col1 && row1) || (col0 && row3)) {
+        let wave = new Wave();
+        waves.push(wave);
+      }
+      if ((col0 && row8) || (col0 && row1) || (col0 && row4)) {
+        let wave = new Wave();
+        waves.push(wave);
+      }
+      if (col3 && row3 || col3 && row4 || col3 && row5 || col3 && row6) {
+        dark = !dark;
+      }
+    }
+    }
+
+      </script>
