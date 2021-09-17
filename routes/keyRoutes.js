@@ -31,7 +31,7 @@ const upload = multer({
       },
       key: function (req, file, cb) {
           let ext = path.extname(file.originalname);
-              cb(null, `${req.user.name}/${req.body.newname || req.body.sample || req.body.samplep }${ext}`);
+              cb(null, `${req.user.username}/${req.body.newname || req.body.sample || req.body.samplep }${ext}`);
       }
     }),
   });

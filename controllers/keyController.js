@@ -18,21 +18,21 @@ const key_index = async (req, res) => {
 
     if(isMobile) { res.redirect('/studio'); } else {
         const stems = [1, 2, 3];
-        const filename1 = `${req.user.name}/stem1.mp3`;
+        const filename1 = `${req.user.username}/stem1.mp3`;
         const params1 = { Bucket: 'opv2-versioning', Key: filename1 };
         const stem1 = await s3
         .headObject(params1).promise()
         .then( () => true,
         err => { if (err.code === 'NotFound') { return false; }
                 throw err; });
-        const filename2 = `${req.user.name}/stem2.mp3`;
+        const filename2 = `${req.user.username}/stem2.mp3`;
         const params2 = { Bucket: 'opv2-versioning', Key: filename2 };
         const stem2 = await s3
         .headObject(params2).promise()
         .then( () => true,
             err => { if (err.code === 'NotFound') { return false; }
                     throw err; });
-        const filename3 = `${req.user.name}/stem3.mp3`;
+        const filename3 = `${req.user.username}/stem3.mp3`;
         const params3 = { Bucket: 'opv2-versioning', Key: filename3 };
         const stem3 = await s3
         .headObject(params3).promise()
@@ -40,14 +40,14 @@ const key_index = async (req, res) => {
             err => { if (err.code === 'NotFound') { return false; }
                     throw err; });
 
-        OpMain.findOne({name: req.user.name}, (err, opInfo) => {
+        OpMain.findOne({name: req.user.username}, (err, opInfo) => {
             if(err) {console.log(err);}
             else {
                 res.render('keys', { 
                     title: 'Keys', 
                     nav:'keys',
                     pedal: opInfo,
-                    name: req.user.name, 
+                    name: req.user.username, 
                     pitches: pitches,
                     stemFiles: [stem1, stem2, stem3], 
                     stems: stems })
@@ -65,7 +65,7 @@ const key_update = (req, res) => {
     if (req.body.sample){ sample = req.body.sample;
     } else { sample = null }
 
-    OpMain.findOne({name: req.user.name}, (err, opInfo) => {
+    OpMain.findOne({name: req.user.username}, (err, opInfo) => {
         for(let k = 0; k < opInfo.keys.length; k++) {
             if (opInfo.keys[k].key == req.body.key) {
                 opInfo.keys[k].enabled = enabled;
@@ -102,7 +102,7 @@ const key_group_post = (req, res) => {
     if (req.body.enabledg == 'on'){ enabled = true;
     } else { enabled = false }
 
-    OpMain.findOne({name: req.user.name}, (err, opInfo) => {
+    OpMain.findOne({name: req.user.username}, (err, opInfo) => {
         for(let p = 0; p < opInfo.keys.length; p++) {
             for(let i = 0; i < keyNames.length; i++) {
                 if (opInfo.keys[p].key == keyNames[i]) {
@@ -131,21 +131,21 @@ const pad_get = async (req, res) => {
 
     if(isMobile) { res.redirect('/studio'); } else {
         const stems = [1, 2, 3];
-        const filename1 = `${req.user.name}/stem1.mp3`;
+        const filename1 = `${req.user.username}/stem1.mp3`;
         const params1 = { Bucket: 'opv2-versioning', Key: filename1 };
         const stem1 = await s3
         .headObject(params1).promise()
         .then( () => true,
         err => { if (err.code === 'NotFound') { return false; }
                 throw err; });
-        const filename2 = `${req.user.name}/stem2.mp3`;
+        const filename2 = `${req.user.username}/stem2.mp3`;
         const params2 = { Bucket: 'opv2-versioning', Key: filename2 };
         const stem2 = await s3
         .headObject(params2).promise()
         .then( () => true,
             err => { if (err.code === 'NotFound') { return false; }
                     throw err; });
-        const filename3 = `${req.user.name}/stem3.mp3`;
+        const filename3 = `${req.user.username}/stem3.mp3`;
         const params3 = { Bucket: 'opv2-versioning', Key: filename3 };
         const stem3 = await s3
         .headObject(params3).promise()
@@ -153,14 +153,14 @@ const pad_get = async (req, res) => {
             err => { if (err.code === 'NotFound') { return false; }
                     throw err; });
 
-        OpMain.findOne({name: req.user.name}, (err, opInfo) => {
+        OpMain.findOne({name: req.user.username}, (err, opInfo) => {
             if(err) {console.log(err);}
             else {
                 res.render('pads', { 
                     title: 'Pads', 
                     nav:'pads',
                     pedal: opInfo,
-                    name: req.user.name, 
+                    name: req.user.username, 
                     pitches: pitches,
                     stemFiles: [stem1, stem2, stem3], 
                     stems: stems })
@@ -178,7 +178,7 @@ const pad_post = (req, res) => {
     if (req.body.samplep){ sample = req.body.samplep;
     } else { sample = null }
 
-    OpMain.findOne({name: req.user.name}, (err, opInfo) => {
+    OpMain.findOne({name: req.user.username}, (err, opInfo) => {
         for(let p = 0; p < opInfo.pads.length; p++) {
             if (opInfo.pads[p].pad == req.body.pad) {
                 opInfo.pads[p].enabled = enabled;
@@ -215,7 +215,7 @@ const pad_group_post = (req, res) => {
     if (req.body.enabledpg == 'on'){ enabled = true;
     } else { enabled = false }
 
-    OpMain.findOne({name: req.user.name}, (err, opInfo) => {
+    OpMain.findOne({name: req.user.username}, (err, opInfo) => {
         for(let p = 0; p < opInfo.pads.length; p++) {
             for(let i = 0; i < padNames.length; i++) {
                 if (opInfo.pads[p].pad == padNames[i]) {
@@ -245,21 +245,21 @@ const samples_get = async (req, res) => {
         let pitches = JSON.parse(rawdata);
 
         const stems = [1, 2, 3];
-        const filename1 = `${req.user.name}/stem1.mp3`;
+        const filename1 = `${req.user.username}/stem1.mp3`;
         const params1 = { Bucket: 'opv2-versioning', Key: filename1 };
         const stem1 = await s3
         .headObject(params1).promise()
         .then( () => true,
         err => { if (err.code === 'NotFound') { return false; }
                 throw err; });
-        const filename2 = `${req.user.name}/stem2.mp3`;
+        const filename2 = `${req.user.username}/stem2.mp3`;
         const params2 = { Bucket: 'opv2-versioning', Key: filename2 };
         const stem2 = await s3
         .headObject(params2).promise()
         .then( () => true,
             err => { if (err.code === 'NotFound') { return false; }
                     throw err; });
-        const filename3 = `${req.user.name}/stem3.mp3`;
+        const filename3 = `${req.user.username}/stem3.mp3`;
         const params3 = { Bucket: 'opv2-versioning', Key: filename3 };
         const stem3 = await s3
         .headObject(params3).promise()
@@ -267,14 +267,14 @@ const samples_get = async (req, res) => {
             err => { if (err.code === 'NotFound') { return false; }
                     throw err; });
         
-        OpMain.findOne({name: req.user.name}, (err, opInfo) => {
+        OpMain.findOne({name: req.user.username}, (err, opInfo) => {
             if(err) {console.log(err);}
             else {
             res.render('samples', { 
                 title: 'Samples', 
                 nav:'samples',
                 pedal: opInfo, 
-                name: req.user.name, 
+                name: req.user.username, 
                 stemFiles: [stem1, stem2, stem3], 
                 pitches: pitches,
                 stems: stems })
@@ -287,9 +287,9 @@ const samples_get = async (req, res) => {
     const samples_post = async (req, res) => {
         if (req.body.oldname !== req.body.name) {
 
-            const oldname = `opv2-versioning/${req.user.name}/${req.body.oldname}.mp3`;
-            const newname = `${req.user.name}/${req.body.name}.mp3`;
-            const deletename = `${req.user.name}/${req.body.oldname}.mp3`;
+            const oldname = `opv2-versioning/${req.user.username}/${req.body.oldname}.mp3`;
+            const newname = `${req.user.username}/${req.body.name}.mp3`;
+            const deletename = `${req.user.username}/${req.body.oldname}.mp3`;
             const copyParams = { CopySource: oldname, ACL: "public-read", Bucket: 'opv2-versioning', Key: newname };
             const deleteParams = { Bucket: 'opv2-versioning', Key: deletename };
             
@@ -304,7 +304,7 @@ const samples_get = async (req, res) => {
             });
         }
         
-        OpMain.findOne({name: req.user.name}, (err, opInfo) => {
+        OpMain.findOne({name: req.user.username}, (err, opInfo) => {
             if(err) {console.log(err);}
             else {
                 for(let s = 0; s < opInfo.samples.length; s++) {
@@ -331,13 +331,13 @@ const samples_get = async (req, res) => {
     };
 
     const sample_delete = (req, res) => {
-        const filename = `${req.user.name}/${req.body.oldname}.mp3`;
+        const filename = `${req.user.username}/${req.body.oldname}.mp3`;
         var params = {  Bucket: 'opv2-versioning', Key: filename };
         s3.deleteObject(params, (err, data) => {
         if (err) console.log(err, err.stack);
         });
 
-        OpMain.findOne({name: req.user.name}, (err, opInfo) => {
+        OpMain.findOne({name: req.user.username}, (err, opInfo) => {
             if(err) {console.log(err);}
             else {
                 for(let s = 0; s < opInfo.samples.length; s++) {
@@ -363,7 +363,7 @@ const samples_get = async (req, res) => {
 
     const sample_new = (req, res) => {
 
-        OpMain.findOne({name: req.user.name}, (err, opInfo) => {
+        OpMain.findOne({name: req.user.username}, (err, opInfo) => {
             if(err) {console.log(err);}
             else {
                 let exist = false;

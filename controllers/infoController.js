@@ -1,6 +1,6 @@
 const OpMain = require('../models/opMain');
 const User = require('../models/user');
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 const fs = require('fs');
 
 const AWS = require('aws-sdk');
@@ -25,16 +25,29 @@ const register_get = (req, res) => {
 
 const register_post = (req, res) => {
     //// Create a user + pass
-    const salt = Number(process.env.HASH_NUMBER);
-    bcrypt.hash(req.body.password, salt)
-    .then(function(hash) {
-        const user = new User({
-            name: req.body.name,
-            password: hash,
-            type: 'artist'
-        });
-        user.save();
-        console.log(user);
+    // const salt = Number(process.env.HASH_NUMBER);
+    // bcrypt.hash(req.body.password, salt)
+    // .then(function(hash) {
+    //     const user = new User({
+    //         name: req.body.name,
+    //         password: hash,
+    //         type: 'artist'
+    //     });
+    //     user.save();
+    //     console.log(user);
+    // });
+
+    User.register(({
+        username : req.body.username,
+        type: 'artist'
+    }), req.body.password, (err) => {
+        if (err) {
+            console.log('error while user register!', err);
+            // res.redirect('/register');
+        } else {
+            console.log(req.body.username + ' is registered');
+            // res.redirect('/login');
+        }
     });
 
     let allKeys = [];
@@ -83,7 +96,7 @@ const register_post = (req, res) => {
 
     //// Create opMain document in DB
     const opMain = new OpMain({
-        name: req.body.name,
+        name: req.body.username,
         pedalFull: req.body.featuredpedal,
         onomato: req.body.onomato,
         onoMeaning: req.body.onoMeaning,
@@ -106,7 +119,7 @@ const register_post = (req, res) => {
 
         for(var i = 0; i < sampleFiles.length; i++) {
             const ogFilePath = `public/sound/defaultAudio/` + sampleFiles[i];
-            const s3FileKey = req.body.name + '/' + sampleFiles[i];
+            const s3FileKey = req.body.username + '/' + sampleFiles[i];
             const fileContent = fs.readFileSync(ogFilePath);
             const params = {
                 Bucket: 'opv2-versioning',
@@ -131,9 +144,9 @@ const info_get = async (req, res) => {
     else if (req.user.type == 'admin') {res.redirect('/register');}
     else {
         try {
-            OpMain.find({name: req.user.name})
+            OpMain.find({name: req.user.username})
             .then( (result) => {
-                res.render('info', { title: 'Info', nav:'info', pedal: result[0], name: req.user.name });
+                res.render('info', { title: 'Info', nav:'info', pedal: result[0], name: req.user.username });
             });
         } catch {
             res.redirect('/info');

@@ -32,7 +32,7 @@ let upload = multer({
       },
       key: function (req, file, cb) {
         let ext = path.extname(file.originalname);
-        cb(null, `${req.user.name}/${file.fieldname}${ext}`)
+        cb(null, `${req.user.username}/${file.fieldname}${ext}`)
       }
     })
   });
