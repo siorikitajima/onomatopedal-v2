@@ -89,4 +89,6 @@ router.get('/mobilepreview', authController.checkAuthenticated, stemsController.
 
 router.post('/animation', authController.checkAuthenticated, stemsController.animation_post);
 
+router.get('/previewanima/:aniid-:newcol-:newtempo', authController.checkAuthenticated, stemsController.previewanima);
+
 module.exports = router;

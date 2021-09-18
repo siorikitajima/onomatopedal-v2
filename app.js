@@ -93,7 +93,9 @@ app.get('/register',
 authController.checkAuthenticated, 
 infoController.register_get);
 
-app.post('/register', authController.checkAuthenticated, infoController.register_post);
+app.post('/register', 
+authController.checkAuthenticated, 
+infoController.register_post);
 
 app.get('/guide', authController.checkAuthenticated, (req, res) => {
     res.render('guide', { title: 'About', nav:'aboutst', name: req.user.username });

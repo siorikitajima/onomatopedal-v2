@@ -39,8 +39,13 @@
     </div>
     <div class="footer">
         <div class="flex">
-        <a href="https://www.earthquakerdevices.com/" target="_blank"><img class="footerLogo" src="images/EQD_logo_S.png" alt="EQD logo"></a>
-        <a href="https://www.patternbased.com/" target="_blank"><img class="footerLogo" src="images/PB_logo_S.png" alt="PB logo"></a>            
+            <% if (nav == 'previewanima') { %>
+                <a href="https://www.earthquakerdevices.com/" target="_blank"><img class="footerLogo" src="../images/EQD_logo_S.png" alt="EQD logo"></a>
+                <a href="https://www.patternbased.com/" target="_blank"><img class="footerLogo" src="../images/PB_logo_S.png" alt="PB logo"></a>            
+            <% } else { %>
+                <a href="https://www.earthquakerdevices.com/" target="_blank"><img class="footerLogo" src="images/EQD_logo_S.png" alt="EQD logo"></a>
+                <a href="https://www.patternbased.com/" target="_blank"><img class="footerLogo" src="../images/PB_logo_S.png" alt="PB logo"></a>    
+            <% } %>
     </div>
         <p>&copy;2021 Earthquaker Devices and PatternBased</p>
     </div>

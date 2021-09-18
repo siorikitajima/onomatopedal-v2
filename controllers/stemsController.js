@@ -4,6 +4,7 @@ const fs = require('fs');
 const browser = require('browser-detect');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
+// const ejs = require('ejs');
 
 const s3 = new AWS.S3({
     accessKeyId: process.env.ACCESS_KEY_ID_S3,
@@ -100,6 +101,7 @@ const preview_get = async　(req, res) => {
     const isMobile = browser(req.headers['user-agent']).mobile;
     let rawdata = fs.readFileSync('./json/animation.json');
     let animaData = JSON.parse(rawdata);
+
     if(isMobile) { res.redirect('/studio'); } else {
         const stems = [1, 2, 3];
         const filename1 = `${req.user.username}/stem1.mp3`;
@@ -127,6 +129,20 @@ const preview_get = async　(req, res) => {
         OpMain.findOne({name: req.user.username}, (err, opInfo) => {
             if(err) {console.log(err);}
             else {
+                let aniName = opInfo.animation;
+                let colScme = opInfo.color;
+                let tempo = opInfo.tempo;
+                let colorList = [], colorValue;
+                for(let a = 0; a < animaData.length; a++ ) {
+                    if (animaData[a].slug == aniName) {
+                        for (let c = 0; c < animaData[a].colors.length; c++) {
+                            if(animaData[a].colors[c].colkey == colScme) {
+                                colorValue = animaData[a].colors[c].value;
+                            }
+                            colorList.push(animaData[a].colors[c].colkey);
+                        }
+                    }
+                }
                 res.render('preview', { 
                     title: 'Preview',
                     nav:'preview', 
@@ -135,7 +151,12 @@ const preview_get = async　(req, res) => {
                     stemFiles: [stem1, stem2, stem3], 
                     stems: stems,
                     mobile: isMobile,
-                    animation: animaData
+                    animation: animaData,
+                    aniName: aniName,
+                    colScme: colScme,
+                    tempo: tempo,
+                    colValue: colorValue,
+                    colorList: colorList
             })
         }})
     }
@@ -155,6 +176,76 @@ const animation_post = async (req, res) => {
         res.redirect('/preview');
     });
 };
+
+const previewanima = async (req, res) => {
+    var newAnima = req.params.aniid;
+    var newCol = req.params.newcol;
+    var newTempo = req.params.newtempo;
+    let rawdata = fs.readFileSync('./json/animation.json');
+    let animaData = JSON.parse(rawdata);
+    let colorList = [], colorValue;
+    for(let a = 0; a < animaData.length; a++ ) {
+        if (animaData[a].slug == newAnima) {
+            for (let c = 0; c < animaData[a].colors.length; c++) {
+                if(animaData[a].colors[c].colkey == newCol) {
+                    colorValue = animaData[a].colors[c].value;
+                } else {
+                    colorValue = animaData[a].colors[0].value;
+                }
+                colorList.push(animaData[a].colors[c].colkey);
+            }
+        }
+    }
+    const stems = [1, 2, 3];
+    const filename1 = `${req.user.username}/stem1.mp3`;
+    const params1 = { Bucket: 'opv2-versioning', Key: filename1 };
+    const stem1 = await s3
+    .headObject(params1).promise()
+    .then( () => true,
+    err => { if (err.code === 'NotFound') { return false; }
+            throw err; });
+    const filename2 = `${req.user.username}/stem2.mp3`;
+    const params2 = { Bucket: 'opv2-versioning', Key: filename2 };
+    const stem2 = await s3
+    .headObject(params2).promise()
+    .then( () => true,
+        err => { if (err.code === 'NotFound') { return false; }
+                throw err; });
+    const filename3 = `${req.user.username}/stem3.mp3`;
+    const params3 = { Bucket: 'opv2-versioning', Key: filename3 };
+    const stem3 = await s3
+    .headObject(params3).promise()
+    .then( () => true,
+        err => { if (err.code === 'NotFound') { return false; }
+                throw err; });
+
+    OpMain.findOne({name: req.user.username}, (err, opInfo) => {
+        if(err) {console.log(err);}
+        else {
+            let aniName = newAnima;
+            let colScme = newCol;
+            let tempo = newTempo;
+            res.render('preview', { 
+                title: 'Preview',
+                nav:'previewanima', 
+                name: req.user.username, 
+                pedal: opInfo,
+                stemFiles: [stem1, stem2, stem3], 
+                stems: stems,
+                mobile: false,
+                animation: animaData,
+                aniName: aniName,
+                colScme: colScme,
+                tempo: tempo,
+                colValue: colorValue,
+                colorList: colorList
+            }, (err, str)=> {
+                if(err) {console.log(err)}
+                else {res.send(str);}
+            });
+        }
+    })
+}
         
 const studio_get = async　(req, res) => {
     if(req.user.type == 'editor') {res.redirect('/featList');}
@@ -319,6 +410,7 @@ module.exports = {
   stem_delete_3,
   preview_get,
   animation_post,
+  previewanima,
   mobilepreview_get,
   studio_get,
   studio_post

@@ -14,7 +14,11 @@
         var colorValue; var theAnima;
         for ( var a = 0; a < allAnima.length; a++ ) {
           if ( allAnima[a].slug == aniName) {
-            colorValue = allAnima[a][colName];
+            for (var c = 0; c < allAnima[a].colors.length; c++ ) {
+              if (allAnima[a].colors[c].colkey == colName ) {
+                colorValue = allAnima[a].colors[c].value;
+              }
+            }
             theAnima = allAnima[a];
             break;
           }

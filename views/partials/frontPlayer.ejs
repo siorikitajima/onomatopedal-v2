@@ -648,7 +648,15 @@
 
         var colorList = [];
         var colPalette = thepedal.color;
-        var colData = theAnima[0][colPalette];
+        var colData;
+        for( let c = 0; c < theAnima[0].colors.length; c++ ) {
+            if (theAnima[0].colors[c].colkey == colPalette) {
+                colData = theAnima[0].colors[c].value;
+                break;
+            }
+        }
+
+        // var colData = theAnima[0][colPalette];
         function getRandomInt(min, max) {
             min = Math.ceil(min);
             max = Math.floor(max);

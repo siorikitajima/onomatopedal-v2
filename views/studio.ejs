@@ -125,12 +125,15 @@
         }
         for (var a = 0; a < animations.length; a++ ) {
             if ( thepedal.animation == animations[a].slug ) {
-                theFont = animations[a].font;
                 $('#animaName').html(animations[a].fullName + ' + ' + thepedal.color);
                 theFont = animations[a].font;
                 var col = thepedal.color;
-                colArray = animations[a][col];
-                break;
+                for( let c = 0; c < animations[a].colors.length; c++ ) {
+                    if ( animations[a].colors[c].colkey == col ) {
+                        colArray = animations[a].colors[c].value;
+                        break;
+                    }
+                }
             }};
 
         function hideCover() {
@@ -158,39 +161,27 @@
         var remSpace = onoStr.replace(' ', '');
         let textCheck = /^[a-zA-Z]+$/.test(remSpace);
 
-        // var onoStrFinCharCodes = [];
-        //     for(var o = 0; o < remSpace.length; o++ ) {
-        //         var charCode = remSpace.charCodeAt(o);
-        //         onoStrFinCharCodes[o] = charCode;
-        //     }
-        // console.log(onoStrFinCharCodes)
-
         var tSize;
         if (words === 1) { tSize = 440 }
         else if (words === 2) { tSize = 240 }
         else if (words === 3) { tSize = 164 }
         else { tSize = 164 }
-        // else if (words === 4) { tSize = 110 }
-        // else { tSize = 100 }
 
         var myFont, myImg, onoChar = [];
         function preload() {
-            var fontPath = 'css/fonts/' + theFont + '.otf';
-            myFont = loadFont(fontPath);   
+            if(theFont !== 'Arial') {
+                var fontPath = 'css/fonts/' + theFont + '.otf';
+                myFont = loadFont(fontPath);   
+            } else {
+                myFont = 'Arial';
+            }
             myImg = loadImage(imgPath); 
-            // for( var c = 0; c < onoStrFinCharCodes.length; c++) {
-            // var letter = String.fromCharCode(onoStrFinCharCodes[c]);
-            // onoChar[c] = letter;
-            // }
-            // onoChar = join(onoChar);
-            // console.log(onoChar)
         }
 
         var coverImg, opImg;
         function setup() {
             if(textCheck) {textFont(myFont);}
             else {textStyle(BOLD);}
-            // textFont(myFont);
             opImg = createCanvas(380, 380);
             opImg.parent('opCover');
             opImg.id('opImg');
