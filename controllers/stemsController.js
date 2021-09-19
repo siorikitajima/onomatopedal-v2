@@ -187,12 +187,15 @@ const previewanima = async (req, res) => {
     for(let a = 0; a < animaData.length; a++ ) {
         if (animaData[a].slug == newAnima) {
             for (let c = 0; c < animaData[a].colors.length; c++) {
+                colorList.push(animaData[a].colors[c].colkey);
+            }
+            for (let c = 0; c < animaData[a].colors.length; c++) {
                 if(animaData[a].colors[c].colkey == newCol) {
                     colorValue = animaData[a].colors[c].value;
+                    break;
                 } else {
                     colorValue = animaData[a].colors[0].value;
                 }
-                colorList.push(animaData[a].colors[c].colkey);
             }
         }
     }

@@ -29,14 +29,22 @@
         <label for="animation">Animation</label>
         <select name="animation" id="animation" onchange="previewAnima();">
           <% animation.forEach((ani, index) => { %>
-            <option value="<%= ani.slug %>"><%= ani.fullName %></option>
+            <% if (ani.slug == aniName) {%>
+              <option value="<%= ani.slug %>" selected><%= ani.fullName %></option>
+            <% } else { %>
+              <option value="<%= ani.slug %>"><%= ani.fullName %></option>
+            <% } %>
           <% }) %>
         </select>
 
         <label for="color">Color Palette</label>
         <select name="color" id="color" onchange="previewAnima();">
           <% colorList.forEach((col, index) => { %>
-            <option value="<%= col %>"><%= col %></option>
+              <% if (col == colScme) {%>
+                <option value="<%= col %>" selected><%= col %></option>
+              <% } else { %>
+                <option value="<%= col %>"><%= col %></option>
+              <% } %>
           <% }) %>
         </select>
 
@@ -83,26 +91,28 @@
 <script>
     var thepedal = <%- JSON.stringify(pedal) %> ;
     var nav = <%- JSON.stringify(nav) %> ;
-    var animation = document.querySelector('#animation');
     let animaOpen = true;
-    var opt;
-    for ( var i = 0, len = animation.options.length; i < len; i++ ) {
-    opt = animation.options[i];
-    var pedalslug = aniName;
-    if ( opt.value === pedalslug ) {
-        opt.setAttribute('selected', 'selected'); 
-        break;
-    }}
 
-    var color = document.querySelector('#color');
-    var opt2;
-    for ( var i = 0, len = color.options.length; i < len; i++ ) {
-    opt2 = color.options[i];
-    var pedalslug = colName;
-    if ( opt2.value === pedalslug ) {
-        opt2.setAttribute('selected', 'selected'); 
-        break;
-    }}
+
+    // var animation = document.querySelector('#animation');
+    // var opt;
+    // for ( var i = 0, len = animation.options.length; i < len; i++ ) {
+    // opt = animation.options[i];
+    // var pedalslug = aniName;
+    // if ( opt.value === pedalslug ) {
+    //     opt.setAttribute('selected', 'selected'); 
+    //     break;
+    // }}
+
+    // var color = document.querySelector('#color');
+    // var opt2;
+    // for ( var i = 0, len = color.options.length; i < len; i++ ) {
+    // opt2 = color.options[i];
+    // var pedalslug = colName;
+    // if ( opt2.value === pedalslug ) {
+    //     opt2.setAttribute('selected', 'selected'); 
+    //     break;
+    // }}
 
     function updateRange(value) {
         document.querySelector("#unit").innerHTML = value + 'BPM';
