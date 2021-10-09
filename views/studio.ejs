@@ -47,7 +47,7 @@
                 </div>
                 <% if (cover === true) {%>
                     <% const val = Math.floor(1000 + Math.random() * 9000); %>
-                        <img id="coverJpg" src="https://opv2-versioning.s3.us-west-2.amazonaws.com/<%=name%>/cover.jpg?<%=val%>" alt="cover" width="100%">
+                        <img id="coverJpg" src="https://opv2.s3.amazonaws.com/<%=name%>/cover.jpg?<%=val%>" alt="cover" width="100%">
                 <% } %>
             </div>
 

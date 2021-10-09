@@ -19,21 +19,21 @@ const key_index = async (req, res) => {
     if(isMobile) { res.redirect('/studio'); } else {
         const stems = [1, 2, 3];
         const filename1 = `${req.user.username}/stem1.mp3`;
-        const params1 = { Bucket: 'opv2-versioning', Key: filename1 };
+        const params1 = { Bucket: 'opv2', Key: filename1 };
         const stem1 = await s3
         .headObject(params1).promise()
         .then( () => true,
         err => { if (err.code === 'NotFound') { return false; }
                 throw err; });
         const filename2 = `${req.user.username}/stem2.mp3`;
-        const params2 = { Bucket: 'opv2-versioning', Key: filename2 };
+        const params2 = { Bucket: 'opv2', Key: filename2 };
         const stem2 = await s3
         .headObject(params2).promise()
         .then( () => true,
             err => { if (err.code === 'NotFound') { return false; }
                     throw err; });
         const filename3 = `${req.user.username}/stem3.mp3`;
-        const params3 = { Bucket: 'opv2-versioning', Key: filename3 };
+        const params3 = { Bucket: 'opv2', Key: filename3 };
         const stem3 = await s3
         .headObject(params3).promise()
         .then( () => true,
@@ -132,21 +132,21 @@ const pad_get = async (req, res) => {
     if(isMobile) { res.redirect('/studio'); } else {
         const stems = [1, 2, 3];
         const filename1 = `${req.user.username}/stem1.mp3`;
-        const params1 = { Bucket: 'opv2-versioning', Key: filename1 };
+        const params1 = { Bucket: 'opv2', Key: filename1 };
         const stem1 = await s3
         .headObject(params1).promise()
         .then( () => true,
         err => { if (err.code === 'NotFound') { return false; }
                 throw err; });
         const filename2 = `${req.user.username}/stem2.mp3`;
-        const params2 = { Bucket: 'opv2-versioning', Key: filename2 };
+        const params2 = { Bucket: 'opv2', Key: filename2 };
         const stem2 = await s3
         .headObject(params2).promise()
         .then( () => true,
             err => { if (err.code === 'NotFound') { return false; }
                     throw err; });
         const filename3 = `${req.user.username}/stem3.mp3`;
-        const params3 = { Bucket: 'opv2-versioning', Key: filename3 };
+        const params3 = { Bucket: 'opv2', Key: filename3 };
         const stem3 = await s3
         .headObject(params3).promise()
         .then( () => true,
@@ -246,21 +246,21 @@ const samples_get = async (req, res) => {
 
         const stems = [1, 2, 3];
         const filename1 = `${req.user.username}/stem1.mp3`;
-        const params1 = { Bucket: 'opv2-versioning', Key: filename1 };
+        const params1 = { Bucket: 'opv2', Key: filename1 };
         const stem1 = await s3
         .headObject(params1).promise()
         .then( () => true,
         err => { if (err.code === 'NotFound') { return false; }
                 throw err; });
         const filename2 = `${req.user.username}/stem2.mp3`;
-        const params2 = { Bucket: 'opv2-versioning', Key: filename2 };
+        const params2 = { Bucket: 'opv2', Key: filename2 };
         const stem2 = await s3
         .headObject(params2).promise()
         .then( () => true,
             err => { if (err.code === 'NotFound') { return false; }
                     throw err; });
         const filename3 = `${req.user.username}/stem3.mp3`;
-        const params3 = { Bucket: 'opv2-versioning', Key: filename3 };
+        const params3 = { Bucket: 'opv2', Key: filename3 };
         const stem3 = await s3
         .headObject(params3).promise()
         .then( () => true,
@@ -287,11 +287,11 @@ const samples_get = async (req, res) => {
     const samples_post = async (req, res) => {
         if (req.body.oldname !== req.body.name) {
 
-            const oldname = `opv2-versioning/${req.user.username}/${req.body.oldname}.mp3`;
+            const oldname = `opv2/${req.user.username}/${req.body.oldname}.mp3`;
             const newname = `${req.user.username}/${req.body.name}.mp3`;
             const deletename = `${req.user.username}/${req.body.oldname}.mp3`;
-            const copyParams = { CopySource: oldname, ACL: "public-read", Bucket: 'opv2-versioning', Key: newname };
-            const deleteParams = { Bucket: 'opv2-versioning', Key: deletename };
+            const copyParams = { CopySource: oldname, ACL: "public-read", Bucket: 'opv2', Key: newname };
+            const deleteParams = { Bucket: 'opv2', Key: deletename };
             
             await s3.copyObject(copyParams, function(err, data) {
                 if (err) console.log(err, copyParams);
@@ -332,7 +332,7 @@ const samples_get = async (req, res) => {
 
     const sample_delete = (req, res) => {
         const filename = `${req.user.username}/${req.body.oldname}.mp3`;
-        var params = {  Bucket: 'opv2-versioning', Key: filename };
+        var params = {  Bucket: 'opv2', Key: filename };
         s3.deleteObject(params, (err, data) => {
         if (err) console.log(err, err.stack);
         });

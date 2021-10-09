@@ -4,7 +4,7 @@
                 <div class="prev">
                     <a href="/v2/<%= prev %>">
                     <img src="../images/prevBtn.svg" alt="prev">
-                    <img class="navthumb" src="https://opv2-versioning.s3.us-west-2.amazonaws.com/<%= prev %>/cover.jpg?<%=val%>" alt="pedal">
+                    <img class="navthumb" src="https://opv2.s3.amazonaws.com/<%= prev %>/cover.jpg?<%=val%>" alt="pedal">
                     </a>
                 </div>
                 <div class="site-title front">
@@ -12,7 +12,7 @@
                 </div>                
                 <div class="next">
                     <a href="/v2/<%= next %>">
-                    <img class="navthumb" src="https://opv2-versioning.s3.us-west-2.amazonaws.com/<%= next %>/cover.jpg?<%=val%>" alt="pedal">
+                    <img class="navthumb" src="https://opv2.s3.amazonaws.com/<%= next %>/cover.jpg?<%=val%>" alt="pedal">
                     <img src="../images/nextBtn.svg" alt="next">
                     </a>
                 </div>
@@ -22,7 +22,7 @@
             <div class="infoOne">
                 <div class="opImg">
                     <% var val = Math.floor(1000 + Math.random() * 9000); %>
-                    <img  src="https://opv2-versioning.s3.us-west-2.amazonaws.com/<%= name %>/cover.jpg?<%=val%>" alt="pedal">
+                    <img  src="https://opv2.s3.amazonaws.com/<%= name %>/cover.jpg?<%=val%>" alt="pedal">
                 </div>
             </div>
         <% } else { %>
@@ -52,7 +52,7 @@
         <div class="infoOne">
             <div class="opImg">
                 <% var val = Math.floor(1000 + Math.random() * 9000); %>
-                <img  src="https://opv2-versioning.s3.us-west-2.amazonaws.com/<%= name %>/cover.jpg?<%=val%>" alt="pedal">
+                <img  src="https://opv2.s3.amazonaws.com/<%= name %>/cover.jpg?<%=val%>" alt="pedal">
             </div>
         </div>
         <% } %>
@@ -263,7 +263,7 @@
         function makeChannel( url, pan = 0 ) {
             const channel = new Tone.Channel({ pan }).toDestination();
             const player = new Tone.Player({
-                url: 'https://opv2-versioning.s3.us-west-2.amazonaws.com/' + username + `/${url}.mp3`,
+                url: 'https://opv2.s3.amazonaws.com/' + username + `/${url}.mp3`,
                 loop: true
             }).sync().start(0);
             player.connect(channel);
@@ -433,7 +433,7 @@
         var samplers = [];
         for( i = 0; i < fileName.length; i++ ) {
             samplers[i] = new Tone.Sampler({
-            [pitchString[i]]: 'https://opv2-versioning.s3.us-west-2.amazonaws.com/' + username + '/' + fileName[i] + '.mp3'
+            [pitchString[i]]: 'https://opv2.s3.amazonaws.com/' + username + '/' + fileName[i] + '.mp3'
             }, {
                 'release' : 1,
                 'onload' : function(){

@@ -25,8 +25,8 @@
         <% for (var p = 0; p < fillPedalNames.length; p++) { %>
             <%  if (v2Pedals[i].pedalFull == fillPedalNames[p].slug) { %>
                 <a href="/v2/<%= v2Pedals[i].name %>">
-                    <div class="pedal-grid v2">  
-                        <img  src="https://opv2-versioning.s3.us-west-2.amazonaws.com/<%= v2Pedals[i].name %>/cover.jpg?<%=val%>" alt="pedal">
+                    <div class="pedal-grid v2"> 
+                        <img  src="https://opv2.s3.amazonaws.com/<%= v2Pedals[i].name %>/cover.jpg?<%=val%>" alt="pedal">
                         <h3 class="artistName"><%= v2Pedals[i].artist %></h3>         
                         <div class="pedal-name">
                             <p class="label">ONOMATOPOEIA</p>

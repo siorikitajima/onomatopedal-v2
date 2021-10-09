@@ -33,7 +33,7 @@
         function makeChannel( url, pan = 0 ) {
             const channel = new Tone.Channel({ pan }).toDestination();
             const player = new Tone.Player({
-                url: ver ? 'https://opv2-versioning.s3.us-west-2.amazonaws.com/' + username + `/${url}.mp3?${ver}` : 'https://opv2-versioning.s3.us-west-2.amazonaws.com/' + username + `/${url}.mp3`,
+                url: ver ? 'https://opv2.s3.amazonaws.com/' + username + `/${url}.mp3?${ver}` : 'https://opv2.s3.amazonaws.com/' + username + `/${url}.mp3`,
                 loop: true
             }).sync().start(0);
             player.connect(channel);
@@ -170,7 +170,7 @@
         var samplers = [];
         for(i=0; i<fileName.length;i++) {
             samplers[i] = new Tone.Sampler({
-            [pitchString[i]]: 'https://opv2-versioning.s3.us-west-2.amazonaws.com/' + username + '/' + fileName[i] + '.mp3'
+            [pitchString[i]]: 'https://opv2.s3.amazonaws.com/' + username + '/' + fileName[i] + '.mp3'
             }, {
                 'release' : 1,
                 'onload' : function(){

@@ -42,7 +42,9 @@ var sess = {
 //////////// Connect to DB with Passport ////////////
 
 mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
-    .then(() => app.listen(process.env.PORT || 8080))
+    .then(() => 
+    { app.listen(process.env.PORT || 8080);
+        console.log('Omar listening')})
     .catch((err) => console.log(err));
 
 // User.find()

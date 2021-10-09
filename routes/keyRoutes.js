@@ -24,7 +24,7 @@ const upload = multer({
     },
     storage: multerS3({
       s3: s3,
-      bucket: 'opv2-versioning',
+      bucket: 'opv2',
       acl: "public-read",
       metadata: function (req, file, cb) {
         cb(null, {fieldName: file.fieldname});
