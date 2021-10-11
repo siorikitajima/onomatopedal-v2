@@ -3,7 +3,7 @@
         "type":"image",
         "data": {
             "file": {
-                "url":"https://opv2-versioning.s3.us-west-2.amazonaws.com/featured/feat-sample.jpg"
+                "url":"https://opv2.s3.amazonaws.com/featured/feat-sample.jpg"
             },
             "caption":"Caption for the image here. Supported image formats: JPG, PNG, GIF",
             "withBorder":false,
@@ -54,7 +54,7 @@
                 "title":"OnomatoPedal - astral",
                 "description":"OnomatoPedal - astral is an Earthquaker Devices inspired online interactive music experience created by Orland0 The King.",
                 "image": {
-                    "url":"https://opv2-versioning.s3.us-west-2.amazonaws.com/astral/cover.jpg"
+                    "url":"https://opv2.s3.amazonaws.com/astral/cover.jpg"
                 }
             }
         }
