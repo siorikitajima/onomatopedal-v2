@@ -424,14 +424,15 @@
     }
     .keyboard div.key, .mobilePads div.pad {
       background-color: #444;
-      border-radius: 5px;
       width: calc(100% - 6px);
+      height: calc(100% - 16px);
       text-align: center;
       display: inline-table;
       cursor: pointer;
       padding: 2px;
       z-index: 100;
-      border: 1px solid rgba(255,255,255,0);
+      border: 1px solid #111;
+      border-radius: 5px;
     }
     .keyboard div.key p {
       color:#777

@@ -191,15 +191,17 @@
             var opt, opt2;
             for ( var i = 0, len = pitch.options.length; i < len; i++ ) {
             opt = pitch.options[i];
+            opt.selected = false;
             if ( opt.value === thepad.pitch ) {
+                opt.selected = true;
                 opt.setAttribute('selected', 'selected'); 
-                break;
             }}
             for ( var i = 0, len = sampleName.options.length; i < len; i++ ) {
             opt2 = sampleName.options[i];
+            opt2.selected = false;
             if ( opt2.value === thepad.sample ) {
+                opt2.selected = true;
                 opt2.setAttribute('selected', 'selected'); 
-                break;
             }}
 
             $('#hiddenPadName').attr('value', thepad.pad);
@@ -275,7 +277,7 @@ for(let g = 0; g < allBtns.length; g++) {
         $(allGroups[g]).css('border', '#fff solid 1px');
     })
     $(allBtns[g]).mouseout(()=> {
-        $(allGroups[g]).css('border', 'rgba(255,255,255,0) solid 1px');
+        $(allGroups[g]).css('border', '#111 solid 1px');
     }) 
 }
 

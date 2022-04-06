@@ -80,10 +80,12 @@ const key_update = (req, res) => {
             }
         }
         if(!exist) {
-            opInfo.samples.push({
-                samplename: req.body.sample,
-                pitch: req.body.samplePitch
-            });
+            // opInfo.samples.push({
+            //     samplename: req.body.sample,
+            //     pitch: req.body.samplePitch
+            // });
+            opInfo.samples.samplename = req.body.sample,
+            opInfo.samples.pitch = req.body.samplePitch
         }
         opInfo.save((err) => {
             if(err) { console.error(err); 

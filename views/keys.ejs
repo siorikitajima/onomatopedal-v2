@@ -206,15 +206,18 @@
             var opt, opt2;
             for ( var i = 0, len = pitch.options.length; i < len; i++ ) {
             opt = pitch.options[i];
+            opt.selected = false;
             if ( opt.value === thekey.pitch ) {
+                opt.selected = true;
                 opt.setAttribute('selected', 'selected'); 
                 break;
             }}
             for ( var i = 0, len = sampleName.options.length; i < len; i++ ) {
             opt2 = sampleName.options[i];
+            opt2.selected = false;
             if ( opt2.value === thekey.sample ) {
+                opt2.selected = true;
                 opt2.setAttribute('selected', 'selected'); 
-                break;
             }}
 
             $('#hiddenKeyName').attr('value', thekey.key);
@@ -267,10 +270,10 @@ let allGNames = [ "First Row (10 keys)", "Second Row (10 keys)", "Third Row (9 k
 
 for(let g = 0; g < allBtns.length; g++) {
     $(allBtns[g]).mouseover(()=> {
-        $(allGroups[g]).css('border', '#fff solid 1px');
+        $(allGroups[g]).css({'border': '#fff solid 1px', 'border-radius': '5px'});
     })
     $(allBtns[g]).mouseout(()=> {
-        $(allGroups[g]).css('border', 'rgba(255,255,255,0) solid 1px');
+        $(allGroups[g]).css({'border': '#111 solid 1px', 'border-radius': '5px'});
     }) 
 }
 

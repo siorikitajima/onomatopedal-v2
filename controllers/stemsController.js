@@ -4,7 +4,6 @@ const fs = require('fs');
 const browser = require('browser-detect');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
-// const ejs = require('ejs');
 
 const s3 = new AWS.S3({
     accessKeyId: process.env.ACCESS_KEY_ID_S3,
