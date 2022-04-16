@@ -9,6 +9,9 @@ const s3 = new AWS.S3({
     secretAccessKey: process.env.SECRET_ACCESS_KEY_S3
 });
 
+const stems = [1, 2, 3, 4];
+const stemKeys = [ 'stem1', 'stem2', 'stem3', 'stem4']
+
 const home_get = async (req, res) => {
     let listingArray = [];
     let v2Array = [];
@@ -95,7 +98,7 @@ const v1pedal_get = (req, res) => {
     })
 }
 
-const v2pedal_get = async (req, res) => {
+const v2pedal_get = (req, res) => {
     var onomoid = req.params.onomoid;
     const isMobile = browser(req.headers['user-agent']).mobile;
     let rawdata = fs.readFileSync('./json/animation.json');
@@ -104,63 +107,90 @@ const v2pedal_get = async (req, res) => {
     let eqdPedals = JSON.parse(rawPedalData);
     let raw2VData = fs.readFileSync('./json/opv2.json');
     let v2list = JSON.parse(raw2VData);
-    let prev, next, merch =[];
+    let prev, next, prevCover, nextCover, merch =[];
+
     for(let p = 0; p < v2list.length; p++) {
         if ( v2list[p].name == onomoid ) {
             if(p == (v2list.length - 1)) {
                 next = v2list[0].name;
+                OpMain.findOne({name: v2list[0].name}, async (err, nextInfo) => {
+                    if(err) {console.log(err);}
+                    else {
+                        nextCover = `${v2list[0].name}/cover/cover-${nextInfo.cover.coverID}.jpg`;
+                    }
+                });
             } else {
                 next = v2list[p + 1].name;
+                OpMain.findOne({name: v2list[p + 1].name}, async (err, nextInfo) => {
+                    if(err) {console.log(err);}
+                    else {
+                        nextCover = `${v2list[p + 1].name}/cover/cover-${nextInfo.cover.coverID}.jpg`;
+                    }
+                });
             }
             if(p == 0) {
                 prev = v2list[v2list.length - 1].name;
+                OpMain.findOne({name: v2list[v2list.length - 1].name}, async (err, prevInfo) => {
+                    if(err) {console.log(err);}
+                    else {
+                        prevCover = `${v2list[v2list.length - 1].name}/cover/cover-${prevInfo.cover.coverID}.jpg`;
+                    }
+                });
             } else {
                 prev = v2list[p - 1].name;
+                OpMain.findOne({name: v2list[p - 1].name}, async (err, prevInfo) => {
+                    if(err) {console.log(err);}
+                    else {
+                        prevCover = `${v2list[p - 1].name}/cover/cover-${prevInfo.cover.coverID}.jpg`;
+                    }
+                });
             }
             for(let m = 0; m < v2list[p].links.length; m++ ) {
                 merch.push(v2list[p].links[m]);
             } 
         }
-    }
-    const stems = [1, 2, 3];
-    const filename1 = `${onomoid}/stem1.mp3`;
-    const params1 = { Bucket: 'opv2', Key: filename1 };
-    const stem1 = await s3
-    .headObject(params1).promise()
-    .then( () => true,
-        err => { if (err.code === 'NotFound') { return false; }
-                throw err; });
-    const filename2 = `${onomoid}/stem2.mp3`;
-    const params2 = { Bucket: 'opv2', Key: filename2 };
-    const stem2 = await s3
-    .headObject(params2).promise()
-    .then( () => true,
-        err => { if (err.code === 'NotFound') { return false; }
-                throw err; });
-    const filename3 = `${onomoid}/stem3.mp3`;
-    const params3 = { Bucket: 'opv2', Key: filename3 };
-    const stem3 = await s3
-    .headObject(params3).promise()
-    .then( () => true,
-        err => { if (err.code === 'NotFound') { return false; }
-                throw err; });
-    
-    OpMain.findOne({name: onomoid}, (err, opInfo) => {
+    }    
+    OpMain.findOne({name: onomoid}, async (err, opInfo) => {
         if(err) {console.log(err);}
         else {
+            const stemIDs = [ opInfo.stems.stem1, opInfo.stems.stem2, opInfo.stems.stem3, opInfo.stems.stem4]
+            let stemFiles = [];
+            let stemFileNames = [];
+            for (let f = 0; f < stemKeys.length; f++) {
+                let filename = `${onomoid}/stems/` + stemKeys[f] + '-' + stemIDs[f] + `.mp3`;
+                let param = { Bucket: 'opv2', Key: filename };
+                stemFiles[f] = await s3
+                .headObject(param).promise()
+                .then( () => {stemFileNames.push(filename); return true;},
+                  err => { if (err.code === 'NotFound') { stemFileNames.push(null); return false; }
+                          throw err; });
+            }
+            const coverFileName = `${onomoid}/cover/cover-`+ opInfo.cover.coverID +`.jpg`;
+            const params4 = { Bucket: 'opv2', Key: coverFileName };
+            const cover = await s3
+            .headObject(params4).promise()
+            .then( () => true,
+                err => { if (err.code === 'NotFound') { return false; }
+                        throw err; });  
+
             res.render('v2Pedal', { 
                 title: 'V2',
                 nav:'v2', 
                 name: onomoid, 
                 pedal: opInfo,
                 eqdPedals: eqdPedals,
-                stemFiles: [stem1, stem2, stem3], 
+                stemFiles: stemFiles,
                 stems: stems,
+                stemFileNames: stemFileNames,
                 mobile: isMobile,
                 animation: animaData,
                 prev: prev,
                 next: next,
-                merch: merch
+                nextCover: nextCover,
+                prevCover: prevCover,
+                merch: merch,
+                cover: cover,
+                coverFile: coverFileName
         })
     }})
 };
@@ -176,9 +206,9 @@ const about_get = (req, res) => {
 }
 
 module.exports = {
-    home_get,
+    home_get, // Updated
     v1list_get,
     v1pedal_get,
-    v2pedal_get,
+    v2pedal_get, // Updated
     about_get
 }

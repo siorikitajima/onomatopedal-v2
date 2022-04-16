@@ -104,6 +104,10 @@ canvas {
   font-family: 'Dosis', sans-serif;
 }
 
+#controlStems .stem.disabled {
+  display: none;
+}
+
 .unmuted {
   background: #fc7e86;
 }

@@ -11,7 +11,9 @@
         <div class="h2bg">
             <h2>Upload Stems</h2>
         </div>
-            <% for (var st = 1; st < 4; st++) {%>
+
+        <!-- Stem Panel -->
+            <% for (var st = 1; st < 5; st++) {%>
             <form class="stemCont flex" id="form<%= st %>" action="/stem<%= st %>" method="POST" enctype="multipart/form-data">
                 <label for="stem<%= st %>">Stem #<%= st %> </label>
                 <% if ( stemFiles[st-1] == true ) { %>

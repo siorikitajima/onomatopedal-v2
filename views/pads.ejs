@@ -102,7 +102,7 @@
                         </select>
                         </div>
                 </div>
-                <button id="padSaveBtn" class="disabled" disabled>Save</button>
+                <button id="padSaveBtn" class="disabled" onclick="updatePad('#padSaveBtn')" disabled>Save</button>
             </form>
         </div>
         
@@ -130,10 +130,14 @@
                         </select>
                     </div>
                 </div>
-                <button id="padGSaveBtn" class="disabled" disabled>Save</button>
+                <button id="padGSaveBtn" class="disabled" onclick="updatePad('#padGSaveBtn')" disabled>Save</button>
             </form>
         </div>
     </div>
+
+    <div class="blackscreen"></div>
+    <div class="loadingSpinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
     <%- include('./partials/player.ejs')  %> 
     
     <script src="js/ejs.js"></script>
@@ -300,6 +304,12 @@ for(let g = 0; g < allBtns.length; g++) {
             $('#padGSaveBtn').removeClass('disabled');
             $('#padGSaveBtn').removeAttr('disabled');
         })
+
+function updatePad(form) {
+    $('.loadingSpinner, .blackscreen').css('display','inline-block');
+        var theform = form;
+        $(theform).submit();
+}
     </script>
 </body>
 </html>

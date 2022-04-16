@@ -1,5 +1,6 @@
 <script>
     var thepedal = <%- JSON.stringify(pedal) %> ;
+    var thenav = <%- JSON.stringify(nav) %> ;
     var isMobile = <%- JSON.stringify(mobile) %> ;
     var onomato = thepedal.onomato.toUpperCase().replace(/\s+/g, '');
     var tempo = 60000 / thepedal.tempo;
@@ -15,7 +16,16 @@
     let bgColor = 125;
     let dark = true;
 
+    function preload() {
+        if(thenav == 'v2' || thenav == 'previewanima') {
+            myFont = loadFont('../css/fonts/OpenSansExtraBold.otf');
+        } else {
+            myFont = loadFont('css/fonts/OpenSansExtraBold.otf');
+        }
+    }
+
     function setup() {
+      textFont(myFont);
         frameRate(24);
         createCanvas(innerWidth, innerHeight);
         speedControl = map(tempo, 2000, 250, 0.5, 1.5);

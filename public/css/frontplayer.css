@@ -54,6 +54,10 @@ div#controller {
   font-family: 'Dosis', sans-serif;
 }
 
+#controlStems .stem.disabled {
+  display: none;
+}
+
 .unmuted {
   background: #fc7e86;
   opacity: 0.6;

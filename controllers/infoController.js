@@ -24,18 +24,6 @@ const register_get = (req, res) => {
 };
 
 const register_post = (req, res) => {
-    //// Create a user + pass
-    // const salt = Number(process.env.HASH_NUMBER);
-    // bcrypt.hash(req.body.password, salt)
-    // .then(function(hash) {
-    //     const user = new User({
-    //         name: req.body.name,
-    //         password: hash,
-    //         type: 'artist'
-    //     });
-    //     user.save();
-    //     console.log(user);
-    // });
 
     User.register(({
         username : req.body.username,
@@ -109,13 +97,15 @@ const register_post = (req, res) => {
         tempo: 120,
         keys: allKeys,
         pads: allPads,
-        samples: allSamples
+        samples: allSamples,
+        cover: { coverID: 0 },
+        stems: { stem1: 0, stem2: 0, stem3: 0, stem4: 0}
     });
     opMain.save();
 
     //// Save default audio files to S3
     try {
-        const sampleFiles = ['c4piano.mp3', 'c4pluck.mp3', 'c4tone.mp3', 'stem1.mp3', 'stem2.mp3', 'stem3.mp3'];
+        const sampleFiles = ['samples/c4piano.mp3', 'samples/c4pluck.mp3', 'samples/c4tone.mp3', 'stems/stem1-0.mp3', 'stems/stem2-0.mp3', 'stems/stem3-0.mp3'];
 
         for(var i = 0; i < sampleFiles.length; i++) {
             const ogFilePath = `public/sound/defaultAudio/` + sampleFiles[i];

@@ -566,13 +566,16 @@
       background-repeat: no-repeat;
       background-position-x: center;
     }
-    #BtnContainer div#stem1Btn, #BtnContainer div#stem2Btn, #BtnContainer div#stem3Btn {
+    #BtnContainer div#stem1Btn, #BtnContainer div#stem2Btn, #BtnContainer div#stem3Btn, #BtnContainer div#stem4Btn {
       text-align: center;
       font-size: 1.8em;
       line-height: 1.8em;
     }
-    #BtnContainer div#stem1Btn.muted, #BtnContainer div#stem2Btn.muted, #BtnContainer div#stem3Btn.muted, #BtnContainer div#stem1Btn.disabled, #BtnContainer div#stem2Btn.disabled, #BtnContainer div#stem3Btn.disabled {
+    #BtnContainer div#stem1Btn.muted, #BtnContainer div#stem2Btn.muted, #BtnContainer div#stem3Btn.muted, #BtnContainer div#stem4Btn.muted {
       opacity: 0.5;
+    }
+    #BtnContainer div#stem1Btn.disabled, #BtnContainer div#stem2Btn.disabled, #BtnContainer div#stem3Btn.disabled, #BtnContainer div#stem4Btn.disabled {
+      display: none;
     }
 
 /** spinner **/
@@ -585,6 +588,7 @@
   margin: 0; padding: 0;
   background: rgba(17, 17, 17, 0.7);
   z-index: 9000;
+  transition-duration: 100ms;
 }
 .loadingSpinner {
   display: none;

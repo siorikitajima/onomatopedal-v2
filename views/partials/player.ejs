@@ -21,23 +21,24 @@
         var thesamples = <%- JSON.stringify(pedal.samples) %> ;
         var username = <%- JSON.stringify(name) %> ;
         var stemFiles = <%- JSON.stringify(stemFiles) %> ;
+        var stemFileNames = <%- JSON.stringify(stemFileNames) %> ;
 
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
-        const ver = urlParams.get('ver');
+        // const ver = urlParams.get('ver');
 
         const controlMain = $('#playAllBtn, #BtnContainer');
         const stems = $('.stem');
         let toneStarted = false;
 
-        function makeChannel( url, pan = 0 ) {
+        function makeChannel( url, file, pan = 0 ) {
             const channel = new Tone.Channel({ pan }).toDestination();
             const player = new Tone.Player({
-                url: ver ? 'https://opv2.s3.amazonaws.com/' + username + `/${url}.mp3?${ver}` : 'https://opv2.s3.amazonaws.com/' + username + `/${url}.mp3`,
+                url: 'https://opv2.s3.amazonaws.com/' + file,
                 loop: true
             }).sync().start(0);
-            player.connect(channel);
             player.context.resume(); // necessary for Safari
+            player.connect(channel);
 
             const btn = url + 'Btn';
             const thisMuteButton = document.getElementById(btn);
@@ -59,11 +60,11 @@
             });
 
             var eachPlaybtn = '#play-' + url;
-            var allPlaybtn = ['#play-stem1', '#play-stem2', '#play-stem3'];
+            var allPlaybtn = ['#play-stem1', '#play-stem2', '#play-stem3', '#play-stem4'];
 
-            $(eachPlaybtn).on('click', () => {
+            $(eachPlaybtn).on('click', async () => {
                 if(!toneStarted) {
-                        Tone.start();
+                        await Tone.start();
                         toneStarted = true;
                     }
                 if ($(eachPlaybtn).hasClass('stemOnPlay')) {
@@ -84,19 +85,19 @@
         };
 
         for (var sf = 0; sf < stemFiles.length; sf++) {
-            var channelName = ['stem1', 'stem2', 'stem3']
+            var channelName = ['stem1', 'stem2', 'stem3', 'stem4']
             if (stemFiles[sf] == true) {
-                makeChannel(channelName[sf]);
+                makeChannel(channelName[sf], stemFileNames[sf]);
             }
         }
 
         // Play/Pause Button
-        function controlHandler() {
+        async function controlHandler() {
             if(!toneStarted) {
-                    Tone.start();
+                    await Tone.start();
                     toneStarted = true;
                 }
-            var allPlaybtn = ['#play-stem1', '#play-stem2', '#play-stem3'];
+            var allPlaybtn = ['#play-stem1', '#play-stem2', '#play-stem3', '#play-stem4'];
             for(var c = 0; c < allPlaybtn.length; c++) {
                     if($(allPlaybtn[c]).hasClass('stemOnPlay')) {
                         $(allPlaybtn[c]).trigger('click');
@@ -170,7 +171,7 @@
         var samplers = [];
         for(i=0; i<fileName.length;i++) {
             samplers[i] = new Tone.Sampler({
-            [pitchString[i]]: 'https://opv2.s3.amazonaws.com/' + username + '/' + fileName[i] + '.mp3'
+            [pitchString[i]]: 'https://opv2.s3.amazonaws.com/' + username + '/samples/' + fileName[i] + '.mp3'
             }, {
                 'release' : 1,
                 'onload' : function(){
@@ -178,6 +179,7 @@
                 Tone.context.lookAhead = 0;
                 }
             }).toDestination();
+            samplers[i].context.resume(); // necessary for Safari
         }
 
         function onkeydown(e){
@@ -362,9 +364,9 @@
             (function(c) {
             var thepitch = thesamples[c].pitch.toUpperCase().replace('M', '#');
             var sampleaudio = samplers[c];
-            $(playSampleBtn).on('click', () => {
+            $(playSampleBtn).on('click', async () => {
                 if(!toneStarted) {
-                        Tone.start();
+                        await Tone.start();
                         toneStarted = true;
                     }
             sampleaudio.triggerAttackRelease(thepitch);

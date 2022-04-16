@@ -70,5 +70,41 @@
             "url": "https://opensea.io/oqlOlpo"
             }
         ]
+    },
+    {
+        "id": 2,
+        "name": "testPedal",
+        "links": [
+            {
+            "label": "Mug",
+            "image": "Afterneath_Mug.jpg",
+            "url": "https://eqdmerch.com/onomatopedal-mugs/"
+            },
+            {
+            "label": "Neck Gaiter",
+            "image": "neckgater.jpg",
+            "url": "https://eqdmerch.com/onomatopedal-neck-gaiters/"
+            },
+            {
+            "label": "T-shirt",
+            "image": "Afterneath_T.jpg",
+            "url": "https://eqdmerch.com/onomatopedal-afterneath-shirt/"
+            },
+            {
+            "label": "Poster",
+            "image": "OP_Poster.jpg",
+            "url": "https://eqdmerch.com/onomatopedal-poster/"
+            },
+            {
+            "label": "Album",
+            "image": "SIMH_Cover.jpg",
+            "url": "https://albums.patternbased.com/album/lcubb"
+            },
+            {
+            "label": "NFT",
+            "image": "nft-temp.jpg",
+            "url": "https://opensea.io/oqlOlpo"
+            }
+        ]
     }
   ]

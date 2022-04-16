@@ -100,7 +100,7 @@
                         </select>
                         </div>
                 </div>
-                <button id="keySaveBtn" class="disabled" disabled>Save</button>
+                <button id="keySaveBtn" class="disabled" onclick="updateKey('#keySaveBtn')" disabled>Save</button>
             </form>
         </div>
 
@@ -128,11 +128,14 @@
                         </select>
                     </div>
                 </div>
-                <button id="keyGSaveBtn" class="disabled" disabled>Save</button>
+                <button id="keyGSaveBtn" class="disabled" onclick="updateKey('#keyGSaveBtn')" disabled>Save</button>
             </form>
         </div>
         
     </div>
+    <div class="blackscreen"></div>
+    <div class="loadingSpinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
     <%- include('./partials/player.ejs')  %> 
     
     <script src="js/ejs.js"></script>
@@ -280,7 +283,7 @@ for(let g = 0; g < allBtns.length; g++) {
 // Rendering key G panel content
 
 $(document).on('click', '.gBtn', function() {
-    console.log('clicked');
+    // console.log('clicked');
     document.querySelector('#keyGForm').reset();
     if(!$('#keyGSaveBtn').hasClass('disabled')) {$('#keyGSaveBtn').addClass('disabled');}
     if(!$('#keyGSaveBtn').attr('disabled')){$('#keyGSaveBtn').attr('disabled')};
@@ -296,6 +299,12 @@ $('#enabledg, #sampleg').on('change', () => {
         $('#keyGSaveBtn').removeClass('disabled');
         $('#keyGSaveBtn').removeAttr('disabled');
     })
+
+function updateKey(form) {
+    $('.loadingSpinner, .blackscreen').css('display','inline-block');
+        var theform = form;
+        $(theform).submit();
+}
     </script>
 </body>
 </html>

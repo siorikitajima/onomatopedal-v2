@@ -2,7 +2,7 @@
         <div class="infoOne">
             <div class="opImg">
                 <% var val = Math.floor(1000 + Math.random() * 9000); %>
-                <img  src="https://opv2.s3.amazonaws.com/<%= name %>/cover.jpg?<%=val%>" alt="pedal">
+                <img  src="https://opv2.s3.amazonaws.com/<%=coverFile%>" alt="pedal">
             </div>
         </div>
         <div class="infoTwo">
@@ -44,9 +44,9 @@
     <div id="controlStems" class="paused">
       <% for (var stbtn = 0; stbtn<stemFiles.length; stbtn++) {%>
         <% if(stemFiles[stbtn] == true) {%>
-            <div class="stem muted" id="stem<%= stems[stbtn] %>"><%= stems[stbtn] %></div>
+            <div class="stem muted" id="stem<%= stems[stbtn] %>"></div>
         <% } else {%>
-            <div class="stem muted disabled" id="stem<%= stems[stbtn] %>"><%= stems[stbtn] %></div>
+            <div class="stem muted disabled" id="stem<%= stems[stbtn] %>"></div>
         <% } %>
     <% } %>
     </div>
@@ -140,21 +140,21 @@
         var thepads = <%- JSON.stringify(pedal.pads) %> ;
         var thesamples = <%- JSON.stringify(pedal.samples) %> ;
         var username = <%- JSON.stringify(name) %> ;
-
         var stemFiles = <%- JSON.stringify(stemFiles) %> ;
+        var stemFileNames = <%- JSON.stringify(stemFileNames) %> ;
 
         const controlMain = $('#controlMain, #controlStems');
         const stems = $('.stem');
         let toneStarted = false;
 
-        function makeChannel( url, pan = 0 ) {
+        function makeChannel( url, file, pan = 0 ) {
             const channel = new Tone.Channel({ pan }).toDestination();
             const player = new Tone.Player({
-                url: 'https://opv2.s3.amazonaws.com/' + username + `/${url}.mp3`,
+                url: 'https://opv2.s3.amazonaws.com/' + file,
                 loop: true
             }).sync().start(0);
-            player.connect(channel);
             player.context.resume(); // necessary for Safari
+            player.connect(channel);
 
             const btn = url;
             const thisMuteButton = document.getElementById(btn);
@@ -178,14 +178,15 @@
             });
 
             var eachPlaybtn = '#play-' + url;
-            var allPlaybtn = ['#play-stem1', '#play-stem2', '#play-stem3'];
-            $(eachPlaybtn).on('click', () => {
+            var allPlaybtn = ['#play-stem1', '#play-stem2', '#play-stem3', '#play-stem4'];
+
+            $(eachPlaybtn).on('click', async () => {
                 if(!toneStarted) {
-                        Tone.start();
+                        await Tone.start();
                         toneStarted = true;
                     }
                 if ($(eachPlaybtn).hasClass('stemOnPlay')) {
-                    Tone.Transport.stop();
+                    Tone.Transport.pause(); //// was 'stop' instead 4/7/2022
                     $(eachPlaybtn).html('Play').removeClass('stemOnPlay');
                     channel.solo = false;
                 } else if (!$(eachPlaybtn).hasClass('stemOnPlay')) {
@@ -202,19 +203,19 @@
         };
 
         for (var sf = 0; sf < stemFiles.length; sf++) {
-            var channelName = ['stem1', 'stem2', 'stem3']
+            var channelName = ['stem1', 'stem2', 'stem3', 'stem4']
             if (stemFiles[sf] == true) {
-                makeChannel(channelName[sf]);
+                makeChannel(channelName[sf], stemFileNames[sf]);
             }
         }
 
     // Play/Pause Button
-    function controlHandler() {
+    async function controlHandler() {
         if(!toneStarted) {
-                Tone.start();
+                await Tone.start();
                 toneStarted = true;
             }
-        var allPlaybtn = ['#play-stem1', '#play-stem2', '#play-stem3'];
+        var allPlaybtn = ['#play-stem1', '#play-stem2', '#play-stem3', '#play-stem4'];
         for(var c = 0; c < allPlaybtn.length; c++) {
                 if($(allPlaybtn[c]).hasClass('stemOnPlay')) {
                     $(allPlaybtn[c]).trigger('click');
@@ -282,7 +283,7 @@
         var samplers = [];
         for( i = 0; i < fileName.length; i++ ) {
             samplers[i] = new Tone.Sampler({
-            [pitchString[i]]: 'https://opv2.s3.amazonaws.com/' + username + '/' + fileName[i] + '.mp3'
+            [pitchString[i]]: 'https://opv2.s3.amazonaws.com/' + username + '/samples/' + fileName[i] + '.mp3'
             }, {
                 'release' : 1,
                 'onload' : function(){
@@ -290,6 +291,7 @@
                 Tone.context.lookAhead = 0;
                 }
             }).toDestination();
+            samplers[i].context.resume(); // necessary for Safari
         }
 
         function touchPad(id){
@@ -322,9 +324,9 @@
             }
         }
 
-        $('div.pad').on('touchstart', () => {
+        $('div.pad').on('touchstart', async () => {
             if(!toneStarted) {
-                Tone.start();
+                await Tone.start();
                 toneStarted = true;
             }
             var id = event.target.id;

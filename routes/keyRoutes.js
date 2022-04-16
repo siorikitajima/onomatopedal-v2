@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const keyController = require('../controllers/keyController');
+const sampleController = require('../controllers/sampleController');
 const authController = require('../controllers/authController');
 const multer = require('multer');
 const path = require('path');
@@ -31,14 +32,14 @@ const upload = multer({
       },
       key: function (req, file, cb) {
           let ext = path.extname(file.originalname);
-              cb(null, `${req.user.username}/${req.body.newname || req.body.sample || req.body.samplep }${ext}`);
+              cb(null, `${req.user.username}/samples/${req.body.newname || req.body.sample || req.body.samplep }${ext}`);
       }
     }),
   });
 
 //////////// Key routes ////////////
 
-router.get('/keys', authController.checkAuthenticated, keyController.key_index);
+router.get('/keys', authController.checkAuthenticated, keyController.key_get);
 router.post('/keys', (req, res, next) => {
   const uploadMiddleware = upload.single('soundfile');
   uploadMiddleware(req, res, function(err) {
@@ -49,7 +50,7 @@ router.post('/keys', (req, res, next) => {
     else {
         // console.log("File response", req.file);
         next(); }
-  })}, keyController.key_update);
+  })}, keyController.key_post);
 
 router.get('/pads', authController.checkAuthenticated, keyController.pad_get);
 router.post('/pads', (req, res, next) => {
@@ -66,9 +67,9 @@ router.post('/pads', (req, res, next) => {
   router.post('/keys-group', keyController.key_group_post);
   router.post('/pads-group', keyController.pad_group_post);
     
-router.get('/samples', authController.checkAuthenticated, keyController.samples_get);
-router.post('/samples', authController.checkAuthenticated, keyController.samples_post);
-router.delete('/sample', keyController.sample_delete);
+router.get('/samples', authController.checkAuthenticated, sampleController.samples_get);
+router.post('/samples', authController.checkAuthenticated, sampleController.samples_post);
+router.delete('/sample', sampleController.sample_delete);
 router.post('/new-samples', (req, res, next) => {
   const uploadMiddleware = upload.single('newfile');
   uploadMiddleware(req, res, function(err) {
@@ -79,6 +80,6 @@ router.post('/new-samples', (req, res, next) => {
     else {
         // console.log("File response", req.file);
         next(); }
-  })}, keyController.sample_new);
+  })}, sampleController.sample_new);
 
 module.exports = router;

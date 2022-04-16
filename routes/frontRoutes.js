@@ -16,17 +16,14 @@ const s3 = new AWS.S3({
 // Public
 
 router.get('/v2/:onomoid', frontController.v2pedal_get);
-
 router.get('/v1/:onomoid', frontController.v1pedal_get);
-
 router.get('/v1', frontController.v1list_get);
-
 router.get('/about', frontController.about_get);
-
 router.get('/feat/:featid', featController.feat_single_get);
 router.get('/feat', featController.feat_get);
 
 // Editor's CMS
+
 router.get('/edit/:featid', authController.checkAuthenticated, featController.editor_get);
 router.post('/edit/:featid', featController.editor_post);
 router.post('/publish/:featid', featController.publish_post);

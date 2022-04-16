@@ -67,12 +67,14 @@ const opSchema = new Schema({
         coverPedal: { type: String },
         coverAnima: { type: String },
         coverCol: { type: String },
-        coverOno: { type: String }
+        coverOno: { type: String },
+        coverID: { type: Number }
     },
     stems: {
-        stem1: { type: String },
-        stem2: { type: String },
-        stem3: { type: String },
+        stem1: { type: Number },
+        stem2: { type: Number },
+        stem3: { type: Number },
+        stem4: { type: Number },
     }
 }, { timestamps: true });
 

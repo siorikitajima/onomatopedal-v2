@@ -45,9 +45,8 @@
                     <h3>! Update Cover Image !</h3>
                     <p id="warningText">This image does not match the current onomatopedal.</p>
                 </div>
-                <% if (cover === true) {%>
-                    <% const val = Math.floor(1000 + Math.random() * 9000); %>
-                        <img id="coverJpg" src="https://opv2.s3.amazonaws.com/<%=name%>/cover.jpg?<%=val%>" alt="cover" width="100%">
+                <% if (cover === true) { %>
+                        <img id="coverJpg" src="https://opv2.s3.amazonaws.com/<%=coverFile%>" alt="cover" width="100%">
                 <% } %>
             </div>
 
@@ -75,6 +74,8 @@
             </a>
             </div>
         </div>
+    <div class="blackscreen"></div>
+    <div class="loadingSpinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 
     <script>
         var thepedal = <%- JSON.stringify(pedal) %> ;
@@ -180,8 +181,9 @@
 
         var coverImg, opImg;
         function setup() {
-            if(textCheck) {textFont(myFont);}
-            else {textStyle(BOLD);}
+            textFont(myFont);
+            // if(textCheck) {textFont(myFont);}
+            // else {textStyle(BOLD);}
             opImg = createCanvas(380, 380);
             opImg.parent('opCover');
             opImg.id('opImg');
@@ -214,11 +216,13 @@
         // var fileName;
         let blobData, file, downloadLink;
         function saveCover() {
-            var canvas = $('#opImg');
-            var dataUrl = canvas[0].toDataURL('image/jpeg', 1.0);
+            $('.blackscreen, .loadingSpinner').show(() => {
+                var canvas = $('#opImg');
+                var dataUrl = canvas[0].toDataURL('image/jpeg', 1.0);
 
-            blobData = dataURItoBlob(dataUrl);
-            uploadCover(blobData);
+                blobData = dataURItoBlob(dataUrl);
+                uploadCover(blobData);
+            })
         };
 
         function uploadCover(file) {

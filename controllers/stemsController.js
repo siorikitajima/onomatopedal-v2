@@ -3,12 +3,15 @@ const AWS = require('aws-sdk');
 const fs = require('fs');
 const browser = require('browser-detect');
 const multer = require('multer');
+const path = require('path');
 const multerS3 = require('multer-s3');
 
 const s3 = new AWS.S3({
     accessKeyId: process.env.ACCESS_KEY_ID_S3,
     secretAccessKey: process.env.SECRET_ACCESS_KEY_S3
 });
+const stems = [1, 2, 3, 4];
+const stemKeys = [ 'stem1', 'stem2', 'stem3', 'stem4']
 
 const stems_get = async (req, res) => {   
     if(req.user.type == 'editor') {res.redirect('/featList');}
@@ -16,404 +19,110 @@ const stems_get = async (req, res) => {
     else {
     const isMobile = browser(req.headers['user-agent']).mobile;
     if(isMobile) { res.redirect('/studio'); } else {
-        const stems = [1, 2, 3];
-
-        const filename1 = `${req.user.username}/stem1.mp3`;
-        const params1 = { Bucket: 'opv2', Key: filename1 };
-        const stem1 = await s3
-        .headObject(params1).promise()
-        .then( () => true,
-        err => { if (err.code === 'NotFound') { return false; }
-                throw err; });
-
-        const filename2 = `${req.user.username}/stem2.mp3`;
-        const params2 = { Bucket: 'opv2', Key: filename2 };
-        const stem2 = await s3
-        .headObject(params2).promise()
-        .then( () => true,
-            err => { if (err.code === 'NotFound') { return false; }
-                    throw err; });
-
-        const filename3 = `${req.user.username}/stem3.mp3`;
-        const params3 = { Bucket: 'opv2', Key: filename3 };
-        const stem3 = await s3
-        .headObject(params3).promise()
-        .then( () => true,
-            err => { if (err.code === 'NotFound') { return false; }
-                    throw err; });
-
-        OpMain.findOne({name: req.user.username}, (err, opInfo) => {
+        OpMain.findOne({name: req.user.username}, async (err, opInfo) => {
             if(err) {console.log(err);}
             else {
-                res.render('stems', { 
-                    title: 'Stems', 
-                    nav:'stems',
-                    pedal: opInfo, 
-                    name: req.user.username, 
-                    stemFiles: [stem1, stem2, stem3], 
-                    stems: stems
-                });
-            }
-        })
-    }
-    }
-};
-
-const stem_delete_1 = (req, res) => {
-    const filename = `${req.user.username}/stem1.mp3`;
-    var params = {  Bucket: 'opv2', Key: filename };
-    s3.deleteObject(params, (err, data) => {
-    if (err) console.log(err, err.stack);
-    else {
-        let val = Math.floor(1000 + Math.random() * 9000);
-        res.redirect(`/stems?ver=${val}`);
-    }
-    });
-    };
-const stem_delete_2 = (req, res) => {
-    const filename = `${req.user.username}/stem2.mp3`;
-    var params = {  Bucket: 'opv2', Key: filename };
-    s3.deleteObject(params, (err, data) => {
-    if (err) console.log(err, err.stack);
-    else {
-        let val = Math.floor(1000 + Math.random() * 9000);
-        res.redirect(`/stems?ver=${val}`);
-    }
-    });
-    };
-const stem_delete_3 = (req, res) => {
-    const filename = `${req.user.username}/stem3.mp3`;
-    var params = {  Bucket: 'opv2', Key: filename };
-    s3.deleteObject(params, (err, data) => {
-    if (err) console.log(err, err.stack);
-    else {
-        let val = Math.floor(1000 + Math.random() * 9000);
-        res.redirect(`/stems?ver=${val}`);
-    }
-    });
-    };
-
-const preview_get = async　(req, res) => {
-    if(req.user.type == 'editor') {res.redirect('/featList');}
-    else if (req.user.type == 'admin') {res.redirect('/register');}
-    else {
-    const isMobile = browser(req.headers['user-agent']).mobile;
-    let rawdata = fs.readFileSync('./json/animation.json');
-    let animaData = JSON.parse(rawdata);
-
-    if(isMobile) { res.redirect('/studio'); } else {
-        const stems = [1, 2, 3];
-        const filename1 = `${req.user.username}/stem1.mp3`;
-        const params1 = { Bucket: 'opv2', Key: filename1 };
-        const stem1 = await s3
-        .headObject(params1).promise()
-        .then( () => true,
-        err => { if (err.code === 'NotFound') { return false; }
-                throw err; });
-        const filename2 = `${req.user.username}/stem2.mp3`;
-        const params2 = { Bucket: 'opv2', Key: filename2 };
-        const stem2 = await s3
-        .headObject(params2).promise()
-        .then( () => true,
-            err => { if (err.code === 'NotFound') { return false; }
-                    throw err; });
-        const filename3 = `${req.user.username}/stem3.mp3`;
-        const params3 = { Bucket: 'opv2', Key: filename3 };
-        const stem3 = await s3
-        .headObject(params3).promise()
-        .then( () => true,
-            err => { if (err.code === 'NotFound') { return false; }
-                    throw err; });
-        
-        OpMain.findOne({name: req.user.username}, (err, opInfo) => {
-            if(err) {console.log(err);}
-            else {
-                let aniName = opInfo.animation;
-                let colScme = opInfo.color;
-                let tempo = opInfo.tempo;
-                let colorList = [], colorValue;
-                for(let a = 0; a < animaData.length; a++ ) {
-                    if (animaData[a].slug == aniName) {
-                        for (let c = 0; c < animaData[a].colors.length; c++) {
-                            if(animaData[a].colors[c].colkey == colScme) {
-                                colorValue = animaData[a].colors[c].value;
-                            }
-                            colorList.push(animaData[a].colors[c].colkey);
-                        }
-                    }
-                }
-                res.render('preview', { 
-                    title: 'Preview',
-                    nav:'preview', 
-                    name: req.user.username, 
-                    pedal: opInfo,
-                    stemFiles: [stem1, stem2, stem3], 
-                    stems: stems,
-                    mobile: isMobile,
-                    animation: animaData,
-                    aniName: aniName,
-                    colScme: colScme,
-                    tempo: tempo,
-                    colValue: colorValue,
-                    colorList: colorList
+            const stemIDs = [ opInfo.stems.stem1, opInfo.stems.stem2, opInfo.stems.stem3, opInfo.stems.stem4]
+            let stemFiles = [];
+            let stemFileNames = [];
+            for (let f = 0; f < stemKeys.length; f++) {
+                let filename = `${req.user.username}/stems/` + stemKeys[f] + '-' + stemIDs[f] + `.mp3`;
+                let param = { Bucket: 'opv2', Key: filename };
+                stemFiles[f] = await s3
+                .headObject(param).promise()
+                .then( () => {stemFileNames.push(filename); return true;},
+                  err => { if (err.code === 'NotFound') { stemFileNames.push(null); return false; }
+                          throw err; });
+            }  
+            // console.log(stemFiles, stemFileNames)
+            res.render('stems', { 
+                title: 'Stems', 
+                nav:'stems',
+                pedal: opInfo, 
+                name: req.user.username, 
+                stemFiles: stemFiles,
+                stems: stems,
+                stemFileNames: stemFileNames
             })
         }})
     }
     }
-    };
-
-const animation_post = async (req, res) => {
-    OpMain.findOne({name: req.body.name}, (err, user) => {
-        user.animation = req.body.animation;
-        user.color = req.body.color;
-        user.tempo = req.body.tempo;
-        user.save((err) => {
-            if(err) { console.error(err); }
-        });
-    })
-    .then(() => {
-        res.redirect('/preview');
-    });
 };
 
-const previewanima = async (req, res) => {
-    var newAnima = req.params.aniid;
-    var newCol = req.params.newcol;
-    var newTempo = req.params.newtempo;
-    let rawdata = fs.readFileSync('./json/animation.json');
-    let animaData = JSON.parse(rawdata);
-    let colorList = [], colorValue;
-    for(let a = 0; a < animaData.length; a++ ) {
-        if (animaData[a].slug == newAnima) {
-            for (let c = 0; c < animaData[a].colors.length; c++) {
-                colorList.push(animaData[a].colors[c].colkey);
-            }
-            for (let c = 0; c < animaData[a].colors.length; c++) {
-                if(animaData[a].colors[c].colkey == newCol) {
-                    colorValue = animaData[a].colors[c].value;
-                    break;
-                } else {
-                    colorValue = animaData[a].colors[0].value;
-                }
-            }
-        }
-    }
-    const stems = [1, 2, 3];
-    const filename1 = `${req.user.username}/stem1.mp3`;
-    const params1 = { Bucket: 'opv2', Key: filename1 };
-    const stem1 = await s3
-    .headObject(params1).promise()
-    .then( () => true,
-    err => { if (err.code === 'NotFound') { return false; }
-            throw err; });
-    const filename2 = `${req.user.username}/stem2.mp3`;
-    const params2 = { Bucket: 'opv2', Key: filename2 };
-    const stem2 = await s3
-    .headObject(params2).promise()
-    .then( () => true,
-        err => { if (err.code === 'NotFound') { return false; }
-                throw err; });
-    const filename3 = `${req.user.username}/stem3.mp3`;
-    const params3 = { Bucket: 'opv2', Key: filename3 };
-    const stem3 = await s3
-    .headObject(params3).promise()
-    .then( () => true,
-        err => { if (err.code === 'NotFound') { return false; }
-                throw err; });
-
-    OpMain.findOne({name: req.user.username}, (err, opInfo) => {
+const stem_delete = ( stemNum ) => {
+    return (req, res) => {
+        console.log(stemNum)
+    OpMain.findOne({name: req.user.username}, async (err, opInfo) => {
         if(err) {console.log(err);}
         else {
-            let aniName = newAnima;
-            let colScme = newCol;
-            let tempo = newTempo;
-            res.render('preview', { 
-                title: 'Preview',
-                nav:'previewanima', 
-                name: req.user.username, 
-                pedal: opInfo,
-                stemFiles: [stem1, stem2, stem3], 
-                stems: stems,
-                mobile: false,
-                animation: animaData,
-                aniName: aniName,
-                colScme: colScme,
-                tempo: tempo,
-                colValue: colorValue,
-                colorList: colorList
-            }, (err, str)=> {
-                if(err) {console.log(err)}
-                else {res.send(str);}
-            });
-        }
-    })
-}
-        
-const studio_get = async　(req, res) => {
-    if(req.user.type == 'editor') {res.redirect('/featList');}
-    else if (req.user.type == 'admin') {res.redirect('/register');}
-    else {
-    const isMobile = browser(req.headers['user-agent']).mobile;
-    let rawdata = fs.readFileSync('./json/eqdPedals.json');
-    let eqdPedals = JSON.parse(rawdata);
-    let rawdataAni = fs.readFileSync('./json/animation.json');
-    let animaData = JSON.parse(rawdataAni);
-
-        const stems = [1, 2, 3];
-        const filename1 = `${req.user.username}/stem1.mp3`;
-        const params1 = { Bucket: 'opv2', Key: filename1 };
-        const stem1 = await s3
-        .headObject(params1).promise()
-        .then( () => true,
-          err => { if (err.code === 'NotFound') { return false; }
-                  throw err; });
-        const filename2 = `${req.user.username}/stem2.mp3`;
-        const params2 = { Bucket: 'opv2', Key: filename2 };
-        const stem2 = await s3
-        .headObject(params2).promise()
-        .then( () => true,
-            err => { if (err.code === 'NotFound') { return false; }
-                    throw err; });
-        const filename3 = `${req.user.username}/stem3.mp3`;
-        const params3 = { Bucket: 'opv2', Key: filename3 };
-        const stem3 = await s3
-        .headObject(params3).promise()
-        .then( () => true,
-            err => { if (err.code === 'NotFound') { return false; }
-                    throw err; });
-        const filename4 = `${req.user.username}/cover.jpg`;
-        const params4 = { Bucket: 'opv2', Key: filename4 };
-        const cover = await s3
-        .headObject(params4).promise()
-        .then( () => true,
-            err => { if (err.code === 'NotFound') { return false; }
-                    throw err; });
-        
-        OpMain.findOne({name: req.user.username}, (err, opInfo) => {
-            if(err) {console.log(err);}
-            else {
-                res.render(isMobile ? 'mobilePreview' : 'studio', { 
-                    title: 'Dashboard', nav:'studio', 
-                    pedal: opInfo, 
-                    eqdPedals: eqdPedals,
-                    name: req.user.username,
-                    mobile: isMobile,
-                    stemFiles: [stem1, stem2, stem3], 
-                    stems: stems,
-                    animation: animaData,
-                    cover: cover
-            })
-        }})
-    }
-    };
-
-    const mobilepreview_get = async　(req, res) => {
-        if(req.user.type == 'editor') {res.redirect('/featList');}
-        else if (req.user.type == 'admin') {res.redirect('/register');}
+        const stemIDs = [ opInfo.stems.stem1, opInfo.stems.stem2, opInfo.stems.stem3, opInfo.stems.stem4];
+        const filename = `${req.user.username}/stems/` + stemKeys[stemNum] + `-` + stemIDs[stemNum] + `.mp3`;
+        var params = {  Bucket: 'opv2', Key: filename };
+        // console.log(filename)
+        s3.deleteObject(params, (err) => {
+        if (err) console.log(err, err.stack);
         else {
-        const isMobile = browser(req.headers['user-agent']).mobile;
-        let rawdata = fs.readFileSync('./json/eqdPedals.json');
-        let eqdPedals = JSON.parse(rawdata);
-        let rawdataAni = fs.readFileSync('./json/animation.json');
-        let animaData = JSON.parse(rawdataAni);
-    
-            const stems = [1, 2, 3];
-            const filename1 = `${req.user.username}/stem1.mp3`;
-            const params1 = { Bucket: 'opv2', Key: filename1 };
-            const stem1 = await s3
-            .headObject(params1).promise()
-            .then( () => true,
-              err => { if (err.code === 'NotFound') { return false; }
-                      throw err; });
-            const filename2 = `${req.user.username}/stem2.mp3`;
-            const params2 = { Bucket: 'opv2', Key: filename2 };
-            const stem2 = await s3
-            .headObject(params2).promise()
-            .then( () => true,
-                err => { if (err.code === 'NotFound') { return false; }
-                        throw err; });
-            const filename3 = `${req.user.username}/stem3.mp3`;
-            const params3 = { Bucket: 'opv2', Key: filename3 };
-            const stem3 = await s3
-            .headObject(params3).promise()
-            .then( () => true,
-                err => { if (err.code === 'NotFound') { return false; }
-                        throw err; });
-            const filename4 = `${req.user.username}/cover.jpg`;
-            const params4 = { Bucket: 'opv2', Key: filename4 };
-            const cover = await s3
-            .headObject(params4).promise()
-            .then( () => true,
-                err => { if (err.code === 'NotFound') { return false; }
-                        throw err; });
-            
-            OpMain.findOne({name: req.user.username}, (err, opInfo) => {
-                if(err) {console.log(err);}
-                else {
-                    res.render('mobilePreview', { 
-                        title: 'Mobile Preview', nav:'studio', 
-                        pedal: opInfo, 
-                        eqdPedals: eqdPedals,
-                        name: req.user.username,
-                        mobile: isMobile,
-                        stemFiles: [stem1, stem2, stem3], 
-                        stems: stems,
-                        animation: animaData,
-                        cover: cover
-                })
-            }})
+            res.redirect(`/stems`);
         }
-        };
-
-    const studio_post = (req, res) => {
-        let upload = multer({
-          limits: { fileSize: 500000 },
-          storage: multerS3({
-            s3: s3,
-            bucket: 'opv2',
-            acl: "public-read",
-            metadata: function (req, file, cb) {
-              cb(null, {fieldName: file.fieldname});
-            },
-            key: function (req, file, cb) {
-              cb(null, `${req.user.username}/cover.jpg`);
-            }
-          })
         });
-        const uploadMiddleware = upload.single('cover');
-        uploadMiddleware(req, res, (err) => {
-            OpMain.findOne({name: req.user.username}, (err, user) => {
-                let thePedal = user.pedalFull;
-                let theAnima = user.animation;
-                let theCol = user.color;
-                let theOno = user.onomato;
-                user.cover.coverPedal = thePedal;
-                user.cover.coverAnima = theAnima;
-                user.cover.coverCol = theCol;
-                user.cover.coverOno = theOno;
-                user.save((err) => {
+        }
+    });
+    };
+};
+
+const stem_post = (stemNum) => {
+    return (req, res) => {
+    OpMain.findOne({name: req.user.username}, async (err, opInfo) => {
+        if(err) {console.log(err);}
+        else {
+            let prevID = opInfo.stems[stemKeys[stemNum]];
+            let thisID = Number(prevID + 1)
+            let newFileName = stemKeys[stemNum] + '-' + thisID
+
+            // console.log(stemNum, opInfo.stems, prevID, newFileName)
+            
+            let upload = multer({
+                limits: { fileSize: 5000000 },
+                fileFilter: async (req, file, cb) => {
+                    if (file.mimetype !== 'audio/mpeg') {
+                    return cb(new Error('goes wrong on the mimetype'), false);
+                    }
+                    cb(null, true);
+                },
+                    storage: multerS3({
+                    s3: s3,
+                    acl: "public-read",
+                    bucket: 'opv2',
+                    metadata: function (req, file, cb) {
+                        cb(null, {fieldName: file.fieldname});
+                    },
+                    key: function (req, file, cb) {
+                        let ext = path.extname(file.originalname);
+                        cb(null, `${req.user.username}/stems/${newFileName}${ext}`)
+                    }
+                    })
+                }); 
+
+            const uploadMiddleware = upload.single(stemKeys[stemNum]);
+            uploadMiddleware(req, res, function(err) {
+            if (err instanceof multer.MulterError) {
+                return res.send("<script> alert('Oops! The stem file size must be under 5MB'); window.location =  'stems'; </script>"); }
+            else if (err) {
+                return res.send("<script> alert('Oops! The file type must be MP3'); window.location =  'stems'; </script>"); }
+            else {
+                opInfo.stems[stemKeys[stemNum]] = thisID;
+                opInfo.save((err) => {
                     if(err) { console.error(err); }
                 });
-            })            
-          if (err) {
-            console.log(err);
-            return res.send("<script> alert('Oops! There was errors'); window.location =  'studio'; </script>");
-           }
-          else {
-            res.redirect(`/saved`); 
-          }    
-        })
-    }
+                res.redirect(`/stems`); }
+            })
+        }
+    });
+};
+};
 
 module.exports = {
-  stems_get,
-  stem_delete_1,
-  stem_delete_2,
-  stem_delete_3,
-  preview_get,
-  animation_post,
-  previewanima,
-  mobilepreview_get,
-  studio_get,
-  studio_post
+  stems_get, // Updated
+  stem_delete, // Updated
+  stem_post // Updated
 }
