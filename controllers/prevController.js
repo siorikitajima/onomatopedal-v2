@@ -235,7 +235,7 @@ const studio_get = (req, res) => {
                 err => { if (err.code === 'NotFound') { return false; }
                         throw err; });
     
-            res.render(isMobile ? 'mobilePreview' : 'studio', { 
+            res.render( 'mobilePreview' , { 
                 title: 'Dashboard', nav:'studio',
                 pedal: opInfo,
                 eqdPedals: eqdPedals,

@@ -57,6 +57,7 @@
         <div class="infoThree">
         <% if (!mobile) {%>
             <div class="keybord-container">
+                <div class="key-title">Press Keys to Play</div>
                 <div class="keyboard">
                     <% if (pedal.keys.length > 0) { %>
                         <% pedal.keys.forEach((thekey, index) => { %>
@@ -120,7 +121,7 @@
     <% } %>
     </div>
   </div>
-    <div id="drumpads" style="user-select: note">
+    <div id="drumpads" style="user-select: none">
         <div class="pad" id="zero-0"></div>
         <div class="pad" id="one-0"></div>
         <div class="pad" id="two-0"></div>

@@ -355,6 +355,13 @@
       bottom: 0;
     }
 
+    @media(max-height: 720px) {
+      div.footer {
+        position: static;
+        bottom: unset;
+      }
+    }
+
     div.footer .flex img {
       margin: 10px 0;
       width: 100px;

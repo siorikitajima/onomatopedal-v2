@@ -152,7 +152,7 @@ const samples_get = (req, res) => {
                         }
                     });
                 } else {
-                    return res.send("<script> alert('This filename already exists.'); window.location =  'samples'; </script>"); 
+                    return res.send("<script> alert('This filename already exists. Try again with a different name.'); window.location =  'samples'; </script>"); 
                 }
             }
         })

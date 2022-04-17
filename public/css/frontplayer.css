@@ -76,37 +76,43 @@ div#controller {
       text-align: center;
     }
     .keyboard {
-      width: 400px;
-      height: 300px;
-      margin: 0 auto;
+      width: 320px;
+      height: 260px;
+      margin: auto 0;
       display: grid;
       grid-template-columns: repeat(20, 1fr);
       grid-template-rows: repeat(5, 1fr);
       gap: 5px;
     }
     .keyboard div.key {
-      background-color: #444;
+      /* background-color: #444; */
       border-radius: 5px;
       width: calc(100% - 6px);
       text-align: center;
       display: inline-table;
       padding: 3px;
-      visibility: hidden;
+      background-color: unset;
+      border: #44444488 1px solid;
     }
     .keyboard div.key p {
-      color:#777;
-      font-size: 0.8em;
+      color: #ffffff00;
+      font-size: 0.65em;
     }
     .keyboard div.key.active {
       background-color: #F56476;
-      visibility: visible;
+      border: #44444400 1px solid;
+      border-radius: 5px;
     }
     .keyboard div.key.active p {
       color: #fff;
     }
     .keyboard div.key h3 {
-      font-size: 1.5em;
+      font-size: 1.3em;
       margin: 0;
+      color: #444;
+      opacity: 0.5;
+    }
+    .keyboard div.key.active h3 {
       color: #111;
     }
 

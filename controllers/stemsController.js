@@ -82,7 +82,7 @@ const stem_post = (stemNum) => {
             // console.log(stemNum, opInfo.stems, prevID, newFileName)
             
             let upload = multer({
-                limits: { fileSize: 5000000 },
+                limits: { fileSize: 10000000 },
                 fileFilter: async (req, file, cb) => {
                     if (file.mimetype !== 'audio/mpeg') {
                     return cb(new Error('goes wrong on the mimetype'), false);
@@ -106,7 +106,7 @@ const stem_post = (stemNum) => {
             const uploadMiddleware = upload.single(stemKeys[stemNum]);
             uploadMiddleware(req, res, function(err) {
             if (err instanceof multer.MulterError) {
-                return res.send("<script> alert('Oops! The stem file size must be under 5MB'); window.location =  'stems'; </script>"); }
+                return res.send("<script> alert('Oops! The stem file size must be under 10MB'); window.location =  'stems'; </script>"); }
             else if (err) {
                 return res.send("<script> alert('Oops! The file type must be MP3'); window.location =  'stems'; </script>"); }
             else {

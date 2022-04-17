@@ -16,7 +16,7 @@ const s3 = new AWS.S3({
 //////////// Multer ////////////
 
 const upload = multer({
-    limits: { fileSize: 500000 },
+    limits: { fileSize: 3000000 },
     fileFilter: async (req, file, cb) => {
       if (file.mimetype !== 'audio/mpeg') {
         return cb(new Error('goes wrong on the mimetype'), false);
@@ -44,7 +44,7 @@ router.post('/keys', (req, res, next) => {
   const uploadMiddleware = upload.single('soundfile');
   uploadMiddleware(req, res, function(err) {
     if (err instanceof multer.MulterError) {
-      return res.send("<script> alert('Oops! The sample file size must be under 500KB'); window.location =  'keys'; </script>"); }
+      return res.send("<script> alert('Oops! The sample file size must be under 3MB'); window.location =  'keys'; </script>"); }
     else if (err) {
       return res.send("<script> alert('Oops! The file type must be MP3'); window.location =  'keys'; </script>"); }
     else {
@@ -57,7 +57,7 @@ router.post('/pads', (req, res, next) => {
     const uploadMiddleware = upload.single('soundfilep');
     uploadMiddleware(req, res, function(err) {
       if (err instanceof multer.MulterError) {
-        return res.send("<script> alert('Oops! The sample file size must be under 500KB'); window.location =  'keys'; </script>"); }
+        return res.send("<script> alert('Oops! The sample file size must be under 3MB'); window.location =  'keys'; </script>"); }
       else if (err) {
         return res.send("<script> alert('Oops! The file type must be MP3'); window.location =  'keys'; </script>"); }
       else {
@@ -74,7 +74,7 @@ router.post('/new-samples', (req, res, next) => {
   const uploadMiddleware = upload.single('newfile');
   uploadMiddleware(req, res, function(err) {
     if (err instanceof multer.MulterError) {
-      return res.send("<script> alert('Oops! The sample file size must be under 300KB'); window.location =  'samples'; </script>"); }
+      return res.send("<script> alert('Oops! The sample file size must be under 3MB'); window.location =  'samples'; </script>"); }
     else if (err) {
       return res.send("<script> alert('Oops! The file type must be MP3'); window.location =  'samples'; </script>"); }
     else {

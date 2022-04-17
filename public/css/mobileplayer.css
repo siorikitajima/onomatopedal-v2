@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@600&display=swap');
 
 button.line-btn {
-    width: 100%;
+    width: calc(100% - 30px);
     max-width: 500px;
     display: block;
     margin: 20px auto 30px auto;
@@ -55,6 +55,7 @@ canvas {
   padding: 0;
   /* background-color:#ddd; */
   /* opacity: 0; */
+  touch-action: manipulation;
   border-bottom: rgba(221, 221, 221, 0.3) solid 1px;
   border-right: rgba(221, 221, 221, 0.3) solid 1px;
   mix-blend-mode: overlay;
@@ -119,11 +120,11 @@ canvas {
 
 
 div.infoPanel {
-    width: calc(100% - 20px);
+    width: 100%;
     position: fixed;
     top: 0;
     height: calc(100% - 70px);
-    padding: 60px 10px 10px 10px;
+    padding: 60px 0 10px 0;
     background-color: rgba(17, 17, 17, 0.8);
     transition-duration: 200ms;
     overflow-y: scroll;
@@ -132,6 +133,7 @@ div.infoPanel {
 div.infoPanel.mblpreview {
   height: calc(100% - 130px);
   padding: 60px 10px;
+  width: calc(100% - 20px);
 }
 div.playBtnPanel {
     width: calc(100vw - 20px);
@@ -159,16 +161,19 @@ div.playBtnPanel {
 } */
 
 div.infoPanel div.infoOne {
-    height: 300px;
-    width: 300px !important;
+    height: 320px;
+    width: 320px !important;
+    max-width: calc(100vw - 20px);
+    max-height: calc(100vw - 20px);
     background: #444;
     margin: 20px auto;
     position: relative;
     overflow: hidden;
     z-index: -100;
+    display: block;
 }
 
-div.infoPanel div.infoOne #diamond {
+/* div.infoPanel div.infoOne #diamond {
     height: 66.6%;
     width: 66.6%;
     position: absolute;
@@ -192,7 +197,7 @@ div.infoPanel div.infoOne p {
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
-  }
+  } */
 
 /* div.infoPanel div.infoOne img {
     width: 300px;
@@ -200,10 +205,23 @@ div.infoPanel div.infoOne p {
 } */
 
 div.infoPanel div.infoTwo, div.infoPanel div.infoThree {
-    width: 100%;
-    max-width: 500px;
+    width: 500px;
+    max-width: calc(100% - 30px);
     margin: 20px auto;
+    display: block;
 }
+
+div.infoPanel div.infoTwo {
+  margin: 20px auto 40px auto;
+}
+
+div.infoPanel div.infoTwo, div.infoTwo h2.linkIcon, div.infoTwo h3.linkIcon {
+  text-align: center;
+}
+
+/* div.infoTwo h2.linkIcon, div.infoTwo h3.linkIcon {
+  display: block;
+} */
 
 div.infoPanel div.infoThree {
   margin: 20px auto 60px auto;
@@ -215,28 +233,32 @@ div.infoPanel h2, div.infoPanel h3, div.infoPanel p {
 }
 div.infoTwo h2.linkIcon, div.infoTwo h3.linkIcon {
     position: relative;
-    width: unset;
-}
+    width: fit-content;
+    padding-right: 30px;
+    margin: 10px auto;
+  }
 
-/* div.infoTwo h2.linkIcon::after, div.infoTwo h3.linkIcon::after {
+div.infoTwo h2.linkIcon::after, div.infoTwo h3.linkIcon::after {
     content: "";
     width: 20px;
     height: 20px;
     background-image: url('../images/openLink.svg');
     position: absolute;
-    top: 6px;
-    right: -30px;
+    top: 8px;
+    right: 0;
 }
 
-div.infoTwo h3.linkIcon::after {
+/* div.infoTwo h3.linkIcon::after {
     width: 14px;
     height: 14px;
     top: 4px;
     right: -20px;
 }
+*/ 
+
 div.infoTwo h3.linkIcon:hover::after, div.infoTwo h2.linkIcon:hover::after {
     background-image: url('../images/openLink-hover.svg');
-} */
+}
 div.infoPanel p.label {
     margin: 20px 0 0 0;
     color: #777;
