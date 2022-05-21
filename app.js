@@ -7,6 +7,7 @@ const { render } = require('ejs');
 const keyRoutes = require('./routes/keyRoutes');
 const stemsRoutes = require('./routes/stemsRoutes');
 const frontRoutes = require('./routes/frontRoutes');
+const sampleRoutes = require('./routes/sampleRoutes');
 // const userRoutes = require('./routes/userRoutes');
 const passport = require('passport');
 const flash = require('express-flash');
@@ -117,6 +118,7 @@ app.delete('/logout', authController.log_out);
 app.use(keyRoutes);
 app.use(stemsRoutes);
 app.use(frontRoutes);
+app.use(sampleRoutes);
 
 app.use((req, res) => {
     res.status(404).render('404', { title: '404'});
